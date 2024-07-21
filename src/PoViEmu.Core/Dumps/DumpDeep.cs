@@ -1,15 +1,18 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Collections.Generic;
+using PoViEmu.Core.Addins;
 using PoViEmu.Common;
+using static PoViEmu.Common.ErrorHelper;
 
 namespace PoViEmu.Core.Dumps
 {
-    internal static class DumpDeep
+    public static class DumpDeep
     {
         private static readonly string YearT = new([(char)0x00, (char)0x00, (char)0x32, (char)0x30]);
 
-        public static void LoadOsHeader(this DumpInfo header, Stream stream, int offset)
+        internal static void LoadOsHeader(this DumpInfo header, Stream stream, int offset)
         {
             stream.Position = offset + 15;
             var array = new byte[1];
@@ -32,6 +35,30 @@ namespace PoViEmu.Core.Dumps
             header.Version = TextHelper.ToVersion(splat1[12..16]);
             header.DeviceStamp = TextHelper.ToDate(splat2[..8], null);
             header.DeviceModel = TextHelper.ToEnum<DumpModel>(splat2[8..12], default);
+        }
+
+        public static void LoadOsAddIns(this DumpInfo header, Stream stream)
+        {
+            header.AddIns = FindAddIns(stream);
+        }
+
+        private static IDictionary<FileAddress, AddInInfo> FindAddIns(this Stream stream, int? limit = null)
+        {
+            var addIns = new Dictionary<FileAddress, AddInInfo>();
+            var size = limit ?? stream.Length;
+            for (var i = 0; i < size; i += 1024 / 2)
+            {
+                var j = i;
+                _ = Try(() =>
+                {
+                    var parsed = AddInReader.Read(stream, j);
+                    var begin = j;
+                    var end = (int)(j + parsed.Size);
+                    addIns.Add(new(begin, end), parsed);
+                    return true;
+                }, out _);
+            }
+            return addIns;
         }
     }
 }

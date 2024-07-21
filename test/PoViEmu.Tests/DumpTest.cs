@@ -2,6 +2,7 @@ using System.IO;
 using System.Text;
 using PoViEmu.Core;
 using PoViEmu.Common;
+using PoViEmu.Core.Dumps;
 using Xunit;
 
 namespace PoViEmu.Tests
@@ -19,6 +20,7 @@ namespace PoViEmu.Tests
             var file = Path.Combine(dir, $"{fileName}.bin");
             using var stream = File.OpenRead(file);
             var dump = DumpReader.Read(stream);
+            dump.LoadOsAddIns(stream);
 
             var actual = JsonHelper.ToJson(dump);
             var jFile = Path.Combine(dir, $"{fileName}.json");

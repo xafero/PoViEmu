@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using PoViEmu.Common;
+using PoViEmu.Core.Addins;
 
 namespace PoViEmu.Core.Dumps
 {
@@ -25,5 +27,7 @@ namespace PoViEmu.Core.Dumps
         public Version Version { get; set; }
         public DateTime DeviceStamp { get; set; }
         public DumpModel DeviceModel { get; set; }
+        
+        public IDictionary<FileAddress, AddInInfo> AddIns { get; set; }
     }
 }
