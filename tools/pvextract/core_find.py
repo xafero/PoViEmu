@@ -1,7 +1,4 @@
 import glob
-import argparse
-import json
-import os
 import io
 import libarchive
 from rarfile import RarFile
