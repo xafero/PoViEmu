@@ -26,6 +26,8 @@ namespace PoViEmu.Core
             {
                 _ = result.Signature;
                 _ = result.Model;
+                if (!result.Signature.Contains("E CASIO"))
+                    throw new IndexOutOfRangeException("Invalid signature!");
             }
             catch (IndexOutOfRangeException)
             {
