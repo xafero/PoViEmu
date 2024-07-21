@@ -1,0 +1,4 @@
+humanize==4.9.0
+rarfile==4.2
+extractcode==31.0.0
+libarchive-c==5.1
