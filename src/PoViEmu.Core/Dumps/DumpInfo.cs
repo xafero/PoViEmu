@@ -16,7 +16,11 @@ namespace PoViEmu.Core.Dumps
         public DumpModel Model
             => TextHelper.ToEnum<DumpModel>(_real.Model, default);
 
+        /// <summary>
+        /// Values: M, N, h, m, o
+        /// </summary>
         public char Flag { get; set; }
+        
         public DateTime TimeStamp { get; set; }
         public Version Version { get; set; }
         public DateTime DeviceStamp { get; set; }

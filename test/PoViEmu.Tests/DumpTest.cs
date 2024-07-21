@@ -1,4 +1,5 @@
 using System.IO;
+using System.Text;
 using PoViEmu.Core;
 using PoViEmu.Common;
 using Xunit;
@@ -8,7 +9,9 @@ namespace PoViEmu.Tests
     public class DumpTest
     {
         [Theory]
-        [InlineData("Small")]
+        [InlineData("Extract1")]
+        [InlineData("Extract2")]
+        [InlineData("Extract3")]
         public void ShouldRead(string fileName)
         {
             var dir = Path.Combine("Resources", "Dumps");
