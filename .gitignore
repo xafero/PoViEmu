@@ -400,3 +400,7 @@ FodyWeavers.xsd
 # Python
 .idea/
 .venv/
+
+# Secret stuff
+Secret/
+
