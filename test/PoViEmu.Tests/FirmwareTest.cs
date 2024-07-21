@@ -1,5 +1,4 @@
 using System.IO;
-using PoViEmu.Binary;
 using PoViEmu.Common;
 using PoViEmu.Core;
 using Xunit;

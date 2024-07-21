@@ -1,0 +1,16 @@
+{
+  "Signature": "CASIO",
+  "Model": "Z486",
+  "HeaderVersion": "1.0",
+  "Status": "Regular",
+  "Mode": "SdkBuilt",
+  "Name": "TextViewer",
+  "Size": 62100,
+  "Compiled": "2002-02-19T12:46:00",
+  "Version": "1.20",
+  "Library": "2000-02-15T09:40:00",
+  "LibraryVersion": "1.0",
+  "OffsetIcon": 61840,
+  "OffsetLIcon": 62016,
+  "UserComment": "Here comments are stored"
+}
