@@ -40,7 +40,7 @@ namespace PoViEmu.Common
 
         public static DateTime ToDate(string date, string time)
         {
-            const string format = "yyyyMMddHHmm";
+            var format = time == null ? "yyyyMMdd" : "yyyyMMddHHmm";
             var text = date + time;
             var dt = DateTime.ParseExact(text, format, null);
             return dt;
@@ -62,6 +62,7 @@ namespace PoViEmu.Common
                 .Replace((char)4, ' ')
                 .Replace((char)5, ' ')
                 .Replace((char)14, ' ')
+                .Replace((char)16, ' ')
                 .Replace((char)63, ' ')
                 .Replace((char)64, ' ')
                 .Trim();

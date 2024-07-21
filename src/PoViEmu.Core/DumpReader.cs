@@ -41,6 +41,7 @@ namespace PoViEmu.Core
             stream.Position = offset;
             _ = stream.Read(buffer, 0, HeaderSize);
             var header = Read(buffer);
+            header.LoadOsHeader(stream, offset);
             return header;
         }
 
