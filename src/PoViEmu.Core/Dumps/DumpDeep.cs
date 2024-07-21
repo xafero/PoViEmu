@@ -11,8 +11,13 @@ namespace PoViEmu.Core.Dumps
 
         public static void LoadOsHeader(this DumpInfo header, Stream stream, int offset)
         {
+            stream.Position = offset + 15;
+            var array = new byte[1];
+            _ = stream.Read(array, 0, array.Length);
+            header.Flag = Encoding.ASCII.GetString(array)[0];
+
             stream.Position = offset + 63400L;
-            var array = new byte[2100];
+            array = new byte[2100];
             _ = stream.Read(array, 0, array.Length);
 
             var text = Encoding.ASCII.GetString(array);
