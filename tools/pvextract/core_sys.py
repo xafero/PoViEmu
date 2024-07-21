@@ -1,6 +1,6 @@
 import shutil
 from os import makedirs
-from os.path import join, isdir, isfile, splitext, exists, basename
+from os.path import isdir
 
 
 def create_dir(path):
