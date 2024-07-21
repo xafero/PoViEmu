@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace PoViEmu.Core
+namespace PoViEmu.Core.Addins
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct AddInHeader
