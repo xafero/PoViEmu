@@ -56,7 +56,15 @@ def load_addin_header(file_name, file_arr):
 
 
 def to_addin_info(header):
-    res = {'model': header.Model.decode(),
+    model = header.Model.decode()
+    try:
+        return try_as_addin_info(header, model)
+    except:
+        return {'model': model, 'other': True}
+
+
+def try_as_addin_info(header, model):
+    res = {'model': model,
            'status': header.Status,
            'mode': header.Mode,
            'name': parse_utf(header.Name),

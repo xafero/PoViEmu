@@ -19,10 +19,20 @@ def process_one_file(filename, input_dir, output_dir, file_obj=None):
         addin = load_addin_header(filename, file_obj)
         if addin is None:
             return
+        addin_model = addin['model'].strip()
+        if len(addin_model) == 0:
+            addin_model = 'unknown'
+        if "other" in addin and addin['other'] is True:
+            cfa_dir = create_dir(join(output_dir, "bins", addin_model))
+            cfa_file = join(cfa_dir, basename(filename))
+            if exists(cfa_file):
+                return
+            copy_maybe(filename, cfa_file, file_obj)
+            print(f" * {v_file_name} --> {cfa_file}")
+            return
         addin_name = addin['name']
         if len(addin_name) == 0:
             return
-        addin_model = addin['model']
         addin_ver = addin['version']
         dst_name = addin_name + "_" + addin_ver + ".bin"
         dst_dir = create_dir(join(output_dir, "addins", addin_model))
