@@ -1,4 +1,5 @@
 using System.IO;
+using System.Text;
 using PoViEmu.Core;
 using PoViEmu.Common;
 using Xunit;
@@ -12,7 +13,11 @@ namespace PoViEmu.Tests
         public void ShouldRead(string fileName)
         {
             var dir = Path.Combine("Resources", "Addins");
+            DoShouldRead(dir, fileName);
+        }
 
+        public static void DoShouldRead(string dir, string fileName)
+        {
             var file = Path.Combine(dir, $"{fileName}.bin");
             using var stream = File.OpenRead(file);
             var addIn = AddInReader.Read(stream);

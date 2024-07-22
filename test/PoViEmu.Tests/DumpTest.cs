@@ -15,7 +15,11 @@ namespace PoViEmu.Tests
         public void ShouldRead(string fileName)
         {
             var dir = Path.Combine("Resources", "Dumps");
+            DoShouldRead(dir, fileName);
+        }
 
+        public static void DoShouldRead(string dir, string fileName)
+        {
             var file = Path.Combine(dir, $"{fileName}.bin");
             using var stream = File.OpenRead(file);
             var dump = DumpReader.Read(stream);

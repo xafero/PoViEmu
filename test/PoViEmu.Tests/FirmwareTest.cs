@@ -14,7 +14,11 @@ namespace PoViEmu.Tests
         public void ShouldRead(string fileName)
         {
             var dir = Path.Combine("Resources", "Firmware");
+            DoShouldRead(dir, fileName);
+        }
 
+        public static void DoShouldRead(string dir, string fileName)
+        {
             var file = Path.Combine(dir, $"{fileName}.hex");
             using var stream = File.OpenRead(file);
             var binary = IntelHexReader.Extract(stream);
