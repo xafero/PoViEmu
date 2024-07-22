@@ -403,4 +403,5 @@ FodyWeavers.xsd
 
 # Secret stuff
 Secret/
+dist/
 
