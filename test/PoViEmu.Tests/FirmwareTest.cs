@@ -27,7 +27,7 @@ namespace PoViEmu.Tests
             var bFile = Path.Combine(dir, $"{fileName}.bin");
             File.WriteAllBytes($"{bFile}.bin", actual);
             var expected = File.ReadAllBytes(bFile);
-            Assert.Equal(expected.ToHex(), actual.ToHex());
+            TestTool.Equal(expected.ToHex(), actual.ToHex());
         }
     }
 }

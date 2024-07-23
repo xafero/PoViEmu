@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace PoViEmu.Common
 {
@@ -66,6 +67,14 @@ namespace PoViEmu.Common
                 .Replace((char)63, ' ')
                 .Replace((char)64, ' ')
                 .Trim();
+        }
+
+        public static string RemoveSpaces(this string rawText)
+        {
+            var text = rawText
+                .Replace('\r', ' ')
+                .Replace('\n', ' ');
+            return Regex.Replace(text, @"\s+", " ");
         }
     }
 }

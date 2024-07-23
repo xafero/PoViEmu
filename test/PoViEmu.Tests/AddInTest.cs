@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Text;
 using PoViEmu.Core;
@@ -25,7 +26,7 @@ namespace PoViEmu.Tests
             var actual = JsonHelper.ToJson(addIn);
             var jFile = Path.Combine(dir, $"{fileName}.json");
             var expected = TextHelper.ToText(jFile);
-            Assert.Equal(expected, actual);
+            TestTool.Equal(expected, actual);
         }
     }
 }
