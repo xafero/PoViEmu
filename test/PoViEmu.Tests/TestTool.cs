@@ -19,5 +19,10 @@ namespace PoViEmu.Tests
                 throw new InvalidOperationException(text, ex);
             }
         }
+
+        public static void Equal(byte[] expected, byte[] actual)
+        {
+            Assert.Equal(expected.ToHex(), actual.ToHex());
+        }
     }
 }
