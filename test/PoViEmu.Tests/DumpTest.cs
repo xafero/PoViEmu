@@ -19,9 +19,9 @@ namespace PoViEmu.Tests
             DoShouldRead(dir, fileName);
         }
 
-        public static void DoShouldRead(string dir, string fileName)
+        public static void DoShouldRead(string dir, string fileName, string ext = ".bin")
         {
-            var file = Path.Combine(dir, $"{fileName}.bin");
+            var file = Path.Combine(dir, $"{fileName}{ext}");
             using var stream = File.OpenRead(file);
             var dump = DumpReader.Read(stream);
             dump.LoadOsAddIns(stream);
