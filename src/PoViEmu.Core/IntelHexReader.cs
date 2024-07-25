@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using HexIO;
-using PoViEmu.Binary;
 using PoViEmu.Core.Binaries;
 using static PoViEmu.Common.MathHelper;
 using static PoViEmu.Core.Binaries.IntelHexExt;

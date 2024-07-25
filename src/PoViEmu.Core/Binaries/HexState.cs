@@ -1,4 +1,4 @@
-namespace PoViEmu.Binary
+namespace PoViEmu.Core.Binaries
 {
     public class HexState
     {

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using PoViEmu.Binary;
 using HexIO;
 
 namespace PoViEmu.Core.Binaries
