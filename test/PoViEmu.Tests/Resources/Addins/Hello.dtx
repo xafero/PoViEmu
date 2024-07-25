@@ -1,0 +1,111 @@
+00000010  C746FED57E        mov word [bp-0x2],0x7ed5
+00000015  C746FCD47E        mov word [bp-0x4],0x7ed4
+0000001A  C746FAD37E        mov word [bp-0x6],0x7ed3
+0000001F  8B46FE            mov ax,[bp-0x2]
+00000022  0346FC            add ax,[bp-0x4]
+00000025  8946F8            mov [bp-0x8],ax
+00000028  8B46FE            mov ax,[bp-0x2]
+0000002B  2B46FC            sub ax,[bp-0x4]
+0000002E  8946F8            mov [bp-0x8],ax
+00000031  8B46FE            mov ax,[bp-0x2]
+00000034  F766FC            mul word [bp-0x4]
+00000037  8946F8            mov [bp-0x8],ax
+0000003A  8B46FE            mov ax,[bp-0x2]
+0000003D  99                cwd
+0000003E  F77EFC            idiv word [bp-0x4]
+00000041  8946F8            mov [bp-0x8],ax
+00000044  FF4EF8            dec word [bp-0x8]
+00000047  8B46FE            mov ax,[bp-0x2]
+0000004A  99                cwd
+0000004B  F77EFC            idiv word [bp-0x4]
+0000004E  8956F8            mov [bp-0x8],dx
+00000051  FF46F8            inc word [bp-0x8]
+00000054  8B46FE            mov ax,[bp-0x2]
+00000057  3B46F8            cmp ax,[bp-0x8]
+0000005A  7505              jnz 0x61
+0000005C  B80100            mov ax,0x1
+0000005F  EB02              jmp short 0x63
+00000061  33C0              xor ax,ax
+00000063  8946F6            mov [bp-0xa],ax
+00000066  8B46FE            mov ax,[bp-0x2]
+00000069  3B46F8            cmp ax,[bp-0x8]
+0000006C  7405              jz 0x73
+0000006E  B80100            mov ax,0x1
+00000071  EB02              jmp short 0x75
+00000073  33C0              xor ax,ax
+00000075  8946F6            mov [bp-0xa],ax
+00000078  8B46F8            mov ax,[bp-0x8]
+0000007B  3B46FE            cmp ax,[bp-0x2]
+0000007E  7D05              jnl 0x85
+00000080  B80100            mov ax,0x1
+00000083  EB02              jmp short 0x87
+00000085  33C0              xor ax,ax
+00000087  8946F6            mov [bp-0xa],ax
+0000008A  8B46FE            mov ax,[bp-0x2]
+0000008D  3B46F8            cmp ax,[bp-0x8]
+00000090  7D05              jnl 0x97
+00000092  B80100            mov ax,0x1
+00000095  EB02              jmp short 0x99
+00000097  33C0              xor ax,ax
+00000099  8946F6            mov [bp-0xa],ax
+0000009C  8B46FE            mov ax,[bp-0x2]
+0000009F  3B46F8            cmp ax,[bp-0x8]
+000000A2  7C05              jl 0xa9
+000000A4  B80100            mov ax,0x1
+000000A7  EB02              jmp short 0xab
+000000A9  33C0              xor ax,ax
+000000AB  8946F6            mov [bp-0xa],ax
+000000AE  8B46F8            mov ax,[bp-0x8]
+000000B1  3B46FE            cmp ax,[bp-0x2]
+000000B4  7C05              jl 0xbb
+000000B6  B80100            mov ax,0x1
+000000B9  EB02              jmp short 0xbd
+000000BB  33C0              xor ax,ax
+000000BD  8946F6            mov [bp-0xa],ax
+000000C0  837EFE00          cmp word [bp-0x2],byte +0x0
+000000C4  740B              jz 0xd1
+000000C6  837EF800          cmp word [bp-0x8],byte +0x0
+000000CA  7405              jz 0xd1
+000000CC  B80100            mov ax,0x1
+000000CF  EB02              jmp short 0xd3
+000000D1  33C0              xor ax,ax
+000000D3  8946F4            mov [bp-0xc],ax
+000000D6  837EFE00          cmp word [bp-0x2],byte +0x0
+000000DA  7506              jnz 0xe2
+000000DC  837EFA00          cmp word [bp-0x6],byte +0x0
+000000E0  7405              jz 0xe7
+000000E2  B80100            mov ax,0x1
+000000E5  EB02              jmp short 0xe9
+000000E7  33C0              xor ax,ax
+000000E9  8946F4            mov [bp-0xc],ax
+000000EC  837EF400          cmp word [bp-0xc],byte +0x0
+000000F0  7505              jnz 0xf7
+000000F2  B80100            mov ax,0x1
+000000F5  EB02              jmp short 0xf9
+000000F7  33C0              xor ax,ax
+000000F9  8946F4            mov [bp-0xc],ax
+000000FC  8B46FE            mov ax,[bp-0x2]
+000000FF  2346FC            and ax,[bp-0x4]
+00000102  8946F8            mov [bp-0x8],ax
+00000105  8B46FE            mov ax,[bp-0x2]
+00000108  0B46FC            or ax,[bp-0x4]
+0000010B  8946F8            mov [bp-0x8],ax
+0000010E  8B46FE            mov ax,[bp-0x2]
+00000111  3346FC            xor ax,[bp-0x4]
+00000114  8946F8            mov [bp-0x8],ax
+00000117  8B46FC            mov ax,[bp-0x4]
+0000011A  F7D0              not ax
+0000011C  8946F8            mov [bp-0x8],ax
+0000011F  8B46FE            mov ax,[bp-0x2]
+00000122  8B4EFC            mov cx,[bp-0x4]
+00000125  D3E0              shl ax,cl
+00000127  8946F8            mov [bp-0x8],ax
+0000012A  8B46FE            mov ax,[bp-0x2]
+0000012D  8B4EFC            mov cx,[bp-0x4]
+00000130  D3F8              sar ax,cl
+00000132  8946F8            mov [bp-0x8],ax
+00000135  5A                pop dx
+00000136  59                pop cx
+00000137  8BE5              mov sp,bp
+00000139  5D                pop bp
+0000013A  CB                retf

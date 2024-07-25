@@ -1,5 +1,4 @@
 using System.IO;
-using System.Text;
 using PoViEmu.Core;
 using PoViEmu.Common;
 using PoViEmu.Core.Dumps;

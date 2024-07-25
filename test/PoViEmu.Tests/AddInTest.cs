@@ -1,6 +1,4 @@
-using System;
 using System.IO;
-using System.Text;
 using PoViEmu.Core;
 using PoViEmu.Common;
 using Xunit;
@@ -11,6 +9,7 @@ namespace PoViEmu.Tests
     {
         [Theory]
         [InlineData("Small")]
+        [InlineData("Hello")]
         public void ShouldRead(string fileName)
         {
             var dir = Path.Combine("Resources", "Addins");
