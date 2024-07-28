@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -7,6 +8,11 @@ namespace PoViEmu.Common
 {
     public static class TextHelper
     {
+        public static string Space(int count)
+        {
+            return new string(Enumerable.Repeat(' ', count).ToArray());
+        }
+
         public static string ToText(string file)
         {
             var txt = File.ReadAllText(file, Encoding.UTF8);
