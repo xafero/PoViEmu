@@ -1,0 +1,160 @@
+
+;LSI C parser ver 3.5.10pv<D> Copyright (C) 1988-1999 by LSI JAPAN [Dec 16 1999]
+;LSI i8086 CG ver 3.5.11.1pv<D> Copyright (C) 1988-1991, 1995-2000 by LSI JAPAN [Mar 28 2000]
+
+
+DGROUP	GROUP	DATA,BSS
+
+DATA	DSEG
+
+BSS	DSEG
+
+
+
+asstest_TEXT	CSEG
+
+;#include <define.h>
+;#include <libc.h>
+;#include <l_libc.h>
+;
+;void main ()
+
+main_::
+	PUSH	CX
+	PUSH	DX
+	PUSH	SI
+;{
+;	int x, y, z, u, w, t;
+;	x = 32469;
+	MOV	SI,32469
+;	y = 32468;
+	MOV	CX,32468
+;	z = 32467;
+	MOV	BX,32467
+;
+;	u = x + y;
+	MOV	AX,SI
+	ADD	AX,CX
+;	u = x - y;
+	MOV	AX,SI
+	SUB	AX,CX
+;	u = x * y;
+	MOV	AX,SI
+	MUL	CX
+;	u = x / y;
+	MOV	AX,SI
+	CWD	
+	IDIV	CX
+;	u--;
+	DEC	AX
+;	u = x % y;
+	MOV	AX,SI
+	CWD	
+	IDIV	CX
+;	u++;
+	INC	DX
+;	w = x == u;
+	CMP	SI,DX
+	JNE	_2
+	MOV	AX,1
+	JMP	_3
+_2:
+	XOR	AX,AX
+_3:
+;	w = x != u;
+	CMP	SI,DX
+	JE	_5
+	MOV	AX,1
+	JMP	_6
+_5:
+	XOR	AX,AX
+_6:
+;	w = x > u;
+	CMP	DX,SI
+	JNL	_8
+	MOV	AX,1
+	JMP	_9
+_8:
+	XOR	AX,AX
+_9:
+;	w = x < u;
+	CMP	SI,DX
+	JNL	_11
+	MOV	AX,1
+	JMP	_12
+_11:
+	XOR	AX,AX
+_12:
+;	w = x >= u;
+	CMP	SI,DX
+	JL	_14
+	MOV	AX,1
+	JMP	_15
+_14:
+	XOR	AX,AX
+_15:
+;	w = x <= u;
+	CMP	DX,SI
+	JL	_17
+	MOV	AX,1
+	JMP	_18
+_17:
+	XOR	AX,AX
+_18:
+;	t = x && u;
+	TEST	SI,SI
+	JE	_20
+	TEST	DX,DX
+	JE	_20
+	MOV	AX,1
+	JMP	_21
+_20:
+	XOR	AX,AX
+_21:
+;	t = x || z;
+	TEST	SI,SI
+	JNE	_23
+	TEST	BX,BX
+	JE	_24
+_23:
+	MOV	AX,1
+	JMP	_25
+_24:
+	XOR	AX,AX
+_25:
+;	t = !t;
+	TEST	AX,AX
+	JNE	_28
+	MOV	AX,1
+	JMP	_29
+_28:
+	XOR	AX,AX
+_29:
+;	u = x & y;
+	MOV	AX,SI
+	AND	AX,CX
+;	u = x | y;
+	MOV	AX,SI
+	OR	AX,CX
+;	u = x ^ y;
+	MOV	AX,SI
+	XOR	AX,CX
+;	u = ~y;
+	MOV	AX,CX
+	NOT	AX
+;	u = x << y;
+	MOV	AX,SI
+	SHL	AX,CL
+;	u = x >> y;	
+	SAR	SI,CL
+;}
+	POP	SI
+	POP	DX
+	POP	CX
+	RETF
+
+
+
+;core used: 12432
+
+	END
