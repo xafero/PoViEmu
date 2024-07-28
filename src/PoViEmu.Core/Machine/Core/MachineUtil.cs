@@ -37,10 +37,20 @@ namespace PoViEmu.Core.Machine.Core
             var res = stream.ReadBytesMany()[0];
             var reg = res switch
             {
+                0xC0 => Register.ax, 
                 0xC4 => Register.ah,
+                0xC6 => Register.si,
+                0xF6 => Register.si,
+                0xC1 => Register.cx,
+                0xD2 => Register.dx,
                 _ => default
             };
-            return new RegByteArg(reg, res);
+            return reg.With(res);
+        }
+
+        public static RegByteArg With(this Register reg, int value)
+        {
+            return new RegByteArg(reg, (byte)value);
         }
     }
 }

@@ -11,6 +11,8 @@ namespace PoViEmu.Core.Machine.Ops
         aas,
         
         add,
+        
+        and,
 
         cbw,
 
@@ -21,6 +23,8 @@ namespace PoViEmu.Core.Machine.Ops
         cli,
 
         cmc,
+        
+        cmp,
 
         cmpsb,
 
@@ -35,6 +39,8 @@ namespace PoViEmu.Core.Machine.Ops
         dec,
 
         hlt,
+        
+        idiv,
         
         @in,
         
@@ -59,8 +65,12 @@ namespace PoViEmu.Core.Machine.Ops
         movsb,
 
         movsw,
+        
+        mul,
 
         nop,
+        
+        not,
         
         @out,
         
@@ -79,25 +89,37 @@ namespace PoViEmu.Core.Machine.Ops
         pusha,
         
         pushf,
+        
+        or,
 
         rep,
 
         repne,
 
         sahf,
-
+        
+        sar,
+        
         scasb,
 
         scasw,
+        
+        shl,
 
         stosb,
 
         stosw,
+        
+        sub,
+        
+        test,
 
         wait,
         
         xchg,
         
-        xlatb
+        xlatb,
+        
+        xor
     }
 }

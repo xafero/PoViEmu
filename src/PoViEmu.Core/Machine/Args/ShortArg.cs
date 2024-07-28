@@ -14,7 +14,7 @@ namespace PoViEmu.Core.Machine.Args
 
         public override string ToString()
         {
-            return $"0x{Value:X}";
+            return $"0x{Value:X}".ToLowerInvariant();
         }
 
         public byte[] Bytes => BitConverter.GetBytes(Value);

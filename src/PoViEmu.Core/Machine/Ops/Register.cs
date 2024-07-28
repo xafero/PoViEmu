@@ -18,6 +18,8 @@ namespace PoViEmu.Core.Machine.Ops
 
         cx,
         
+        cl,
+        
         cs,
 
         dx,
