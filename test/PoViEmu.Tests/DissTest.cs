@@ -1,4 +1,5 @@
 using System.IO;
+using System.Text;
 using PoViEmu.Common;
 using PoViEmu.Core.Machine;
 using Xunit;
@@ -25,6 +26,8 @@ namespace PoViEmu.Tests
 
             var actual = codes.ToText();
             var dFile = Path.Combine(dir, $"{fileName}.dtx");
+            File.WriteAllText($"{dFile}.txt", actual, Encoding.UTF8);
+
             var expected = TextHelper.ToText(dFile);
             TestTool.Equal(expected, actual);
         }
