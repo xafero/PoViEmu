@@ -4,9 +4,6 @@ using System.IO;
 
 namespace PoViEmu.Tests
 {
-    /// <summary>
-    /// sudo apt install nasm -y
-    /// </summary>
     public static class NasmTool
     {
         public static string DisassembleNasm(byte[] bytes)
