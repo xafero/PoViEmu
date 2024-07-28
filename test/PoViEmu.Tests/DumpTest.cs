@@ -4,6 +4,8 @@ using PoViEmu.Common;
 using PoViEmu.Core.Dumps;
 using Xunit;
 
+#pragma warning disable xUnit1013
+
 namespace PoViEmu.Tests
 {
     public class DumpTest

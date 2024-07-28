@@ -2,6 +2,8 @@ using System.IO;
 using PoViEmu.Core;
 using Xunit;
 
+#pragma warning disable xUnit1013
+
 namespace PoViEmu.Tests
 {
     public class FirmwareTest

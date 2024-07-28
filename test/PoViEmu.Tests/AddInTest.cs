@@ -3,6 +3,8 @@ using PoViEmu.Core;
 using PoViEmu.Common;
 using Xunit;
 
+#pragma warning disable xUnit1013
+
 namespace PoViEmu.Tests
 {
     public class AddInTest

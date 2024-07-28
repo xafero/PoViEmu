@@ -7,6 +7,19 @@ namespace PoViEmu.Tests
 {
     public static class TestTool
     {
+        public static void Compare(string expected, string actual)
+        {
+            try
+            {
+                Assert.Equal(expected, actual);
+            }
+            catch (EqualException e)
+            {
+                var nl = Environment.NewLine;
+                throw new InvalidOperationException($"{actual}{nl}{nl}{expected}", e);
+            }
+        }
+
         public static void Equal(string expected, string actual)
         {
             try
