@@ -26,6 +26,12 @@ namespace PoViEmu.Core.Machine.Core
             return new ShortArg(val);
         }
 
+        public static ConstantArg NextBytepC(this Stream stream)
+        {
+            var res = stream.ReadBytesMany()[0];
+            return new BytePlusArg(res);
+        }
+
         public static ConstantArg NextByteC(this Stream stream, bool isSkip = false)
         {
             var res = stream.ReadBytesMany()[0];
@@ -37,12 +43,13 @@ namespace PoViEmu.Core.Machine.Core
             var res = stream.ReadBytesMany()[0];
             var reg = res switch
             {
-                0xC0 => Register.ax, 
+                0xC0 => Register.ax,
                 0xC4 => Register.ah,
                 0xC6 => Register.si,
                 0xF6 => Register.si,
                 0xC1 => Register.cx,
                 0xD2 => Register.dx,
+                0xC3 => Register.bx,
                 _ => default
             };
             return reg.With(res);
@@ -51,6 +58,11 @@ namespace PoViEmu.Core.Machine.Core
         public static RegByteArg With(this Register reg, int value)
         {
             return new RegByteArg(reg, (byte)value);
+        }
+
+        public static RegByteArg Plus(this Register reg, int value)
+        {
+            return new RegPlusArg(reg, (byte)value);
         }
     }
 }

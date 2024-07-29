@@ -12,6 +12,7 @@ namespace PoViEmu.Tests
     {
         [Theory]
         [InlineData("Ejemplo1")]
+        [InlineData("Ejemplo2")]
         public void ShouldRead(string fileName)
         {
             var dir = Path.Combine("Resources", "Codes");

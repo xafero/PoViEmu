@@ -10,6 +10,8 @@ namespace PoViEmu.Core.Machine.Ops
 
         aas,
         
+        adc,
+        
         add,
         
         and,
