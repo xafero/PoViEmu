@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using PoViEmu.Core.Machine.Args;
@@ -20,6 +21,10 @@ namespace PoViEmu.Core.Machine
                         break;
                     case OpCode.aaa:
                         yield return new(pos, first, OpBase.aaa);
+                        break;
+                    case OpCode.aam:
+                        var aamSecond = stream.NextByteC();
+                        yield return new(pos, first, OpBase.aam, args: [aamSecond]);
                         break;
                     case OpCode.aas:
                         yield return new(pos, first, OpBase.aas);
@@ -54,6 +59,10 @@ namespace PoViEmu.Core.Machine
                             yield return new(pos, first, OpBase.and, args: [Register.bx, Register.ax.With(andFld)]);
                         else if (andFld == 0xC1)
                             yield return new(pos, first, OpBase.and, args: [Register.ax, Register.cx.With(andFld)]);
+                        else if (andFld == 0xE9)
+                            yield return new(pos, first, OpBase.and, args: [Register.bp, Register.cx.With(andFld)]);
+                        else if (andFld == 0x02)
+                            yield return new(pos, first, OpBase.and, args: [Register.ax, Register.bp.Plus(Register.si, andFld)]);
                         else
                             yield return new(pos, first, OpBase.and, args: [Register.ax, Register.ax.With(andFld)]);
                         break;
@@ -152,6 +161,11 @@ namespace PoViEmu.Core.Machine
                     case OpCode.fs:
                         yield return new(pos, first);
                         break;
+                    case OpCode.fstp:
+                        var fstFld = stream.NextByteC().Value;
+                        if (fstFld == 0xDF)
+                            yield return new(pos, first, args: [Register.st7.With(fstFld)]);
+                        break;
                     case OpCode.gs:
                         yield return new(pos, first);
                         break;
@@ -219,6 +233,11 @@ namespace PoViEmu.Core.Machine
                         ((SkipArg)jlFld).IsSigned = true;
                         yield return new(pos, first, args: [jlFld]);
                         break;
+                    case OpCode.jno:
+                        var jnoFld = stream.NextByteC(isSkip: true);
+                        ((SkipArg)jnoFld).IsSigned = true;
+                        yield return new(pos, first, args: [jnoFld]);
+                        break;
                     case OpCode.jnl:
                         var jnlFld = stream.NextByteC(isSkip: true);
                         ((SkipArg)jnlFld).IsSigned = true;
@@ -228,7 +247,9 @@ namespace PoViEmu.Core.Machine
                         yield return new(pos, first, args: [stream.NextByteC(isSkip: true)]);
                         break;
                     case OpCode.jz:
-                        yield return new(pos, first, args: [stream.NextByteC(isSkip: true)]);
+                        var jzFld = stream.NextByteC(isSkip: true);
+                        ((SkipArg)jzFld).IsSigned = true;
+                        yield return new(pos, first, args: [jzFld]);
                         break;
                     case OpCode.lahf:
                         yield return new(pos, first, OpBase.lahf);
@@ -245,13 +266,25 @@ namespace PoViEmu.Core.Machine
                     case OpCode.lodsb:
                         yield return new(pos, first);
                         break;
+                    case OpCode.loop:
+                        var loopFld = stream.NextBytekC(0xFF);
+                        yield return new(pos, first, args: [loopFld]);
+                        break;
                     case OpCode.mov_ah:
                         yield return new(pos, first, OpBase.mov, args: [Register.ah, stream.NextByteC()]);
                         break;
                     case OpCode.mov_al:
                         var maa = stream.NextByteC().Value;
-                        var mab = stream.NextByteC().Value;
-                        yield return new(pos, first, OpBase.mov, args: [Register.al.With(maa), Register.di.Plus(mab)]);
+                        if (maa == 0xEB)
+                        {
+                            yield return new(pos, first, OpBase.mov, args: [Register.ch.With(maa), Register.bl]);
+                        }
+                        else
+                        {
+                            var mab = stream.NextByteC().Value;
+                            yield return new(pos, first, OpBase.mov,
+                                args: [Register.al.With(maa), Register.di.Plus(mab)]);
+                        }
                         break;
                     case OpCode.mov:
                         var movFld = stream.NextByteC().Value;
@@ -279,6 +312,9 @@ namespace PoViEmu.Core.Machine
                         break;
                     case OpCode.mov_bx:
                         yield return new(pos, first, OpBase.mov, args: [Register.bx, stream.NextShortC()]);
+                        break;
+                    case OpCode.mov_cl:
+                        yield return new(pos, first, OpBase.mov, args: [Register.cl, stream.NextByteC()]);
                         break;
                     case OpCode.mov_cx:
                         yield return new(pos, first, OpBase.mov, args: [Register.cx, stream.NextShortC()]);
@@ -418,6 +454,11 @@ namespace PoViEmu.Core.Machine
                         else
                             yield return new(pos, first, OpBase.or, args: [Register.ax, Register.ax.With(orFld)]);
                         break;
+                    case OpCode.or_bl:
+                        var orbFld = stream.NextByteC().Value;
+                        if (orbFld == 0x1A)
+                            yield return new(pos, first, OpBase.or, args: [Register.bl, Register.bp.Plus(Register.si, orbFld)]);
+                        break;
                     case OpCode.rep:
                         yield return new(pos, first, OpBase.rep);
                         break;
@@ -478,6 +519,10 @@ namespace PoViEmu.Core.Machine
                     case OpCode.sub_ax:
                         yield return new(pos, first, OpBase.sub, args: [Register.ax, stream.NextRegC()]);
                         break;
+                    case OpCode.sub_al:
+                        var salFld = stream.NextByteC();
+                        yield return new(pos, first, OpBase.sub, args: [Register.al, salFld]);
+                        break;
                     case OpCode.test:
                         var testMod = stream.NextByteC().Value;
                         if (testMod == 0xF6)
@@ -515,6 +560,10 @@ namespace PoViEmu.Core.Machine
                         break;
                     case OpCode.xlatb:
                         yield return new(pos, first, OpBase.xlatb);
+                        break;
+                    case OpCode.xor_al:
+                        var xoraFl = stream.NextByteC();
+                        yield return new(pos, first, OpBase.xor, args: [Register.al, xoraFl]);
                         break;
                     case OpCode.xor:
                         var xorFl = stream.NextByteC().Value;

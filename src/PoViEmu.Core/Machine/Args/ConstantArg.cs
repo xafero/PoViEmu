@@ -16,6 +16,6 @@ namespace PoViEmu.Core.Machine.Args
             return $"0x{Value:x}";
         }
 
-        public byte[] Bytes => [Value];
+        public virtual byte[] Bytes => [Value];
     }
 }

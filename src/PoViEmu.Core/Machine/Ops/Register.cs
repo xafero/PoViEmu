@@ -13,8 +13,12 @@ namespace PoViEmu.Core.Machine.Ops
         ah,
 
         ax,
+        
+        bl,
 
         bx,
+        
+        ch,
 
         cx,
         
@@ -34,6 +38,8 @@ namespace PoViEmu.Core.Machine.Ops
         
         ss,
 
-        sp
+        sp,
+        
+        st7
     }
 }

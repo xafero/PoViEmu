@@ -11,12 +11,17 @@ namespace PoViEmu.Core.Machine.Args
             IsSigned = signed;
         }
 
+        public short? GetSkippedAddr()
+        {
+            var off = (short?)Parent?.Offset;
+            var len = (short?)Parent?.Bytes.Length;
+            var skip = (short)(IsSigned ? (sbyte)Value : Value);
+            return (short?)(off + len + skip);
+        }
+
         public override string ToString()
         {
-            var off = Parent?.Offset;
-            var len = Parent?.Bytes.Length;
-            var skip = (int)(IsSigned ? (sbyte)Value : Value);
-            var skippedAddr = off + len + skip;
+            var skippedAddr = GetSkippedAddr();
             return $"0x{skippedAddr:x}";
         }
 

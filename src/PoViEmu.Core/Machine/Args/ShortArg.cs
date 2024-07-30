@@ -17,6 +17,6 @@ namespace PoViEmu.Core.Machine.Args
             return $"0x{Value:X}".ToLowerInvariant();
         }
 
-        public byte[] Bytes => BitConverter.GetBytes(Value);
+        public virtual byte[] Bytes => BitConverter.GetBytes(Value);
     }
 }
