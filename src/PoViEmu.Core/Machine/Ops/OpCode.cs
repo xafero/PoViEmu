@@ -99,6 +99,8 @@ namespace PoViEmu.Core.Machine.Ops
         ds = 0x3E,
 
         es = 0x26,
+        
+        fcmovnbe = 0xDB,
 
         fcomip = 0xDF,
 
@@ -163,6 +165,8 @@ namespace PoViEmu.Core.Machine.Ops
         jna = 0x76,
         
         jng = 0x7E,
+        
+        jns = 0x79,
 
         jmp_short = 0xEB,
 
