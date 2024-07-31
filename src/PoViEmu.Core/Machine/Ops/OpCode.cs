@@ -27,6 +27,8 @@ namespace PoViEmu.Core.Machine.Ops
         adc_al = 0x14,
 
         adc_ch = 0x10,
+        
+        adc_bp = 0x13,
 
         adc_ah = 0x12,
 

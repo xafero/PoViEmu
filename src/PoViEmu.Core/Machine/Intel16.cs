@@ -87,6 +87,11 @@ namespace PoViEmu.Core.Machine
                         else if (adyFld == 0xC4)
                             yield return new(pos, first, OpBase.adc, args: [Register.al, Register.ah.With(adyFld)]);
                         break;
+                    case OpCode.adc_bp:
+                        var adpFld = stream.NextByteC().Value;
+                        if (adpFld == 0xED)
+                            yield return new(pos, first, OpBase.adc, args: [Register.bp, Register.bp.With(adpFld)]);
+                        break;
                     case OpCode.adc_sp:
                         var adsFld = stream.NextByteC().Value;
                         if (adsFld == 0xFE)
@@ -126,6 +131,8 @@ namespace PoViEmu.Core.Machine
                             yield return new(pos, first, OpBase.and, args: [Register.bh, Register.bl.With(andhFld)]);
                         else if (andhFld == 0x23)
                             yield return new(pos, first, OpBase.and, args: [Register.ah, Register.bp.Plus(Register.di, andhFld)]);
+                        else if (andhFld == 0xD1)
+                            yield return new(pos, first, OpBase.and, args: [Register.dl, Register.cl.With(andhFld)]);
                         break;
                     case OpCode.and_al:
                         var adlFld = stream.NextByteC();
