@@ -20,19 +20,27 @@ namespace PoViEmu.Core.Machine.Ops
 
         add_cl = 0x02,
 
+        add_dh = 0x00,
+
         adc = 0x81,
 
         adc_al = 0x14,
 
         adc_ch = 0x10,
-        
+
         adc_ah = 0x12,
 
         adc_sp = 0x11,
 
         and = 0x23,
 
+        and_ah = 0x22,
+        
+        and_al = 0x24,
+
         and_dx = 0x21,
+
+        and_dl = 0x20,
 
         arpl_bp = 0x63,
 
@@ -53,6 +61,8 @@ namespace PoViEmu.Core.Machine.Ops
         cmp_cx = 0x39,
 
         cmp_al = 0x3C,
+        
+        cmp_bl = 0x3A,
 
         cmp_b = 0x83,
 
@@ -93,7 +103,7 @@ namespace PoViEmu.Core.Machine.Ops
         ficom = 0xDE,
 
         fmul = 0xD8,
-        
+
         fnstenv = 0xD9,
 
         fs = 0x64,
@@ -142,11 +152,17 @@ namespace PoViEmu.Core.Machine.Ops
 
         jcxz = 0xE3,
 
+        jc = 0x72,
+
         jg = 0x7F,
 
+        jna = 0x76,
+        
         jng = 0x7E,
 
         jmp_short = 0xEB,
+
+        jmp_far = 0xFF,
 
         ja = 0x77,
 
@@ -179,7 +195,7 @@ namespace PoViEmu.Core.Machine.Ops
         loop = 0xE2,
 
         loope = 0xE1,
-        
+
         loopne = 0xE0,
 
         mov_ah = 0xB4,
@@ -192,11 +208,15 @@ namespace PoViEmu.Core.Machine.Ops
 
         mov = 0x8B,
 
+        mov_ax = 0x89,
+
         mov_bx = 0xBB,
-        
+
         mov_bl = 0xB3,
 
         mov_si = 0xBE,
+
+        mov_ch = 0xB5,
 
         mov_cx = 0xB9,
 
@@ -223,7 +243,7 @@ namespace PoViEmu.Core.Machine.Ops
         nop = 0x90,
 
         o32 = 0x66,
-        
+
         out_ax = 0xE7,
 
         out_dx_al = 0xEE,
@@ -236,6 +256,10 @@ namespace PoViEmu.Core.Machine.Ops
 
         or = 0x0B,
 
+        or_bh = 0x08,
+        
+        or_bx = 0x09,
+        
         or_bl = 0x0a,
 
         or_al = 0x0C,
@@ -299,7 +323,7 @@ namespace PoViEmu.Core.Machine.Ops
         pushf = 0x9C,
 
         rcl = 0xD0,
-        
+
         rep = 0xF3,
 
         repne = 0xF2,
@@ -339,13 +363,15 @@ namespace PoViEmu.Core.Machine.Ops
         sub_ax = 0x2B,
 
         sub_al = 0x2C,
+        
+        sub_ah = 0x2A,
 
         sub_dh = 0x28,
 
         test = 0x85,
 
         test_al = 0xA8,
-        
+
         test_dl = 0x84,
 
         wait = 0x9B,

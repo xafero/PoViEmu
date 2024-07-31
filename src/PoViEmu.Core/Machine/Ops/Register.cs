@@ -39,6 +39,8 @@ namespace PoViEmu.Core.Machine.Ops
         ds,
 
         es,
+        
+        segr7,
 
         si,
         

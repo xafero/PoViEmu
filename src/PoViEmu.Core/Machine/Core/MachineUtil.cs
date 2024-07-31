@@ -26,7 +26,7 @@ namespace PoViEmu.Core.Machine.Core
             return new ShortArg(val);
         }
 
-        public static ConstantArg NextBytepC(this Stream stream)
+        public static BytePlusArg NextBytepC(this Stream stream)
         {
             var res = stream.ReadBytesMany()?[0] ?? 0xFE;
             return new BytePlusArg(res);

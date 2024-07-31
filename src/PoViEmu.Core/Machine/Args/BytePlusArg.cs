@@ -6,9 +6,12 @@ namespace PoViEmu.Core.Machine.Args
         {
         }
 
+        public bool Signed { get; set; }
+
         public override string ToString()
         {
-            return $"byte +0x{Value:x}";
+            object val = Signed ? (sbyte)Value : Value;
+            return $"byte +0x{val:x}";
         }
     }
 }

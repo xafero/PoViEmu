@@ -105,6 +105,8 @@ namespace PoViEmu.Core.Machine.Ops
         rep,
 
         repne,
+        
+        rol,
 
         sahf,
         
