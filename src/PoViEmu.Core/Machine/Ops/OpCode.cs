@@ -6,9 +6,9 @@ namespace PoViEmu.Core.Machine.Ops
     {
         Unknown = 0,
 
-        a32 = 0x67,
-
         aaa = 0x37,
+
+        aad = 0xD5,
 
         aam = 0xD4,
 
@@ -18,9 +18,23 @@ namespace PoViEmu.Core.Machine.Ops
 
         add_ax = 0x03,
 
+        add_cl = 0x02,
+
         adc = 0x81,
 
+        adc_al = 0x14,
+
+        adc_ch = 0x10,
+        
+        adc_ah = 0x12,
+
+        adc_sp = 0x11,
+
         and = 0x23,
+
+        and_dx = 0x21,
+
+        arpl_bp = 0x63,
 
         cbw = 0x98,
 
@@ -35,6 +49,10 @@ namespace PoViEmu.Core.Machine.Ops
         cmp = 0x3B,
 
         cmp_ax = 0x3D,
+
+        cmp_cx = 0x39,
+
+        cmp_al = 0x3C,
 
         cmp_b = 0x83,
 
@@ -70,6 +88,14 @@ namespace PoViEmu.Core.Machine.Ops
 
         es = 0x26,
 
+        fcomip = 0xDF,
+
+        ficom = 0xDE,
+
+        fmul = 0xD8,
+        
+        fnstenv = 0xD9,
+
         fs = 0x64,
 
         fstp = 0xDD,
@@ -77,6 +103,8 @@ namespace PoViEmu.Core.Machine.Ops
         gs = 0x65,
 
         hlt = 0xF4,
+
+        in_al = 0xE4,
 
         in_al_dx = 0xEC,
 
@@ -102,6 +130,8 @@ namespace PoViEmu.Core.Machine.Ops
 
         insw = 0x6D,
 
+        @int = 0xCD,
+
         int1 = 0xF1,
 
         int3 = 0xCC,
@@ -110,9 +140,15 @@ namespace PoViEmu.Core.Machine.Ops
 
         iret = 0xCF,
 
+        jcxz = 0xE3,
+
+        jg = 0x7F,
+
         jng = 0x7E,
 
         jmp_short = 0xEB,
+
+        ja = 0x77,
 
         jl = 0x7C,
 
@@ -120,7 +156,13 @@ namespace PoViEmu.Core.Machine.Ops
 
         jno = 0x71,
 
+        jpo = 0x7B,
+
         jnz = 0x75,
+
+        jo = 0x70,
+
+        js = 0x78,
 
         jz = 0x74,
 
@@ -136,17 +178,35 @@ namespace PoViEmu.Core.Machine.Ops
 
         loop = 0xE2,
 
+        loope = 0xE1,
+        
+        loopne = 0xE0,
+
         mov_ah = 0xB4,
 
+        mov_bh = 0xB7,
+
         mov_al = 0x8A,
+
+        mov_al_b = 0xB0,
 
         mov = 0x8B,
 
         mov_bx = 0xBB,
+        
+        mov_bl = 0xB3,
 
         mov_si = 0xBE,
 
         mov_cx = 0xB9,
+
+        mov_dh = 0xB6,
+
+        mov_cl_x = 0x88,
+
+        mov_cs = 0x8E,
+
+        mov_dl = 0xB2,
 
         mov_dx = 0xBA,
 
@@ -163,6 +223,8 @@ namespace PoViEmu.Core.Machine.Ops
         nop = 0x90,
 
         o32 = 0x66,
+        
+        out_ax = 0xE7,
 
         out_dx_al = 0xEE,
 
@@ -175,6 +237,10 @@ namespace PoViEmu.Core.Machine.Ops
         or = 0x0B,
 
         or_bl = 0x0a,
+
+        or_al = 0x0C,
+
+        out_al = 0xE6,
 
         pop_dx = 0x5A,
 
@@ -216,8 +282,6 @@ namespace PoViEmu.Core.Machine.Ops
 
         push_sp = 0x54,
 
-        push_ss = 0x16,
-
         push_cs = 0x0E,
 
         push_di = 0x57,
@@ -226,10 +290,16 @@ namespace PoViEmu.Core.Machine.Ops
 
         push_es = 0x06,
 
+        push_ss = 0x16,
+
+        push = 0x6A,
+
         pusha = 0x60,
 
         pushf = 0x9C,
 
+        rcl = 0xD0,
+        
         rep = 0xF3,
 
         repne = 0xF2,
@@ -242,6 +312,8 @@ namespace PoViEmu.Core.Machine.Ops
 
         salc = 0xD6,
 
+        sbb_al = 0x18,
+
         scasb = 0xAE,
 
         scasw = 0xAF,
@@ -249,6 +321,8 @@ namespace PoViEmu.Core.Machine.Ops
         shl = 0xD3,
 
         shl_one = 0xD1,
+
+        shl_bp = 0xD2,
 
         ss = 0x36,
 
@@ -263,12 +337,20 @@ namespace PoViEmu.Core.Machine.Ops
         stosw = 0xAB,
 
         sub_ax = 0x2B,
-        
+
         sub_al = 0x2C,
+
+        sub_dh = 0x28,
 
         test = 0x85,
 
+        test_al = 0xA8,
+        
+        test_dl = 0x84,
+
         wait = 0x9B,
+
+        xchg_dh_al = 0x86,
 
         xchg_ax_di = 0x97,
 
@@ -284,10 +366,14 @@ namespace PoViEmu.Core.Machine.Ops
 
         xchg_ax_sp = 0x94,
 
+        xchg_bp_si = 0x87,
+
         xlatb = 0xD7,
 
         xor = 0x33,
 
-        xor_al = 0x34
+        xor_al = 0x34,
+
+        xor_ch = 0x32
     }
 }

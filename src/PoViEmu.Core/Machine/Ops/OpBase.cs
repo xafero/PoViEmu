@@ -17,6 +17,8 @@ namespace PoViEmu.Core.Machine.Ops
         add,
         
         and,
+        
+        arpl,
 
         cbw,
 
@@ -41,6 +43,8 @@ namespace PoViEmu.Core.Machine.Ops
         das,
         
         dec,
+        
+        fisub,
 
         hlt,
         
@@ -95,6 +99,8 @@ namespace PoViEmu.Core.Machine.Ops
         pushf,
         
         or,
+        
+        rcr,
 
         rep,
 
@@ -115,6 +121,8 @@ namespace PoViEmu.Core.Machine.Ops
         stosw,
         
         sub,
+        
+        sbb,
         
         test,
 

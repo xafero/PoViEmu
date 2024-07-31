@@ -10,7 +10,8 @@ namespace PoViEmu.Core.Machine.Args
 
         public override string ToString()
         {
-            return $"[{Reg}+0x{Num:x}]";
+            var suffix = Num == 0 ? "" : $"+0x{Num:x}";
+            return $"[{Reg}{suffix}]";
         }
     }
 }
