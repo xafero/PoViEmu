@@ -44,7 +44,11 @@ namespace PoViEmu.Core.Machine.Ops
         
         dec,
         
+        fdiv,
+        
         fisub,
+        
+        fnstcw,
 
         hlt,
         

@@ -36,7 +36,9 @@ namespace PoViEmu.Core.Machine
                         break;
                     case OpCode.add_ax:
                         var addaFld = stream.NextByteC().Value;
-                        if (addaFld == 0xD0)
+                        if (addaFld == 0x2B)
+                            yield return new(pos, first, OpBase.add, args: [Register.bp, Register.bp.Plus(Register.di, addaFld)]);
+                        else if (addaFld == 0xD0)
                             yield return new(pos, first, OpBase.add, args: [Register.dx, Register.ax.With(addaFld)]);
                         else if (addaFld == 0xC1)
                             yield return new(pos, first, OpBase.add, args: [Register.ax, Register.cx.With(addaFld)]);
@@ -114,14 +116,16 @@ namespace PoViEmu.Core.Machine
                     case OpCode.and_dx:
                         var andxFld = stream.NextByteC().Value;
                         if (andxFld == 0x10)
-                            yield return new(pos, first, OpBase.and,
-                                args: [Register.bx.Plus(Register.si, andxFld), Register.dx]);
+                            yield return new(pos, first, OpBase.and, args: [Register.bx.Plus(Register.si, andxFld), Register.dx]);                        
+                        else if (andxFld == 0xF9)
+                            yield return new(pos, first, OpBase.and, args: [Register.cx, Register.di.With(andxFld)]);
                         break;
                     case OpCode.and_ah:
                         var andhFld = stream.NextByteC().Value;
-                        if (andhFld == 0x23)
-                            yield return new(pos, first, OpBase.and,
-                                args: [Register.ah, Register.bp.Plus(Register.di, andhFld)]);
+                        if (andhFld == 0xFB)
+                            yield return new(pos, first, OpBase.and, args: [Register.bh, Register.bl.With(andhFld)]);
+                        else if (andhFld == 0x23)
+                            yield return new(pos, first, OpBase.and, args: [Register.ah, Register.bp.Plus(Register.di, andhFld)]);
                         break;
                     case OpCode.and_al:
                         var adlFld = stream.NextByteC();
@@ -159,6 +163,8 @@ namespace PoViEmu.Core.Machine
                         var cmpFl = stream.NextByteC().Value;
                         if (cmpFl == 0xD6)
                             yield return new(pos, first, OpBase.cmp, args: [Register.dx, Register.si.With(cmpFl)]);
+                        else if (cmpFl == 0xC7)
+                            yield return new(pos, first, OpBase.cmp, args: [Register.ax, Register.di.With(cmpFl)]);
                         else if (cmpFl == 0xCA)
                             yield return new(pos, first, OpBase.cmp, args: [Register.cx, Register.dx.With(cmpFl)]);
                         else if (cmpFl == 0xCD)
@@ -184,6 +190,8 @@ namespace PoViEmu.Core.Machine
                             yield return new(pos, first, OpBase.cmp, args: [Register.cx, Register.dx.With(cmpcFl)]);
                         else if (cmpcFl == 0xD4)
                             yield return new(pos, first, OpBase.cmp, args: [Register.sp, Register.dx.With(cmpcFl)]);
+                        else if (cmpcFl == 0x25)
+                            yield return new(pos, first, OpBase.cmp, args: [Register.di.Plus(null, cmpcFl), Register.sp]);
                         break;
                     case OpCode.cmp_bl:
                         var cmpobFl = stream.NextByteC().Value;
@@ -273,6 +281,8 @@ namespace PoViEmu.Core.Machine
                         var fstFld = stream.NextByteC().Value;
                         if (fstFld == 0xDF)
                             yield return new(pos, first, args: [Register.st7.With(fstFld)]);
+                        else if (fstFld == 0xDE)
+                            yield return new(pos, first, args: [Register.st6.With(fstFld)]);
                         break;
                     case OpCode.gs:
                         yield return new(pos, first);
@@ -283,6 +293,10 @@ namespace PoViEmu.Core.Machine
                     case OpCode.in_al:
                         var inaFl = stream.NextByteC();
                         yield return new(pos, first, OpBase.@in, args: [Register.al, inaFl]);
+                        break;
+                    case OpCode.in_ax:
+                        var inaxFl = stream.NextByteC();
+                        yield return new(pos, first, OpBase.@in, args: [Register.ax, inaxFl]);
                         break;
                     case OpCode.in_al_dx:
                         yield return new(pos, first, OpBase.@in, args: [Register.al, Register.dx]);
@@ -435,7 +449,8 @@ namespace PoViEmu.Core.Machine
                         yield return new(pos, first);
                         break;
                     case OpCode.loop:
-                        var loopFld = stream.NextBytekC(0xFF);
+                        var loopFld = stream.NextByteC(isSkip: true);
+                        ((SkipArg)loopFld).IsSigned = true;
                         yield return new(pos, first, args: [loopFld]);
                         break;
                     case OpCode.loope:
@@ -514,8 +529,14 @@ namespace PoViEmu.Core.Machine
                         break;
                     case OpCode.mov_cl_x:
                         var mclFl = stream.NextByteC().Value;
-                        yield return new(pos, first, OpBase.mov,
-                            args: [Register.bx.Plus(Register.si, mclFl), Register.cl]);
+                        if (mclFl == 0xEE)
+                            yield return new(pos, first, OpBase.mov, args: [Register.dh, Register.ch.With(mclFl)]);
+                        else if (mclFl == 0xFA)
+                            yield return new(pos, first, OpBase.mov, args: [Register.dl, Register.bh.With(mclFl)]);
+                        else if (mclFl == 0xDB)
+                            yield return new(pos, first, OpBase.mov, args: [Register.bl, Register.bl.With(mclFl)]);
+                        else
+                            yield return new(pos, first, OpBase.mov, args: [Register.bx.Plus(Register.si, mclFl), Register.cl]);
                         break;
                     case OpCode.mov_cs:
                         var mcsFl = stream.NextByteC().Value;
@@ -549,13 +570,16 @@ namespace PoViEmu.Core.Machine
                     case OpCode.fmul:
                         var fmulFirst = stream.NextByteC().Value;
                         if (fmulFirst == 0x0A)
-                            yield return new(pos, first, mod: Modifier.dword,
-                                args: [Register.bp.Plus(Register.si, fmulFirst)]);
+                            yield return new(pos, first, mod: Modifier.dword, args: [Register.bp.Plus(Register.si, fmulFirst)]);
+                        else if (fmulFirst == 0xF0)
+                            yield return new(pos, first, OpBase.fdiv, args: [Register.st0.With(fmulFirst)]);
                         break;
                     case OpCode.fnstenv:
                         var fnsFirst = stream.NextByteC().Value;
                         if (fnsFirst == 0x31)
                             yield return new(pos, first, args: [Register.bx.Plus(Register.di, fnsFirst)]);
+                        else if (fnsFirst == 0x39)
+                            yield return new(pos, first, OpBase.fnstcw, args: [Register.bx.Plus(Register.di, fnsFirst)]);
                         break;
                     case OpCode.mul:
                         var mulFirst = stream.NextByteC().Value;
@@ -825,12 +849,24 @@ namespace PoViEmu.Core.Machine
                         else if (subdMod == 0xF1)
                             yield return new(pos, first, OpBase.sub, args: [Register.cl, Register.dh.With(subdMod)]);
                         break;
+                    case OpCode.sbb_bx:
+                        var sbbxMod = stream.NextByteC().Value;
+                        if (sbbxMod == 0x1A)
+                            yield return new(pos, first, OpBase.sbb, args: [Register.bp.Plus(Register.si, sbbxMod), Register.bx]);
+                        break;
                     case OpCode.sbb_al:
                         var sbbMod = stream.NextByteC().Value;
                         if (sbbMod == 0xE8)
                             yield return new(pos, first, OpBase.sbb, args: [Register.al, Register.ch.With(sbbMod)]);
                         else if (sbbMod == 0xD3)
                             yield return new(pos, first, OpBase.sbb, args: [Register.bl, Register.dl.With(sbbMod)]);
+                        else if (sbbMod == 0xFF)
+                            yield return new(pos, first, OpBase.sbb, args: [Register.bh, Register.bh.With(sbbMod)]);
+                        break;
+                    case OpCode.sbb_cl:
+                        var sbcMod = stream.NextByteC().Value;
+                        if (sbcMod == 0xC1)
+                            yield return new(pos, first, OpBase.sbb, args: [Register.al, Register.cl.With(sbcMod)]);
                         break;
                     case OpCode.test:
                         var testMod = stream.NextByteC().Value;
@@ -886,6 +922,8 @@ namespace PoViEmu.Core.Machine
                             yield return new(pos, first, OpBase.xchg, args: [Register.al, Register.dh.With(xdaFl)]);
                         else if (xdaFl == 0xEE)
                             yield return new(pos, first, OpBase.xchg, args: [Register.ch, Register.dh.With(xdaFl)]);
+                        else if (xdaFl == 0x13)
+                            yield return new(pos, first, OpBase.xchg, args: [Register.dl, Register.bp.Plus(Register.di, xdaFl)]);
                         break;
                     case OpCode.xchg_bp_si:
                         var xdbFl = stream.NextByteC().Value;
@@ -904,11 +942,15 @@ namespace PoViEmu.Core.Machine
                         var xoraFl = stream.NextByteC();
                         yield return new(pos, first, OpBase.xor, args: [Register.al, xoraFl]);
                         break;
+                    case OpCode.xor_bp:
+                        var xorpFl = stream.NextByteC().Value;
+                        if (xorpFl == 0x03)
+                            yield return new(pos, first, OpBase.xor, args: [Register.bp.Plus(Register.di, xorpFl), Register.al]);
+                        break;
                     case OpCode.xor_ch:
                         var xorcFl = stream.NextByteC().Value;
                         if (xorcFl == 0x2C)
-                            yield return new(pos, first, OpBase.xor,
-                                args: [Register.ch, Register.si.Plus(null, xorcFl)]);
+                            yield return new(pos, first, OpBase.xor, args: [Register.ch, Register.si.Plus(null, xorcFl)]);
                         else if (xorcFl == 0xC6)
                             yield return new(pos, first, OpBase.xor, args: [Register.al, Register.dh.With(xorcFl)]);
                         break;

@@ -119,6 +119,8 @@ namespace PoViEmu.Core.Machine.Ops
         in_al_dx = 0xEC,
 
         in_ax_dx = 0xED,
+        
+        in_ax = 0xE5,
 
         inc_ax = 0x40,
 
@@ -337,6 +339,10 @@ namespace PoViEmu.Core.Machine.Ops
         salc = 0xD6,
 
         sbb_al = 0x18,
+        
+        sbb_cl = 0x1A,
+        
+        sbb_bx = 0x19,
 
         scasb = 0xAE,
 
@@ -393,13 +399,15 @@ namespace PoViEmu.Core.Machine.Ops
         xchg_ax_sp = 0x94,
 
         xchg_bp_si = 0x87,
-
+        
         xlatb = 0xD7,
 
         xor = 0x33,
 
         xor_al = 0x34,
 
+        xor_bp = 0x30,
+        
         xor_ch = 0x32
     }
 }

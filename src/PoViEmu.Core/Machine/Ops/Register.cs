@@ -50,6 +50,8 @@ namespace PoViEmu.Core.Machine.Ops
         
         st0,
         
+        st6,
+        
         st7,
         
         cmc
