@@ -14,6 +14,8 @@ namespace PoViEmu.Core.Machine.Ops
         
         dword,
         
+        qword,
+        
         word
     }
 }
