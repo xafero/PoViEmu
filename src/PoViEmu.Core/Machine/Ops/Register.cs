@@ -39,8 +39,10 @@ namespace PoViEmu.Core.Machine.Ops
         ds,
 
         es,
-        
+
         fs,
+        
+        segr6,
         
         segr7,
 
@@ -52,7 +54,11 @@ namespace PoViEmu.Core.Machine.Ops
         
         st0,
         
+        st1,
+        
         st2,
+        
+        st3,
         
         st4,
         

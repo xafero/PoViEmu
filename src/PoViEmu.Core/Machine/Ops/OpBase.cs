@@ -44,19 +44,39 @@ namespace PoViEmu.Core.Machine.Ops
         
         dec,
         
+        fadd,
+        
         faddp,
+        
+        fsubp,
         
         fdiv,
         
         fdivr,
         
+        fdivrp,
+        
         fild,
+        
+        fcomi,
+        
+        fist,
+        
+        fld,
+        
+        fisttp,
+        
+        fnsave,
         
         fisub,
         
         fnstcw,
         
+        fnstsw,
+        
         fldenv,
+        
+        fxch,
 
         hlt,
         
@@ -87,6 +107,8 @@ namespace PoViEmu.Core.Machine.Ops
         movsw,
         
         mul,
+        
+        imul,
 
         nop,
         
@@ -119,6 +141,8 @@ namespace PoViEmu.Core.Machine.Ops
         repne,
         
         rol,
+        
+        ror,
 
         sahf,
         

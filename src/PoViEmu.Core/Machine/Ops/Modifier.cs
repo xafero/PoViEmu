@@ -6,6 +6,8 @@ namespace PoViEmu.Core.Machine.Ops
     {
         Unknown = 0,
 
+        to,
+        
         @byte,
         
         @short,
