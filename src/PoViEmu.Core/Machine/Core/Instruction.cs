@@ -8,10 +8,10 @@ namespace PoViEmu.Core.Machine.Core
 {
     public class Instruction
     {
-        public Instruction(long pos, OpCode code, OpBase? op = null, Modifier? mod = null, OpArg[] args = null)
+        public Instruction(long pos, byte code, OpCode op, Modifier? mod = null, OpArg[]? args = null)
         {
             Offset = (int)pos;
-            Bytes = [(byte)code];
+            Bytes = [code];
             Op = op;
             Mod = mod;
             Args = args;
@@ -23,16 +23,15 @@ namespace PoViEmu.Core.Machine.Core
 
         public int Offset { get; set; }
         public byte[] Bytes { get; set; }
-        public OpBase? Op { get; set; }
+        public OpCode? Op { get; set; }
         public Modifier? Mod { get; set; }
-        public OpArg[] Args { get; set; }
-        public OpCode Code => (OpCode)Bytes[0];
+        public OpArg[]? Args { get; set; }
 
         public override string ToString()
         {
             var hex = Convert.ToHexString(Bytes);
             var space = TextHelper.Space(18 - hex.Length);
-            var op = Op?.ToString() ?? Code.ToString();
+            var op = Op?.ToString();
             if (Mod != null) op += $" {Mod}";
             var reg = string.Join(",", (Args ?? []).Select(a => a.ToString()));
             var txt = $"{Offset:X8}  {hex}{space}{op} {reg}";

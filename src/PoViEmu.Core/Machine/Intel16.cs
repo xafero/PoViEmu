@@ -3,6 +3,8 @@ using System.IO;
 using PoViEmu.Core.Machine.Args;
 using PoViEmu.Core.Machine.Core;
 using PoViEmu.Core.Machine.Ops;
+using R = PoViEmu.Core.Machine.Ops.Register;
+using O = PoViEmu.Core.Machine.Ops.OpCode;
 
 namespace PoViEmu.Core.Machine
 {
@@ -12,1259 +14,1268 @@ namespace PoViEmu.Core.Machine
         {
             while (stream.ReadBytesPos(buffer) is { } pos)
             {
-                var first = (OpCode)buffer[0];
+                var first = buffer[0];
                 switch (first)
                 {
-                    case OpCode.aaa:
-                        yield return new(pos, first, OpBase.aaa);
+                    case 0x37:
+                        yield return new(pos, first, O.aaa);
                         break;
-                    case OpCode.aad:
+                    case 0xD5:
                         var aadSecond = stream.NextByteC();
-                        yield return new(pos, first, args: [aadSecond]);
+                        yield return new(pos, first, O.aad, args: [aadSecond]);
                         break;
-                    case OpCode.aam:
+                    case 0xD4:
                         var aamSecond = stream.NextByteC();
-                        yield return new(pos, first, OpBase.aam, args: [aamSecond]);
+                        yield return new(pos, first, O.aam, args: [aamSecond]);
                         break;
-                    case OpCode.aas:
-                        yield return new(pos, first, OpBase.aas);
+                    case 0x3F:
+                        yield return new(pos, first, O.aas);
                         break;
-                    case OpCode.add:
+                    case 0x80:
                         var addFirst = stream.NextRegC();
                         var addSecond = stream.NextByteC();
-                        yield return new(pos, first, OpBase.add, args: [addFirst, addSecond]);
+                        yield return new(pos, first, O.add, args: [addFirst, addSecond]);
                         break;
-                    case OpCode.add_al:
+                    case 0x04:
                         var adlaFld = stream.NextByteC();
-                        yield return new(pos, first, OpBase.add, args: [Register.al, adlaFld]);
+                        yield return new(pos, first, O.add, args: [R.al, adlaFld]);
                         break;
-                    case OpCode.add_ax:
+                    case 0x03:
                         var addaFld = stream.NextByteC().Value;
                         if (addaFld == 0x2B)
-                            yield return new(pos, first, OpBase.add, args: [Register.bp, Register.bp.Plus(Register.di, addaFld)]);
+                            yield return new(pos, first, O.add, args: [R.bp, R.bp.Plus(R.di, addaFld)]);
                         else if (addaFld == 0x3A)
-                            yield return new(pos, first, OpBase.add, args: [Register.di, Register.bp.Plus(Register.si, addaFld)]);
+                            yield return new(pos, first, O.add, args: [R.di, R.bp.Plus(R.si, addaFld)]);
                         else if (addaFld == 0xD0)
-                            yield return new(pos, first, OpBase.add, args: [Register.dx, Register.ax.With(addaFld)]);
+                            yield return new(pos, first, O.add, args: [R.dx, R.ax.With(addaFld)]);
                         else if (addaFld == 0xDA)
-                            yield return new(pos, first, OpBase.add, args: [Register.bx, Register.dx.With(addaFld)]);
+                            yield return new(pos, first, O.add, args: [R.bx, R.dx.With(addaFld)]);
                         else if (addaFld == 0xC1)
-                            yield return new(pos, first, OpBase.add, args: [Register.ax, Register.cx.With(addaFld)]);
+                            yield return new(pos, first, O.add, args: [R.ax, R.cx.With(addaFld)]);
                         else if (addaFld == 0xC3)
-                            yield return new(pos, first, OpBase.add, args: [Register.ax, Register.bx.With(addaFld)]);
+                            yield return new(pos, first, O.add, args: [R.ax, R.bx.With(addaFld)]);
                         else if (addaFld == 0xF5)
-                            yield return new(pos, first, OpBase.add, args: [Register.si, Register.bp.With(addaFld)]);
+                            yield return new(pos, first, O.add, args: [R.si, R.bp.With(addaFld)]);
                         else
-                            yield return new(pos, first, OpBase.add, args: [Register.ax, Register.ax.With(addaFld)]);
+                            yield return new(pos, first, O.add, args: [R.ax, R.ax.With(addaFld)]);
                         break;
-                    case OpCode.add_cl:
+                    case 0x02:
                         var addcFld = stream.NextByteC().Value;
                         if (addcFld == 0xCE)
-                            yield return new(pos, first, OpBase.add, args: [Register.cl, Register.dh.With(addcFld)]);
+                            yield return new(pos, first, O.add, args: [R.cl, R.dh.With(addcFld)]);
                         else if (addcFld == 0x33)
-                            yield return new(pos, first, OpBase.add, args: [Register.dh, Register.bp.Plus(Register.di, addcFld)]);
+                            yield return new(pos, first, O.add, args: [R.dh, R.bp.Plus(R.di, addcFld)]);
                         break;
-                    case OpCode.add_di:
+                    case 0x01:
                         var addiFld = stream.NextByteC().Value;
                         if (addiFld == 0x28)
-                            yield return new(pos, first, OpBase.add, args: [Register.bx.Plus(Register.si, addiFld), Register.bp]);
+                            yield return new(pos, first, O.add, args: [R.bx.Plus(R.si, addiFld), R.bp]);
                         else if (addiFld == 0x38)
-                            yield return new(pos, first, OpBase.add, args: [Register.bx.Plus(Register.si, addiFld), Register.di]);
+                            yield return new(pos, first, O.add, args: [R.bx.Plus(R.si, addiFld), R.di]);
                         else if (addiFld == 0xC6)
-                            yield return new(pos, first, OpBase.add, args: [Register.si, Register.ax.With(addiFld)]);
+                            yield return new(pos, first, O.add, args: [R.si, R.ax.With(addiFld)]);
                         break;
-                    case OpCode.adc:
+                    case 0x81:
                         var adcFld = stream.NextByteC().Value;
                         var adcFvl = stream.NextShortC();
                         if (adcFld == 0xC1)
-                            yield return new(pos, first, OpBase.add, args: [Register.cx.With(adcFld), adcFvl]);
+                            yield return new(pos, first, O.add, args: [R.cx.With(adcFld), adcFvl]);
                         else
-                            yield return new(pos, first, OpBase.adc, args: [Register.dx.With(adcFld), adcFvl]);
+                            yield return new(pos, first, O.adc, args: [R.dx.With(adcFld), adcFvl]);
                         break;
-                    case OpCode.adc_al:
+                    case 0x14:
                         var adaFld = stream.NextByteC();
-                        yield return new(pos, first, OpBase.adc, args: [Register.al, adaFld]);
+                        yield return new(pos, first, O.adc, args: [R.al, adaFld]);
                         break;
-                    case OpCode.add_dh:
+                    case 0x00:
                         var addhFld = stream.NextByteC().Value;
                         if (addhFld == 0x34)
-                            yield return new(pos, first, OpBase.add, args: [Register.si.Plus(null, addhFld), Register.dh]);
+                            yield return new(pos, first, O.add, args: [R.si.Plus(null, addhFld), R.dh]);
                         else if (addhFld == 0xD0)
-                            yield return new(pos, first, OpBase.add, args: [Register.al, Register.dl.With(addhFld)]);
+                            yield return new(pos, first, O.add, args: [R.al, R.dl.With(addhFld)]);
                         else if (addhFld == 0xCA)
-                            yield return new(pos, first, OpBase.add, args: [Register.dl, Register.cl.With(addhFld)]);
+                            yield return new(pos, first, O.add, args: [R.dl, R.cl.With(addhFld)]);
                         break;
-                    case OpCode.adc_ch:
+                    case 0x10:
                         var adhFld = stream.NextByteC().Value;
                         if (adhFld == 0xDD)
-                            yield return new(pos, first, OpBase.adc, args: [Register.ch, Register.bl.With(adhFld)]);
+                            yield return new(pos, first, O.adc, args: [R.ch, R.bl.With(adhFld)]);
                         else if (adhFld == 0xE5)
-                            yield return new(pos, first, OpBase.adc, args: [Register.ch, Register.ah.With(adhFld)]);
+                            yield return new(pos, first, O.adc, args: [R.ch, R.ah.With(adhFld)]);
                         else if (adhFld == 0xD5)
-                            yield return new(pos, first, OpBase.adc, args: [Register.ch, Register.dl.With(adhFld)]);
+                            yield return new(pos, first, O.adc, args: [R.ch, R.dl.With(adhFld)]);
                         else if (adhFld == 0x2C)
-                            yield return new(pos, first, OpBase.adc, args: [Register.si.Plus(null, adhFld), Register.ch]);
+                            yield return new(pos, first, O.adc, args: [R.si.Plus(null, adhFld), R.ch]);
                         break;
-                    case OpCode.adc_ah:
+                    case 0x12:
                         var adyFld = stream.NextByteC().Value;
                         if (adyFld == 0xE5)
-                            yield return new(pos, first, OpBase.adc, args: [Register.ah, Register.ch.With(adyFld)]);
+                            yield return new(pos, first, O.adc, args: [R.ah, R.ch.With(adyFld)]);
                         else if (adyFld == 0x14)
-                            yield return new(pos, first, OpBase.adc, args: [Register.dl, Register.si.Plus(null, adyFld)]);
+                            yield return new(pos, first, O.adc, args: [R.dl, R.si.Plus(null, adyFld)]);
                         else if (adyFld == 0x30)
-                            yield return new(pos, first, OpBase.adc, args: [Register.dh, Register.bx.Plus(Register.si, adyFld)]);
+                            yield return new(pos, first, O.adc, args: [R.dh, R.bx.Plus(R.si, adyFld)]);
                         else if (adyFld == 0x38)
-                            yield return new(pos, first, OpBase.adc, args: [Register.bh, Register.bx.Plus(Register.si, adyFld)]);
+                            yield return new(pos, first, O.adc, args: [R.bh, R.bx.Plus(R.si, adyFld)]);
                         else if (adyFld == 0xC4)
-                            yield return new(pos, first, OpBase.adc, args: [Register.al, Register.ah.With(adyFld)]);
+                            yield return new(pos, first, O.adc, args: [R.al, R.ah.With(adyFld)]);
                         else if (adyFld == 0xFD)
-                            yield return new(pos, first, OpBase.adc, args: [Register.bh, Register.ch.With(adyFld)]);
+                            yield return new(pos, first, O.adc, args: [R.bh, R.ch.With(adyFld)]);
                         else if (adyFld == 0xFF)
-                            yield return new(pos, first, OpBase.adc, args: [Register.bh, Register.bh.With(adyFld)]);
+                            yield return new(pos, first, O.adc, args: [R.bh, R.bh.With(adyFld)]);
                         break;
-                    case OpCode.adc_bp:
+                    case 0x13:
                         var adpFld = stream.NextByteC().Value;
                         if (adpFld == 0xED)
-                            yield return new(pos, first, OpBase.adc, args: [Register.bp, Register.bp.With(adpFld)]);
+                            yield return new(pos, first, O.adc, args: [R.bp, R.bp.With(adpFld)]);
                         else if (adpFld == 0xD5)
-                            yield return new(pos, first, OpBase.adc, args: [Register.dx, Register.bp.With(adpFld)]);
+                            yield return new(pos, first, O.adc, args: [R.dx, R.bp.With(adpFld)]);
                         else if (adpFld == 0x3A)
-                            yield return new(pos, first, OpBase.adc, args: [Register.di, Register.bp.Plus(Register.si, adpFld)]);
+                            yield return new(pos, first, O.adc, args: [R.di, R.bp.Plus(R.si, adpFld)]);
                         break;
-                    case OpCode.adc_sp:
+                    case 0x11:
                         var adsFld = stream.NextByteC().Value;
                         if (adsFld == 0xFE)
-                            yield return new(pos, first, OpBase.adc, args: [Register.si, Register.di.With(adsFld)]);
+                            yield return new(pos, first, O.adc, args: [R.si, R.di.With(adsFld)]);
                         else if (adsFld == 0x24)
-                            yield return new(pos, first, OpBase.adc, args: [Register.si.Plus(null, adsFld), Register.sp]);
+                            yield return new(pos, first, O.adc, args: [R.si.Plus(null, adsFld), R.sp]);
                         else
-                            yield return new(pos, first, OpBase.adc, args: [Register.sp, Register.ax.With(adsFld)]);
+                            yield return new(pos, first, O.adc, args: [R.sp, R.ax.With(adsFld)]);
                         break;
-                    case OpCode.and:
+                    case 0x23:
                         var andFld = stream.NextByteC().Value;
                         if (andFld == 0xD8)
-                            yield return new(pos, first, OpBase.and, args: [Register.bx, Register.ax.With(andFld)]);
+                            yield return new(pos, first, O.and, args: [R.bx, R.ax.With(andFld)]);
                         else if (andFld == 0xDC)
-                            yield return new(pos, first, OpBase.and, args: [Register.bx, Register.sp.With(andFld)]);
+                            yield return new(pos, first, O.and, args: [R.bx, R.sp.With(andFld)]);
                         else if (andFld == 0xC1)
-                            yield return new(pos, first, OpBase.and, args: [Register.ax, Register.cx.With(andFld)]);
+                            yield return new(pos, first, O.and, args: [R.ax, R.cx.With(andFld)]);
                         else if (andFld == 0xE9)
-                            yield return new(pos, first, OpBase.and, args: [Register.bp, Register.cx.With(andFld)]);
+                            yield return new(pos, first, O.and, args: [R.bp, R.cx.With(andFld)]);
                         else if (andFld == 0x19)
-                            yield return new(pos, first, OpBase.and, args: [Register.bx, Register.bx.Plus(Register.di, andFld)]);
+                            yield return new(pos, first, O.and, args: [R.bx, R.bx.Plus(R.di, andFld)]);
                         else if (andFld == 0x28)
-                            yield return new(pos, first, OpBase.and,
-                                args: [Register.bp, Register.bx.Plus(Register.si, andFld)]);
+                            yield return new(pos, first, O.and,
+                                args: [R.bp, R.bx.Plus(R.si, andFld)]);
                         else if (andFld == 0x02)
-                            yield return new(pos, first, OpBase.and,
-                                args: [Register.ax, Register.bp.Plus(Register.si, andFld)]);
+                            yield return new(pos, first, O.and,
+                                args: [R.ax, R.bp.Plus(R.si, andFld)]);
                         else
-                            yield return new(pos, first, OpBase.and, args: [Register.ax, Register.ax.With(andFld)]);
+                            yield return new(pos, first, O.and, args: [R.ax, R.ax.With(andFld)]);
                         break;
-                    case OpCode.and_dx:
+                    case 0x21:
                         var andxFld = stream.NextByteC().Value;
                         if (andxFld == 0x10)
-                            yield return new(pos, first, OpBase.and, args: [Register.bx.Plus(Register.si, andxFld), Register.dx]);                        
+                            yield return new(pos, first, O.and, args: [R.bx.Plus(R.si, andxFld), R.dx]);
                         else if (andxFld == 0xF9)
-                            yield return new(pos, first, OpBase.and, args: [Register.cx, Register.di.With(andxFld)]);
+                            yield return new(pos, first, O.and, args: [R.cx, R.di.With(andxFld)]);
                         else if (andxFld == 0xE3)
-                            yield return new(pos, first, OpBase.and, args: [Register.bx, Register.sp.With(andxFld)]);
+                            yield return new(pos, first, O.and, args: [R.bx, R.sp.With(andxFld)]);
                         break;
-                    case OpCode.and_ah:
+                    case 0x22:
                         var andhFld = stream.NextByteC().Value;
                         if (andhFld == 0xFB)
-                            yield return new(pos, first, OpBase.and, args: [Register.bh, Register.bl.With(andhFld)]);
+                            yield return new(pos, first, O.and, args: [R.bh, R.bl.With(andhFld)]);
                         else if (andhFld == 0x23)
-                            yield return new(pos, first, OpBase.and, args: [Register.ah, Register.bp.Plus(Register.di, andhFld)]);
+                            yield return new(pos, first, O.and, args: [R.ah, R.bp.Plus(R.di, andhFld)]);
                         else if (andhFld == 0x14)
-                            yield return new(pos, first, OpBase.and, args: [Register.dl, Register.si.Plus(null, andhFld)]);
+                            yield return new(pos, first, O.and, args: [R.dl, R.si.Plus(null, andhFld)]);
                         else if (andhFld == 0xC1)
-                            yield return new(pos, first, OpBase.and, args: [Register.al, Register.cl.With(andhFld)]);
+                            yield return new(pos, first, O.and, args: [R.al, R.cl.With(andhFld)]);
                         else if (andhFld == 0xD1)
-                            yield return new(pos, first, OpBase.and, args: [Register.dl, Register.cl.With(andhFld)]);
+                            yield return new(pos, first, O.and, args: [R.dl, R.cl.With(andhFld)]);
                         break;
-                    case OpCode.and_al:
+                    case 0x24:
                         var adlFld = stream.NextByteC();
-                        yield return new(pos, first, OpBase.and, args: [Register.al, adlFld]);
+                        yield return new(pos, first, O.and, args: [R.al, adlFld]);
                         break;
-                    case OpCode.and_dl:
+                    case 0x20:
                         var andlFld = stream.NextByteC().Value;
                         if (andlFld == 0x14)
-                            yield return new(pos, first, OpBase.and, args: [Register.si.Plus(null, andlFld), Register.dl]);
+                            yield return new(pos, first, O.and, args: [R.si.Plus(null, andlFld), R.dl]);
                         else if (andlFld == 0x20)
-                            yield return new(pos, first, OpBase.and, args: [Register.bx.Plus(Register.si, andlFld), Register.ah]);
+                            yield return new(pos, first, O.and, args: [R.bx.Plus(R.si, andlFld), R.ah]);
                         else if (andlFld == 0xFB)
-                            yield return new(pos, first, OpBase.and, args: [Register.bl, Register.bh.With(andlFld)]);
+                            yield return new(pos, first, O.and, args: [R.bl, R.bh.With(andlFld)]);
                         break;
-                    case OpCode.arpl_bp:
+                    case 0x63:
                         var apbFld = stream.NextByteC().Value;
                         if (apbFld == 0xFD)
-                            yield return new(pos, first, OpBase.arpl, args: [Register.bp, Register.di.With(apbFld)]);
+                            yield return new(pos, first, O.arpl, args: [R.bp, R.di.With(apbFld)]);
                         else if (apbFld == 0xEE)
-                            yield return new(pos, first, OpBase.arpl, args: [Register.si, Register.bp.With(apbFld)]);
+                            yield return new(pos, first, O.arpl, args: [R.si, R.bp.With(apbFld)]);
                         else if (apbFld == 0xFA)
-                            yield return new(pos, first, OpBase.arpl, args: [Register.dx, Register.di.With(apbFld)]);
+                            yield return new(pos, first, O.arpl, args: [R.dx, R.di.With(apbFld)]);
                         else if (apbFld == 0xF0)
-                            yield return new(pos, first, OpBase.arpl, args: [Register.ax, Register.si.With(apbFld)]);
+                            yield return new(pos, first, O.arpl, args: [R.ax, R.si.With(apbFld)]);
                         break;
-                    case OpCode.cbw:
-                        yield return new(pos, first, OpBase.cbw);
+                    case 0x98:
+                        yield return new(pos, first, O.cbw);
                         break;
-                    case OpCode.clc:
-                        yield return new(pos, first, OpBase.clc);
+                    case 0xF8:
+                        yield return new(pos, first, O.clc);
                         break;
-                    case OpCode.cld:
-                        yield return new(pos, first, OpBase.cld);
+                    case 0xFC:
+                        yield return new(pos, first, O.cld);
                         break;
-                    case OpCode.cli:
-                        yield return new(pos, first, OpBase.cli);
+                    case 0xFA:
+                        yield return new(pos, first, O.cli);
                         break;
-                    case OpCode.cmc:
-                        yield return new(pos, first, OpBase.cmc);
+                    case 0xF5:
+                        yield return new(pos, first, O.cmc);
                         break;
-                    case OpCode.cmp:
+                    case 0x3B:
                         var cmpFl = stream.NextByteC().Value;
                         if (cmpFl == 0xD6)
-                            yield return new(pos, first, OpBase.cmp, args: [Register.dx, Register.si.With(cmpFl)]);
+                            yield return new(pos, first, O.cmp, args: [R.dx, R.si.With(cmpFl)]);
                         else if (cmpFl == 0xC7)
-                            yield return new(pos, first, OpBase.cmp, args: [Register.ax, Register.di.With(cmpFl)]);
+                            yield return new(pos, first, O.cmp, args: [R.ax, R.di.With(cmpFl)]);
                         else if (cmpFl == 0xC9)
-                            yield return new(pos, first, OpBase.cmp, args: [Register.cx, Register.cx.With(cmpFl)]);
+                            yield return new(pos, first, O.cmp, args: [R.cx, R.cx.With(cmpFl)]);
                         else if (cmpFl == 0xCA)
-                            yield return new(pos, first, OpBase.cmp, args: [Register.cx, Register.dx.With(cmpFl)]);
+                            yield return new(pos, first, O.cmp, args: [R.cx, R.dx.With(cmpFl)]);
                         else if (cmpFl == 0xCD)
-                            yield return new(pos, first, OpBase.cmp, args: [Register.cx, Register.bp.With(cmpFl)]);
+                            yield return new(pos, first, O.cmp, args: [R.cx, R.bp.With(cmpFl)]);
                         else if (cmpFl == 0xD3)
-                            yield return new(pos, first, OpBase.cmp, args: [Register.dx, Register.bx.With(cmpFl)]);
+                            yield return new(pos, first, O.cmp, args: [R.dx, R.bx.With(cmpFl)]);
                         else if (cmpFl == 0xD8)
-                            yield return new(pos, first, OpBase.cmp, args: [Register.bx, Register.ax.With(cmpFl)]);
+                            yield return new(pos, first, O.cmp, args: [R.bx, R.ax.With(cmpFl)]);
                         else if (cmpFl == 0xDA)
-                            yield return new(pos, first, OpBase.cmp, args: [Register.bx, Register.dx.With(cmpFl)]);
+                            yield return new(pos, first, O.cmp, args: [R.bx, R.dx.With(cmpFl)]);
                         else if (cmpFl == 0xF1)
-                            yield return new(pos, first, OpBase.cmp, args: [Register.si, Register.cx.With(cmpFl)]);
+                            yield return new(pos, first, O.cmp, args: [R.si, R.cx.With(cmpFl)]);
                         else
-                            yield return new(pos, first, OpBase.cmp, args: [Register.si, Register.dx.With(cmpFl)]);
+                            yield return new(pos, first, O.cmp, args: [R.si, R.dx.With(cmpFl)]);
                         break;
-                    case OpCode.cmp_ax:
+                    case 0x3D:
                         var cmpsFl = stream.NextShortC();
-                        yield return new(pos, first, OpBase.cmp, args: [Register.ax, cmpsFl]);
+                        yield return new(pos, first, O.cmp, args: [R.ax, cmpsFl]);
                         break;
-                    case OpCode.cmp_ah:
+                    case 0x38:
                         var cmphFl = stream.NextByteC().Value;
                         if (cmphFl == 0xCC)
-                            yield return new(pos, first, OpBase.cmp, args: [Register.ah, Register.cl.With(cmphFl)]);
+                            yield return new(pos, first, O.cmp, args: [R.ah, R.cl.With(cmphFl)]);
                         else if (cmphFl == 0xE1)
-                            yield return new(pos, first, OpBase.cmp, args: [Register.cl, Register.ah.With(cmphFl)]);
+                            yield return new(pos, first, O.cmp, args: [R.cl, R.ah.With(cmphFl)]);
                         break;
-                    case OpCode.cmp_cx:
+                    case 0x39:
                         var cmpcFl = stream.NextByteC().Value;
                         if (cmpcFl == 0xD1)
-                            yield return new(pos, first, OpBase.cmp, args: [Register.cx, Register.dx.With(cmpcFl)]);
+                            yield return new(pos, first, O.cmp, args: [R.cx, R.dx.With(cmpcFl)]);
                         else if (cmpcFl == 0xD4)
-                            yield return new(pos, first, OpBase.cmp, args: [Register.sp, Register.dx.With(cmpcFl)]);
+                            yield return new(pos, first, O.cmp, args: [R.sp, R.dx.With(cmpcFl)]);
                         else if (cmpcFl == 0x25)
-                            yield return new(pos, first, OpBase.cmp, args: [Register.di.Plus(null, cmpcFl), Register.sp]);
+                            yield return new(pos, first, O.cmp, args: [R.di.Plus(null, cmpcFl), R.sp]);
                         break;
-                    case OpCode.cmp_bl:
+                    case 0x3A:
                         var cmpobFl = stream.NextByteC().Value;
                         if (cmpobFl == 0x1D)
-                            yield return new(pos, first, OpBase.cmp, args: [Register.bl, Register.di.Plus(null, cmpobFl)]);
+                            yield return new(pos, first, O.cmp, args: [R.bl, R.di.Plus(null, cmpobFl)]);
                         else if (cmpobFl == 0x1A)
-                            yield return new(pos, first, OpBase.cmp, args: [Register.bl, Register.bp.Plus(Register.si, cmpobFl)]);
+                            yield return new(pos, first, O.cmp, args: [R.bl, R.bp.Plus(R.si, cmpobFl)]);
                         else if (cmpobFl == 0xF3)
-                            yield return new(pos, first, OpBase.cmp, args: [Register.dh, Register.bl.With(cmpobFl)]);
+                            yield return new(pos, first, O.cmp, args: [R.dh, R.bl.With(cmpobFl)]);
                         break;
-                    case OpCode.cmp_al:
+                    case 0x3C:
                         var cmpaFl = stream.NextByteC();
-                        yield return new(pos, first, OpBase.cmp, args: [Register.al, cmpaFl]);
+                        yield return new(pos, first, O.cmp, args: [R.al, cmpaFl]);
                         break;
-                    case OpCode.cmp_b:
+                    case 0x83:
                         var cmpbFl = stream.NextByteC().Value;
                         var cmpvFl = stream.NextBytepC();
                         if (cmpbFl == 0xFF)
-                            yield return new(pos, first, OpBase.cmp, args: [Register.di.With(cmpbFl), cmpvFl]);
+                            yield return new(pos, first, O.cmp, args: [R.di.With(cmpbFl), cmpvFl]);
                         else if (cmpbFl == 0xEB)
-                            yield return new(pos, first, OpBase.sub, args: [Register.bx.With(cmpbFl), cmpvFl]);
+                            yield return new(pos, first, O.sub, args: [R.bx.With(cmpbFl), cmpvFl]);
                         else
-                            yield return new(pos, first, OpBase.cmp, args: [Register.dx.With(cmpbFl), cmpvFl]);
+                            yield return new(pos, first, O.cmp, args: [R.dx.With(cmpbFl), cmpvFl]);
                         break;
-                    case OpCode.cmpsb:
-                        yield return new(pos, first, OpBase.cmpsb);
+                    case 0xA6:
+                        yield return new(pos, first, O.cmpsb);
                         break;
-                    case OpCode.cmpsw:
-                        yield return new(pos, first, OpBase.cmpsw);
+                    case 0xA7:
+                        yield return new(pos, first, O.cmpsw);
                         break;
-                    case OpCode.cs:
-                        yield return new(pos, first);
+                    case 0x2E:
+                        yield return new(pos, first, O.cs);
                         break;
-                    case OpCode.cwd:
-                        yield return new(pos, first, OpBase.cwd);
+                    case 0x99:
+                        yield return new(pos, first, O.cwd);
                         break;
-                    case OpCode.daa:
-                        yield return new(pos, first, OpBase.daa);
+                    case 0x27:
+                        yield return new(pos, first, O.daa);
                         break;
-                    case OpCode.das:
-                        yield return new(pos, first, OpBase.das);
+                    case 0x2F:
+                        yield return new(pos, first, O.das);
                         break;
-                    case OpCode.dec_ax:
-                        yield return new(pos, first, OpBase.dec, args: [Register.ax]);
+                    case 0x48:
+                        yield return new(pos, first, O.dec, args: [R.ax]);
                         break;
-                    case OpCode.dec_bp:
-                        yield return new(pos, first, OpBase.dec, args: [Register.bp]);
+                    case 0x4D:
+                        yield return new(pos, first, O.dec, args: [R.bp]);
                         break;
-                    case OpCode.dec_bx:
-                        yield return new(pos, first, OpBase.dec, args: [Register.bx]);
+                    case 0x4B:
+                        yield return new(pos, first, O.dec, args: [R.bx]);
                         break;
-                    case OpCode.dec_cx:
-                        yield return new(pos, first, OpBase.dec, args: [Register.cx]);
+                    case 0x49:
+                        yield return new(pos, first, O.dec, args: [R.cx]);
                         break;
-                    case OpCode.dec_di:
-                        yield return new(pos, first, OpBase.dec, args: [Register.di]);
+                    case 0x4F:
+                        yield return new(pos, first, O.dec, args: [R.di]);
                         break;
-                    case OpCode.dec_dx:
-                        yield return new(pos, first, OpBase.dec, args: [Register.dx]);
+                    case 0x4A:
+                        yield return new(pos, first, O.dec, args: [R.dx]);
                         break;
-                    case OpCode.dec_si:
-                        yield return new(pos, first, OpBase.dec, args: [Register.si]);
+                    case 0x4E:
+                        yield return new(pos, first, O.dec, args: [R.si]);
                         break;
-                    case OpCode.dec_sp:
-                        yield return new(pos, first, OpBase.dec, args: [Register.sp]);
+                    case 0x4C:
+                        yield return new(pos, first, O.dec, args: [R.sp]);
                         break;
-                    case OpCode.ds:
-                        yield return new(pos, first);
+                    case 0x3E:
+                        yield return new(pos, first, O.ds);
                         break;
-                    case OpCode.es:
-                        yield return new(pos, first);
+                    case 0x26:
+                        yield return new(pos, first, O.es);
                         break;
-                    case OpCode.fs:
-                        yield return new(pos, first);
+                    case 0x64:
+                        yield return new(pos, first, O.fs);
                         break;
-                    case OpCode.fcomip:
+                    case 0xDF:
                         var fcmpFld = stream.NextByteC().Value;
                         if (fcmpFld == 0xF0)
-                            yield return new(pos, first, args: [Register.st0.With(fcmpFld)]);
+                            yield return new(pos, first, O.fcomip, args: [R.st0.With(fcmpFld)]);
                         else if (fcmpFld == 0x2F)
-                            yield return new(pos, first, OpBase.fild, Modifier.qword, args: [Register.bx.Plus(null, fcmpFld)]);
+                            yield return new(pos, first, O.fild, Modifier.qword, args: [R.bx.Plus(null, fcmpFld)]);
                         else if (fcmpFld == 0x28)
-                            yield return new(pos, first, OpBase.fild, Modifier.qword, args: [Register.bx.Plus(Register.si, fcmpFld)]);
+                            yield return new(pos, first, O.fild, Modifier.qword, args: [R.bx.Plus(R.si, fcmpFld)]);
                         else if (fcmpFld == 0x12)
-                            yield return new(pos, first, OpBase.fist, Modifier.word, args: [Register.bp.Plus(Register.si, fcmpFld)]);
+                            yield return new(pos, first, O.fist, Modifier.word, args: [R.bp.Plus(R.si, fcmpFld)]);
                         break;
-                    case OpCode.fcmovnbe:
+                    case 0xDB:
                         var fcmbFld = stream.NextByteC().Value;
                         if (fcmbFld == 0xD2)
-                            yield return new(pos, first, args: [Register.st2.With(fcmbFld)]);
+                            yield return new(pos, first, O.fcmovnbe, args: [R.st2.With(fcmbFld)]);
                         else if (fcmbFld == 0xF7)
-                            yield return new(pos, first, OpBase.fcomi, args: [Register.st7.With(fcmbFld)]);
+                            yield return new(pos, first, O.fcomi, args: [R.st7.With(fcmbFld)]);
                         else if (fcmbFld == 0x01)
-                            yield return new(pos, first, OpBase.fild, Modifier.dword, args: [Register.bx.Plus(Register.di, fcmbFld)]);
+                            yield return new(pos, first, O.fild, Modifier.dword, args: [R.bx.Plus(R.di, fcmbFld)]);
                         break;
-                    case OpCode.fcmovb:
+                    case 0xDA:
                         var fivFld = stream.NextByteC().Value;
                         if (fivFld == 0xC5)
-                            yield return new(pos, first, args: [Register.st5.With(fivFld)]);
+                            yield return new(pos, first, O.fcmovb, args: [R.st5.With(fivFld)]);
                         else if (fivFld == 0xC7)
-                            yield return new(pos, first, args: [Register.st7.With(fivFld)]);
+                            yield return new(pos, first, O.fcmovb, args: [R.st7.With(fivFld)]);
                         break;
-                    case OpCode.ficom:
+                    case 0xDE:
                         var ficFld = stream.NextByteC().Value;
                         if (ficFld == 0x17)
-                            yield return new(pos, first, mod: Modifier.word, args: [Register.bx.Plus(null, ficFld)]);
+                            yield return new(pos, first, O.ficom, mod: Modifier.word,
+                                args: [R.bx.Plus(null, ficFld)]);
                         else if (ficFld == 0x12)
-                            yield return new(pos, first, mod: Modifier.word, args: [Register.bp.Plus(Register.si, ficFld)]);
+                            yield return new(pos, first, O.ficom, mod: Modifier.word,
+                                args: [R.bp.Plus(R.si, ficFld)]);
                         else if (ficFld == 0xC5)
-                            yield return new(pos, first, OpBase.faddp, args: [Register.st5.With(ficFld)]);
+                            yield return new(pos, first, O.faddp, args: [R.st5.With(ficFld)]);
                         else if (ficFld == 0xEE)
-                            yield return new(pos, first, OpBase.fsubp, args: [Register.st6.With(ficFld)]);
+                            yield return new(pos, first, O.fsubp, args: [R.st6.With(ficFld)]);
                         else if (ficFld == 0xF3)
-                            yield return new(pos, first, OpBase.fdivrp, args: [Register.st3.With(ficFld)]);
+                            yield return new(pos, first, O.fdivrp, args: [R.st3.With(ficFld)]);
                         else if (ficFld == 0x22)
-                            yield return new(pos, first, OpBase.fisub, mod: Modifier.word, args: [Register.bp.Plus(Register.si, ficFld)]);
+                            yield return new(pos, first, O.fisub, mod: Modifier.word,
+                                args: [R.bp.Plus(R.si, ficFld)]);
                         break;
-                    case OpCode.fstp:
+                    case 0xDD:
                         var fstFld = stream.NextByteC().Value;
                         if (fstFld == 0xDF)
-                            yield return new(pos, first, args: [Register.st7.With(fstFld)]);
+                            yield return new(pos, first, O.fstp, args: [R.st7.With(fstFld)]);
                         else if (fstFld == 0xDA)
-                            yield return new(pos, first, args: [Register.st2.With(fstFld)]);
+                            yield return new(pos, first, O.fstp, args: [R.st2.With(fstFld)]);
                         else if (fstFld == 0x3D)
-                            yield return new(pos, first, OpBase.fnstsw, args: [Register.di.Plus(null, fstFld)]);
+                            yield return new(pos, first, O.fnstsw, args: [R.di.Plus(null, fstFld)]);
                         else if (fstFld == 0x0D)
-                            yield return new(pos, first, OpBase.fisttp, Modifier.qword, args: [Register.di.Plus(null, fstFld)]);
+                            yield return new(pos, first, O.fisttp, Modifier.qword,
+                                args: [R.di.Plus(null, fstFld)]);
                         else if (fstFld == 0x32)
-                            yield return new(pos, first, OpBase.fnsave, args: [Register.bp.Plus(Register.si, fstFld)]);
+                            yield return new(pos, first, O.fnsave, args: [R.bp.Plus(R.si, fstFld)]);
                         else if (fstFld == 0xDE)
-                            yield return new(pos, first, args: [Register.st6.With(fstFld)]);
+                            yield return new(pos, first, O.fstp, args: [R.st6.With(fstFld)]);
                         else if (fstFld == 0x07)
-                            yield return new(pos, first, OpBase.fld, Modifier.qword, args: [Register.bx.Plus(null, fstFld)]);
+                            yield return new(pos, first, O.fld, Modifier.qword, args: [R.bx.Plus(null, fstFld)]);
                         break;
-                    case OpCode.gs:
-                        yield return new(pos, first);
+                    case 0x65:
+                        yield return new(pos, first, O.gs);
                         break;
-                    case OpCode.hlt:
-                        yield return new(pos, first, OpBase.hlt);
+                    case 0xF4:
+                        yield return new(pos, first, O.hlt);
                         break;
-                    case OpCode.in_al:
+                    case 0xE4:
                         var inaFl = stream.NextByteC();
-                        yield return new(pos, first, OpBase.@in, args: [Register.al, inaFl]);
+                        yield return new(pos, first, O.@in, args: [R.al, inaFl]);
                         break;
-                    case OpCode.in_ax:
+                    case 0xE5:
                         var inaxFl = stream.NextByteC();
-                        yield return new(pos, first, OpBase.@in, args: [Register.ax, inaxFl]);
+                        yield return new(pos, first, O.@in, args: [R.ax, inaxFl]);
                         break;
-                    case OpCode.in_al_dx:
-                        yield return new(pos, first, OpBase.@in, args: [Register.al, Register.dx]);
+                    case 0xEC:
+                        yield return new(pos, first, O.@in, args: [R.al, R.dx]);
                         break;
-                    case OpCode.in_ax_dx:
-                        yield return new(pos, first, OpBase.@in, args: [Register.ax, Register.dx]);
+                    case 0xED:
+                        yield return new(pos, first, O.@in, args: [R.ax, R.dx]);
                         break;
-                    case OpCode.inc_ax:
-                        yield return new(pos, first, OpBase.inc, args: [Register.ax]);
+                    case 0x40:
+                        yield return new(pos, first, O.inc, args: [R.ax]);
                         break;
-                    case OpCode.inc_bx:
-                        yield return new(pos, first, OpBase.inc, args: [Register.bx]);
+                    case 0x43:
+                        yield return new(pos, first, O.inc, args: [R.bx]);
                         break;
-                    case OpCode.inc_bp:
-                        yield return new(pos, first, OpBase.inc, args: [Register.bp]);
+                    case 0x45:
+                        yield return new(pos, first, O.inc, args: [R.bp]);
                         break;
-                    case OpCode.inc_cx:
-                        yield return new(pos, first, OpBase.inc, args: [Register.cx]);
+                    case 0x41:
+                        yield return new(pos, first, O.inc, args: [R.cx]);
                         break;
-                    case OpCode.inc_di:
-                        yield return new(pos, first, OpBase.inc, args: [Register.di]);
+                    case 0x47:
+                        yield return new(pos, first, O.inc, args: [R.di]);
                         break;
-                    case OpCode.inc_dx:
-                        yield return new(pos, first, OpBase.inc, args: [Register.dx]);
+                    case 0x42:
+                        yield return new(pos, first, O.inc, args: [R.dx]);
                         break;
-                    case OpCode.inc_si:
-                        yield return new(pos, first, OpBase.inc, args: [Register.si]);
+                    case 0x46:
+                        yield return new(pos, first, O.inc, args: [R.si]);
                         break;
-                    case OpCode.inc_sp:
-                        yield return new(pos, first, OpBase.inc, args: [Register.sp]);
+                    case 0x44:
+                        yield return new(pos, first, O.inc, args: [R.sp]);
                         break;
-                    case OpCode.insb:
-                        yield return new(pos, first, OpBase.insb);
+                    case 0x6C:
+                        yield return new(pos, first, O.insb);
                         break;
-                    case OpCode.insw:
-                        yield return new(pos, first, OpBase.insw);
+                    case 0x6D:
+                        yield return new(pos, first, O.insw);
                         break;
-                    case OpCode.@int:
+                    case 0xCD:
                         var intFld = stream.NextByteC();
-                        yield return new(pos, first, args: [intFld]);
+                        yield return new(pos, first, O.@int, args: [intFld]);
                         break;
-                    case OpCode.int1:
-                        yield return new(pos, first);
+                    case 0xF1:
+                        yield return new(pos, first, O.int1);
                         break;
-                    case OpCode.int3:
-                        yield return new(pos, first);
+                    case 0xCC:
+                        yield return new(pos, first, O.int3);
                         break;
-                    case OpCode.into:
-                        yield return new(pos, first);
+                    case 0xCE:
+                        yield return new(pos, first, O.into);
                         break;
-                    case OpCode.iret:
-                        yield return new(pos, first, OpBase.iret);
+                    case 0xCF:
+                        yield return new(pos, first, O.iret);
                         break;
-                    case OpCode.jcxz:
+                    case 0xE3:
                         var jcxFld = stream.NextByteC(isSkip: true);
                         ((SkipArg)jcxFld).IsSigned = true;
-                        yield return new(pos, first, args: [jcxFld]);
+                        yield return new(pos, first, O.jcxz, args: [jcxFld]);
                         break;
-                    case OpCode.jc:
+                    case 0x72:
                         var jcFld = stream.NextByteC(isSkip: true);
                         ((SkipArg)jcFld).IsSigned = true;
-                        yield return new(pos, first, args: [jcFld]);
+                        yield return new(pos, first, O.jc, args: [jcFld]);
                         break;
-                    case OpCode.jg:
+                    case 0x7F:
                         var jgFld = stream.NextByteC(isSkip: true);
                         ((SkipArg)jgFld).IsSigned = true;
-                        yield return new(pos, first, args: [jgFld]);
+                        yield return new(pos, first, O.jg, args: [jgFld]);
                         break;
-                    case OpCode.jng:
+                    case 0x7E:
                         var jngFld = stream.NextByteC(isSkip: true);
                         ((SkipArg)jngFld).IsSigned = true;
-                        yield return new(pos, first, args: [jngFld]);
+                        yield return new(pos, first, O.jng, args: [jngFld]);
                         break;
-                    case OpCode.jns:
+                    case 0x79:
                         var jnsFld = stream.NextByteC(isSkip: true);
                         ((SkipArg)jnsFld).IsSigned = true;
-                        yield return new(pos, first, args: [jnsFld]);
+                        yield return new(pos, first, O.jns, args: [jnsFld]);
                         break;
-                    case OpCode.jna:
+                    case 0x76:
                         var jnaFld = stream.NextByteC(isSkip: true);
                         ((SkipArg)jnaFld).IsSigned = true;
-                        yield return new(pos, first, args: [jnaFld]);
+                        yield return new(pos, first, O.jna, args: [jnaFld]);
                         break;
-                    case OpCode.jnc:
+                    case 0x73:
                         var jncFld = stream.NextByteC(isSkip: true);
                         ((SkipArg)jncFld).IsSigned = true;
-                        yield return new(pos, first, args: [jncFld]);
+                        yield return new(pos, first, O.jnc, args: [jncFld]);
                         break;
-                    case OpCode.jmp_short:
+                    case 0xEB:
                         var jmpsa = stream.NextByteC(isSkip: true);
                         ((SkipArg)jmpsa).IsSigned = true;
-                        yield return new(pos, first, OpBase.jmp, Modifier.@short, args: [jmpsa]);
+                        yield return new(pos, first, O.jmp, Modifier.@short, args: [jmpsa]);
                         break;
-                    case OpCode.jmp_far:
+                    case 0xFF:
                         var jfFld = stream.NextByteC().Value;
                         if (jfFld == 0x2B)
-                            yield return new(pos, first, OpBase.jmp, Modifier.far, [Register.bp.Plus(Register.di, jfFld)]);
+                            yield return new(pos, first, O.jmp, Modifier.far, [R.bp.Plus(R.di, jfFld)]);
                         else if (jfFld == 0x01)
-                            yield return new(pos, first, OpBase.inc, Modifier.word, [Register.bx.Plus(Register.di, jfFld)]);
+                            yield return new(pos, first, O.inc, Modifier.word, [R.bx.Plus(R.di, jfFld)]);
                         else if (jfFld == 0x27)
-                            yield return new(pos, first, OpBase.jmp, args: [Register.bx.Plus(null, jfFld)]);
+                            yield return new(pos, first, O.jmp, args: [R.bx.Plus(null, jfFld)]);
                         else if (jfFld == 0x29)
-                            yield return new(pos, first, OpBase.jmp, Modifier.far, [Register.bx.Plus(Register.di, jfFld)]);
+                            yield return new(pos, first, O.jmp, Modifier.far, [R.bx.Plus(R.di, jfFld)]);
                         break;
-                    case OpCode.jl:
+                    case 0x7C:
                         var jlFld = stream.NextByteC(isSkip: true);
                         ((SkipArg)jlFld).IsSigned = true;
-                        yield return new(pos, first, args: [jlFld]);
+                        yield return new(pos, first, O.jl, args: [jlFld]);
                         break;
-                    case OpCode.ja:
+                    case 0x77:
                         var jaFld = stream.NextByteC(isSkip: true);
                         ((SkipArg)jaFld).IsSigned = true;
-                        yield return new(pos, first, args: [jaFld]);
+                        yield return new(pos, first, O.ja, args: [jaFld]);
                         break;
-                    case OpCode.jpo:
+                    case 0x7B:
                         var jpoFld = stream.NextByteC(isSkip: true);
                         ((SkipArg)jpoFld).IsSigned = true;
-                        yield return new(pos, first, args: [jpoFld]);
+                        yield return new(pos, first, O.jpo, args: [jpoFld]);
                         break;
-                    case OpCode.jpe:
+                    case 0x7A:
                         var jpeFld = stream.NextByteC(isSkip: true);
                         ((SkipArg)jpeFld).IsSigned = true;
-                        yield return new(pos, first, args: [jpeFld]);
+                        yield return new(pos, first, O.jpe, args: [jpeFld]);
                         break;
-                    case OpCode.jno:
+                    case 0x71:
                         var jnoFld = stream.NextByteC(isSkip: true);
                         ((SkipArg)jnoFld).IsSigned = true;
-                        yield return new(pos, first, args: [jnoFld]);
+                        yield return new(pos, first, O.jno, args: [jnoFld]);
                         break;
-                    case OpCode.jnl:
+                    case 0x7D:
                         var jnlFld = stream.NextByteC(isSkip: true);
                         ((SkipArg)jnlFld).IsSigned = true;
-                        yield return new(pos, first, args: [jnlFld]);
+                        yield return new(pos, first, O.jnl, args: [jnlFld]);
                         break;
-                    case OpCode.jnz:
+                    case 0x75:
                         var jzlFld = stream.NextByteC(isSkip: true);
                         ((SkipArg)jzlFld).IsSigned = true;
-                        yield return new(pos, first, args: [jzlFld]);
+                        yield return new(pos, first, O.jnz, args: [jzlFld]);
                         break;
-                    case OpCode.jo:
+                    case 0x70:
                         var joFld = stream.NextByteC(isSkip: true);
                         ((SkipArg)joFld).IsSigned = true;
-                        yield return new(pos, first, args: [joFld]);
+                        yield return new(pos, first, O.jo, args: [joFld]);
                         break;
-                    case OpCode.js:
+                    case 0x78:
                         var jsFld = stream.NextByteC(isSkip: true);
                         ((SkipArg)jsFld).IsSigned = true;
-                        yield return new(pos, first, args: [jsFld]);
+                        yield return new(pos, first, O.js, args: [jsFld]);
                         break;
-                    case OpCode.jz:
+                    case 0x74:
                         var jzFld = stream.NextByteC(isSkip: true);
                         ((SkipArg)jzFld).IsSigned = true;
-                        yield return new(pos, first, args: [jzFld]);
+                        yield return new(pos, first, O.jz, args: [jzFld]);
                         break;
-                    case OpCode.lahf:
-                        yield return new(pos, first, OpBase.lahf);
+                    case 0x9F:
+                        yield return new(pos, first, O.lahf);
                         break;
-                    case OpCode.lds:
+                    case 0xC5:
                         var ldf = stream.NextByteC().Value;
                         if (ldf == 0x17)
-                            yield return new(pos, first, args: [Register.dx, Register.bx.Plus(null, ldf)]);
+                            yield return new(pos, first, O.lds, args: [R.dx, R.bx.Plus(null, ldf)]);
                         break;
-                    case OpCode.leave:
-                        yield return new(pos, first, OpBase.leave);
+                    case 0xC9:
+                        yield return new(pos, first, O.leave);
                         break;
-                    case OpCode.@lock:
-                        yield return new(pos, first, OpBase.@lock);
+                    case 0xF0:
+                        yield return new(pos, first, O.@lock);
                         break;
-                    case OpCode.lodsw:
-                        yield return new(pos, first);
+                    case 0xAD:
+                        yield return new(pos, first, O.lodsw);
                         break;
-                    case OpCode.lodsb:
-                        yield return new(pos, first);
+                    case 0xAC:
+                        yield return new(pos, first, O.lodsb);
                         break;
-                    case OpCode.loop:
+                    case 0xE2:
                         var loopFld = stream.NextByteC(isSkip: true);
                         ((SkipArg)loopFld).IsSigned = true;
-                        yield return new(pos, first, args: [loopFld]);
+                        yield return new(pos, first, O.loop, args: [loopFld]);
                         break;
-                    case OpCode.loope:
+                    case 0xE1:
                         var loopeFld = stream.NextByteC(isSkip: true);
                         ((SkipArg)loopeFld).IsSigned = true;
-                        yield return new(pos, first, args: [loopeFld]);
+                        yield return new(pos, first, O.loope, args: [loopeFld]);
                         break;
-                    case OpCode.loopne:
+                    case 0xE0:
                         var loopnFld = stream.NextByteC(isSkip: true);
-                        yield return new(pos, first, args: [loopnFld]);
+                        yield return new(pos, first, O.loopne, args: [loopnFld]);
                         break;
-                    case OpCode.mov_ah:
-                        yield return new(pos, first, OpBase.mov, args: [Register.ah, stream.NextByteC()]);
+                    case 0xB4:
+                        yield return new(pos, first, O.mov, args: [R.ah, stream.NextByteC()]);
                         break;
-                    case OpCode.mov_bh:
-                        yield return new(pos, first, OpBase.mov, args: [Register.bh, stream.NextByteC()]);
+                    case 0xB7:
+                        yield return new(pos, first, O.mov, args: [R.bh, stream.NextByteC()]);
                         break;
-                    case OpCode.mov_ch:
-                        yield return new(pos, first, OpBase.mov, args: [Register.ch, stream.NextByteC()]);
+                    case 0xB5:
+                        yield return new(pos, first, O.mov, args: [R.ch, stream.NextByteC()]);
                         break;
-                    case OpCode.mov_al:
+                    case 0x8A:
                         var maa = stream.NextByteC().Value;
                         if (maa == 0xEB)
-                            yield return new(pos, first, OpBase.mov, args: [Register.ch.With(maa), Register.bl]);
+                            yield return new(pos, first, O.mov, args: [R.ch.With(maa), R.bl]);
                         else if (maa == 0x30)
-                            yield return new(pos, first, OpBase.mov, args: [Register.dh, Register.bx.Plus(Register.si, maa)]);
+                            yield return new(pos, first, O.mov, args: [R.dh, R.bx.Plus(R.si, maa)]);
                         else if (maa == 0xD1)
-                            yield return new(pos, first, OpBase.mov, args: [Register.dl.With(maa), Register.cl]);
+                            yield return new(pos, first, O.mov, args: [R.dl.With(maa), R.cl]);
                         else
-                            yield return new(pos, first, OpBase.mov, args: [Register.al.With(maa), Register.di.Plus(stream.NextByteC().Value)]);
+                            yield return new(pos, first, O.mov,
+                                args: [R.al.With(maa), R.di.Plus(stream.NextByteC().Value)]);
                         break;
-                    case OpCode.mov:
+                    case 0x8B:
                         var movFld = stream.NextByteC().Value;
                         if (movFld == 0xDA)
-                            yield return new(pos, first, OpBase.mov, args: [Register.bx, Register.dx.With(movFld)]);
+                            yield return new(pos, first, O.mov, args: [R.bx, R.dx.With(movFld)]);
                         else if (movFld == 0xC4)
-                            yield return new(pos, first, OpBase.mov, args: [Register.ax, Register.sp.With(movFld)]);
+                            yield return new(pos, first, O.mov, args: [R.ax, R.sp.With(movFld)]);
                         else if (movFld == 0xCA)
-                            yield return new(pos, first, OpBase.mov, args: [Register.cx, Register.dx.With(movFld)]);
+                            yield return new(pos, first, O.mov, args: [R.cx, R.dx.With(movFld)]);
                         else if (movFld == 0xFB)
-                            yield return new(pos, first, OpBase.mov, args: [Register.di, Register.bx.With(movFld)]);
+                            yield return new(pos, first, O.mov, args: [R.di, R.bx.With(movFld)]);
                         else if (movFld == 0xE2)
-                            yield return new(pos, first, OpBase.mov, args: [Register.sp, Register.dx.With(movFld)]);
+                            yield return new(pos, first, O.mov, args: [R.sp, R.dx.With(movFld)]);
                         else if (movFld == 0xC1)
-                            yield return new(pos, first, OpBase.mov, args: [Register.ax, Register.cx.With(movFld)]);
+                            yield return new(pos, first, O.mov, args: [R.ax, R.cx.With(movFld)]);
                         else if (movFld == 0xF8)
-                            yield return new(pos, first, OpBase.mov, args: [Register.di, Register.ax.With(movFld)]);
+                            yield return new(pos, first, O.mov, args: [R.di, R.ax.With(movFld)]);
                         else if (movFld == 0xC3)
-                            yield return new(pos, first, OpBase.mov, args: [Register.ax, Register.bx.With(movFld)]);
+                            yield return new(pos, first, O.mov, args: [R.ax, R.bx.With(movFld)]);
                         else if (movFld == 0xC6)
-                            yield return new(pos, first, OpBase.mov, args: [Register.ax, Register.si.With(movFld)]);
+                            yield return new(pos, first, O.mov, args: [R.ax, R.si.With(movFld)]);
                         else if (movFld == 0xC8)
-                            yield return new(pos, first, OpBase.mov, args: [Register.cx, Register.ax.With(movFld)]);
+                            yield return new(pos, first, O.mov, args: [R.cx, R.ax.With(movFld)]);
                         else if (movFld == 0xD8)
-                            yield return new(pos, first, OpBase.mov, args: [Register.bx, Register.ax.With(movFld)]);
+                            yield return new(pos, first, O.mov, args: [R.bx, R.ax.With(movFld)]);
                         else
-                            yield return new(pos, first, OpBase.mov, args: [Register.ax, Register.ax.With(movFld)]);
+                            yield return new(pos, first, O.mov, args: [R.ax, R.ax.With(movFld)]);
                         break;
-                    case OpCode.mov_al_b:
-                        yield return new(pos, first, OpBase.mov, args: [Register.al, stream.NextByteC()]);
+                    case 0xB0:
+                        yield return new(pos, first, O.mov, args: [R.al, stream.NextByteC()]);
                         break;
-                    case OpCode.mov_bl:
-                        yield return new(pos, first, OpBase.mov, args: [Register.bl, stream.NextByteC()]);
+                    case 0xB3:
+                        yield return new(pos, first, O.mov, args: [R.bl, stream.NextByteC()]);
                         break;
-                    case OpCode.mov_ax_s:
-                        yield return new(pos, first, OpBase.mov, args: [Register.ax, stream.NextShortC()]);
+                    case 0xB8:
+                        yield return new(pos, first, O.mov, args: [R.ax, stream.NextShortC()]);
                         break;
-                    case OpCode.mov_bx:
-                        yield return new(pos, first, OpBase.mov, args: [Register.bx, stream.NextShortC()]);
+                    case 0xBB:
+                        yield return new(pos, first, O.mov, args: [R.bx, stream.NextShortC()]);
                         break;
-                    case OpCode.mov_ax:
+                    case 0x89:
                         var mcaFl = stream.NextByteC().Value;
                         if (mcaFl == 0xC7)
-                            yield return new(pos, first, OpBase.mov, args: [Register.di, Register.ax.With(mcaFl)]);
+                            yield return new(pos, first, O.mov, args: [R.di, R.ax.With(mcaFl)]);
                         else if (mcaFl == 0xFA)
-                            yield return new(pos, first, OpBase.mov, args: [Register.dx, Register.di.With(mcaFl)]);
+                            yield return new(pos, first, O.mov, args: [R.dx, R.di.With(mcaFl)]);
                         else if (mcaFl == 0x2D)
-                            yield return new(pos, first, OpBase.mov, args: [Register.di.Plus(null, mcaFl), Register.bp]);
+                            yield return new(pos, first, O.mov, args: [R.di.Plus(null, mcaFl), R.bp]);
                         else if (mcaFl == 0xF0)
-                            yield return new(pos, first, OpBase.mov, args: [Register.ax, Register.si.With(mcaFl)]);
+                            yield return new(pos, first, O.mov, args: [R.ax, R.si.With(mcaFl)]);
                         else if (mcaFl == 0x31)
-                            yield return new(pos, first, OpBase.mov, args: [Register.bx.Plus(Register.di, mcaFl), Register.si]);
+                            yield return new(pos, first, O.mov, args: [R.bx.Plus(R.di, mcaFl), R.si]);
                         break;
-                    case OpCode.mov_cl:
-                        yield return new(pos, first, OpBase.mov, args: [Register.cl, stream.NextByteC()]);
+                    case 0xB1:
+                        yield return new(pos, first, O.mov, args: [R.cl, stream.NextByteC()]);
                         break;
-                    case OpCode.mov_cl_x:
+                    case 0x88:
                         var mclFl = stream.NextByteC().Value;
                         if (mclFl == 0xEE)
-                            yield return new(pos, first, OpBase.mov, args: [Register.dh, Register.ch.With(mclFl)]);
+                            yield return new(pos, first, O.mov, args: [R.dh, R.ch.With(mclFl)]);
                         else if (mclFl == 0xFA)
-                            yield return new(pos, first, OpBase.mov, args: [Register.dl, Register.bh.With(mclFl)]);
+                            yield return new(pos, first, O.mov, args: [R.dl, R.bh.With(mclFl)]);
                         else if (mclFl == 0xDB)
-                            yield return new(pos, first, OpBase.mov, args: [Register.bl, Register.bl.With(mclFl)]);
+                            yield return new(pos, first, O.mov, args: [R.bl, R.bl.With(mclFl)]);
                         else if (mclFl == 0xDA)
-                            yield return new(pos, first, OpBase.mov, args: [Register.dl, Register.bl.With(mclFl)]);
+                            yield return new(pos, first, O.mov, args: [R.dl, R.bl.With(mclFl)]);
                         else if (mclFl == 0x3B)
-                            yield return new(pos, first, OpBase.mov, args: [Register.bp.Plus(Register.di, mclFl), Register.bh]);
+                            yield return new(pos, first, O.mov, args: [R.bp.Plus(R.di, mclFl), R.bh]);
                         else
-                            yield return new(pos, first, OpBase.mov, args: [Register.bx.Plus(Register.si, mclFl), Register.cl]);
+                            yield return new(pos, first, O.mov, args: [R.bx.Plus(R.si, mclFl), R.cl]);
                         break;
-                    case OpCode.mov_cs:
+                    case 0x8E:
                         var mcsFl = stream.NextByteC().Value;
                         if (mcsFl == 0xFA)
-                            yield return new(pos, first, OpBase.mov, args: [Register.segr7, Register.dx.With(mcsFl)]);
+                            yield return new(pos, first, O.mov, args: [R.segr7, R.dx.With(mcsFl)]);
                         else if (mcsFl == 0xE1)
-                            yield return new(pos, first, OpBase.mov, args: [Register.fs, Register.cx.With(mcsFl)]);
+                            yield return new(pos, first, O.mov, args: [R.fs, R.cx.With(mcsFl)]);
                         else if (mcsFl == 0x30)
-                            yield return new(pos, first, OpBase.mov, args: [Register.segr6, Register.bx.Plus(Register.si, mcsFl)]);
+                            yield return new(pos, first, O.mov, args: [R.segr6, R.bx.Plus(R.si, mcsFl)]);
                         else
-                            yield return new(pos, first, OpBase.mov, args: [Register.cs, Register.si.Plus(null, mcsFl)]);
+                            yield return new(pos, first, O.mov, args: [R.cs, R.si.Plus(null, mcsFl)]);
                         break;
-                    case OpCode.mov_si_cs:
+                    case 0x8C:
                         var mcoFl = stream.NextByteC().Value;
                         if (mcoFl == 0x0C)
-                            yield return new(pos, first, OpBase.mov, args: [Register.si.Plus(null, mcoFl), Register.cs]);
+                            yield return new(pos, first, O.mov, args: [R.si.Plus(null, mcoFl), R.cs]);
                         break;
-                    case OpCode.mov_cx:
-                        yield return new(pos, first, OpBase.mov, args: [Register.cx, stream.NextShortC()]);
+                    case 0xB9:
+                        yield return new(pos, first, O.mov, args: [R.cx, stream.NextShortC()]);
                         break;
-                    case OpCode.mov_dh:
-                        yield return new(pos, first, OpBase.mov, args: [Register.dh, stream.NextByteC()]);
+                    case 0xB6:
+                        yield return new(pos, first, O.mov, args: [R.dh, stream.NextByteC()]);
                         break;
-                    case OpCode.mov_dl:
-                        yield return new(pos, first, OpBase.mov, args: [Register.dl, stream.NextByteC()]);
+                    case 0xB2:
+                        yield return new(pos, first, O.mov, args: [R.dl, stream.NextByteC()]);
                         break;
-                    case OpCode.mov_dx:
-                        yield return new(pos, first, OpBase.mov, args: [Register.dx, stream.NextShortC()]);
+                    case 0xBA:
+                        yield return new(pos, first, O.mov, args: [R.dx, stream.NextShortC()]);
                         break;
-                    case OpCode.mov_si:
-                        yield return new(pos, first, OpBase.mov, args: [Register.si, stream.NextShortC()]);
+                    case 0xBE:
+                        yield return new(pos, first, O.mov, args: [R.si, stream.NextShortC()]);
                         break;
-                    case OpCode.movsb:
-                        yield return new(pos, first, OpBase.movsb);
+                    case 0xA4:
+                        yield return new(pos, first, O.movsb);
                         break;
-                    case OpCode.movsw:
-                        yield return new(pos, first, OpBase.movsw);
+                    case 0xA5:
+                        yield return new(pos, first, O.movsw);
                         break;
-                    case OpCode.fmul:
+                    case 0xD8:
                         var fmulFirst = stream.NextByteC().Value;
                         if (fmulFirst == 0x0A)
-                            yield return new(pos, first, mod: Modifier.dword, args: [Register.bp.Plus(Register.si, fmulFirst)]);
+                            yield return new(pos, first, O.fmul, mod: Modifier.dword,
+                                args: [R.bp.Plus(R.si, fmulFirst)]);
                         else if (fmulFirst == 0xF0)
-                            yield return new(pos, first, OpBase.fdiv, args: [Register.st0.With(fmulFirst)]);
+                            yield return new(pos, first, O.fdiv, args: [R.st0.With(fmulFirst)]);
                         else if (fmulFirst == 0xFC)
-                            yield return new(pos, first, OpBase.fdivr, args: [Register.st4.With(fmulFirst)]);
+                            yield return new(pos, first, O.fdivr, args: [R.st4.With(fmulFirst)]);
                         else if (fmulFirst == 0x05)
-                            yield return new(pos, first, OpBase.fadd, mod: Modifier.dword, args: [Register.di.Plus(null, fmulFirst)]);
+                            yield return new(pos, first, O.fadd, mod: Modifier.dword,
+                                args: [R.di.Plus(null, fmulFirst)]);
                         break;
-                    case OpCode.fsubr:
+                    case 0xDC:
                         var fnsbFirst = stream.NextByteC().Value;
                         if (fnsbFirst == 0xE2)
-                            yield return new(pos, first, mod: Modifier.to, args: [Register.st2.With(fnsbFirst)]);
+                            yield return new(pos, first, O.fsubr, mod: Modifier.to, args: [R.st2.With(fnsbFirst)]);
                         break;
-                    case OpCode.fnstenv:
+                    case 0xD9:
                         var fnsFirst = stream.NextByteC().Value;
                         if (fnsFirst == 0x31)
-                            yield return new(pos, first, args: [Register.bx.Plus(Register.di, fnsFirst)]);
+                            yield return new(pos, first, O.fnstenv, args: [R.bx.Plus(R.di, fnsFirst)]);
                         else if (fnsFirst == 0x3C)
-                            yield return new(pos, first, OpBase.fnstcw, args: [Register.si.Plus(null, fnsFirst)]);
+                            yield return new(pos, first, O.fnstcw, args: [R.si.Plus(null, fnsFirst)]);
                         else if (fnsFirst == 0xCA)
-                            yield return new(pos, first, OpBase.fxch, args: [Register.st2.With(fnsFirst)]);
+                            yield return new(pos, first, O.fxch, args: [R.st2.With(fnsFirst)]);
                         else if (fnsFirst == 0x39)
-                            yield return new(pos, first, OpBase.fnstcw, args: [Register.bx.Plus(Register.di, fnsFirst)]);
+                            yield return new(pos, first, O.fnstcw, args: [R.bx.Plus(R.di, fnsFirst)]);
                         else if (fnsFirst == 0x25)
-                            yield return new(pos, first, OpBase.fldenv, args: [Register.di.Plus(null, fnsFirst)]);
+                            yield return new(pos, first, O.fldenv, args: [R.di.Plus(null, fnsFirst)]);
                         break;
-                    case OpCode.mul_ah:
+                    case 0xF6:
                         var muhFirst = stream.NextByteC().Value;
                         if (muhFirst == 0xE4)
-                            yield return new(pos, first, OpBase.mul, args: [Register.ah.With(muhFirst)]);
+                            yield return new(pos, first, O.mul, args: [R.ah.With(muhFirst)]);
                         else if (muhFirst == 0xFA)
-                            yield return new(pos, first, OpBase.idiv, args: [Register.dl.With(muhFirst)]);
+                            yield return new(pos, first, O.idiv, args: [R.dl.With(muhFirst)]);
                         break;
-                    case OpCode.mul:
+                    case 0xF7:
                         var mulFirst = stream.NextByteC().Value;
                         if (mulFirst == 0xD0)
-                            yield return new(pos, first, OpBase.not, args: [Register.ax.With(mulFirst)]);
+                            yield return new(pos, first, O.not, args: [R.ax.With(mulFirst)]);
                         else if (mulFirst == 0xD2)
-                            yield return new(pos, first, OpBase.not, args: [Register.dx.With(mulFirst)]);
+                            yield return new(pos, first, O.not, args: [R.dx.With(mulFirst)]);
                         else if (mulFirst == 0xE1)
-                            yield return new(pos, first, OpBase.mul, args: [Register.cx.With(mulFirst)]);
+                            yield return new(pos, first, O.mul, args: [R.cx.With(mulFirst)]);
                         else if (mulFirst == 0xEB)
-                            yield return new(pos, first, OpBase.imul, args: [Register.bx.With(mulFirst)]);
+                            yield return new(pos, first, O.imul, args: [R.bx.With(mulFirst)]);
                         else if (mulFirst == 0xE3)
-                            yield return new(pos, first, OpBase.mul, args: [Register.bx.With(mulFirst)]);
+                            yield return new(pos, first, O.mul, args: [R.bx.With(mulFirst)]);
                         else if (mulFirst == 0xFB)
-                            yield return new(pos, first, OpBase.idiv, args: [Register.bx.With(mulFirst)]);
+                            yield return new(pos, first, O.idiv, args: [R.bx.With(mulFirst)]);
                         else
-                            yield return new(pos, first, OpBase.idiv, args: [Register.cx.With(mulFirst)]);
+                            yield return new(pos, first, O.idiv, args: [R.cx.With(mulFirst)]);
                         break;
-                    case OpCode.nop:
-                        yield return new(pos, first, OpBase.nop);
+                    case 0x90:
+                        yield return new(pos, first, O.nop);
                         break;
-                    case OpCode.o32:
-                        yield return new(pos, first);
+                    case 0x66:
+                        yield return new(pos, first, O.o32);
                         break;
-                    case OpCode.out_ax:
+                    case 0xE7:
                         var outaxFld = stream.NextByteC();
-                        yield return new(pos, first, OpBase.@out, args: [outaxFld, Register.ax]);
+                        yield return new(pos, first, O.@out, args: [outaxFld, R.ax]);
                         break;
-                    case OpCode.out_dx_al:
-                        yield return new(pos, first, OpBase.@out, args: [Register.dx, Register.al]);
+                    case 0xEE:
+                        yield return new(pos, first, O.@out, args: [R.dx, R.al]);
                         break;
-                    case OpCode.out_dx_ax:
-                        yield return new(pos, first, OpBase.@out, args: [Register.dx, Register.ax]);
+                    case 0xEF:
+                        yield return new(pos, first, O.@out, args: [R.dx, R.ax]);
                         break;
-                    case OpCode.outsb:
-                        yield return new(pos, first, OpBase.outsb);
+                    case 0x6E:
+                        yield return new(pos, first, O.outsb);
                         break;
-                    case OpCode.outsw:
-                        yield return new(pos, first, OpBase.outsw);
+                    case 0x6F:
+                        yield return new(pos, first, O.outsw);
                         break;
-                    case OpCode.pop_ax:
-                        yield return new(pos, first, OpBase.pop, args: [Register.ax]);
+                    case 0x58:
+                        yield return new(pos, first, O.pop, args: [R.ax]);
                         break;
-                    case OpCode.pop_bp:
-                        yield return new(pos, first, OpBase.pop, args: [Register.bp]);
+                    case 0x5D:
+                        yield return new(pos, first, O.pop, args: [R.bp]);
                         break;
-                    case OpCode.pop_bx:
-                        yield return new(pos, first, OpBase.pop, args: [Register.bx]);
+                    case 0x5B:
+                        yield return new(pos, first, O.pop, args: [R.bx]);
                         break;
-                    case OpCode.pop_dx:
-                        yield return new(pos, first, OpBase.pop, args: [Register.dx]);
+                    case 0x5A:
+                        yield return new(pos, first, O.pop, args: [R.dx]);
                         break;
-                    case OpCode.pop_es:
-                        yield return new(pos, first, OpBase.pop, args: [Register.es]);
+                    case 0x07:
+                        yield return new(pos, first, O.pop, args: [R.es]);
                         break;
-                    case OpCode.pop_si:
-                        yield return new(pos, first, OpBase.pop, args: [Register.si]);
+                    case 0x5E:
+                        yield return new(pos, first, O.pop, args: [R.si]);
                         break;
-                    case OpCode.pop_cx:
-                        yield return new(pos, first, OpBase.pop, args: [Register.cx]);
+                    case 0x59:
+                        yield return new(pos, first, O.pop, args: [R.cx]);
                         break;
-                    case OpCode.pop_di:
-                        yield return new(pos, first, OpBase.pop, args: [Register.di]);
+                    case 0x5F:
+                        yield return new(pos, first, O.pop, args: [R.di]);
                         break;
-                    case OpCode.pop_ds:
-                        yield return new(pos, first, OpBase.pop, args: [Register.ds]);
+                    case 0x1F:
+                        yield return new(pos, first, O.pop, args: [R.ds]);
                         break;
-                    case OpCode.pop_ss:
-                        yield return new(pos, first, OpBase.pop, args: [Register.ss]);
+                    case 0x17:
+                        yield return new(pos, first, O.pop, args: [R.ss]);
                         break;
-                    case OpCode.pop_sp:
-                        yield return new(pos, first, OpBase.pop, args: [Register.sp]);
+                    case 0x5C:
+                        yield return new(pos, first, O.pop, args: [R.sp]);
                         break;
-                    case OpCode.popa:
-                        yield return new(pos, first, OpBase.popa);
+                    case 0x61:
+                        yield return new(pos, first, O.popa);
                         break;
-                    case OpCode.popf:
-                        yield return new(pos, first, OpBase.popf);
+                    case 0x9D:
+                        yield return new(pos, first, O.popf);
                         break;
-                    case OpCode.push_ax:
-                        yield return new(pos, first, OpBase.push, args: [Register.ax]);
+                    case 0x50:
+                        yield return new(pos, first, O.push, args: [R.ax]);
                         break;
-                    case OpCode.push_bx:
-                        yield return new(pos, first, OpBase.push, args: [Register.bx]);
+                    case 0x53:
+                        yield return new(pos, first, O.push, args: [R.bx]);
                         break;
-                    case OpCode.push_bp:
-                        yield return new(pos, first, OpBase.push, args: [Register.bp]);
+                    case 0x55:
+                        yield return new(pos, first, O.push, args: [R.bp]);
                         break;
-                    case OpCode.push_cx:
-                        yield return new(pos, first, OpBase.push, args: [Register.cx]);
+                    case 0x51:
+                        yield return new(pos, first, O.push, args: [R.cx]);
                         break;
-                    case OpCode.push_cs:
-                        yield return new(pos, first, OpBase.push, args: [Register.cs]);
+                    case 0x0E:
+                        yield return new(pos, first, O.push, args: [R.cs]);
                         break;
-                    case OpCode.push_di:
-                        yield return new(pos, first, OpBase.push, args: [Register.di]);
+                    case 0x57:
+                        yield return new(pos, first, O.push, args: [R.di]);
                         break;
-                    case OpCode.push_ds:
-                        yield return new(pos, first, OpBase.push, args: [Register.ds]);
+                    case 0x1E:
+                        yield return new(pos, first, O.push, args: [R.ds]);
                         break;
-                    case OpCode.push_dx:
-                        yield return new(pos, first, OpBase.push, args: [Register.dx]);
+                    case 0x52:
+                        yield return new(pos, first, O.push, args: [R.dx]);
                         break;
-                    case OpCode.push_es:
-                        yield return new(pos, first, OpBase.push, args: [Register.es]);
+                    case 0x06:
+                        yield return new(pos, first, O.push, args: [R.es]);
                         break;
-                    case OpCode.push_si:
-                        yield return new(pos, first, OpBase.push, args: [Register.si]);
+                    case 0x56:
+                        yield return new(pos, first, O.push, args: [R.si]);
                         break;
-                    case OpCode.push_sp:
-                        yield return new(pos, first, OpBase.push, args: [Register.sp]);
+                    case 0x54:
+                        yield return new(pos, first, O.push, args: [R.sp]);
                         break;
-                    case OpCode.push_ss:
-                        yield return new(pos, first, OpBase.push, args: [Register.ss]);
+                    case 0x16:
+                        yield return new(pos, first, O.push, args: [R.ss]);
                         break;
-                    case OpCode.push:
+                    case 0x6A:
                         var pushbFl = stream.NextBytepC();
                         pushbFl.Signed = true;
-                        yield return new(pos, first, OpBase.push, args: [pushbFl]);
+                        yield return new(pos, first, O.push, args: [pushbFl]);
                         break;
-                    case OpCode.pusha:
-                        yield return new(pos, first, OpBase.pusha);
+                    case 0x60:
+                        yield return new(pos, first, O.pusha);
                         break;
-                    case OpCode.pushf:
-                        yield return new(pos, first, OpBase.pushf);
+                    case 0x9C:
+                        yield return new(pos, first, O.pushf);
                         break;
-                    case OpCode.or:
+                    case 0x0B:
                         var orFld = stream.NextByteC().Value;
                         if (orFld == 0xC8)
-                            yield return new(pos, first, OpBase.or, args: [Register.cx, Register.ax.With(orFld)]);
+                            yield return new(pos, first, O.or, args: [R.cx, R.ax.With(orFld)]);
                         else if (orFld == 0xC1)
-                            yield return new(pos, first, OpBase.or, args: [Register.ax, Register.cx.With(orFld)]);
+                            yield return new(pos, first, O.or, args: [R.ax, R.cx.With(orFld)]);
                         else if (orFld == 0xCD)
-                            yield return new(pos, first, OpBase.or, args: [Register.cx, Register.bp.With(orFld)]);
+                            yield return new(pos, first, O.or, args: [R.cx, R.bp.With(orFld)]);
                         else if (orFld == 0xF6)
-                            yield return new(pos, first, OpBase.or, args: [Register.si, Register.si.With(orFld)]);
+                            yield return new(pos, first, O.or, args: [R.si, R.si.With(orFld)]);
                         else if (orFld == 0x11)
-                            yield return new(pos, first, OpBase.or, args: [Register.dx, Register.bx.Plus(Register.di, orFld)]);
+                            yield return new(pos, first, O.or, args: [R.dx, R.bx.Plus(R.di, orFld)]);
                         else if (orFld == 0x2C)
-                            yield return new(pos, first, OpBase.or, args: [Register.bp, Register.si.Plus(null, orFld)]);
+                            yield return new(pos, first, O.or, args: [R.bp, R.si.Plus(null, orFld)]);
                         else
-                            yield return new(pos, first, OpBase.or, args: [Register.ax, Register.ax.With(orFld)]);
+                            yield return new(pos, first, O.or, args: [R.ax, R.ax.With(orFld)]);
                         break;
-                    case OpCode.or_bl:
+                    case 0x0a:
                         var orbFld = stream.NextByteC().Value;
                         if (orbFld == 0x1A)
-                            yield return new(pos, first, OpBase.or, args: [Register.bl, Register.bp.Plus(Register.si, orbFld)]);
+                            yield return new(pos, first, O.or, args: [R.bl, R.bp.Plus(R.si, orbFld)]);
                         else if (orbFld == 0x14)
-                            yield return new(pos, first, OpBase.or, args: [Register.dl, Register.si.Plus(null, orbFld)]);
+                            yield return new(pos, first, O.or, args: [R.dl, R.si.Plus(null, orbFld)]);
                         else if (orbFld == 0xE9)
-                            yield return new(pos, first, OpBase.or, args: [Register.ch, Register.cl.With(orbFld)]);
+                            yield return new(pos, first, O.or, args: [R.ch, R.cl.With(orbFld)]);
                         else if (orbFld == 0xD6)
-                            yield return new(pos, first, OpBase.or, args: [Register.dl, Register.dh.With(orbFld)]);
+                            yield return new(pos, first, O.or, args: [R.dl, R.dh.With(orbFld)]);
                         else if (orbFld == 0xE2)
-                            yield return new(pos, first, OpBase.or, args: [Register.ah, Register.dl.With(orbFld)]);
+                            yield return new(pos, first, O.or, args: [R.ah, R.dl.With(orbFld)]);
                         else if (orbFld == 0xC9)
-                            yield return new(pos, first, OpBase.or, args: [Register.cl, Register.cl.With(orbFld)]);
+                            yield return new(pos, first, O.or, args: [R.cl, R.cl.With(orbFld)]);
                         else if (orbFld == 0xDB)
-                            yield return new(pos, first, OpBase.or, args: [Register.bl, Register.bl.With(orbFld)]);
+                            yield return new(pos, first, O.or, args: [R.bl, R.bl.With(orbFld)]);
                         else if (orbFld == 0xF9)
-                            yield return new(pos, first, OpBase.or, args: [Register.bh, Register.cl.With(orbFld)]);
+                            yield return new(pos, first, O.or, args: [R.bh, R.cl.With(orbFld)]);
                         break;
-                    case OpCode.or_bh:
+                    case 0x08:
                         var orhFld = stream.NextByteC().Value;
                         if (orhFld == 0xCF)
-                            yield return new(pos, first, OpBase.or, args: [Register.bh, Register.cl.With(orhFld)]);
+                            yield return new(pos, first, O.or, args: [R.bh, R.cl.With(orhFld)]);
                         else if (orhFld == 0xEA)
-                            yield return new(pos, first, OpBase.or, args: [Register.dl, Register.ch.With(orhFld)]);
+                            yield return new(pos, first, O.or, args: [R.dl, R.ch.With(orhFld)]);
                         else if (orhFld == 0x10)
-                            yield return new(pos, first, OpBase.or, args: [Register.bx.Plus(Register.si, orhFld), Register.dl]);
+                            yield return new(pos, first, O.or, args: [R.bx.Plus(R.si, orhFld), R.dl]);
                         break;
-                    case OpCode.or_bx:
+                    case 0x09:
                         var orxFld = stream.NextByteC().Value;
                         if (orxFld == 0x17)
-                            yield return new(pos, first, OpBase.or, args: [Register.bx.Plus(null, orxFld), Register.dx]);
+                            yield return new(pos, first, O.or, args: [R.bx.Plus(null, orxFld), R.dx]);
                         else if (orxFld == 0xDD)
-                            yield return new(pos, first, OpBase.or, args: [Register.bp, Register.bx.With(orxFld)]);
+                            yield return new(pos, first, O.or, args: [R.bp, R.bx.With(orxFld)]);
                         else if (orxFld == 0xE7)
-                            yield return new(pos, first, OpBase.or, args: [Register.di, Register.sp.With(orxFld)]);
+                            yield return new(pos, first, O.or, args: [R.di, R.sp.With(orxFld)]);
                         break;
-                    case OpCode.or_al:
+                    case 0x0C:
                         var oraFld = stream.NextByteC();
-                        yield return new(pos, first, OpBase.or, args: [Register.al, oraFld]);
+                        yield return new(pos, first, O.or, args: [R.al, oraFld]);
                         break;
-                    case OpCode.out_al:
+                    case 0xE6:
                         var outaFld = stream.NextByteC();
-                        yield return new(pos, first, OpBase.@out, args: [outaFld, Register.al]);
+                        yield return new(pos, first, O.@out, args: [outaFld, R.al]);
                         break;
-                    case OpCode.rcl:
+                    case 0xD0:
                         var rclFl = stream.NextByteC().Value;
                         var rclOneArg = new ImplicitArg(1);
                         if (rclFl == 0xD6)
-                            yield return new(pos, first, args: [Register.dh.With(rclFl), rclOneArg]);
+                            yield return new(pos, first, O.rcl, args: [R.dh.With(rclFl), rclOneArg]);
                         else if (rclFl == 0xDB)
-                            yield return new(pos, first, OpBase.rcr, args: [Register.bl.With(rclFl), rclOneArg]);
+                            yield return new(pos, first, O.rcr, args: [R.bl.With(rclFl), rclOneArg]);
                         else if (rclFl == 0xE0)
-                            yield return new(pos, first, OpBase.shl, args: [Register.al.With(rclFl), rclOneArg]);
+                            yield return new(pos, first, O.shl, args: [R.al.With(rclFl), rclOneArg]);
                         break;
-                    case OpCode.rep:
-                        yield return new(pos, first, OpBase.rep);
+                    case 0xF3:
+                        yield return new(pos, first, O.rep);
                         break;
-                    case OpCode.repne:
-                        yield return new(pos, first, OpBase.repne);
+                    case 0xF2:
+                        yield return new(pos, first, O.repne);
                         break;
-                    case OpCode.ret:
-                        yield return new(pos, first);
+                    case 0xC3:
+                        yield return new(pos, first, O.ret);
                         break;
-                    case OpCode.retf:
-                        yield return new(pos, first);
+                    case 0xCB:
+                        yield return new(pos, first, O.retf);
                         break;
-                    case OpCode.sahf:
-                        yield return new(pos, first, OpBase.sahf);
+                    case 0x9E:
+                        yield return new(pos, first, O.sahf);
                         break;
-                    case OpCode.salc:
-                        yield return new(pos, first);
+                    case 0xD6:
+                        yield return new(pos, first, O.salc);
                         break;
-                    case OpCode.scasb:
-                        yield return new(pos, first, OpBase.scasb);
+                    case 0xAE:
+                        yield return new(pos, first, O.scasb);
                         break;
-                    case OpCode.scasw:
-                        yield return new(pos, first, OpBase.scasw);
+                    case 0xAF:
+                        yield return new(pos, first, O.scasw);
                         break;
-                    case OpCode.shl:
+                    case 0xD3:
                         var shlFl = stream.NextByteC().Value;
                         if (shlFl == 0xE0)
-                            yield return new(pos, first, OpBase.shl, args: [Register.ax, Register.cl.With(shlFl)]);
+                            yield return new(pos, first, O.shl, args: [R.ax, R.cl.With(shlFl)]);
                         else if (shlFl == 0xCB)
-                            yield return new(pos, first, OpBase.ror, args: [Register.bx, Register.cl.With(shlFl)]);
+                            yield return new(pos, first, O.ror, args: [R.bx, R.cl.With(shlFl)]);
                         else if (shlFl == 0xC9)
-                            yield return new(pos, first, OpBase.ror, args: [Register.cx, Register.cl.With(shlFl)]);
+                            yield return new(pos, first, O.ror, args: [R.cx, R.cl.With(shlFl)]);
                         else if (shlFl == 0xFB)
-                            yield return new(pos, first, OpBase.sar, args: [Register.bx, Register.cl.With(shlFl)]);
+                            yield return new(pos, first, O.sar, args: [R.bx, R.cl.With(shlFl)]);
                         else if (shlFl == 0xE5)
-                            yield return new(pos, first, args: [Register.bp, Register.cl.With(shlFl)]);
+                            yield return new(pos, first, O.shl, args: [R.bp, R.cl.With(shlFl)]);
                         else
-                            yield return new(pos, first, OpBase.sar, args: [Register.si, Register.cl.With(shlFl)]);
+                            yield return new(pos, first, O.sar, args: [R.si, R.cl.With(shlFl)]);
                         break;
-                    case OpCode.shl_one:
+                    case 0xD1:
                         var shlbFl = stream.NextByteC().Value;
                         var shOneArg = new ImplicitArg(1);
                         if (shlbFl == 0xE3)
-                            yield return new(pos, first, OpBase.shl, args: [Register.bx.With(shlbFl), shOneArg]);
+                            yield return new(pos, first, O.shl, args: [R.bx.With(shlbFl), shOneArg]);
                         else if (shlbFl == 0x00)
-                            yield return new(pos, first, OpBase.rol, Modifier.word,
-                                args: [Register.bx.Plus(Register.si, shlbFl), shOneArg]);
+                            yield return new(pos, first, O.rol, Modifier.word,
+                                args: [R.bx.Plus(R.si, shlbFl), shOneArg]);
                         break;
-                    case OpCode.shl_bp:
+                    case 0xD2:
                         var shbFl = stream.NextByteC().Value;
                         if (shbFl == 0x22)
-                            yield return new(pos, first, OpBase.shl, mod: Modifier.@byte, args: [Register.bp.Plus(Register.si, shbFl), Register.cl]);
+                            yield return new(pos, first, O.shl, mod: Modifier.@byte,
+                                args: [R.bp.Plus(R.si, shbFl), R.cl]);
                         else if (shbFl == 0x19)
-                            yield return new(pos, first, OpBase.rcr, mod: Modifier.@byte, args: [Register.bx.Plus(Register.di, shbFl), Register.cl]);
+                            yield return new(pos, first, O.rcr, mod: Modifier.@byte,
+                                args: [R.bx.Plus(R.di, shbFl), R.cl]);
                         else if (shbFl == 0xC5)
-                            yield return new(pos, first, OpBase.rol, args: [Register.ch, Register.cl.With(shbFl)]);
+                            yield return new(pos, first, O.rol, args: [R.ch, R.cl.With(shbFl)]);
                         break;
-                    case OpCode.ss:
-                        yield return new(pos, first);
+                    case 0x36:
+                        yield return new(pos, first, O.ss);
                         break;
-                    case OpCode.sti:
-                        yield return new(pos, first);
+                    case 0xFB:
+                        yield return new(pos, first, O.sti);
                         break;
-                    case OpCode.stc:
-                        yield return new(pos, first);
+                    case 0xF9:
+                        yield return new(pos, first, O.stc);
                         break;
-                    case OpCode.std:
-                        yield return new(pos, first);
+                    case 0xFD:
+                        yield return new(pos, first, O.std);
                         break;
-                    case OpCode.stosb:
-                        yield return new(pos, first, OpBase.stosb);
+                    case 0xAA:
+                        yield return new(pos, first, O.stosb);
                         break;
-                    case OpCode.stosw:
-                        yield return new(pos, first, OpBase.stosw);
+                    case 0xAB:
+                        yield return new(pos, first, O.stosw);
                         break;
-                    case OpCode.sub_ax:
+                    case 0x2B:
                         var saxFld = stream.NextByteC().Value;
                         if (saxFld == 0xF9)
-                            yield return new(pos, first, OpBase.sub, args: [Register.di, Register.cx.With(saxFld)]);
+                            yield return new(pos, first, O.sub, args: [R.di, R.cx.With(saxFld)]);
                         else if (saxFld == 0xE5)
-                            yield return new(pos, first, OpBase.sub, args: [Register.sp, Register.bp.With(saxFld)]);
+                            yield return new(pos, first, O.sub, args: [R.sp, R.bp.With(saxFld)]);
                         else if (saxFld == 0xEE)
-                            yield return new(pos, first, OpBase.sub, args: [Register.bp, Register.si.With(saxFld)]);
+                            yield return new(pos, first, O.sub, args: [R.bp, R.si.With(saxFld)]);
                         else if (saxFld == 0x19)
-                            yield return new(pos, first, OpBase.sub, args: [Register.bx, Register.bx.Plus(Register.di, saxFld)]);
+                            yield return new(pos, first, O.sub, args: [R.bx, R.bx.Plus(R.di, saxFld)]);
                         else if (saxFld == 0xC1)
-                            yield return new(pos, first, OpBase.sub, args: [Register.ax, Register.cx.With(saxFld)]);
+                            yield return new(pos, first, O.sub, args: [R.ax, R.cx.With(saxFld)]);
                         else if (saxFld == 0xC3)
-                            yield return new(pos, first, OpBase.sub, args: [Register.ax, Register.bx.With(saxFld)]);
+                            yield return new(pos, first, O.sub, args: [R.ax, R.bx.With(saxFld)]);
                         else
-                            yield return new(pos, first, OpBase.sub, args: [Register.ax, Register.al.With(saxFld)]);
+                            yield return new(pos, first, O.sub, args: [R.ax, R.al.With(saxFld)]);
                         break;
-                    case OpCode.sub_al:
+                    case 0x2C:
                         var salFld = stream.NextByteC();
-                        yield return new(pos, first, OpBase.sub, args: [Register.al, salFld]);
+                        yield return new(pos, first, O.sub, args: [R.al, salFld]);
                         break;
-                    case OpCode.sub_ah:
+                    case 0x2A:
                         var subaMod = stream.NextByteC().Value;
                         if (subaMod == 0xC6)
-                            yield return new(pos, first, OpBase.sub, args: [Register.al, Register.dh.With(subaMod)]);
+                            yield return new(pos, first, O.sub, args: [R.al, R.dh.With(subaMod)]);
                         break;
-                    case OpCode.sub_dh:
+                    case 0x28:
                         var subdMod = stream.NextByteC().Value;
                         if (subdMod == 0x32)
-                            yield return new(pos, first, OpBase.sub, args: [Register.bp.Plus(Register.si, subdMod), Register.dh]);
+                            yield return new(pos, first, O.sub, args: [R.bp.Plus(R.si, subdMod), R.dh]);
                         else if (subdMod == 0x37)
-                            yield return new(pos, first, OpBase.sub, args: [Register.bx.Plus(null, subdMod), Register.dh]);
+                            yield return new(pos, first, O.sub, args: [R.bx.Plus(null, subdMod), R.dh]);
                         else if (subdMod == 0x25)
-                            yield return new(pos, first, OpBase.sub, args: [Register.di.Plus(null, subdMod), Register.ah]);
+                            yield return new(pos, first, O.sub, args: [R.di.Plus(null, subdMod), R.ah]);
                         else if (subdMod == 0x00)
-                            yield return new(pos, first, OpBase.sub, args: [Register.bx.Plus(Register.si, subdMod), Register.al]);
+                            yield return new(pos, first, O.sub, args: [R.bx.Plus(R.si, subdMod), R.al]);
                         else if (subdMod == 0xC7)
-                            yield return new(pos, first, OpBase.sub, args: [Register.bh, Register.al.With(subdMod)]);
+                            yield return new(pos, first, O.sub, args: [R.bh, R.al.With(subdMod)]);
                         else if (subdMod == 0xF1)
-                            yield return new(pos, first, OpBase.sub, args: [Register.cl, Register.dh.With(subdMod)]);
+                            yield return new(pos, first, O.sub, args: [R.cl, R.dh.With(subdMod)]);
                         else if (subdMod == 0xD6)
-                            yield return new(pos, first, OpBase.sub, args: [Register.dh, Register.dl.With(subdMod)]);
+                            yield return new(pos, first, O.sub, args: [R.dh, R.dl.With(subdMod)]);
                         break;
-                    case OpCode.sbb_bx:
+                    case 0x19:
                         var sbbxMod = stream.NextByteC().Value;
                         if (sbbxMod == 0x1A)
-                            yield return new(pos, first, OpBase.sbb, args: [Register.bp.Plus(Register.si, sbbxMod), Register.bx]);
+                            yield return new(pos, first, O.sbb, args: [R.bp.Plus(R.si, sbbxMod), R.bx]);
                         else if (sbbxMod == 0x28)
-                            yield return new(pos, first, OpBase.sbb, args: [Register.bx.Plus(Register.si, sbbxMod), Register.bp]);
+                            yield return new(pos, first, O.sbb, args: [R.bx.Plus(R.si, sbbxMod), R.bp]);
                         else if (sbbxMod == 0x01)
-                            yield return new(pos, first, OpBase.sbb, args: [Register.bx.Plus(Register.di, sbbxMod), Register.ax]);
+                            yield return new(pos, first, O.sbb, args: [R.bx.Plus(R.di, sbbxMod), R.ax]);
                         else if (sbbxMod == 0xE4)
-                            yield return new(pos, first, OpBase.sbb, args: [Register.sp, Register.sp.With(sbbxMod)]);
+                            yield return new(pos, first, O.sbb, args: [R.sp, R.sp.With(sbbxMod)]);
                         else if (sbbxMod == 0xE5)
-                            yield return new(pos, first, OpBase.sbb, args: [Register.bp, Register.sp.With(sbbxMod)]);
+                            yield return new(pos, first, O.sbb, args: [R.bp, R.sp.With(sbbxMod)]);
                         break;
-                    case OpCode.sbb_al_b:
+                    case 0x1C:
                         var sbbbMod = stream.NextByteC();
-                        yield return new(pos, first, OpBase.sbb, args: [Register.al, sbbbMod]);
+                        yield return new(pos, first, O.sbb, args: [R.al, sbbbMod]);
                         break;
-                    case OpCode.sbb_al:
+                    case 0x18:
                         var sbbMod = stream.NextByteC().Value;
                         if (sbbMod == 0xE8)
-                            yield return new(pos, first, OpBase.sbb, args: [Register.al, Register.ch.With(sbbMod)]);
+                            yield return new(pos, first, O.sbb, args: [R.al, R.ch.With(sbbMod)]);
                         else if (sbbMod == 0xD3)
-                            yield return new(pos, first, OpBase.sbb, args: [Register.bl, Register.dl.With(sbbMod)]);
+                            yield return new(pos, first, O.sbb, args: [R.bl, R.dl.With(sbbMod)]);
                         else if (sbbMod == 0x3D)
-                            yield return new(pos, first, OpBase.sbb, args: [Register.di.Plus(null, sbbMod), Register.bh]);
+                            yield return new(pos, first, O.sbb, args: [R.di.Plus(null, sbbMod), R.bh]);
                         else if (sbbMod == 0xEF)
-                            yield return new(pos, first, OpBase.sbb, args: [Register.bh, Register.ch.With(sbbMod)]);
+                            yield return new(pos, first, O.sbb, args: [R.bh, R.ch.With(sbbMod)]);
                         else if (sbbMod == 0xFF)
-                            yield return new(pos, first, OpBase.sbb, args: [Register.bh, Register.bh.With(sbbMod)]);
+                            yield return new(pos, first, O.sbb, args: [R.bh, R.bh.With(sbbMod)]);
                         break;
-                    case OpCode.sbb_cl:
+                    case 0x1A:
                         var sbcMod = stream.NextByteC().Value;
                         if (sbcMod == 0xC1)
-                            yield return new(pos, first, OpBase.sbb, args: [Register.al, Register.cl.With(sbcMod)]);
+                            yield return new(pos, first, O.sbb, args: [R.al, R.cl.With(sbcMod)]);
                         else if (sbcMod == 0xF4)
-                            yield return new(pos, first, OpBase.sbb, args: [Register.dh, Register.ah.With(sbcMod)]);
+                            yield return new(pos, first, O.sbb, args: [R.dh, R.ah.With(sbcMod)]);
                         else if (sbcMod == 0x18)
-                            yield return new(pos, first, OpBase.sbb, args: [Register.bl, Register.bx.Plus(Register.si, sbcMod)]);
+                            yield return new(pos, first, O.sbb, args: [R.bl, R.bx.Plus(R.si, sbcMod)]);
                         else if (sbcMod == 0x27)
-                            yield return new(pos, first, OpBase.sbb, args: [Register.ah, Register.bx.Plus(null, sbcMod)]);
+                            yield return new(pos, first, O.sbb, args: [R.ah, R.bx.Plus(null, sbcMod)]);
                         break;
-                    case OpCode.sbb_si:
+                    case 0x1B:
                         var sbsMod = stream.NextByteC().Value;
                         if (sbsMod == 0x35)
-                            yield return new(pos, first, OpBase.sbb, args: [Register.si, Register.di.Plus(null, sbsMod)]);
+                            yield return new(pos, first, O.sbb, args: [R.si, R.di.Plus(null, sbsMod)]);
                         else if (sbsMod == 0xF1)
-                            yield return new(pos, first, OpBase.sbb, args: [Register.si, Register.cx.With(sbsMod)]);
+                            yield return new(pos, first, O.sbb, args: [R.si, R.cx.With(sbsMod)]);
                         break;
-                    case OpCode.test:
+                    case 0x85:
                         var testMod = stream.NextByteC().Value;
                         if (testMod == 0xF6)
-                            yield return new(pos, first, OpBase.test, args: [Register.si, Register.si.With(testMod)]);
+                            yield return new(pos, first, O.test, args: [R.si, R.si.With(testMod)]);
                         else if (testMod == 0xC0)
-                            yield return new(pos, first, OpBase.test, args: [Register.ax, Register.ax.With(testMod)]);
+                            yield return new(pos, first, O.test, args: [R.ax, R.ax.With(testMod)]);
                         else if (testMod == 0xED)
-                            yield return new(pos, first, OpBase.test, args: [Register.bp, Register.bp.With(testMod)]);
+                            yield return new(pos, first, O.test, args: [R.bp, R.bp.With(testMod)]);
                         else if (testMod == 0x1C)
-                            yield return new(pos, first, OpBase.test, args: [Register.si.Plus(null, testMod), Register.bx]);
+                            yield return new(pos, first, O.test, args: [R.si.Plus(null, testMod), R.bx]);
                         else if (testMod == 0xDB)
-                            yield return new(pos, first, OpBase.test, args: [Register.bx, Register.bx.With(testMod)]);
+                            yield return new(pos, first, O.test, args: [R.bx, R.bx.With(testMod)]);
                         else
-                            yield return new(pos, first, OpBase.test, args: [Register.dx, Register.dx.With(testMod)]);
+                            yield return new(pos, first, O.test, args: [R.dx, R.dx.With(testMod)]);
                         break;
-                    case OpCode.test_al:
+                    case 0xA8:
                         var tsaMod = stream.NextByteC();
-                        yield return new(pos, first, OpBase.test, args: [Register.al, tsaMod]);
+                        yield return new(pos, first, O.test, args: [R.al, tsaMod]);
                         break;
-                    case OpCode.test_dl:
+                    case 0x84:
                         var tsdMod = stream.NextByteC().Value;
                         if (tsdMod == 0x14)
-                            yield return new(pos, first, OpBase.test, args: [Register.si.Plus(null, tsdMod), Register.dl]);
+                            yield return new(pos, first, O.test, args: [R.si.Plus(null, tsdMod), R.dl]);
                         else if (tsdMod == 0x2B)
-                            yield return new(pos, first, OpBase.test, args: [Register.bp.Plus(Register.di, tsdMod), Register.ch]);
+                            yield return new(pos, first, O.test, args: [R.bp.Plus(R.di, tsdMod), R.ch]);
                         else if (tsdMod == 0x07)
-                            yield return new(pos, first, OpBase.test, args: [Register.bx.Plus(null, tsdMod), Register.al]);
+                            yield return new(pos, first, O.test, args: [R.bx.Plus(null, tsdMod), R.al]);
                         break;
-                    case OpCode.wait:
-                        yield return new(pos, first, OpBase.wait);
+                    case 0x9B:
+                        yield return new(pos, first, O.wait);
                         break;
-                    case OpCode.xchg_ax_di:
-                        yield return new(pos, first, OpBase.xchg, args: [Register.ax, Register.di]);
+                    case 0x97:
+                        yield return new(pos, first, O.xchg, args: [R.ax, R.di]);
                         break;
-                    case OpCode.xchg_ax_dx:
-                        yield return new(pos, first, OpBase.xchg, args: [Register.ax, Register.dx]);
+                    case 0x92:
+                        yield return new(pos, first, O.xchg, args: [R.ax, R.dx]);
                         break;
-                    case OpCode.xchg_ax_si:
-                        yield return new(pos, first, OpBase.xchg, args: [Register.ax, Register.si]);
+                    case 0x96:
+                        yield return new(pos, first, O.xchg, args: [R.ax, R.si]);
                         break;
-                    case OpCode.xchg_ax_bp:
-                        yield return new(pos, first, OpBase.xchg, args: [Register.ax, Register.bp]);
+                    case 0x95:
+                        yield return new(pos, first, O.xchg, args: [R.ax, R.bp]);
                         break;
-                    case OpCode.xchg_ax_bx:
-                        yield return new(pos, first, OpBase.xchg, args: [Register.ax, Register.bx]);
+                    case 0x93:
+                        yield return new(pos, first, O.xchg, args: [R.ax, R.bx]);
                         break;
-                    case OpCode.xchg_ax_cx:
-                        yield return new(pos, first, OpBase.xchg, args: [Register.ax, Register.cx]);
+                    case 0x91:
+                        yield return new(pos, first, O.xchg, args: [R.ax, R.cx]);
                         break;
-                    case OpCode.xchg_ax_sp:
-                        yield return new(pos, first, OpBase.xchg, args: [Register.ax, Register.sp]);
+                    case 0x94:
+                        yield return new(pos, first, O.xchg, args: [R.ax, R.sp]);
                         break;
-                    case OpCode.xchg_dh_al:
+                    case 0x86:
                         var xdaFl = stream.NextByteC().Value;
                         if (xdaFl == 0xC6)
-                            yield return new(pos, first, OpBase.xchg, args: [Register.al, Register.dh.With(xdaFl)]);
+                            yield return new(pos, first, O.xchg, args: [R.al, R.dh.With(xdaFl)]);
                         else if (xdaFl == 0xEE)
-                            yield return new(pos, first, OpBase.xchg, args: [Register.ch, Register.dh.With(xdaFl)]);
+                            yield return new(pos, first, O.xchg, args: [R.ch, R.dh.With(xdaFl)]);
                         else if (xdaFl == 0xD5)
-                            yield return new(pos, first, OpBase.xchg, args: [Register.dl, Register.ch.With(xdaFl)]);
+                            yield return new(pos, first, O.xchg, args: [R.dl, R.ch.With(xdaFl)]);
                         else if (xdaFl == 0xF9)
-                            yield return new(pos, first, OpBase.xchg, args: [Register.bh, Register.cl.With(xdaFl)]);
+                            yield return new(pos, first, O.xchg, args: [R.bh, R.cl.With(xdaFl)]);
                         else if (xdaFl == 0x13)
-                            yield return new(pos, first, OpBase.xchg, args: [Register.dl, Register.bp.Plus(Register.di, xdaFl)]);
+                            yield return new(pos, first, O.xchg, args: [R.dl, R.bp.Plus(R.di, xdaFl)]);
                         break;
-                    case OpCode.xchg_bp_si:
+                    case 0x87:
                         var xdbFl = stream.NextByteC().Value;
                         if (xdbFl == 0xEE)
-                            yield return new(pos, first, OpBase.xchg, args: [Register.bp, Register.si.With(xdbFl)]);
+                            yield return new(pos, first, O.xchg, args: [R.bp, R.si.With(xdbFl)]);
                         else if (xdbFl == 0x2C)
-                            yield return new(pos, first, OpBase.xchg, args: [Register.bp, Register.si.Plus(null, xdbFl)]);
+                            yield return new(pos, first, O.xchg, args: [R.bp, R.si.Plus(null, xdbFl)]);
                         else if (xdbFl == 0x0C)
-                            yield return new(pos, first, OpBase.xchg, args: [Register.cx, Register.si.Plus(null, xdbFl)]);
+                            yield return new(pos, first, O.xchg, args: [R.cx, R.si.Plus(null, xdbFl)]);
                         else if (xdbFl == 0xE6)
-                            yield return new(pos, first, OpBase.xchg, args: [Register.sp, Register.si.With(xdbFl)]);
+                            yield return new(pos, first, O.xchg, args: [R.sp, R.si.With(xdbFl)]);
                         else if (xdbFl == 0xC3)
-                            yield return new(pos, first, OpBase.xchg, args: [Register.ax, Register.bx.With(xdbFl)]);
+                            yield return new(pos, first, O.xchg, args: [R.ax, R.bx.With(xdbFl)]);
                         break;
-                    case OpCode.xlatb:
-                        yield return new(pos, first, OpBase.xlatb);
+                    case 0xD7:
+                        yield return new(pos, first, O.xlatb);
                         break;
-                    case OpCode.xor_al:
+                    case 0x34:
                         var xoraFl = stream.NextByteC();
-                        yield return new(pos, first, OpBase.xor, args: [Register.al, xoraFl]);
+                        yield return new(pos, first, O.xor, args: [R.al, xoraFl]);
                         break;
-                    case OpCode.xor_bp:
+                    case 0x30:
                         var xorpFl = stream.NextByteC().Value;
                         if (xorpFl == 0x03)
-                            yield return new(pos, first, OpBase.xor, args: [Register.bp.Plus(Register.di, xorpFl), Register.al]);
+                            yield return new(pos, first, O.xor, args: [R.bp.Plus(R.di, xorpFl), R.al]);
                         else if (xorpFl == 0x3C)
-                            yield return new(pos, first, OpBase.xor, args: [Register.si.Plus(null, xorpFl), Register.bh]);
+                            yield return new(pos, first, O.xor, args: [R.si.Plus(null, xorpFl), R.bh]);
                         else if (xorpFl == 0x35)
-                            yield return new(pos, first, OpBase.xor, args: [Register.di.Plus(null, xorpFl), Register.dh]);
+                            yield return new(pos, first, O.xor, args: [R.di.Plus(null, xorpFl), R.dh]);
                         else if (xorpFl == 0x27)
-                            yield return new(pos, first, OpBase.xor, args: [Register.bx.Plus(null, xorpFl), Register.ah]);
+                            yield return new(pos, first, O.xor, args: [R.bx.Plus(null, xorpFl), R.ah]);
                         else if (xorpFl == 0xCE)
-                            yield return new(pos, first, OpBase.xor, args: [Register.dh, Register.cl.With(xorpFl)]);
+                            yield return new(pos, first, O.xor, args: [R.dh, R.cl.With(xorpFl)]);
                         else if (xorpFl == 0xE6)
-                            yield return new(pos, first, OpBase.xor, args: [Register.dh, Register.ah.With(xorpFl)]);
+                            yield return new(pos, first, O.xor, args: [R.dh, R.ah.With(xorpFl)]);
                         else if (xorpFl == 0xC6)
-                            yield return new(pos, first, OpBase.xor, args: [Register.dh, Register.al.With(xorpFl)]);
+                            yield return new(pos, first, O.xor, args: [R.dh, R.al.With(xorpFl)]);
                         break;
-                    case OpCode.xor_cx:
+                    case 0x31:
                         var xorxFl = stream.NextByteC().Value;
                         if (xorxFl == 0xD9)
-                            yield return new(pos, first, OpBase.xor, args: [Register.cx, Register.bx.With(xorxFl)]);
+                            yield return new(pos, first, O.xor, args: [R.cx, R.bx.With(xorxFl)]);
                         else if (xorxFl == 0x09)
-                            yield return new(pos, first, OpBase.xor, args: [Register.bx.Plus(Register.di, xorxFl), Register.cx]);
+                            yield return new(pos, first, O.xor, args: [R.bx.Plus(R.di, xorxFl), R.cx]);
                         else if (xorxFl == 0x29)
-                            yield return new(pos, first, OpBase.xor, args: [Register.bx.Plus(Register.di, xorxFl), Register.bp]);
+                            yield return new(pos, first, O.xor, args: [R.bx.Plus(R.di, xorxFl), R.bp]);
                         break;
-                    case OpCode.xor_ch:
+                    case 0x32:
                         var xorcFl = stream.NextByteC().Value;
                         if (xorcFl == 0x2C)
-                            yield return new(pos, first, OpBase.xor, args: [Register.ch, Register.si.Plus(null, xorcFl)]);
+                            yield return new(pos, first, O.xor, args: [R.ch, R.si.Plus(null, xorcFl)]);
                         else if (xorcFl == 0xC6)
-                            yield return new(pos, first, OpBase.xor, args: [Register.al, Register.dh.With(xorcFl)]);
+                            yield return new(pos, first, O.xor, args: [R.al, R.dh.With(xorcFl)]);
                         else if (xorcFl == 0x09)
-                            yield return new(pos, first, OpBase.xor, args: [Register.cl, Register.bx.Plus(Register.di, xorcFl)]);
+                            yield return new(pos, first, O.xor, args: [R.cl, R.bx.Plus(R.di, xorcFl)]);
                         else if (xorcFl == 0xE3)
-                            yield return new(pos, first, OpBase.xor, args: [Register.ah, Register.bl.With(xorcFl)]);
+                            yield return new(pos, first, O.xor, args: [R.ah, R.bl.With(xorcFl)]);
                         break;
-                    case OpCode.xor:
+                    case 0x33:
                         var xorFl = stream.NextByteC().Value;
                         if (xorFl == 0xF6)
-                            yield return new(pos, first, OpBase.xor, args: [Register.si, Register.si.With(xorFl)]);
+                            yield return new(pos, first, O.xor, args: [R.si, R.si.With(xorFl)]);
                         else if (xorFl == 0xC1)
-                            yield return new(pos, first, OpBase.xor, args: [Register.ax, Register.cx.With(xorFl)]);
+                            yield return new(pos, first, O.xor, args: [R.ax, R.cx.With(xorFl)]);
                         else if (xorFl == 0xFD)
-                            yield return new(pos, first, OpBase.xor, args: [Register.di, Register.bp.With(xorFl)]);
+                            yield return new(pos, first, O.xor, args: [R.di, R.bp.With(xorFl)]);
                         else if (xorFl == 0xDC)
-                            yield return new(pos, first, OpBase.xor, args: [Register.bx, Register.sp.With(xorFl)]);
+                            yield return new(pos, first, O.xor, args: [R.bx, R.sp.With(xorFl)]);
                         else if (xorFl == 0x14)
-                            yield return new(pos, first, OpBase.xor, args: [Register.dx, Register.si.Plus(null, xorFl)]);
+                            yield return new(pos, first, O.xor, args: [R.dx, R.si.Plus(null, xorFl)]);
                         else if (xorFl == 0xD2)
-                            yield return new(pos, first, OpBase.xor, args: [Register.dx, Register.dx.With(xorFl)]);
+                            yield return new(pos, first, O.xor, args: [R.dx, R.dx.With(xorFl)]);
                         else if (xorFl == 0xC8)
-                            yield return new(pos, first, OpBase.xor, args: [Register.cx, Register.ax.With(xorFl)]);
+                            yield return new(pos, first, O.xor, args: [R.cx, R.ax.With(xorFl)]);
                         else
-                            yield return new(pos, first, OpBase.xor, args: [Register.ax, Register.ax.With(xorFl)]);
+                            yield return new(pos, first, O.xor, args: [R.ax, R.ax.With(xorFl)]);
                         break;
                 }
             }
