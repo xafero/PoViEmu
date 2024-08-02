@@ -44,6 +44,10 @@ namespace PoViEmu.Core.Machine
                         var addaFld = stream.NextByteC().Value;
                         if (addaFld == 0x2B)
                             yield return new(pos, first, O.add, args: [R.bp, R.bp.Plus(R.di, addaFld)]);
+                        else if (addaFld == 0x1B)
+                            yield return new(pos, first, O.add, args: [R.bx, R.bp.Plus(R.di, addaFld)]);
+                        else if (addaFld == 0x10)
+                            yield return new(pos, first, O.add, args: [R.dx, R.bx.Plus(R.si, addaFld)]);
                         else if (addaFld == 0x3A)
                             yield return new(pos, first, O.add, args: [R.di, R.bp.Plus(R.si, addaFld)]);
                         else if (addaFld == 0xD0)
@@ -56,8 +60,6 @@ namespace PoViEmu.Core.Machine
                             yield return new(pos, first, O.add, args: [R.ax, R.bx.With(addaFld)]);
                         else if (addaFld == 0xF5)
                             yield return new(pos, first, O.add, args: [R.si, R.bp.With(addaFld)]);
-                        else
-                            yield return new(pos, first, O.add, args: [R.ax, R.ax.With(addaFld)]);
                         break;
                     case 0x02:
                         var addcFld = stream.NextByteC().Value;
@@ -70,6 +72,8 @@ namespace PoViEmu.Core.Machine
                         var addiFld = stream.NextByteC().Value;
                         if (addiFld == 0x28)
                             yield return new(pos, first, O.add, args: [R.bx.Plus(R.si, addiFld), R.bp]);
+                        else if (addiFld == 0x21)
+                            yield return new(pos, first, O.add, args: [R.bx.Plus(R.di, addiFld), R.sp]);
                         else if (addiFld == 0x38)
                             yield return new(pos, first, O.add, args: [R.bx.Plus(R.si, addiFld), R.di]);
                         else if (addiFld == 0xC6)
@@ -167,6 +171,8 @@ namespace PoViEmu.Core.Machine
                         var andxFld = stream.NextByteC().Value;
                         if (andxFld == 0x10)
                             yield return new(pos, first, O.and, args: [R.bx.Plus(R.si, andxFld), R.dx]);
+                        else if (andxFld == 0x2C)
+                            yield return new(pos, first, O.and, args: [R.si.Plus(null, andxFld), R.bp]);
                         else if (andxFld == 0xF9)
                             yield return new(pos, first, O.and, args: [R.cx, R.di.With(andxFld)]);
                         else if (andxFld == 0xE3)
@@ -399,6 +405,8 @@ namespace PoViEmu.Core.Machine
                                 args: [R.di.Plus(null, fstFld)]);
                         else if (fstFld == 0x32)
                             yield return new(pos, first, O.fnsave, args: [R.bp.Plus(R.si, fstFld)]);
+                        else if (fstFld == 0x3A)
+                            yield return new(pos, first, O.fnstsw, args: [R.bp.Plus(R.si, fstFld)]);
                         else if (fstFld == 0xDE)
                             yield return new(pos, first, O.fstp, args: [R.st6.With(fstFld)]);
                         else if (fstFld == 0x07)
@@ -622,9 +630,10 @@ namespace PoViEmu.Core.Machine
                             yield return new(pos, first, O.mov, args: [R.dh, R.bx.Plus(R.si, maa)]);
                         else if (maa == 0xD1)
                             yield return new(pos, first, O.mov, args: [R.dl.With(maa), R.cl]);
-                        else
-                            yield return new(pos, first, O.mov,
-                                args: [R.al.With(maa), R.di.Plus(stream.NextByteC().Value)]);
+                        else if (maa == 0x1A)
+                            yield return new(pos, first, O.mov, args: [R.bl, R.bp.Plus(R.si, maa)]);
+                        else if (maa == 0x45)
+                            yield return new(pos, first, O.mov, args: [R.al.With(maa), R.di.Plus(stream.NextByteC().Value)]);
                         break;
                     case 0x8B:
                         var movFld = stream.NextByteC().Value;
@@ -693,7 +702,9 @@ namespace PoViEmu.Core.Machine
                             yield return new(pos, first, O.mov, args: [R.dl, R.bl.With(mclFl)]);
                         else if (mclFl == 0x3B)
                             yield return new(pos, first, O.mov, args: [R.bp.Plus(R.di, mclFl), R.bh]);
-                        else
+                        else if (mclFl == 0xD5)
+                            yield return new(pos, first, O.mov, args: [R.ch, R.dl.With(mclFl)]);
+                        else if (mclFl == 0x08)
                             yield return new(pos, first, O.mov, args: [R.bx.Plus(R.si, mclFl), R.cl]);
                         break;
                     case 0x8E:
@@ -902,6 +913,8 @@ namespace PoViEmu.Core.Machine
                             yield return new(pos, first, O.or, args: [R.cx, R.ax.With(orFld)]);
                         else if (orFld == 0xC1)
                             yield return new(pos, first, O.or, args: [R.ax, R.cx.With(orFld)]);
+                        else if (orFld == 0xED)
+                            yield return new(pos, first, O.or, args: [R.bp, R.bp.With(orFld)]);
                         else if (orFld == 0xCD)
                             yield return new(pos, first, O.or, args: [R.cx, R.bp.With(orFld)]);
                         else if (orFld == 0xF6)
@@ -910,8 +923,6 @@ namespace PoViEmu.Core.Machine
                             yield return new(pos, first, O.or, args: [R.dx, R.bx.Plus(R.di, orFld)]);
                         else if (orFld == 0x2C)
                             yield return new(pos, first, O.or, args: [R.bp, R.si.Plus(null, orFld)]);
-                        else
-                            yield return new(pos, first, O.or, args: [R.ax, R.ax.With(orFld)]);
                         break;
                     case 0x0a:
                         var orbFld = stream.NextByteC().Value;
