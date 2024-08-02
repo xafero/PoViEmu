@@ -63,7 +63,9 @@ namespace PoViEmu.Core.Machine
                         break;
                     case 0x02:
                         var addcFld = stream.NextByteC().Value;
-                        if (addcFld == 0xCE)
+                        if (addcFld == 0x02)
+                            yield return new(pos, first, O.add, args: [R.al, R.bp.Plus(R.si, addcFld)]);
+                        else if (addcFld == 0xCE)
                             yield return new(pos, first, O.add, args: [R.cl, R.dh.With(addcFld)]);
                         else if (addcFld == 0x33)
                             yield return new(pos, first, O.add, args: [R.dh, R.bp.Plus(R.di, addcFld)]);
@@ -285,6 +287,10 @@ namespace PoViEmu.Core.Machine
                     case 0x3C:
                         var cmpaFl = stream.NextByteC();
                         yield return new(pos, first, O.cmp, args: [R.al, cmpaFl]);
+                        break;
+                    case 0x29:
+                        var subsFl = stream.NextByteC().Value;
+                        yield return new(pos, first, O.sub, args: [R.bx.Plus(Register.si, subsFl), R.cx]);
                         break;
                     case 0x83:
                         var cmpbFl = stream.NextByteC().Value;
@@ -1216,6 +1222,8 @@ namespace PoViEmu.Core.Machine
                         var xdbFl = stream.NextByteC().Value;
                         if (xdbFl == 0xEE)
                             yield return new(pos, first, O.xchg, args: [R.bp, R.si.With(xdbFl)]);
+                        else if (xdbFl == 0xF4)
+                            yield return new(pos, first, O.xchg, args: [R.si, R.sp.With(xdbFl)]);
                         else if (xdbFl == 0x2C)
                             yield return new(pos, first, O.xchg, args: [R.bp, R.si.Plus(null, xdbFl)]);
                         else if (xdbFl == 0x0C)
