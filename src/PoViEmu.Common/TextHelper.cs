@@ -18,7 +18,7 @@ namespace PoViEmu.Common
             var txt = File.ReadAllText(file, Encoding.UTF8);
             return txt.Trim();
         }
-
+        
         public static T ToEnum<T>(ushort value, T defaultVal) where T : struct
         {
             return ToEnum($"{value}", defaultVal);

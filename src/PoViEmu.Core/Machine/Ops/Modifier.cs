@@ -18,6 +18,11 @@ namespace PoViEmu.Core.Machine.Ops
         
         qword,
         
-        word
+        word,
+        
+        // TODO
+        byteP,
+        
+        byteM
     }
 }

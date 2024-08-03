@@ -10,8 +10,13 @@ namespace PoViEmu.Core.Machine.Core
     {
         public Instruction(long pos, byte code, OpCode op, Modifier? mod = null, OpArg[]? args = null)
         {
+        }
+        
+        public Instruction(long pos, byte code, int size, OpCode op, Modifier? mod = null, OpArg[]? args = null)
+        {
             Offset = (int)pos;
             Bytes = [code];
+            Size = size;
             Op = op;
             Mod = mod;
             Args = args;
@@ -23,6 +28,7 @@ namespace PoViEmu.Core.Machine.Core
 
         public int Offset { get; set; }
         public byte[] Bytes { get; set; }
+        public int Size { get; set; }
         public OpCode? Op { get; set; }
         public Modifier? Mod { get; set; }
         public OpArg[]? Args { get; set; }

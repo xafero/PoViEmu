@@ -42,6 +42,8 @@ namespace PoViEmu.Core.Machine.Ops
 
         fs,
         
+        gs,
+        
         segr6,
         
         segr7,

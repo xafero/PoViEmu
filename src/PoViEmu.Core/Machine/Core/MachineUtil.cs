@@ -75,5 +75,10 @@ namespace PoViEmu.Core.Machine.Core
         {
             return new RegPlusRegArg(reg, add, (byte)value);
         }
+
+        public static RegByteArg Box(this Register reg, int value)
+        {
+            return Plus(reg, null, value);
+        }
     }
 }
