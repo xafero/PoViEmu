@@ -32,6 +32,13 @@ namespace PoViEmu.Core.Machine.Core
             return new BytePlusArg(res);
         }
 
+        public static SkipArg NextSByteC(this Stream stream)
+        {
+            var res = stream.ReadBytesMany()?[0] ?? default;
+            var skip = new SkipArg(res) { IsSigned = true };
+            return skip;
+        }
+
         public static ConstantArg NextByteC(this Stream stream, bool isSkip = false)
         {
             var res = stream.ReadBytesMany()?[0] ?? 0xFE;

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace PoViEmu.Common
             var txt = File.ReadAllText(file, Encoding.UTF8);
             return txt.Trim();
         }
-        
+
         public static T ToEnum<T>(ushort value, T defaultVal) where T : struct
         {
             return ToEnum($"{value}", defaultVal);
@@ -81,6 +82,16 @@ namespace PoViEmu.Common
                 .Replace('\r', ' ')
                 .Replace('\n', ' ');
             return Regex.Replace(text, @"\s+", " ");
+        }
+
+        internal static string ToTxtLine(IEnumerable<byte> hex)
+        {
+            return string.Join(" ", hex.Select(h => $"{Encoding.ASCII.GetString([h]).Trim()}"));
+        }
+
+        internal static string ToHexLine(IEnumerable<byte> hex)
+        {
+            return string.Join(" ", hex.Select(h => $"{h:X2}"));
         }
     }
 }
