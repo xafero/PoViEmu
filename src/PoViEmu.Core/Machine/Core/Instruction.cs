@@ -39,7 +39,7 @@ namespace PoViEmu.Core.Machine.Core
             var space = TextHelper.Space(18 - hex.Length);
             var op = Op?.ToString();
             if (Mod != null) op += $" {Mod}";
-            var reg = string.Join(",", (Args ?? []).Select(a => a.ToString()));
+            var reg = string.Join(",", (Args ?? []).Select(a => a?.ToString()));
             var txt = $"{Offset:X8}  {hex}{space}{op} {reg}";
             return txt.Trim();
         }
