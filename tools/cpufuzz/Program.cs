@@ -12,12 +12,15 @@ namespace PoViEmu.CpuFuzzer
             var root = Environment.CurrentDirectory;
             root = Path.GetFullPath(root);
             Console.WriteLine($"Root = {root}");
-            
+
             var arg0 = args.FirstOrDefault();
             switch (arg0)
             {
                 case "cpu":
                     InstrFuzz.Start();
+                    break;
+                case "mass":
+                    MassFuzz.Start();
                     break;
             }
 

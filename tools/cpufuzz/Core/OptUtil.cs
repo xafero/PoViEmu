@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace PoViEmu.CpuFuzzer.Core
 {
-    public static class OptUtil
+    internal static class OptUtil
     {
-        private static IDictionary<string, List<string>> ToOpDict(this NasmLine[] allLines)
+        internal static IDictionary<string, List<string>> ToOpDict(this NasmLine[] allLines)
         {
             var opDict = new SortedDictionary<string, List<string>>();
             foreach (var item in allLines.GroupBy(g => g.B.Split(' ', 2)[0]))
@@ -22,7 +22,7 @@ namespace PoViEmu.CpuFuzzer.Core
             return opDict;
         }
 
-        private static IDictionary<string, List<string>> OptimizeOpDict(this IDictionary<string, List<string>> opRaw)
+        internal static IDictionary<string, List<string>> OptimizeOpDict(this IDictionary<string, List<string>> opRaw)
         {
             var opDict = new SortedDictionary<string, List<string>>();
             foreach (var entry in opRaw)
@@ -34,7 +34,7 @@ namespace PoViEmu.CpuFuzzer.Core
             return opDict;
         }
 
-        public static char[] GetCommonChars(this IList<string> lines, char[] ignores = null)
+        internal static char[] GetCommonChars(this IList<string> lines, char[] ignores = null)
         {
             var maxLen = lines.Max(l => l?.Length ?? 0);
             var common = new char[maxLen];
