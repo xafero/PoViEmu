@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CpuFuzzer
+namespace PoViEmu.CpuFuzzer.Core
 {
     public static class OptUtil
     {

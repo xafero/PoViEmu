@@ -3,12 +3,17 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>CpuFuzzer</RootNamespace>
+    <RootNamespace>PoViEmu.CpuFuzzer</RootNamespace>
   </PropertyGroup>
-
+  
+  <ItemGroup>
+    <PackageReference Include="DiffPlex" Version="1.7.2" />
+  </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\..\src\PoViEmu.Common\PoViEmu.Common.csproj" />
     <ProjectReference Include="..\..\src\PoViEmu.Core\PoViEmu.Core.csproj" />
+    <ProjectReference Include="..\..\test\PoViEmu.Tests\PoViEmu.Tests.csproj" />
   </ItemGroup>
-
+  
 </Project>

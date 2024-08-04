@@ -1,11 +1,8 @@
 using System;
 using PoViEmu.Common;
-using PoViEmu.Core;
-using PoViEmu.Core.Machine;
-using PoViEmu.Core.Machine.Core;
 using PoViEmu.Core.Machine.Ops;
 
-namespace CpuFuzzer
+namespace PoViEmu.CpuFuzzer.Core
 {
     public record NasmLine(string B, string X, OpCode H, string A)
     {

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using PoViEmu.CpuFuzzer.App;
 using PoViEmu.Common;
 using PoViEmu.Core.Machine.Decoding;
+using PoViEmu.Tests;
 
-namespace CpuFuzzer
+namespace PoViEmu.CpuFuzzer
 {
     internal static class Program
     {
@@ -12,6 +15,14 @@ namespace CpuFuzzer
             var root = Environment.CurrentDirectory;
             root = Path.GetFullPath(root);
             Console.WriteLine($"Root = {root}");
+            
+            var arg0 = args.FirstOrDefault();
+            switch (arg0)
+            {
+                case "cpu":
+                    InstrFuzz.Start();
+                    break;
+            }
 
             Console.WriteLine("Done.");
         }
