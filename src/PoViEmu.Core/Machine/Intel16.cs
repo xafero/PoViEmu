@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using PoViEmu.Core.Machine.Args;
 using PoViEmu.Core.Machine.Core;
+using PoViEmu.Core.Machine.Decoding;
 using PoViEmu.Core.Machine.Ops;
 using OpTool = PoViEmu.Common.EnumHelper<PoViEmu.Core.Machine.Decoding.Opa>;
 using OfaTool = PoViEmu.Common.EnumHelper<PoViEmu.Core.Machine.Decoding.Opa1A>;
@@ -70,7 +71,7 @@ namespace PoViEmu.Core.Machine
                         yield return new(pos, first, 1, O.aas);
                         continue;
                     default:
-                        throw new ArgumentOutOfRangeException($"Unknown OpCode 0x{first:X2}!");
+                        throw new InstructionError(pos, first);
                 }
             }
         }
