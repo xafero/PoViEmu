@@ -3,20 +3,12 @@ using System.IO;
 using PoViEmu.Core.Machine;
 using PoViEmu.Tests;
 using PoViEmu.CpuFuzzer.Core;
+using static PoViEmu.CpuFuzzer.Core.OptUtil;
 
 namespace PoViEmu.CpuFuzzer.App
 {
     public static class InstrFuzz
     {
-        private static bool IsIgnored(string expected)
-        {
-            return expected.Contains("  db ") || expected.Contains("  64") || expected.Contains("  67")
-                   || expected.Contains("  26") || expected.Contains("  36") || expected.Contains("  F3")
-                   || expected.Contains("  65") || expected.Contains("  F2") || expected.Contains("  0F")
-                   || expected.Contains("  2E") || expected.Contains("  9B") || expected.Contains("  F0")
-                   || expected.Contains("  3E") || expected.Contains("  66");
-        }
-
         public static void Start()
         {
             const int byteCount = 9;

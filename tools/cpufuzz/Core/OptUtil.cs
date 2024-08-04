@@ -5,6 +5,15 @@ namespace PoViEmu.CpuFuzzer.Core
 {
     internal static class OptUtil
     {
+        internal static bool IsIgnored(string expected)
+        {
+            return expected.Contains("  db ") || expected.Contains("  64") || expected.Contains("  67")
+                   || expected.Contains("  26") || expected.Contains("  36") || expected.Contains("  F3")
+                   || expected.Contains("  65") || expected.Contains("  F2") || expected.Contains("  0F")
+                   || expected.Contains("  2E") || expected.Contains("  9B") || expected.Contains("  F0")
+                   || expected.Contains("  3E") || expected.Contains("  66");
+        }
+
         internal static IDictionary<string, List<string>> ToOpDict(this NasmLine[] allLines)
         {
             var opDict = new SortedDictionary<string, List<string>>();
