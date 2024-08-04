@@ -6,4 +6,9 @@
     <RootNamespace>CpuFuzzer</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\PoViEmu.Common\PoViEmu.Common.csproj" />
+    <ProjectReference Include="..\..\src\PoViEmu.Core\PoViEmu.Core.csproj" />
+  </ItemGroup>
+
 </Project>

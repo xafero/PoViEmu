@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using PoViEmu.Common;
+using PoViEmu.Core.Machine.Decoding;
 
 namespace CpuFuzzer
 {

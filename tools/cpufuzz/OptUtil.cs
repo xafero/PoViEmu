@@ -5,6 +5,23 @@ namespace CpuFuzzer
 {
     public static class OptUtil
     {
+        private static IDictionary<string, List<string>> ToOpDict(this NasmLine[] allLines)
+        {
+            var opDict = new SortedDictionary<string, List<string>>();
+            foreach (var item in allLines.GroupBy(g => g.B.Split(' ', 2)[0]))
+            {
+                var opNames = item.Select(t => t.H).OrderBy(x => x).Distinct();
+                foreach (var opName in opNames)
+                {
+                    var opKey = opName.ToString();
+                    if (!opDict.TryGetValue(opKey, out var opVal))
+                        opVal = opDict[opKey] = new List<string>();
+                    opVal.Add(item.Key);
+                }
+            }
+            return opDict;
+        }
+
         private static IDictionary<string, List<string>> OptimizeOpDict(this IDictionary<string, List<string>> opRaw)
         {
             var opDict = new SortedDictionary<string, List<string>>();
