@@ -36,8 +36,41 @@ namespace PoViEmu.Core.Machine
                 var first = buffer[0];
                 switch (first)
                 {
+                    case 0x06:
+                        yield return new(pos, first, 1, O.push, args: [R.es]);
+                        continue;
+                    case 0x07:
+                        yield return new(pos, first, 1, O.pop, args: [R.es]);
+                        continue;
+                    case 0x0E:
+                        yield return new(pos, first, 1, O.push, args: [R.cs]);
+                        continue;
+                    case 0x16:
+                        yield return new(pos, first, 1, O.push, args: [R.ss]);
+                        continue;
+                    case 0x17:
+                        yield return new(pos, first, 1, O.pop, args: [R.ss]);
+                        continue;
+                    case 0x1E:
+                        yield return new(pos, first, 1, O.push, args: [R.ds]);
+                        continue;
+                    case 0x1F:
+                        yield return new(pos, first, 1, O.pop, args: [R.ds]);
+                        continue;
+                    case 0x27:
+                        yield return new(pos, first, 1, O.daa);
+                        continue;
+                    case 0x2F:
+                        yield return new(pos, first, 1, O.das);
+                        continue;
+                    case 0x37:
+                        yield return new(pos, first, 1, O.aaa);
+                        continue;
+                    case 0x3F:
+                        yield return new(pos, first, 1, O.aas);
+                        continue;
                     default:
-                        yield break;
+                        throw new ArgumentOutOfRangeException($"Unknown OpCode 0x{first:X2}!");
                 }
             }
         }
