@@ -8,10 +8,6 @@ namespace PoViEmu.Core.Machine.Core
 {
     public class Instruction
     {
-        public Instruction(long pos, byte code, OpCode op, Modifier? mod = null, OpArg[]? args = null)
-        {
-        }
-        
         public Instruction(long pos, byte code, int size, OpCode op, Modifier? mod = null, OpArg[]? args = null)
         {
             Offset = (int)pos;
