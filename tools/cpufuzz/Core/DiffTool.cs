@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using DiffPlex;
 using DiffPlex.DiffBuilder;
 using DiffPlex.DiffBuilder.Model;
 

@@ -2,9 +2,6 @@
 using System.IO;
 using System.Linq;
 using PoViEmu.CpuFuzzer.App;
-using PoViEmu.Common;
-using PoViEmu.Core.Machine.Decoding;
-using PoViEmu.Tests;
 
 namespace PoViEmu.CpuFuzzer
 {
