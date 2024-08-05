@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using PoViEmu.Common;
 using PoViEmu.Core.Machine.Ops;
@@ -44,7 +45,7 @@ namespace PoViEmu.CpuFuzzer.App
                 }
                 Console.WriteLine();
 
-                var genLines = expected.Split(nl);
+                var genLines = expected.Split(nl).Take(1);
                 foreach (var genLine in genLines)
                 {
                     var objLine = NasmLine.ParseLine(genLine);
