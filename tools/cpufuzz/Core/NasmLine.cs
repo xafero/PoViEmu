@@ -16,7 +16,9 @@ namespace PoViEmu.CpuFuzzer.Core
             var bytes = Convert.FromHexString(hex);
             var humanPt = parts[2].Split(' ', 2);
             var humanPtsT = humanPt[0];
-            var humanO = humanPtsT.StartsWith("vc") || humanPtsT.StartsWith("vp") || humanPtsT.StartsWith("vm")
+            var humanO = humanPtsT.StartsWith("vc") || humanPtsT.StartsWith("vp") ||
+                         humanPtsT.StartsWith("vm") || humanPtsT.StartsWith("vf") ||
+                         humanPtsT.StartsWith("vs")
                 ? default
                 : Enum.Parse<OpCode>(humanPtsT);
             var humanR = humanPt.Length == 2 ? humanPt[1] : null;
