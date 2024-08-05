@@ -8,8 +8,8 @@ using PoViEmu.Core.Machine.Ops;
 using PoViEmu.Tests;
 using PoViEmu.CpuFuzzer.Core;
 using static PoViEmu.CpuFuzzer.Core.OptUtil;
-using SortedOps = System.Collections.Generic.SortedDictionary<PoViEmu.Core.Machine.Ops.OpCode, 
-    System.Collections.Generic.SortedDictionary<string, 
+using SortedOps = System.Collections.Generic.SortedDictionary<PoViEmu.Core.Machine.Ops.OpCode,
+    System.Collections.Generic.SortedDictionary<string,
         System.Collections.Generic.HashSet<PoViEmu.CpuFuzzer.Core.NasmLine>>>;
 
 namespace PoViEmu.CpuFuzzer.App
