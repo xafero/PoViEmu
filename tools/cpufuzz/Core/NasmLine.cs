@@ -18,7 +18,8 @@ namespace PoViEmu.CpuFuzzer.Core
             var humanPtsT = humanPt[0];
             var humanO = humanPtsT.StartsWith("vc") || humanPtsT.StartsWith("vp") ||
                          humanPtsT.StartsWith("vm") || humanPtsT.StartsWith("vf") ||
-                         humanPtsT.StartsWith("vs")
+                         humanPtsT.StartsWith("vs") || humanPtsT.StartsWith("va") ||
+                         humanPtsT.StartsWith("vh") || humanPtsT.StartsWith("vd")
                 ? default
                 : Enum.Parse<OpCode>(humanPtsT);
             var humanR = humanPt.Length == 2 ? humanPt[1] : null;
