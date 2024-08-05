@@ -73,6 +73,16 @@ namespace PoViEmu.Core.Machine.Core
             return new RegByteArg(reg, (byte)value);
         }
 
+        public static OpArg With(this OpArg arg, int value)
+        {
+            switch (arg)
+            {
+                case RegisterArg a:
+                    return a.Value.With(value);
+            }
+            throw new InvalidOperationException($" {arg} <= {value:X2}");
+        }
+
         public static RegByteArg Plus(this Register reg, int value)
         {
             return new RegPlusArg(reg, (byte)value);

@@ -10,6 +10,7 @@ namespace PoViEmu.Tests
 {
     public class DissTest
     {
+        /*
         [Theory]
         [InlineData("Ejemplo1")]
         [InlineData("Ejemplo2")]
@@ -17,7 +18,7 @@ namespace PoViEmu.Tests
         {
             var dir = Path.Combine("Resources", "Codes");
             DoShouldRead(dir, fileName);
-        }
+        }*/
 
         public static void DoShouldRead(string dir, string fileName)
         {

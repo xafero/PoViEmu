@@ -22,7 +22,7 @@ namespace PoViEmu.Core.Machine.Decoding
                 : default;
         }
 
-        public static A ToReg(this Rgo val, Rga mode, OpBit bit)
+        public static A ToReg(this Rgo val, Rga mode, OpBit bit, byte plus = 0)
         {
             var is16Bit = bit == OpBit.b16;
             switch (mode)
@@ -30,14 +30,14 @@ namespace PoViEmu.Core.Machine.Decoding
                 case Rga.R2M:
                     switch (val)
                     {
-                        case Rgo.ax: return R.bx.Plus(R.si, 0);
-                        case Rgo.bx: return R.bp.Plus(R.di, 0);
-                        case Rgo.cx: return R.bx.Plus(R.di, 0);
-                        case Rgo.dx: return R.bp.Plus(R.si, 0);
-                        case Rgo.di: return R.bx.Box(0);
+                        case Rgo.ax: return R.bx.Plus(R.si, plus);
+                        case Rgo.bx: return R.bp.Plus(R.di, plus);
+                        case Rgo.cx: return R.bx.Plus(R.di, plus);
+                        case Rgo.dx: return R.bp.Plus(R.si, plus);
+                        case Rgo.di: return R.bx.Box(plus);
                         case Rgo.si: return default;
-                        case Rgo.sp: return R.si.Box(0);
-                        case Rgo.bp: return R.di.Box(0);
+                        case Rgo.sp: return R.si.Box(plus);
+                        case Rgo.bp: return R.di.Box(plus);
                         default: throw new ArgumentOutOfRangeException(nameof(val), val, null);
                     }
                 case Rga.R2R:
