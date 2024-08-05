@@ -404,4 +404,4 @@ FodyWeavers.xsd
 # Secret stuff
 Secret/
 dist/
-
+/tools/cpufuzz/out/
