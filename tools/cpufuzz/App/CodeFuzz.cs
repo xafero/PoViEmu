@@ -21,12 +21,30 @@ namespace PoViEmu.CpuFuzzer.App
 
             var allFile = Path.Combine(outDir, "all.json");
             var allDict = JsonHelper.FromJson<SortedOps>(File.ReadAllText(allFile, enc));
-            var allLines = GenUtil.Iter(allDict).ToArray();
+            var allLines = allDict.Iter().ToArray();
 
-            foreach (var line in allLines.OrderBy(l => l.H.ToString())
-                         .ThenBy(l => l.B.Length).ThenBy(a => a.B))
+            foreach (var g in allLines.OrderBy(l => l.X.Length)
+                         .GroupBy(l => l.X.Length))
             {
-                Console.WriteLine($" * {line}");
+                Console.WriteLine($" #{g.Key / 2}");
+                foreach (var line in g.OrderBy(y => y.X))
+                {
+                    var bytes = Convert.FromHexString(line.X);
+                    var cmd = line.H.ToNotKeyword();
+                    var arg = GenUtil.ParseArg(line.A);
+                    if (bytes.Length == 1)
+                    {
+                        Console.WriteLine($"   case 0x{bytes[0]:X2}: yield return new(pos, first," +
+                                          $" {bytes.Length}, O.{cmd}, args: [{arg}]); continue;");
+
+                        // TODO
+                        Console.WriteLine(line);
+
+                        continue;
+                    }
+                    var debug = line.ToString().Replace(nameof(NasmLine), string.Empty);
+                    // Console.WriteLine($" * {cmd}, {bytes.Length} B --> {debug}");
+                }
             }
 
             Console.WriteLine($"Processed {allLines.Length} lines.");
