@@ -31,19 +31,16 @@ namespace PoViEmu.CpuFuzzer.App
                 {
                     var bytes = Convert.FromHexString(line.X);
                     var cmd = line.H.ToNotKeyword();
-                    var arg = GenUtil.ParseArg(line.A);
+                    var debug = line.ToString().Replace(nameof(NasmLine), string.Empty);
+                    var arg = line.A.ParseArg();
                     if (bytes.Length == 1)
                     {
                         Console.WriteLine($"   case 0x{bytes[0]:X2}: yield return new(pos, first," +
                                           $" {bytes.Length}, O.{cmd}, args: [{arg}]); continue;");
-
-                        // TODO
-                        Console.WriteLine(line);
-
                         continue;
                     }
-                    var debug = line.ToString().Replace(nameof(NasmLine), string.Empty);
-                    // Console.WriteLine($" * {cmd}, {bytes.Length} B --> {debug}");
+                    Console.WriteLine($" * {cmd}, {bytes.Length}, {arg} --> {debug}");
+                    continue;
                 }
             }
 
