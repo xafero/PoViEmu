@@ -91,6 +91,9 @@ namespace PoViEmu.CpuFuzzer.Core
                 case "xmm5": return "ExtReg.Xmm5";
                 case "xmm6": return "ExtReg.Xmm6";
                 case "xmm7": return "ExtReg.Xmm7";
+                case "xmm3{k1}": return "ExtReg.Xmm3_k1";
+                case "xmm14": return "ExtReg.Xmm14";
+                case "xmm22": return "ExtReg.Xmm22";
                 case "ymm0": return "EytReg.ymm0";
                 case "ymm1": return "EytReg.ymm1";
                 case "ymm2": return "EytReg.ymm2";
@@ -99,6 +102,10 @@ namespace PoViEmu.CpuFuzzer.Core
                 case "ymm5": return "EytReg.ymm5";
                 case "ymm6": return "EytReg.ymm6";
                 case "ymm7": return "EytReg.ymm7";
+            }
+            if (text.EndsWith("{1to8}"))
+            {
+                text = text.Replace("{1to8}", string.Empty);
             }
             if (text.StartsWith("byte +"))
             {
@@ -116,9 +123,19 @@ namespace PoViEmu.CpuFuzzer.Core
                     return $"{byteMArg}.Minus()";
                 }
             }
+            if (text.StartsWith("oword "))
+            {
+                if (text.Length == 18 || text.Length == 15 || text.Length == 19
+                    || text.Length == 20 || text.Length == 17)
+                {
+                    var wordArg = ParseArg(text[6..]);
+                    return $"M.oword.On({wordArg})";
+                }
+            }
             if (text.StartsWith("yword "))
             {
-                if (text.Length == 13)
+                if (text.Length == 13 || text.Length == 18 || text.Length == 15
+                    || text.Length == 20 || text.Length == 17)
                 {
                     var wordArg = ParseArg(text[6..]);
                     return $"M.yword.On({wordArg})";
@@ -203,6 +220,17 @@ namespace PoViEmu.CpuFuzzer.Core
             }
             if (text.StartsWith("0x"))
             {
+                if (((text.Length == 13 || text.Length == 12) && text[6] == ':')
+                    || ((text.Length == 11 || text.Length == 12) && text[5] == ':')
+                    || ((text.Length == 11) && text[6] == ':')
+                    || ((text.Length == 11) && text[4] == ':')
+                    || ((text.Length == 10) && text[3] == ':'))
+                {
+                    var dpTmp = text.Split(':', 2);
+                    var dp1 = ParseArg(dpTmp[0]);
+                    var dp2 = ParseArg(dpTmp[1]);
+                    return $"{dp1}.ToMem({dp2})";
+                }
                 if (text.Length == 3 || text.Length == 4)
                 {
                     return "s.NextByte()";
