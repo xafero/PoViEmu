@@ -16,6 +16,12 @@ namespace PoViEmu.Core.Machine.Ops
         
         public static implicit operator OpArg(SegReg val)
             => new RegisterArg((Register)val);
+        
+        public static implicit operator OpArg(FloatReg val)
+            => new RegisterArg((Register)val);
+        
+        public static implicit operator OpArg(NumReg val)
+            => new RegisterArg((Register)val);
 
         public static implicit operator OpArg(Register val) => new RegisterArg(val);
 

@@ -17,5 +17,7 @@ namespace PoViEmu.Core.Machine.Args
         }
 
         public virtual byte[] Bytes => [Value];
+        
+        public static implicit operator ConstantArg(int val) => new((byte)val);
     }
 }

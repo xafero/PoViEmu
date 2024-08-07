@@ -39,6 +39,51 @@ namespace PoViEmu.Core.Machine.Core
             return skip;
         }
 
+        public static OpArg On(this Modifier mod, object obj)
+        {
+            throw new InvalidOperationException("Not done! " + mod); // TODO
+        }
+        
+        public static OpArg On(this Modifier mod, object obj, object two)
+        {
+            throw new InvalidOperationException("Not done! " + mod); // TODO
+        }
+
+        public static OpArg Box(this object obj)
+        {
+            throw new InvalidOperationException("Not done! " + obj); // TODO
+        }
+        
+        public static OpArg Minus(this object obj)
+        {
+            throw new InvalidOperationException("Not done! " + obj); // TODO
+        }
+
+        public static OpArg Minus(this object obj, object add)
+        {
+            throw new InvalidOperationException("Not done! " + obj); // TODO
+        }
+        
+        public static OpArg Plus(this object obj)
+        {
+            throw new InvalidOperationException("Not done! " + obj); // TODO
+        }
+        
+        public static OpArg Plus(this object obj, object add)
+        {
+            throw new InvalidOperationException("Not done! " + obj); // TODO
+        }
+
+        public static byte NextByte(this Stream stream)
+        {
+            throw new InvalidOperationException("Not done! " + stream); // TODO
+        }
+        
+        public static short NextShort(this Stream stream)
+        {
+            throw new InvalidOperationException("Not done! " + stream); // TODO
+        }
+
         public static ConstantArg NextByteC(this Stream stream, bool isSkip = false)
         {
             var res = stream.ReadBytesMany()?[0] ?? 0xFE;

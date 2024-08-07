@@ -5,6 +5,8 @@ namespace PoViEmu.Expert
         SS,
         CS,
         DS,
-        ES
+        ES,
+        FS,
+        GS
     }
 }

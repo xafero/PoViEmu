@@ -29,8 +29,9 @@ namespace PoViEmu.CpuFuzzer.Core
             var codeStr = code.ToString();
             switch (codeStr)
             {
-                case "in": return "@in";
                 case "out": return "@out";
+                case "int": return "@int";
+                case "in": return "@in";
             }
             return codeStr;
         }
@@ -193,7 +194,7 @@ namespace PoViEmu.CpuFuzzer.Core
                 if (text.Length == 9 || text.Length == 10 || text.Length == 12)
                 {
                     var wordArg = ParseArg(text[6..]);
-                    return $"M.short.On({wordArg})";
+                    return $"M.@short.On({wordArg})";
                 }
             }
             if (text.StartsWith("byte "))
@@ -203,7 +204,7 @@ namespace PoViEmu.CpuFuzzer.Core
                     || text.Length == 18 || text.Length == 19 || text.Length == 15)
                 {
                     var wordArg = ParseArg(text[5..]);
-                    return $"M.byte.On({wordArg})";
+                    return $"M.@byte.On({wordArg})";
                 }
             }
             if (text.StartsWith("far "))

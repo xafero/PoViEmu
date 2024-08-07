@@ -22,25 +22,55 @@ namespace PoViEmu.Expert
 {
     public static class XIntel16
     {
-        public static IEnumerable<Instruction> Disassemble(Stream s, byte[] buffer)
+        public static IEnumerable<Instruction> Disassemble(Stream s, byte[] buff)
         {
-            while (s.ReadBytesPos(buffer) is { } pos)
+            while (s.ReadBytesPos(buff) is { } pos)
             {
-                var first = buffer[0];
+                var first = buff[0];
                 switch (first)
                 {
                     case 0x00:
-                        continue;
+                        if (Intel16x00.Parse(s, buff, pos, first) is { } x00)
+                        {
+                            yield return x00;
+                            continue;
+                        }
+                        break;
                     case 0x01:
-                        continue;
+                        if (Intel16x01.Parse(s, buff, pos, first) is { } x01)
+                        {
+                            yield return x01;
+                            continue;
+                        }
+                        break;
                     case 0x02:
-                        continue;
+                        if (Intel16x02.Parse(s, buff, pos, first) is { } x02)
+                        {
+                            yield return x02;
+                            continue;
+                        }
+                        break;
                     case 0x03:
-                        continue;
+                        if (Intel16x03.Parse(s, buff, pos, first) is { } x03)
+                        {
+                            yield return x03;
+                            continue;
+                        }
+                        break;
                     case 0x04:
-                        continue;
+                        if (Intel16x04.Parse(s, buff, pos, first) is { } x04)
+                        {
+                            yield return x04;
+                            continue;
+                        }
+                        break;
                     case 0x05:
-                        continue;
+                        if (Intel16x05.Parse(s, buff, pos, first) is { } x05)
+                        {
+                            yield return x05;
+                            continue;
+                        }
+                        break;
                     case 0x06:
                         yield return new(pos, first, 1, O.push, args: [SegReg.ES]);
                         continue;
@@ -48,32 +78,92 @@ namespace PoViEmu.Expert
                         yield return new(pos, first, 1, O.pop, args: [SegReg.ES]);
                         continue;
                     case 0x08:
-                        continue;
+                        if (Intel16x08.Parse(s, buff, pos, first) is { } x08)
+                        {
+                            yield return x08;
+                            continue;
+                        }
+                        break;
                     case 0x09:
-                        continue;
+                        if (Intel16x09.Parse(s, buff, pos, first) is { } x09)
+                        {
+                            yield return x09;
+                            continue;
+                        }
+                        break;
                     case 0x0A:
-                        continue;
+                        if (Intel16x0A.Parse(s, buff, pos, first) is { } x0A)
+                        {
+                            yield return x0A;
+                            continue;
+                        }
+                        break;
                     case 0x0B:
-                        continue;
+                        if (Intel16x0B.Parse(s, buff, pos, first) is { } x0B)
+                        {
+                            yield return x0B;
+                            continue;
+                        }
+                        break;
                     case 0x0C:
-                        continue;
+                        if (Intel16x0C.Parse(s, buff, pos, first) is { } x0C)
+                        {
+                            yield return x0C;
+                            continue;
+                        }
+                        break;
                     case 0x0D:
-                        continue;
+                        if (Intel16x0D.Parse(s, buff, pos, first) is { } x0D)
+                        {
+                            yield return x0D;
+                            continue;
+                        }
+                        break;
                     case 0x0E:
                         yield return new(pos, first, 1, O.push, args: [SegReg.CS]);
                         continue;
                     case 0x10:
-                        continue;
+                        if (Intel16x10.Parse(s, buff, pos, first) is { } x10)
+                        {
+                            yield return x10;
+                            continue;
+                        }
+                        break;
                     case 0x11:
-                        continue;
+                        if (Intel16x11.Parse(s, buff, pos, first) is { } x11)
+                        {
+                            yield return x11;
+                            continue;
+                        }
+                        break;
                     case 0x12:
-                        continue;
+                        if (Intel16x12.Parse(s, buff, pos, first) is { } x12)
+                        {
+                            yield return x12;
+                            continue;
+                        }
+                        break;
                     case 0x13:
-                        continue;
+                        if (Intel16x13.Parse(s, buff, pos, first) is { } x13)
+                        {
+                            yield return x13;
+                            continue;
+                        }
+                        break;
                     case 0x14:
-                        continue;
+                        if (Intel16x14.Parse(s, buff, pos, first) is { } x14)
+                        {
+                            yield return x14;
+                            continue;
+                        }
+                        break;
                     case 0x15:
-                        continue;
+                        if (Intel16x15.Parse(s, buff, pos, first) is { } x15)
+                        {
+                            yield return x15;
+                            continue;
+                        }
+                        break;
                     case 0x16:
                         yield return new(pos, first, 1, O.push, args: [SegReg.SS]);
                         continue;
@@ -81,17 +171,47 @@ namespace PoViEmu.Expert
                         yield return new(pos, first, 1, O.pop, args: [SegReg.SS]);
                         continue;
                     case 0x18:
-                        continue;
+                        if (Intel16x18.Parse(s, buff, pos, first) is { } x18)
+                        {
+                            yield return x18;
+                            continue;
+                        }
+                        break;
                     case 0x19:
-                        continue;
+                        if (Intel16x19.Parse(s, buff, pos, first) is { } x19)
+                        {
+                            yield return x19;
+                            continue;
+                        }
+                        break;
                     case 0x1A:
-                        continue;
+                        if (Intel16x1A.Parse(s, buff, pos, first) is { } x1A)
+                        {
+                            yield return x1A;
+                            continue;
+                        }
+                        break;
                     case 0x1B:
-                        continue;
+                        if (Intel16x1B.Parse(s, buff, pos, first) is { } x1B)
+                        {
+                            yield return x1B;
+                            continue;
+                        }
+                        break;
                     case 0x1C:
-                        continue;
+                        if (Intel16x1C.Parse(s, buff, pos, first) is { } x1C)
+                        {
+                            yield return x1C;
+                            continue;
+                        }
+                        break;
                     case 0x1D:
-                        continue;
+                        if (Intel16x1D.Parse(s, buff, pos, first) is { } x1D)
+                        {
+                            yield return x1D;
+                            continue;
+                        }
+                        break;
                     case 0x1E:
                         yield return new(pos, first, 1, O.push, args: [SegReg.DS]);
                         continue;
@@ -99,62 +219,182 @@ namespace PoViEmu.Expert
                         yield return new(pos, first, 1, O.pop, args: [SegReg.DS]);
                         continue;
                     case 0x20:
-                        continue;
+                        if (Intel16x20.Parse(s, buff, pos, first) is { } x20)
+                        {
+                            yield return x20;
+                            continue;
+                        }
+                        break;
                     case 0x21:
-                        continue;
+                        if (Intel16x21.Parse(s, buff, pos, first) is { } x21)
+                        {
+                            yield return x21;
+                            continue;
+                        }
+                        break;
                     case 0x22:
-                        continue;
+                        if (Intel16x22.Parse(s, buff, pos, first) is { } x22)
+                        {
+                            yield return x22;
+                            continue;
+                        }
+                        break;
                     case 0x23:
-                        continue;
+                        if (Intel16x23.Parse(s, buff, pos, first) is { } x23)
+                        {
+                            yield return x23;
+                            continue;
+                        }
+                        break;
                     case 0x24:
-                        continue;
+                        if (Intel16x24.Parse(s, buff, pos, first) is { } x24)
+                        {
+                            yield return x24;
+                            continue;
+                        }
+                        break;
                     case 0x25:
-                        continue;
+                        if (Intel16x25.Parse(s, buff, pos, first) is { } x25)
+                        {
+                            yield return x25;
+                            continue;
+                        }
+                        break;
                     case 0x27:
                         yield return new(pos, first, 1, O.daa, args: []);
                         continue;
                     case 0x28:
-                        continue;
+                        if (Intel16x28.Parse(s, buff, pos, first) is { } x28)
+                        {
+                            yield return x28;
+                            continue;
+                        }
+                        break;
                     case 0x29:
-                        continue;
+                        if (Intel16x29.Parse(s, buff, pos, first) is { } x29)
+                        {
+                            yield return x29;
+                            continue;
+                        }
+                        break;
                     case 0x2A:
-                        continue;
+                        if (Intel16x2A.Parse(s, buff, pos, first) is { } x2A)
+                        {
+                            yield return x2A;
+                            continue;
+                        }
+                        break;
                     case 0x2B:
-                        continue;
+                        if (Intel16x2B.Parse(s, buff, pos, first) is { } x2B)
+                        {
+                            yield return x2B;
+                            continue;
+                        }
+                        break;
                     case 0x2C:
-                        continue;
+                        if (Intel16x2C.Parse(s, buff, pos, first) is { } x2C)
+                        {
+                            yield return x2C;
+                            continue;
+                        }
+                        break;
                     case 0x2D:
-                        continue;
+                        if (Intel16x2D.Parse(s, buff, pos, first) is { } x2D)
+                        {
+                            yield return x2D;
+                            continue;
+                        }
+                        break;
                     case 0x2F:
                         yield return new(pos, first, 1, O.das, args: []);
                         continue;
                     case 0x30:
-                        continue;
+                        if (Intel16x30.Parse(s, buff, pos, first) is { } x30)
+                        {
+                            yield return x30;
+                            continue;
+                        }
+                        break;
                     case 0x31:
-                        continue;
+                        if (Intel16x31.Parse(s, buff, pos, first) is { } x31)
+                        {
+                            yield return x31;
+                            continue;
+                        }
+                        break;
                     case 0x32:
-                        continue;
+                        if (Intel16x32.Parse(s, buff, pos, first) is { } x32)
+                        {
+                            yield return x32;
+                            continue;
+                        }
+                        break;
                     case 0x33:
-                        continue;
+                        if (Intel16x33.Parse(s, buff, pos, first) is { } x33)
+                        {
+                            yield return x33;
+                            continue;
+                        }
+                        break;
                     case 0x34:
-                        continue;
+                        if (Intel16x34.Parse(s, buff, pos, first) is { } x34)
+                        {
+                            yield return x34;
+                            continue;
+                        }
+                        break;
                     case 0x35:
-                        continue;
+                        if (Intel16x35.Parse(s, buff, pos, first) is { } x35)
+                        {
+                            yield return x35;
+                            continue;
+                        }
+                        break;
                     case 0x37:
                         yield return new(pos, first, 1, O.aaa, args: []);
                         continue;
                     case 0x38:
-                        continue;
+                        if (Intel16x38.Parse(s, buff, pos, first) is { } x38)
+                        {
+                            yield return x38;
+                            continue;
+                        }
+                        break;
                     case 0x39:
-                        continue;
+                        if (Intel16x39.Parse(s, buff, pos, first) is { } x39)
+                        {
+                            yield return x39;
+                            continue;
+                        }
+                        break;
                     case 0x3A:
-                        continue;
+                        if (Intel16x3A.Parse(s, buff, pos, first) is { } x3A)
+                        {
+                            yield return x3A;
+                            continue;
+                        }
+                        break;
                     case 0x3B:
-                        continue;
+                        if (Intel16x3B.Parse(s, buff, pos, first) is { } x3B)
+                        {
+                            yield return x3B;
+                            continue;
+                        }
+                        break;
                     case 0x3C:
-                        continue;
+                        if (Intel16x3C.Parse(s, buff, pos, first) is { } x3C)
+                        {
+                            yield return x3C;
+                            continue;
+                        }
+                        break;
                     case 0x3D:
-                        continue;
+                        if (Intel16x3D.Parse(s, buff, pos, first) is { } x3D)
+                        {
+                            yield return x3D;
+                            continue;
+                        }
+                        break;
                     case 0x3F:
                         yield return new(pos, first, 1, O.aas, args: []);
                         continue;
@@ -261,17 +501,47 @@ namespace PoViEmu.Expert
                         yield return new(pos, first, 1, O.popa, args: []);
                         continue;
                     case 0x62:
-                        continue;
+                        if (Intel16x62.Parse(s, buff, pos, first) is { } x62)
+                        {
+                            yield return x62;
+                            continue;
+                        }
+                        break;
                     case 0x63:
-                        continue;
+                        if (Intel16x63.Parse(s, buff, pos, first) is { } x63)
+                        {
+                            yield return x63;
+                            continue;
+                        }
+                        break;
                     case 0x68:
-                        continue;
+                        if (Intel16x68.Parse(s, buff, pos, first) is { } x68)
+                        {
+                            yield return x68;
+                            continue;
+                        }
+                        break;
                     case 0x69:
-                        continue;
+                        if (Intel16x69.Parse(s, buff, pos, first) is { } x69)
+                        {
+                            yield return x69;
+                            continue;
+                        }
+                        break;
                     case 0x6A:
-                        continue;
+                        if (Intel16x6A.Parse(s, buff, pos, first) is { } x6A)
+                        {
+                            yield return x6A;
+                            continue;
+                        }
+                        break;
                     case 0x6B:
-                        continue;
+                        if (Intel16x6B.Parse(s, buff, pos, first) is { } x6B)
+                        {
+                            yield return x6B;
+                            continue;
+                        }
+                        break;
                     case 0x6C:
                         yield return new(pos, first, 1, O.insb, args: []);
                         continue;
@@ -285,67 +555,222 @@ namespace PoViEmu.Expert
                         yield return new(pos, first, 1, O.outsw, args: []);
                         continue;
                     case 0x70:
-                        continue;
+                        if (Intel16x70.Parse(s, buff, pos, first) is { } x70)
+                        {
+                            yield return x70;
+                            continue;
+                        }
+                        break;
                     case 0x71:
-                        continue;
+                        if (Intel16x71.Parse(s, buff, pos, first) is { } x71)
+                        {
+                            yield return x71;
+                            continue;
+                        }
+                        break;
                     case 0x72:
-                        continue;
+                        if (Intel16x72.Parse(s, buff, pos, first) is { } x72)
+                        {
+                            yield return x72;
+                            continue;
+                        }
+                        break;
                     case 0x73:
-                        continue;
+                        if (Intel16x73.Parse(s, buff, pos, first) is { } x73)
+                        {
+                            yield return x73;
+                            continue;
+                        }
+                        break;
                     case 0x74:
-                        continue;
+                        if (Intel16x74.Parse(s, buff, pos, first) is { } x74)
+                        {
+                            yield return x74;
+                            continue;
+                        }
+                        break;
                     case 0x75:
-                        continue;
+                        if (Intel16x75.Parse(s, buff, pos, first) is { } x75)
+                        {
+                            yield return x75;
+                            continue;
+                        }
+                        break;
                     case 0x76:
-                        continue;
+                        if (Intel16x76.Parse(s, buff, pos, first) is { } x76)
+                        {
+                            yield return x76;
+                            continue;
+                        }
+                        break;
                     case 0x77:
-                        continue;
+                        if (Intel16x77.Parse(s, buff, pos, first) is { } x77)
+                        {
+                            yield return x77;
+                            continue;
+                        }
+                        break;
                     case 0x78:
-                        continue;
+                        if (Intel16x78.Parse(s, buff, pos, first) is { } x78)
+                        {
+                            yield return x78;
+                            continue;
+                        }
+                        break;
                     case 0x79:
-                        continue;
+                        if (Intel16x79.Parse(s, buff, pos, first) is { } x79)
+                        {
+                            yield return x79;
+                            continue;
+                        }
+                        break;
                     case 0x7A:
-                        continue;
+                        if (Intel16x7A.Parse(s, buff, pos, first) is { } x7A)
+                        {
+                            yield return x7A;
+                            continue;
+                        }
+                        break;
                     case 0x7B:
-                        continue;
+                        if (Intel16x7B.Parse(s, buff, pos, first) is { } x7B)
+                        {
+                            yield return x7B;
+                            continue;
+                        }
+                        break;
                     case 0x7C:
-                        continue;
+                        if (Intel16x7C.Parse(s, buff, pos, first) is { } x7C)
+                        {
+                            yield return x7C;
+                            continue;
+                        }
+                        break;
                     case 0x7D:
-                        continue;
+                        if (Intel16x7D.Parse(s, buff, pos, first) is { } x7D)
+                        {
+                            yield return x7D;
+                            continue;
+                        }
+                        break;
                     case 0x7E:
-                        continue;
+                        if (Intel16x7E.Parse(s, buff, pos, first) is { } x7E)
+                        {
+                            yield return x7E;
+                            continue;
+                        }
+                        break;
                     case 0x7F:
-                        continue;
+                        if (Intel16x7F.Parse(s, buff, pos, first) is { } x7F)
+                        {
+                            yield return x7F;
+                            continue;
+                        }
+                        break;
                     case 0x80:
-                        continue;
+                        if (Intel16x80.Parse(s, buff, pos, first) is { } x80)
+                        {
+                            yield return x80;
+                            continue;
+                        }
+                        break;
                     case 0x81:
-                        continue;
+                        if (Intel16x81.Parse(s, buff, pos, first) is { } x81)
+                        {
+                            yield return x81;
+                            continue;
+                        }
+                        break;
                     case 0x83:
-                        continue;
+                        if (Intel16x83.Parse(s, buff, pos, first) is { } x83)
+                        {
+                            yield return x83;
+                            continue;
+                        }
+                        break;
                     case 0x84:
-                        continue;
+                        if (Intel16x84.Parse(s, buff, pos, first) is { } x84)
+                        {
+                            yield return x84;
+                            continue;
+                        }
+                        break;
                     case 0x85:
-                        continue;
+                        if (Intel16x85.Parse(s, buff, pos, first) is { } x85)
+                        {
+                            yield return x85;
+                            continue;
+                        }
+                        break;
                     case 0x86:
-                        continue;
+                        if (Intel16x86.Parse(s, buff, pos, first) is { } x86)
+                        {
+                            yield return x86;
+                            continue;
+                        }
+                        break;
                     case 0x87:
-                        continue;
+                        if (Intel16x87.Parse(s, buff, pos, first) is { } x87)
+                        {
+                            yield return x87;
+                            continue;
+                        }
+                        break;
                     case 0x88:
-                        continue;
+                        if (Intel16x88.Parse(s, buff, pos, first) is { } x88)
+                        {
+                            yield return x88;
+                            continue;
+                        }
+                        break;
                     case 0x89:
-                        continue;
+                        if (Intel16x89.Parse(s, buff, pos, first) is { } x89)
+                        {
+                            yield return x89;
+                            continue;
+                        }
+                        break;
                     case 0x8A:
-                        continue;
+                        if (Intel16x8A.Parse(s, buff, pos, first) is { } x8A)
+                        {
+                            yield return x8A;
+                            continue;
+                        }
+                        break;
                     case 0x8B:
-                        continue;
+                        if (Intel16x8B.Parse(s, buff, pos, first) is { } x8B)
+                        {
+                            yield return x8B;
+                            continue;
+                        }
+                        break;
                     case 0x8C:
-                        continue;
+                        if (Intel16x8C.Parse(s, buff, pos, first) is { } x8C)
+                        {
+                            yield return x8C;
+                            continue;
+                        }
+                        break;
                     case 0x8D:
-                        continue;
+                        if (Intel16x8D.Parse(s, buff, pos, first) is { } x8D)
+                        {
+                            yield return x8D;
+                            continue;
+                        }
+                        break;
                     case 0x8E:
-                        continue;
+                        if (Intel16x8E.Parse(s, buff, pos, first) is { } x8E)
+                        {
+                            yield return x8E;
+                            continue;
+                        }
+                        break;
                     case 0x8F:
-                        continue;
+                        if (Intel16x8F.Parse(s, buff, pos, first) is { } x8F)
+                        {
+                            yield return x8F;
+                            continue;
+                        }
+                        break;
                     case 0x90:
                         yield return new(pos, first, 1, O.nop, args: []);
                         continue;
@@ -377,7 +802,12 @@ namespace PoViEmu.Expert
                         yield return new(pos, first, 1, O.cwd, args: []);
                         continue;
                     case 0x9A:
-                        continue;
+                        if (Intel16x9A.Parse(s, buff, pos, first) is { } x9A)
+                        {
+                            yield return x9A;
+                            continue;
+                        }
+                        break;
                     case 0x9C:
                         yield return new(pos, first, 1, O.pushf, args: []);
                         continue;
@@ -391,13 +821,33 @@ namespace PoViEmu.Expert
                         yield return new(pos, first, 1, O.lahf, args: []);
                         continue;
                     case 0xA0:
-                        continue;
+                        if (Intel16xA0.Parse(s, buff, pos, first) is { } xA0)
+                        {
+                            yield return xA0;
+                            continue;
+                        }
+                        break;
                     case 0xA1:
-                        continue;
+                        if (Intel16xA1.Parse(s, buff, pos, first) is { } xA1)
+                        {
+                            yield return xA1;
+                            continue;
+                        }
+                        break;
                     case 0xA2:
-                        continue;
+                        if (Intel16xA2.Parse(s, buff, pos, first) is { } xA2)
+                        {
+                            yield return xA2;
+                            continue;
+                        }
+                        break;
                     case 0xA3:
-                        continue;
+                        if (Intel16xA3.Parse(s, buff, pos, first) is { } xA3)
+                        {
+                            yield return xA3;
+                            continue;
+                        }
+                        break;
                     case 0xA4:
                         yield return new(pos, first, 1, O.movsb, args: []);
                         continue;
@@ -411,9 +861,19 @@ namespace PoViEmu.Expert
                         yield return new(pos, first, 1, O.cmpsw, args: []);
                         continue;
                     case 0xA8:
-                        continue;
+                        if (Intel16xA8.Parse(s, buff, pos, first) is { } xA8)
+                        {
+                            yield return xA8;
+                            continue;
+                        }
+                        break;
                     case 0xA9:
-                        continue;
+                        if (Intel16xA9.Parse(s, buff, pos, first) is { } xA9)
+                        {
+                            yield return xA9;
+                            continue;
+                        }
+                        break;
                     case 0xAA:
                         yield return new(pos, first, 1, O.stosb, args: []);
                         continue;
@@ -433,61 +893,186 @@ namespace PoViEmu.Expert
                         yield return new(pos, first, 1, O.scasw, args: []);
                         continue;
                     case 0xB0:
-                        continue;
+                        if (Intel16xB0.Parse(s, buff, pos, first) is { } xB0)
+                        {
+                            yield return xB0;
+                            continue;
+                        }
+                        break;
                     case 0xB1:
-                        continue;
+                        if (Intel16xB1.Parse(s, buff, pos, first) is { } xB1)
+                        {
+                            yield return xB1;
+                            continue;
+                        }
+                        break;
                     case 0xB2:
-                        continue;
+                        if (Intel16xB2.Parse(s, buff, pos, first) is { } xB2)
+                        {
+                            yield return xB2;
+                            continue;
+                        }
+                        break;
                     case 0xB3:
-                        continue;
+                        if (Intel16xB3.Parse(s, buff, pos, first) is { } xB3)
+                        {
+                            yield return xB3;
+                            continue;
+                        }
+                        break;
                     case 0xB4:
-                        continue;
+                        if (Intel16xB4.Parse(s, buff, pos, first) is { } xB4)
+                        {
+                            yield return xB4;
+                            continue;
+                        }
+                        break;
                     case 0xB5:
-                        continue;
+                        if (Intel16xB5.Parse(s, buff, pos, first) is { } xB5)
+                        {
+                            yield return xB5;
+                            continue;
+                        }
+                        break;
                     case 0xB6:
-                        continue;
+                        if (Intel16xB6.Parse(s, buff, pos, first) is { } xB6)
+                        {
+                            yield return xB6;
+                            continue;
+                        }
+                        break;
                     case 0xB7:
-                        continue;
+                        if (Intel16xB7.Parse(s, buff, pos, first) is { } xB7)
+                        {
+                            yield return xB7;
+                            continue;
+                        }
+                        break;
                     case 0xB8:
-                        continue;
+                        if (Intel16xB8.Parse(s, buff, pos, first) is { } xB8)
+                        {
+                            yield return xB8;
+                            continue;
+                        }
+                        break;
                     case 0xB9:
-                        continue;
+                        if (Intel16xB9.Parse(s, buff, pos, first) is { } xB9)
+                        {
+                            yield return xB9;
+                            continue;
+                        }
+                        break;
                     case 0xBA:
-                        continue;
+                        if (Intel16xBA.Parse(s, buff, pos, first) is { } xBA)
+                        {
+                            yield return xBA;
+                            continue;
+                        }
+                        break;
                     case 0xBB:
-                        continue;
+                        if (Intel16xBB.Parse(s, buff, pos, first) is { } xBB)
+                        {
+                            yield return xBB;
+                            continue;
+                        }
+                        break;
                     case 0xBC:
-                        continue;
+                        if (Intel16xBC.Parse(s, buff, pos, first) is { } xBC)
+                        {
+                            yield return xBC;
+                            continue;
+                        }
+                        break;
                     case 0xBD:
-                        continue;
+                        if (Intel16xBD.Parse(s, buff, pos, first) is { } xBD)
+                        {
+                            yield return xBD;
+                            continue;
+                        }
+                        break;
                     case 0xBE:
-                        continue;
+                        if (Intel16xBE.Parse(s, buff, pos, first) is { } xBE)
+                        {
+                            yield return xBE;
+                            continue;
+                        }
+                        break;
                     case 0xBF:
-                        continue;
+                        if (Intel16xBF.Parse(s, buff, pos, first) is { } xBF)
+                        {
+                            yield return xBF;
+                            continue;
+                        }
+                        break;
                     case 0xC0:
-                        continue;
+                        if (Intel16xC0.Parse(s, buff, pos, first) is { } xC0)
+                        {
+                            yield return xC0;
+                            continue;
+                        }
+                        break;
                     case 0xC1:
-                        continue;
+                        if (Intel16xC1.Parse(s, buff, pos, first) is { } xC1)
+                        {
+                            yield return xC1;
+                            continue;
+                        }
+                        break;
                     case 0xC2:
-                        continue;
+                        if (Intel16xC2.Parse(s, buff, pos, first) is { } xC2)
+                        {
+                            yield return xC2;
+                            continue;
+                        }
+                        break;
                     case 0xC3:
                         yield return new(pos, first, 1, O.ret, args: []);
                         continue;
                     case 0xC4:
-                        continue;
+                        if (Intel16xC4.Parse(s, buff, pos, first) is { } xC4)
+                        {
+                            yield return xC4;
+                            continue;
+                        }
+                        break;
                     case 0xC5:
-                        continue;
+                        if (Intel16xC5.Parse(s, buff, pos, first) is { } xC5)
+                        {
+                            yield return xC5;
+                            continue;
+                        }
+                        break;
                     case 0xC6:
-                        continue;
+                        if (Intel16xC6.Parse(s, buff, pos, first) is { } xC6)
+                        {
+                            yield return xC6;
+                            continue;
+                        }
+                        break;
                     case 0xC7:
-                        continue;
+                        if (Intel16xC7.Parse(s, buff, pos, first) is { } xC7)
+                        {
+                            yield return xC7;
+                            continue;
+                        }
+                        break;
                     case 0xC8:
-                        continue;
+                        if (Intel16xC8.Parse(s, buff, pos, first) is { } xC8)
+                        {
+                            yield return xC8;
+                            continue;
+                        }
+                        break;
                     case 0xC9:
                         yield return new(pos, first, 1, O.leave, args: []);
                         continue;
                     case 0xCA:
-                        continue;
+                        if (Intel16xCA.Parse(s, buff, pos, first) is { } xCA)
+                        {
+                            yield return xCA;
+                            continue;
+                        }
+                        break;
                     case 0xCB:
                         yield return new(pos, first, 1, O.retf, args: []);
                         continue;
@@ -495,7 +1080,12 @@ namespace PoViEmu.Expert
                         yield return new(pos, first, 1, O.int3, args: []);
                         continue;
                     case 0xCD:
-                        continue;
+                        if (Intel16xCD.Parse(s, buff, pos, first) is { } xCD)
+                        {
+                            yield return xCD;
+                            continue;
+                        }
+                        break;
                     case 0xCE:
                         yield return new(pos, first, 1, O.into, args: []);
                         continue;
@@ -503,17 +1093,47 @@ namespace PoViEmu.Expert
                         yield return new(pos, first, 1, O.iret, args: []);
                         continue;
                     case 0xD0:
-                        continue;
+                        if (Intel16xD0.Parse(s, buff, pos, first) is { } xD0)
+                        {
+                            yield return xD0;
+                            continue;
+                        }
+                        break;
                     case 0xD1:
-                        continue;
+                        if (Intel16xD1.Parse(s, buff, pos, first) is { } xD1)
+                        {
+                            yield return xD1;
+                            continue;
+                        }
+                        break;
                     case 0xD2:
-                        continue;
+                        if (Intel16xD2.Parse(s, buff, pos, first) is { } xD2)
+                        {
+                            yield return xD2;
+                            continue;
+                        }
+                        break;
                     case 0xD3:
-                        continue;
+                        if (Intel16xD3.Parse(s, buff, pos, first) is { } xD3)
+                        {
+                            yield return xD3;
+                            continue;
+                        }
+                        break;
                     case 0xD4:
-                        continue;
+                        if (Intel16xD4.Parse(s, buff, pos, first) is { } xD4)
+                        {
+                            yield return xD4;
+                            continue;
+                        }
+                        break;
                     case 0xD5:
-                        continue;
+                        if (Intel16xD5.Parse(s, buff, pos, first) is { } xD5)
+                        {
+                            yield return xD5;
+                            continue;
+                        }
+                        break;
                     case 0xD6:
                         yield return new(pos, first, 1, O.salc, args: []);
                         continue;
@@ -521,45 +1141,145 @@ namespace PoViEmu.Expert
                         yield return new(pos, first, 1, O.xlatb, args: []);
                         continue;
                     case 0xD8:
-                        continue;
+                        if (Intel16xD8.Parse(s, buff, pos, first) is { } xD8)
+                        {
+                            yield return xD8;
+                            continue;
+                        }
+                        break;
                     case 0xD9:
-                        continue;
+                        if (Intel16xD9.Parse(s, buff, pos, first) is { } xD9)
+                        {
+                            yield return xD9;
+                            continue;
+                        }
+                        break;
                     case 0xDA:
-                        continue;
+                        if (Intel16xDA.Parse(s, buff, pos, first) is { } xDA)
+                        {
+                            yield return xDA;
+                            continue;
+                        }
+                        break;
                     case 0xDB:
-                        continue;
+                        if (Intel16xDB.Parse(s, buff, pos, first) is { } xDB)
+                        {
+                            yield return xDB;
+                            continue;
+                        }
+                        break;
                     case 0xDC:
-                        continue;
+                        if (Intel16xDC.Parse(s, buff, pos, first) is { } xDC)
+                        {
+                            yield return xDC;
+                            continue;
+                        }
+                        break;
                     case 0xDD:
-                        continue;
+                        if (Intel16xDD.Parse(s, buff, pos, first) is { } xDD)
+                        {
+                            yield return xDD;
+                            continue;
+                        }
+                        break;
                     case 0xDE:
-                        continue;
+                        if (Intel16xDE.Parse(s, buff, pos, first) is { } xDE)
+                        {
+                            yield return xDE;
+                            continue;
+                        }
+                        break;
                     case 0xDF:
-                        continue;
+                        if (Intel16xDF.Parse(s, buff, pos, first) is { } xDF)
+                        {
+                            yield return xDF;
+                            continue;
+                        }
+                        break;
                     case 0xE0:
-                        continue;
+                        if (Intel16xE0.Parse(s, buff, pos, first) is { } xE0)
+                        {
+                            yield return xE0;
+                            continue;
+                        }
+                        break;
                     case 0xE1:
-                        continue;
+                        if (Intel16xE1.Parse(s, buff, pos, first) is { } xE1)
+                        {
+                            yield return xE1;
+                            continue;
+                        }
+                        break;
                     case 0xE2:
-                        continue;
+                        if (Intel16xE2.Parse(s, buff, pos, first) is { } xE2)
+                        {
+                            yield return xE2;
+                            continue;
+                        }
+                        break;
                     case 0xE3:
-                        continue;
+                        if (Intel16xE3.Parse(s, buff, pos, first) is { } xE3)
+                        {
+                            yield return xE3;
+                            continue;
+                        }
+                        break;
                     case 0xE4:
-                        continue;
+                        if (Intel16xE4.Parse(s, buff, pos, first) is { } xE4)
+                        {
+                            yield return xE4;
+                            continue;
+                        }
+                        break;
                     case 0xE5:
-                        continue;
+                        if (Intel16xE5.Parse(s, buff, pos, first) is { } xE5)
+                        {
+                            yield return xE5;
+                            continue;
+                        }
+                        break;
                     case 0xE6:
-                        continue;
+                        if (Intel16xE6.Parse(s, buff, pos, first) is { } xE6)
+                        {
+                            yield return xE6;
+                            continue;
+                        }
+                        break;
                     case 0xE7:
-                        continue;
+                        if (Intel16xE7.Parse(s, buff, pos, first) is { } xE7)
+                        {
+                            yield return xE7;
+                            continue;
+                        }
+                        break;
                     case 0xE8:
-                        continue;
+                        if (Intel16xE8.Parse(s, buff, pos, first) is { } xE8)
+                        {
+                            yield return xE8;
+                            continue;
+                        }
+                        break;
                     case 0xE9:
-                        continue;
+                        if (Intel16xE9.Parse(s, buff, pos, first) is { } xE9)
+                        {
+                            yield return xE9;
+                            continue;
+                        }
+                        break;
                     case 0xEA:
-                        continue;
+                        if (Intel16xEA.Parse(s, buff, pos, first) is { } xEA)
+                        {
+                            yield return xEA;
+                            continue;
+                        }
+                        break;
                     case 0xEB:
-                        continue;
+                        if (Intel16xEB.Parse(s, buff, pos, first) is { } xEB)
+                        {
+                            yield return xEB;
+                            continue;
+                        }
+                        break;
                     case 0xEC:
                         yield return new(pos, first, 1, O.@in, args: [GenReg8.AL, GenReg16.DX]);
                         continue;
@@ -582,9 +1302,19 @@ namespace PoViEmu.Expert
                         yield return new(pos, first, 1, O.cmc, args: []);
                         continue;
                     case 0xF6:
-                        continue;
+                        if (Intel16xF6.Parse(s, buff, pos, first) is { } xF6)
+                        {
+                            yield return xF6;
+                            continue;
+                        }
+                        break;
                     case 0xF7:
-                        continue;
+                        if (Intel16xF7.Parse(s, buff, pos, first) is { } xF7)
+                        {
+                            yield return xF7;
+                            continue;
+                        }
+                        break;
                     case 0xF8:
                         yield return new(pos, first, 1, O.clc, args: []);
                         continue;
@@ -604,9 +1334,19 @@ namespace PoViEmu.Expert
                         yield return new(pos, first, 1, O.std, args: []);
                         continue;
                     case 0xFE:
-                        continue;
+                        if (Intel16xFE.Parse(s, buff, pos, first) is { } xFE)
+                        {
+                            yield return xFE;
+                            continue;
+                        }
+                        break;
                     case 0xFF:
-                        continue;
+                        if (Intel16xFF.Parse(s, buff, pos, first) is { } xFF)
+                        {
+                            yield return xFF;
+                            continue;
+                        }
+                        break;
                 }
                 throw new InstructionError(pos, first);
             }
