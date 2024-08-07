@@ -64,6 +64,25 @@ namespace PoViEmu.CpuFuzzer.App
             Console.WriteLine($"Generated {treeDict.Count} keys.");
             JsonHelper.SaveToFile(treeDict, treeFile);
 
+            var pwd = Environment.CurrentDirectory;
+            var dstDir = Path.Combine(pwd, "..", "..", "src", "PoViEmu.Expert");
+            dstDir = Path.GetFullPath(dstDir);
+            Console.WriteLine($"Dest = {dstDir}");
+
+            var bld = new List<string>();
+            var space = TextHelper.Space(4);
+            bld.Add("using System;");
+            bld.Add("");
+            bld.Add("namespace PoViEmu.Expert");
+            bld.Add("{");
+            bld.Add($"{space}public static class XIntel16");
+            bld.Add($"{space}{{");
+            bld.Add($"{space}}}");
+            bld.Add("}");
+
+            var dstFile = Path.Combine(dstDir, "XIntel16.cs");
+            File.WriteAllLines(dstFile, bld, TextHelper.Utf8);
+
             Console.WriteLine($"Processed {allLines.Length} lines.");
         }
     }
