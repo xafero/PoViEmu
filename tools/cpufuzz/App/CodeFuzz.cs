@@ -115,9 +115,13 @@ namespace PoViEmu.CpuFuzzer.App
             {
                 bld.Add($"{sp}{sp}{sp}{sp}{sp}case 0x{it.Key}: continue;");
             }
+            bld.Add($"{sp}{sp}{sp}{sp}}}");
+            bld.Add($"{sp}{sp}{sp}{sp}throw new InstructionError(pos, first);");
+            bld.Add($"{sp}{sp}{sp}}}");
+            bld.Add($"{sp}{sp}{sp}yield break;");
+            bld.Add($"{sp}{sp}}}");
             bld.Add($"{sp}}}");
-            bld.Add($"{sp}}}");
-            bld.Add("}");
+            bld.Add($"}}");
             return bld;
         }
     }
