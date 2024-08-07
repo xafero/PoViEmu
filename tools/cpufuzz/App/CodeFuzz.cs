@@ -114,9 +114,33 @@ namespace PoViEmu.CpuFuzzer.App
             foreach (var it in treeDict)
             {
                 bld.Add($"{sp}{sp}{sp}{sp}{sp}case 0x{it.Key}:");
-                if (it.Value is SD s1 && s1.Count == 1 && s1.TryGetValue("_", out var s2) && s2 is string s3)
+                if (it.Value is SD s1)
                 {
-                    bld.Add($"{sp}{sp}{sp}{sp}{sp}{sp}{s3}");
+                    if (s1.Count == 1 && s1.TryGetValue("_", out var s2) && s2 is string s3)
+                    {
+                        bld.Add($"{sp}{sp}{sp}{sp}{sp}{sp}{s3}");
+                    }
+                    else
+                    {
+                        /*
+                        bld.Add($"{sp}{sp}{sp}{sp}{sp}{sp}var second = s.NextByte();");
+                        bld.Add($"{sp}{sp}{sp}{sp}{sp}{sp}switch (second)");
+                        bld.Add($"{sp}{sp}{sp}{sp}{sp}{sp}{{");
+                        foreach (var a1 in s1)
+                        {
+                            bld.Add($"{sp}{sp}{sp}{sp}{sp}{sp}{sp}case 0x{a1.Key}:");
+                            if (a1.Value is SD b1)
+                            {
+                                if (b1.Count == 1 && b1.TryGetValue("_", out var b2) && b2 is string b3)
+                                {
+                                    bld.Add($"{sp}{sp}{sp}{sp}{sp}{sp}{sp}{sp}{b3}");
+                                }
+                            }
+                            bld.Add($"{sp}{sp}{sp}{sp}{sp}{sp}{sp}{sp}continue;");
+                        }
+                        bld.Add($"{sp}{sp}{sp}{sp}{sp}{sp}}}");
+                        */
+                    }
                 }
                 bld.Add($"{sp}{sp}{sp}{sp}{sp}{sp}continue;");
             }
