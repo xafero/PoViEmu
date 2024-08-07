@@ -37,7 +37,7 @@ namespace PoViEmu.CpuFuzzer.App
                 var cmd = line.H.ToNotKeyword();
                 var arg = line.A.ParseArg();
                 var size = bytes.Length;
-                var gen = $"yield return new(pos, first, {size}, O.{cmd}, args: [{arg}]); continue;";
+                var gen = $"yield return new(pos, first, {size}, O.{cmd}, args: [{arg}]);";
                 listDict[lineKey] = gen;
             }
 
@@ -123,7 +123,6 @@ namespace PoViEmu.CpuFuzzer.App
             bld.Add($"{sp}{sp}{sp}{sp}}}");
             bld.Add($"{sp}{sp}{sp}{sp}throw new InstructionError(pos, first);");
             bld.Add($"{sp}{sp}{sp}}}");
-            bld.Add($"{sp}{sp}{sp}yield break;");
             bld.Add($"{sp}{sp}}}");
             bld.Add($"{sp}}}");
             bld.Add($"}}");
