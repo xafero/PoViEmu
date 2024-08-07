@@ -69,21 +69,56 @@ namespace PoViEmu.CpuFuzzer.App
             dstDir = Path.GetFullPath(dstDir);
             Console.WriteLine($"Dest = {dstDir}");
 
-            var bld = new List<string>();
-            var space = TextHelper.Space(4);
-            bld.Add("using System;");
-            bld.Add("");
-            bld.Add("namespace PoViEmu.Expert");
-            bld.Add("{");
-            bld.Add($"{space}public static class XIntel16");
-            bld.Add($"{space}{{");
-            bld.Add($"{space}}}");
-            bld.Add("}");
-
+            var bld = GenerateCode(treeDict);
             var dstFile = Path.Combine(dstDir, "XIntel16.cs");
             File.WriteAllLines(dstFile, bld, TextHelper.Utf8);
 
             Console.WriteLine($"Processed {allLines.Length} lines.");
+        }
+
+        private static List<string> GenerateCode(SD treeDict)
+        {
+            var bld = new List<string>();
+            var sp = TextHelper.Space(4);
+            bld.Add("// ReSharper disable InconsistentNaming");
+            bld.Add("");
+            bld.Add("using System.Collections.Generic;");
+            bld.Add("using System.IO;");
+            bld.Add("using PoViEmu.Core.Machine.Args;");
+            bld.Add("using PoViEmu.Core.Machine.Core;");
+            bld.Add("using PoViEmu.Core.Machine.Ops;");
+            bld.Add("using System;");
+            bld.Add("using System.Collections.Generic;");
+            bld.Add("using System.IO;");
+            bld.Add("using System.Linq;");
+            bld.Add("using PoViEmu.Core.Machine.Args;");
+            bld.Add("using PoViEmu.Core.Machine.Core;");
+            bld.Add("using PoViEmu.Core.Machine.Decoding;");
+            bld.Add("using PoViEmu.Core.Machine.Ops;");
+            bld.Add("using O = PoViEmu.Core.Machine.Ops.OpCode;");
+            bld.Add("using R = PoViEmu.Core.Machine.Ops.Register;");
+            bld.Add("using M = PoViEmu.Core.Machine.Ops.Modifier;");
+            bld.Add("using A = PoViEmu.Core.Machine.Ops.OpArg;");
+            bld.Add("");
+            bld.Add("namespace PoViEmu.Expert");
+            bld.Add("{");
+            bld.Add($"{sp}public static class XIntel16");
+            bld.Add($"{sp}{{");
+            bld.Add($"{sp}{sp}public static IEnumerable<Instruction> Disassemble(Stream s, byte[] buffer)");
+            bld.Add($"{sp}{sp}{{");
+            bld.Add($"{sp}{sp}{sp}while (s.ReadBytesPos(buffer) is {{ }} pos)");
+            bld.Add($"{sp}{sp}{sp}{{");
+            bld.Add($"{sp}{sp}{sp}{sp}var first = buffer[0];");
+            bld.Add($"{sp}{sp}{sp}{sp}switch (first)");
+            bld.Add($"{sp}{sp}{sp}{sp}{{");
+            foreach (var it in treeDict)
+            {
+                bld.Add($"{sp}{sp}{sp}{sp}{sp}case 0x{it.Key}: continue;");
+            }
+            bld.Add($"{sp}}}");
+            bld.Add($"{sp}}}");
+            bld.Add("}");
+            return bld;
         }
     }
 }

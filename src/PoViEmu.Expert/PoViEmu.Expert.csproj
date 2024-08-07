@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PoViEmu.Common\PoViEmu.Common.csproj" />
+    <ProjectReference Include="..\PoViEmu.Core\PoViEmu.Core.csproj" />
   </ItemGroup>
 
 </Project>
