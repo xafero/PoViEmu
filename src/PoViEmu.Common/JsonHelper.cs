@@ -1,3 +1,4 @@
+using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -28,6 +29,18 @@ namespace PoViEmu.Common
             var config = GetConfig(format);
             var obj = JsonConvert.DeserializeObject<T>(json, config);
             return obj;
+        }
+
+        public static T LoadFromFile<T>(string file)
+        {
+            var text = File.ReadAllText(file, TextHelper.Utf8);
+            return FromJson<T>(text);
+        }
+
+        public static void SaveToFile<T>(T obj, string file)
+        {
+            var text = ToJson(obj);
+            File.WriteAllText(file, text, TextHelper.Utf8);
         }
     }
 }

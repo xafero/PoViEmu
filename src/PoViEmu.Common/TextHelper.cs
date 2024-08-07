@@ -93,5 +93,7 @@ namespace PoViEmu.Common
         {
             return string.Join(" ", hex.Select(h => $"{h:X2}"));
         }
+
+        public static readonly Encoding Utf8 = Encoding.UTF8;
     }
 }

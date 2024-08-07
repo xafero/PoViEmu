@@ -2,13 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using PoViEmu.Common;
 using PoViEmu.Core.Machine;
+using PoViEmu.Core.Machine.Ops;
 using PoViEmu.CpuFuzzer.Core;
+using SD = System.Collections.Generic.SortedDictionary<string, object>;
 using SortedOps = System.Collections.Generic.SortedDictionary<PoViEmu.Core.Machine.Ops.OpCode,
-    System.Collections.Generic.SortedDictionary<string, 
+    System.Collections.Generic.SortedDictionary<string,
         System.Collections.Generic.HashSet<PoViEmu.CpuFuzzer.Core.NasmLine>>>;
+
+// ReSharper disable ForCanBeConvertedToForeach
 
 namespace PoViEmu.CpuFuzzer.App
 {
@@ -16,33 +21,39 @@ namespace PoViEmu.CpuFuzzer.App
     {
         public static void Start()
         {
-            var enc = Encoding.UTF8;
             var outDir = Directory.CreateDirectory("out").FullName;
 
             var allFile = Path.Combine(outDir, "all.json");
-            var allDict = JsonHelper.FromJson<SortedOps>(File.ReadAllText(allFile, enc));
+            var allDict = JsonHelper.LoadFromFile<SortedOps>(allFile);
             var allLines = allDict.Iter().ToArray();
 
-            foreach (var g in allLines.OrderBy(l => l.X.Length)
-                         .GroupBy(l => l.X.Length))
+            var treeFile = Path.Combine(outDir, "tree.json");
+            var treeDict = new SD();
+
+            foreach (var line in allLines.Where(l => l.H != OpCode.Unknown)
+                         .OrderBy(l => l.X.Length).Take(240))
             {
-                Console.WriteLine($" #{g.Key / 2}");
-                foreach (var line in g.OrderBy(y => y.X))
+                var bytes = Convert.FromHexString(line.X);
+                var current = treeDict;
+
+                for (var i = 0; i < bytes.Length; i++)
                 {
-                    var bytes = Convert.FromHexString(line.X);
-                    var cmd = line.H.ToNotKeyword();
-                    var debug = line.ToString().Replace(nameof(NasmLine), string.Empty);
-                    var arg = line.A.ParseArg();
-                    if (bytes.Length == 1)
-                    {
-                        Console.WriteLine($"   case 0x{bytes[0]:X2}: yield return new(pos, first," +
-                                          $" {bytes.Length}, O.{cmd}, args: [{arg}]); continue;");
-                        continue;
-                    }
-                    Console.WriteLine($" * {cmd}, {bytes.Length}, {arg} --> {debug}");
-                    continue;
+                    var hex = $"{bytes[i]:X2}";
+                    if (!current.TryGetValue(hex, out var next))
+                        next = current[hex] = new SD();
+                    current = (SD)next;
                 }
+
+                var cmd = line.H.ToNotKeyword();
+                var arg = line.A.ParseArg();
+                var size = bytes.Length;
+                var gen = $"yield return new(pos, first, {size}, O.{cmd}, args: [{arg}]); continue;";
+
+                current["_"] = gen;
             }
+
+            Console.WriteLine($"Generated {treeDict.Count} keys.");
+            JsonHelper.SaveToFile(treeDict, treeFile);
 
             Console.WriteLine($"Processed {allLines.Length} lines.");
         }
