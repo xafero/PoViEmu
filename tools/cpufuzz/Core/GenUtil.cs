@@ -24,9 +24,15 @@ namespace PoViEmu.CpuFuzzer.Core
                 yield return l;
         }
 
-        public static string ToNotKeyword(this OpCode code)
+        public static string ToNotKeyword(this object code)
         {
-            return code.ToString();
+            var codeStr = code.ToString();
+            switch (codeStr)
+            {
+                case "in": return "@in";
+                case "out": return "@out";
+            }
+            return codeStr;
         }
 
         public static string ParseArg(this string text)

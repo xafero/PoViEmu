@@ -113,7 +113,12 @@ namespace PoViEmu.CpuFuzzer.App
             bld.Add($"{sp}{sp}{sp}{sp}{{");
             foreach (var it in treeDict)
             {
-                bld.Add($"{sp}{sp}{sp}{sp}{sp}case 0x{it.Key}: continue;");
+                bld.Add($"{sp}{sp}{sp}{sp}{sp}case 0x{it.Key}:");
+                if (it.Value is SD s1 && s1.Count == 1 && s1.TryGetValue("_", out var s2) && s2 is string s3)
+                {
+                    bld.Add($"{sp}{sp}{sp}{sp}{sp}{sp}{s3}");
+                }
+                bld.Add($"{sp}{sp}{sp}{sp}{sp}{sp}continue;");
             }
             bld.Add($"{sp}{sp}{sp}{sp}}}");
             bld.Add($"{sp}{sp}{sp}{sp}throw new InstructionError(pos, first);");
