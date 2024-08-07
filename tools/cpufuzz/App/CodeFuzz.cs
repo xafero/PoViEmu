@@ -27,15 +27,30 @@ namespace PoViEmu.CpuFuzzer.App
             var allDict = JsonHelper.LoadFromFile<SortedOps>(allFile);
             var allLines = allDict.Iter().ToArray();
 
+            var listFile = Path.Combine(outDir, "list.json");
+            var listDict = new SD();
+
+            foreach (var line in allLines.Where(l => l.H != OpCode.Unknown))
+            {
+                var lineKey = line.X;
+                var bytes = Convert.FromHexString(line.X);
+                var cmd = line.H.ToNotKeyword();
+                var arg = line.A.ParseArg();
+                var size = bytes.Length;
+                var gen = $"yield return new(pos, first, {size}, O.{cmd}, args: [{arg}]); continue;";
+                listDict[lineKey] = gen;
+            }
+
+            Console.WriteLine($"Generated {listDict.Count} keys.");
+            JsonHelper.SaveToFile(listDict, listFile);
+
             var treeFile = Path.Combine(outDir, "tree.json");
             var treeDict = new SD();
 
-            foreach (var line in allLines.Where(l => l.H != OpCode.Unknown)
-                         .OrderBy(l => l.X.Length).Take(240))
+            foreach (var it in listDict)
             {
-                var bytes = Convert.FromHexString(line.X);
+                var bytes = Convert.FromHexString(it.Key);
                 var current = treeDict;
-
                 for (var i = 0; i < bytes.Length; i++)
                 {
                     var hex = $"{bytes[i]:X2}";
@@ -43,13 +58,7 @@ namespace PoViEmu.CpuFuzzer.App
                         next = current[hex] = new SD();
                     current = (SD)next;
                 }
-
-                var cmd = line.H.ToNotKeyword();
-                var arg = line.A.ParseArg();
-                var size = bytes.Length;
-                var gen = $"yield return new(pos, first, {size}, O.{cmd}, args: [{arg}]); continue;";
-
-                current["_"] = gen;
+                current["_"] = it.Value;
             }
 
             Console.WriteLine($"Generated {treeDict.Count} keys.");
