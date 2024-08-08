@@ -2,6 +2,7 @@ using System.IO;
 using System.Text;
 using PoViEmu.Common;
 using PoViEmu.Core.Machine;
+using PoViEmu.Expert;
 using Xunit;
 
 #pragma warning disable xUnit1013

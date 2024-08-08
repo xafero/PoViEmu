@@ -3,6 +3,7 @@ using System.IO;
 using PoViEmu.Core.Machine;
 using PoViEmu.Tests;
 using PoViEmu.CpuFuzzer.Core;
+using PoViEmu.Expert;
 using static PoViEmu.CpuFuzzer.Core.OptUtil;
 
 namespace PoViEmu.CpuFuzzer.App
@@ -30,7 +31,7 @@ namespace PoViEmu.CpuFuzzer.App
                     continue;
                 }
                 Console.WriteLine();
-
+                
                 var actual = new MemoryStream(bytes).Disassemble().ToText();
                 var diffs = DiffTool.DiffThis(expected, actual);
                 if (diffs.Count == 0)

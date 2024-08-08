@@ -6,6 +6,7 @@ using System.Text;
 using PoViEmu.Common;
 using PoViEmu.Core.Machine;
 using PoViEmu.CpuFuzzer.Core;
+using PoViEmu.Expert;
 using SortedOps = System.Collections.Generic.SortedDictionary<PoViEmu.Core.Machine.Ops.OpCode,
     System.Collections.Generic.SortedDictionary<string, 
         System.Collections.Generic.HashSet<PoViEmu.CpuFuzzer.Core.NasmLine>>>;
@@ -50,8 +51,8 @@ namespace PoViEmu.CpuFuzzer.App
                 var bytes = Convert.FromHexString(line.X);
                 var buffer = new byte[1];
                 var mem = new MemoryStream(bytes);
-                var instr = Intel16.Disassemble(mem, buffer).ToArray().FirstOrDefault();
-                if (instr != null)
+                var instr = XIntel16.Disassemble(mem, buffer).ToArray().FirstOrDefault();
+                if (instr != default)
                 {
                     var debug = new[] { instr }.ToText();
                     var instrPts = debug.Split("  ", 3,

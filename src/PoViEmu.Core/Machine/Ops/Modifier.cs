@@ -1,30 +1,16 @@
-// ReSharper disable InconsistentNaming
-
 namespace PoViEmu.Core.Machine.Ops
 {
     public enum Modifier
     {
         Unknown = 0,
 
-        to,
-        
-        @byte,
-        
-        @short,
-        
-        far,
-        
-        dword,
-        
-        tword,
-        
         qword,
-        
+        tword,
+        dword,
         word,
-        
-        // TODO
-        byteP,
-        
-        byteM
+        far,
+        @byte,
+        @short,
+        to
     }
 }

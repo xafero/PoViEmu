@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\PoViEmu.Core\PoViEmu.Core.csproj" />
+    <ProjectReference Include="..\..\src\PoViEmu.Expert\PoViEmu.Expert.csproj" />
   </ItemGroup>
 
   <ItemGroup>

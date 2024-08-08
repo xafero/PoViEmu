@@ -1,19 +1,20 @@
+using PoViEmu.Common;
 using PoViEmu.Core.Machine.Ops;
 
 namespace PoViEmu.Core.Machine.Args
 {
-    public class RegisterArg : OpArg
+    public sealed class RegisterArg : OpArg
     {
-        public RegisterArg(Register value)
+        public RegisterArg(Register reg)
         {
-            Value = value;
+            Value = reg;
         }
 
-        public Register Value { get; set; }
+        public Register Value { get; }
 
         public override string ToString()
         {
-            return $"{Value}";
+            return $"{Value.ToSmallName()}";
         }
     }
 }

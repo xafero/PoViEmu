@@ -1,75 +1,52 @@
-// ReSharper disable InconsistentNaming
-
 namespace PoViEmu.Core.Machine.Ops
 {
     public enum Register
     {
         Unknown = 0,
 
-        bp,
+        AX,
+        BX,
+        CX,
+        DX,
 
-        al,
-        
-        ah,
+        BP,
+        SI,
+        DI,
+        SP,
 
-        ax,
-        
-        bh,
-        
-        bl,
+        CS,
+        DS,
+        ES,
+        FS,
+        GS,
+        SS,
 
-        bx,
-        
-        ch,
+        AL,
+        BL,
+        CL,
+        DL,
 
-        cx,
-        
-        cl,
-        
-        cs,
+        AH,
+        BH,
+        CH,
+        DH,
 
-        dx,
-        
-        dh,
-        
-        dl,
+        St0,
+        St1,
+        St2,
+        St3,
+        St4,
+        St5,
+        St6,
+        St7,
 
-        di,
-
-        ds,
-
-        es,
-
-        fs,
-        
-        gs,
-        
-        segr6,
-        
-        segr7,
-
-        si,
-        
-        ss,
-
-        sp,
-        
-        st0,
-        
-        st1,
-        
-        st2,
-        
-        st3,
-        
-        st4,
-        
-        st5,
-        
-        st6,
-        
-        st7,
-        
-        cmc
+        Segr0,
+        Segr1,
+        Segr2,
+        Segr3,
+        Segr4,
+        Segr5,
+        Segr6,
+        Segr7
     }
 }

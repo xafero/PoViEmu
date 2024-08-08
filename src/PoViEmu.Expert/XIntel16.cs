@@ -72,10 +72,10 @@ namespace PoViEmu.Expert
                         }
                         break;
                     case 0x06:
-                        yield return new(pos, first, 1, O.push, args: [SegReg.ES]);
+                        yield return new(pos, first, 1, O.push, [R.ES]);
                         continue;
                     case 0x07:
-                        yield return new(pos, first, 1, O.pop, args: [SegReg.ES]);
+                        yield return new(pos, first, 1, O.pop, [R.ES]);
                         continue;
                     case 0x08:
                         if (Intel16x08.Parse(s, buff, pos, first) is { } x08)
@@ -120,7 +120,7 @@ namespace PoViEmu.Expert
                         }
                         break;
                     case 0x0E:
-                        yield return new(pos, first, 1, O.push, args: [SegReg.CS]);
+                        yield return new(pos, first, 1, O.push, [R.CS]);
                         continue;
                     case 0x10:
                         if (Intel16x10.Parse(s, buff, pos, first) is { } x10)
@@ -165,10 +165,10 @@ namespace PoViEmu.Expert
                         }
                         break;
                     case 0x16:
-                        yield return new(pos, first, 1, O.push, args: [SegReg.SS]);
+                        yield return new(pos, first, 1, O.push, [R.SS]);
                         continue;
                     case 0x17:
-                        yield return new(pos, first, 1, O.pop, args: [SegReg.SS]);
+                        yield return new(pos, first, 1, O.pop, [R.SS]);
                         continue;
                     case 0x18:
                         if (Intel16x18.Parse(s, buff, pos, first) is { } x18)
@@ -213,10 +213,10 @@ namespace PoViEmu.Expert
                         }
                         break;
                     case 0x1E:
-                        yield return new(pos, first, 1, O.push, args: [SegReg.DS]);
+                        yield return new(pos, first, 1, O.push, [R.DS]);
                         continue;
                     case 0x1F:
-                        yield return new(pos, first, 1, O.pop, args: [SegReg.DS]);
+                        yield return new(pos, first, 1, O.pop, [R.DS]);
                         continue;
                     case 0x20:
                         if (Intel16x20.Parse(s, buff, pos, first) is { } x20)
@@ -261,7 +261,7 @@ namespace PoViEmu.Expert
                         }
                         break;
                     case 0x27:
-                        yield return new(pos, first, 1, O.daa, args: []);
+                        yield return new(pos, first, 1, O.daa, []);
                         continue;
                     case 0x28:
                         if (Intel16x28.Parse(s, buff, pos, first) is { } x28)
@@ -306,7 +306,7 @@ namespace PoViEmu.Expert
                         }
                         break;
                     case 0x2F:
-                        yield return new(pos, first, 1, O.das, args: []);
+                        yield return new(pos, first, 1, O.das, []);
                         continue;
                     case 0x30:
                         if (Intel16x30.Parse(s, buff, pos, first) is { } x30)
@@ -351,7 +351,7 @@ namespace PoViEmu.Expert
                         }
                         break;
                     case 0x37:
-                        yield return new(pos, first, 1, O.aaa, args: []);
+                        yield return new(pos, first, 1, O.aaa, []);
                         continue;
                     case 0x38:
                         if (Intel16x38.Parse(s, buff, pos, first) is { } x38)
@@ -396,109 +396,109 @@ namespace PoViEmu.Expert
                         }
                         break;
                     case 0x3F:
-                        yield return new(pos, first, 1, O.aas, args: []);
+                        yield return new(pos, first, 1, O.aas, []);
                         continue;
                     case 0x40:
-                        yield return new(pos, first, 1, O.inc, args: [GenReg16.AX]);
+                        yield return new(pos, first, 1, O.inc, [R.AX]);
                         continue;
                     case 0x41:
-                        yield return new(pos, first, 1, O.inc, args: [GenReg16.CX]);
+                        yield return new(pos, first, 1, O.inc, [R.CX]);
                         continue;
                     case 0x42:
-                        yield return new(pos, first, 1, O.inc, args: [GenReg16.DX]);
+                        yield return new(pos, first, 1, O.inc, [R.DX]);
                         continue;
                     case 0x43:
-                        yield return new(pos, first, 1, O.inc, args: [GenReg16.BX]);
+                        yield return new(pos, first, 1, O.inc, [R.BX]);
                         continue;
                     case 0x44:
-                        yield return new(pos, first, 1, O.inc, args: [IdxReg.SP]);
+                        yield return new(pos, first, 1, O.inc, [R.SP]);
                         continue;
                     case 0x45:
-                        yield return new(pos, first, 1, O.inc, args: [IdxReg.BP]);
+                        yield return new(pos, first, 1, O.inc, [R.BP]);
                         continue;
                     case 0x46:
-                        yield return new(pos, first, 1, O.inc, args: [IdxReg.SI]);
+                        yield return new(pos, first, 1, O.inc, [R.SI]);
                         continue;
                     case 0x47:
-                        yield return new(pos, first, 1, O.inc, args: [IdxReg.DI]);
+                        yield return new(pos, first, 1, O.inc, [R.DI]);
                         continue;
                     case 0x48:
-                        yield return new(pos, first, 1, O.dec, args: [GenReg16.AX]);
+                        yield return new(pos, first, 1, O.dec, [R.AX]);
                         continue;
                     case 0x49:
-                        yield return new(pos, first, 1, O.dec, args: [GenReg16.CX]);
+                        yield return new(pos, first, 1, O.dec, [R.CX]);
                         continue;
                     case 0x4A:
-                        yield return new(pos, first, 1, O.dec, args: [GenReg16.DX]);
+                        yield return new(pos, first, 1, O.dec, [R.DX]);
                         continue;
                     case 0x4B:
-                        yield return new(pos, first, 1, O.dec, args: [GenReg16.BX]);
+                        yield return new(pos, first, 1, O.dec, [R.BX]);
                         continue;
                     case 0x4C:
-                        yield return new(pos, first, 1, O.dec, args: [IdxReg.SP]);
+                        yield return new(pos, first, 1, O.dec, [R.SP]);
                         continue;
                     case 0x4D:
-                        yield return new(pos, first, 1, O.dec, args: [IdxReg.BP]);
+                        yield return new(pos, first, 1, O.dec, [R.BP]);
                         continue;
                     case 0x4E:
-                        yield return new(pos, first, 1, O.dec, args: [IdxReg.SI]);
+                        yield return new(pos, first, 1, O.dec, [R.SI]);
                         continue;
                     case 0x4F:
-                        yield return new(pos, first, 1, O.dec, args: [IdxReg.DI]);
+                        yield return new(pos, first, 1, O.dec, [R.DI]);
                         continue;
                     case 0x50:
-                        yield return new(pos, first, 1, O.push, args: [GenReg16.AX]);
+                        yield return new(pos, first, 1, O.push, [R.AX]);
                         continue;
                     case 0x51:
-                        yield return new(pos, first, 1, O.push, args: [GenReg16.CX]);
+                        yield return new(pos, first, 1, O.push, [R.CX]);
                         continue;
                     case 0x52:
-                        yield return new(pos, first, 1, O.push, args: [GenReg16.DX]);
+                        yield return new(pos, first, 1, O.push, [R.DX]);
                         continue;
                     case 0x53:
-                        yield return new(pos, first, 1, O.push, args: [GenReg16.BX]);
+                        yield return new(pos, first, 1, O.push, [R.BX]);
                         continue;
                     case 0x54:
-                        yield return new(pos, first, 1, O.push, args: [IdxReg.SP]);
+                        yield return new(pos, first, 1, O.push, [R.SP]);
                         continue;
                     case 0x55:
-                        yield return new(pos, first, 1, O.push, args: [IdxReg.BP]);
+                        yield return new(pos, first, 1, O.push, [R.BP]);
                         continue;
                     case 0x56:
-                        yield return new(pos, first, 1, O.push, args: [IdxReg.SI]);
+                        yield return new(pos, first, 1, O.push, [R.SI]);
                         continue;
                     case 0x57:
-                        yield return new(pos, first, 1, O.push, args: [IdxReg.DI]);
+                        yield return new(pos, first, 1, O.push, [R.DI]);
                         continue;
                     case 0x58:
-                        yield return new(pos, first, 1, O.pop, args: [GenReg16.AX]);
+                        yield return new(pos, first, 1, O.pop, [R.AX]);
                         continue;
                     case 0x59:
-                        yield return new(pos, first, 1, O.pop, args: [GenReg16.CX]);
+                        yield return new(pos, first, 1, O.pop, [R.CX]);
                         continue;
                     case 0x5A:
-                        yield return new(pos, first, 1, O.pop, args: [GenReg16.DX]);
+                        yield return new(pos, first, 1, O.pop, [R.DX]);
                         continue;
                     case 0x5B:
-                        yield return new(pos, first, 1, O.pop, args: [GenReg16.BX]);
+                        yield return new(pos, first, 1, O.pop, [R.BX]);
                         continue;
                     case 0x5C:
-                        yield return new(pos, first, 1, O.pop, args: [IdxReg.SP]);
+                        yield return new(pos, first, 1, O.pop, [R.SP]);
                         continue;
                     case 0x5D:
-                        yield return new(pos, first, 1, O.pop, args: [IdxReg.BP]);
+                        yield return new(pos, first, 1, O.pop, [R.BP]);
                         continue;
                     case 0x5E:
-                        yield return new(pos, first, 1, O.pop, args: [IdxReg.SI]);
+                        yield return new(pos, first, 1, O.pop, [R.SI]);
                         continue;
                     case 0x5F:
-                        yield return new(pos, first, 1, O.pop, args: [IdxReg.DI]);
+                        yield return new(pos, first, 1, O.pop, [R.DI]);
                         continue;
                     case 0x60:
-                        yield return new(pos, first, 1, O.pusha, args: []);
+                        yield return new(pos, first, 1, O.pusha, []);
                         continue;
                     case 0x61:
-                        yield return new(pos, first, 1, O.popa, args: []);
+                        yield return new(pos, first, 1, O.popa, []);
                         continue;
                     case 0x62:
                         if (Intel16x62.Parse(s, buff, pos, first) is { } x62)
@@ -543,16 +543,16 @@ namespace PoViEmu.Expert
                         }
                         break;
                     case 0x6C:
-                        yield return new(pos, first, 1, O.insb, args: []);
+                        yield return new(pos, first, 1, O.insb, []);
                         continue;
                     case 0x6D:
-                        yield return new(pos, first, 1, O.insw, args: []);
+                        yield return new(pos, first, 1, O.insw, []);
                         continue;
                     case 0x6E:
-                        yield return new(pos, first, 1, O.outsb, args: []);
+                        yield return new(pos, first, 1, O.outsb, []);
                         continue;
                     case 0x6F:
-                        yield return new(pos, first, 1, O.outsw, args: []);
+                        yield return new(pos, first, 1, O.outsw, []);
                         continue;
                     case 0x70:
                         if (Intel16x70.Parse(s, buff, pos, first) is { } x70)
@@ -772,34 +772,34 @@ namespace PoViEmu.Expert
                         }
                         break;
                     case 0x90:
-                        yield return new(pos, first, 1, O.nop, args: []);
+                        yield return new(pos, first, 1, O.nop, []);
                         continue;
                     case 0x91:
-                        yield return new(pos, first, 1, O.xchg, args: [GenReg16.AX, GenReg16.CX]);
+                        yield return new(pos, first, 1, O.xchg, [R.AX, R.CX]);
                         continue;
                     case 0x92:
-                        yield return new(pos, first, 1, O.xchg, args: [GenReg16.AX, GenReg16.DX]);
+                        yield return new(pos, first, 1, O.xchg, [R.AX, R.DX]);
                         continue;
                     case 0x93:
-                        yield return new(pos, first, 1, O.xchg, args: [GenReg16.AX, GenReg16.BX]);
+                        yield return new(pos, first, 1, O.xchg, [R.AX, R.BX]);
                         continue;
                     case 0x94:
-                        yield return new(pos, first, 1, O.xchg, args: [GenReg16.AX, IdxReg.SP]);
+                        yield return new(pos, first, 1, O.xchg, [R.AX, R.SP]);
                         continue;
                     case 0x95:
-                        yield return new(pos, first, 1, O.xchg, args: [GenReg16.AX, IdxReg.BP]);
+                        yield return new(pos, first, 1, O.xchg, [R.AX, R.BP]);
                         continue;
                     case 0x96:
-                        yield return new(pos, first, 1, O.xchg, args: [GenReg16.AX, IdxReg.SI]);
+                        yield return new(pos, first, 1, O.xchg, [R.AX, R.SI]);
                         continue;
                     case 0x97:
-                        yield return new(pos, first, 1, O.xchg, args: [GenReg16.AX, IdxReg.DI]);
+                        yield return new(pos, first, 1, O.xchg, [R.AX, R.DI]);
                         continue;
                     case 0x98:
-                        yield return new(pos, first, 1, O.cbw, args: []);
+                        yield return new(pos, first, 1, O.cbw, []);
                         continue;
                     case 0x99:
-                        yield return new(pos, first, 1, O.cwd, args: []);
+                        yield return new(pos, first, 1, O.cwd, []);
                         continue;
                     case 0x9A:
                         if (Intel16x9A.Parse(s, buff, pos, first) is { } x9A)
@@ -809,16 +809,16 @@ namespace PoViEmu.Expert
                         }
                         break;
                     case 0x9C:
-                        yield return new(pos, first, 1, O.pushf, args: []);
+                        yield return new(pos, first, 1, O.pushf, []);
                         continue;
                     case 0x9D:
-                        yield return new(pos, first, 1, O.popf, args: []);
+                        yield return new(pos, first, 1, O.popf, []);
                         continue;
                     case 0x9E:
-                        yield return new(pos, first, 1, O.sahf, args: []);
+                        yield return new(pos, first, 1, O.sahf, []);
                         continue;
                     case 0x9F:
-                        yield return new(pos, first, 1, O.lahf, args: []);
+                        yield return new(pos, first, 1, O.lahf, []);
                         continue;
                     case 0xA0:
                         if (Intel16xA0.Parse(s, buff, pos, first) is { } xA0)
@@ -849,16 +849,16 @@ namespace PoViEmu.Expert
                         }
                         break;
                     case 0xA4:
-                        yield return new(pos, first, 1, O.movsb, args: []);
+                        yield return new(pos, first, 1, O.movsb, []);
                         continue;
                     case 0xA5:
-                        yield return new(pos, first, 1, O.movsw, args: []);
+                        yield return new(pos, first, 1, O.movsw, []);
                         continue;
                     case 0xA6:
-                        yield return new(pos, first, 1, O.cmpsb, args: []);
+                        yield return new(pos, first, 1, O.cmpsb, []);
                         continue;
                     case 0xA7:
-                        yield return new(pos, first, 1, O.cmpsw, args: []);
+                        yield return new(pos, first, 1, O.cmpsw, []);
                         continue;
                     case 0xA8:
                         if (Intel16xA8.Parse(s, buff, pos, first) is { } xA8)
@@ -875,22 +875,22 @@ namespace PoViEmu.Expert
                         }
                         break;
                     case 0xAA:
-                        yield return new(pos, first, 1, O.stosb, args: []);
+                        yield return new(pos, first, 1, O.stosb, []);
                         continue;
                     case 0xAB:
-                        yield return new(pos, first, 1, O.stosw, args: []);
+                        yield return new(pos, first, 1, O.stosw, []);
                         continue;
                     case 0xAC:
-                        yield return new(pos, first, 1, O.lodsb, args: []);
+                        yield return new(pos, first, 1, O.lodsb, []);
                         continue;
                     case 0xAD:
-                        yield return new(pos, first, 1, O.lodsw, args: []);
+                        yield return new(pos, first, 1, O.lodsw, []);
                         continue;
                     case 0xAE:
-                        yield return new(pos, first, 1, O.scasb, args: []);
+                        yield return new(pos, first, 1, O.scasb, []);
                         continue;
                     case 0xAF:
-                        yield return new(pos, first, 1, O.scasw, args: []);
+                        yield return new(pos, first, 1, O.scasw, []);
                         continue;
                     case 0xB0:
                         if (Intel16xB0.Parse(s, buff, pos, first) is { } xB0)
@@ -1026,7 +1026,7 @@ namespace PoViEmu.Expert
                         }
                         break;
                     case 0xC3:
-                        yield return new(pos, first, 1, O.ret, args: []);
+                        yield return new(pos, first, 1, O.ret, []);
                         continue;
                     case 0xC4:
                         if (Intel16xC4.Parse(s, buff, pos, first) is { } xC4)
@@ -1064,7 +1064,7 @@ namespace PoViEmu.Expert
                         }
                         break;
                     case 0xC9:
-                        yield return new(pos, first, 1, O.leave, args: []);
+                        yield return new(pos, first, 1, O.leave, []);
                         continue;
                     case 0xCA:
                         if (Intel16xCA.Parse(s, buff, pos, first) is { } xCA)
@@ -1074,10 +1074,10 @@ namespace PoViEmu.Expert
                         }
                         break;
                     case 0xCB:
-                        yield return new(pos, first, 1, O.retf, args: []);
+                        yield return new(pos, first, 1, O.retf, []);
                         continue;
                     case 0xCC:
-                        yield return new(pos, first, 1, O.int3, args: []);
+                        yield return new(pos, first, 1, O.int3, []);
                         continue;
                     case 0xCD:
                         if (Intel16xCD.Parse(s, buff, pos, first) is { } xCD)
@@ -1087,10 +1087,10 @@ namespace PoViEmu.Expert
                         }
                         break;
                     case 0xCE:
-                        yield return new(pos, first, 1, O.into, args: []);
+                        yield return new(pos, first, 1, O.into, []);
                         continue;
                     case 0xCF:
-                        yield return new(pos, first, 1, O.iret, args: []);
+                        yield return new(pos, first, 1, O.iret, []);
                         continue;
                     case 0xD0:
                         if (Intel16xD0.Parse(s, buff, pos, first) is { } xD0)
@@ -1135,10 +1135,10 @@ namespace PoViEmu.Expert
                         }
                         break;
                     case 0xD6:
-                        yield return new(pos, first, 1, O.salc, args: []);
+                        yield return new(pos, first, 1, O.salc, []);
                         continue;
                     case 0xD7:
-                        yield return new(pos, first, 1, O.xlatb, args: []);
+                        yield return new(pos, first, 1, O.xlatb, []);
                         continue;
                     case 0xD8:
                         if (Intel16xD8.Parse(s, buff, pos, first) is { } xD8)
@@ -1281,25 +1281,25 @@ namespace PoViEmu.Expert
                         }
                         break;
                     case 0xEC:
-                        yield return new(pos, first, 1, O.@in, args: [GenReg8.AL, GenReg16.DX]);
+                        yield return new(pos, first, 1, O.@in, [R.AL, R.DX]);
                         continue;
                     case 0xED:
-                        yield return new(pos, first, 1, O.@in, args: [GenReg16.AX, GenReg16.DX]);
+                        yield return new(pos, first, 1, O.@in, [R.AX, R.DX]);
                         continue;
                     case 0xEE:
-                        yield return new(pos, first, 1, O.@out, args: [GenReg16.DX, GenReg8.AL]);
+                        yield return new(pos, first, 1, O.@out, [R.DX, R.AL]);
                         continue;
                     case 0xEF:
-                        yield return new(pos, first, 1, O.@out, args: [GenReg16.DX, GenReg16.AX]);
+                        yield return new(pos, first, 1, O.@out, [R.DX, R.AX]);
                         continue;
                     case 0xF1:
-                        yield return new(pos, first, 1, O.int1, args: []);
+                        yield return new(pos, first, 1, O.int1, []);
                         continue;
                     case 0xF4:
-                        yield return new(pos, first, 1, O.hlt, args: []);
+                        yield return new(pos, first, 1, O.hlt, []);
                         continue;
                     case 0xF5:
-                        yield return new(pos, first, 1, O.cmc, args: []);
+                        yield return new(pos, first, 1, O.cmc, []);
                         continue;
                     case 0xF6:
                         if (Intel16xF6.Parse(s, buff, pos, first) is { } xF6)
@@ -1316,22 +1316,22 @@ namespace PoViEmu.Expert
                         }
                         break;
                     case 0xF8:
-                        yield return new(pos, first, 1, O.clc, args: []);
+                        yield return new(pos, first, 1, O.clc, []);
                         continue;
                     case 0xF9:
-                        yield return new(pos, first, 1, O.stc, args: []);
+                        yield return new(pos, first, 1, O.stc, []);
                         continue;
                     case 0xFA:
-                        yield return new(pos, first, 1, O.cli, args: []);
+                        yield return new(pos, first, 1, O.cli, []);
                         continue;
                     case 0xFB:
-                        yield return new(pos, first, 1, O.sti, args: []);
+                        yield return new(pos, first, 1, O.sti, []);
                         continue;
                     case 0xFC:
-                        yield return new(pos, first, 1, O.cld, args: []);
+                        yield return new(pos, first, 1, O.cld, []);
                         continue;
                     case 0xFD:
-                        yield return new(pos, first, 1, O.std, args: []);
+                        yield return new(pos, first, 1, O.std, []);
                         continue;
                     case 0xFE:
                         if (Intel16xFE.Parse(s, buff, pos, first) is { } xFE)
