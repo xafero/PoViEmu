@@ -12,6 +12,11 @@ namespace PoViEmu.Core.Machine.Args
 
         public short Value { get; }
 
+        public override string ToString()
+        {
+            return $"0x{Value:x2}";
+        }
+
         public byte[] Bytes => BitConverter.GetBytes(Value);
     }
 }

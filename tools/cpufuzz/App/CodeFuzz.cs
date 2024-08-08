@@ -9,7 +9,7 @@ using PoViEmu.Core.Machine;
 using PoViEmu.Core.Machine.Ops;
 using PoViEmu.CpuFuzzer.Core;
 using SD = System.Collections.Generic.SortedDictionary<string, object>;
-using SortedOps = System.Collections.Generic.SortedDictionary<PoViEmu.Core.Machine.Ops.OpCode,
+using SortedOps = System.Collections.Generic.SortedDictionary<string,
     System.Collections.Generic.SortedDictionary<string,
         System.Collections.Generic.HashSet<PoViEmu.CpuFuzzer.Core.NasmLine>>>;
 
@@ -30,14 +30,14 @@ namespace PoViEmu.CpuFuzzer.App
             var listFile = Path.Combine(outDir, "list.json");
             var listDict = new SD();
 
-            foreach (var line in allLines.Where(l => l.H != OpCode.Unknown))
+            foreach (var line in allLines.Where(l => l.H != nameof(OpCode.Unknown)))
             {
                 var lineKey = line.X;
                 var bytes = Convert.FromHexString(line.X);
                 var cmd = line.H.ToNotKeyword();
                 var arg = line.A.ParseArg();
                 var size = bytes.Length;
-                var gen = $"yield return new(pos, first, {size}, O.{cmd}, args: [{arg}]);";
+                var gen = $"yield return new(pos, first, {size}, O.{cmd}, [{arg}]);";
                 listDict[lineKey] = gen;
             }
 
@@ -155,7 +155,7 @@ namespace PoViEmu.CpuFuzzer.App
                     aftex.Add("{");
                     aftex.Add($"{sp}internal static class Intel16x{fKey}");
                     aftex.Add($"{sp}{{");
-                    aftex.Add($"{sp}{sp}internal static Instruction Parse(Stream s, " +
+                    aftex.Add($"{sp}{sp}internal static Instruction? Parse(Stream s, " +
                               $"byte[] buff, long pos, byte first)");
                     aftex.Add($"{sp}{sp}{{");
                     aftex.Add($"{sp}{sp}{sp}var second = s.NextByte();");

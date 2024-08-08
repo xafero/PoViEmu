@@ -4,7 +4,7 @@ using PoViEmu.Core.Machine.Ops;
 
 namespace PoViEmu.CpuFuzzer.Core
 {
-    public record NasmLine(string B, string X, OpCode H, string A)
+    public record NasmLine(string B, string X, string H, string A)
     {
         public static NasmLine ParseLine(string text)
         {
@@ -21,7 +21,7 @@ namespace PoViEmu.CpuFuzzer.Core
                          humanPtsT.StartsWith("vs") || humanPtsT.StartsWith("va") ||
                          humanPtsT.StartsWith("vh") || humanPtsT.StartsWith("vd")
                 ? default
-                : Enum.Parse<OpCode>(humanPtsT);
+                : /*Enum.Parse<OpCode>*/ humanPtsT;
             var humanR = humanPt.Length == 2 ? humanPt[1] : null;
             var bits = bytes.ToBinary();
             return new NasmLine(bits, hex, humanO, humanR);

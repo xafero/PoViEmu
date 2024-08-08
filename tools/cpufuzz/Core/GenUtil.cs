@@ -8,7 +8,7 @@ using PoViEmu.Common;
 using PoViEmu.Core.Machine;
 using PoViEmu.Core.Machine.Ops;
 using PoViEmu.CpuFuzzer.Core;
-using SortedOps = System.Collections.Generic.SortedDictionary<PoViEmu.Core.Machine.Ops.OpCode,
+using SortedOps = System.Collections.Generic.SortedDictionary<string,
     System.Collections.Generic.SortedDictionary<string,
         System.Collections.Generic.HashSet<PoViEmu.CpuFuzzer.Core.NasmLine>>>;
 
@@ -45,50 +45,50 @@ namespace PoViEmu.CpuFuzzer.Core
                 // constants
                 case "1": return "Constants.One";
                 // 16 bit
-                case "ax": return "GenReg16.AX";
-                case "bx": return "GenReg16.BX";
-                case "cx": return "GenReg16.CX";
-                case "dx": return "GenReg16.DX";
+                case "ax": return "R.AX";
+                case "bx": return "R.BX";
+                case "cx": return "R.CX";
+                case "dx": return "R.DX";
                 // 8 bit 
-                case "ah": return "GenReg8.AH";
-                case "al": return "GenReg8.AL";
-                case "bh": return "GenReg8.BH";
-                case "bl": return "GenReg8.BL";
-                case "ch": return "GenReg8.CH";
-                case "cl": return "GenReg8.CL";
-                case "dh": return "GenReg8.DH";
-                case "dl": return "GenReg8.DL";
+                case "ah": return "R.AH";
+                case "al": return "R.AL";
+                case "bh": return "R.BH";
+                case "bl": return "R.BL";
+                case "ch": return "R.CH";
+                case "cl": return "R.CL";
+                case "dh": return "R.DH";
+                case "dl": return "R.DL";
                 // segment
-                case "cs": return "SegReg.CS";
-                case "ds": return "SegReg.DS";
-                case "es": return "SegReg.ES";
-                case "fs": return "SegReg.FS";
-                case "gs": return "SegReg.GS";
-                case "ss": return "SegReg.SS";
+                case "cs": return "R.CS";
+                case "ds": return "R.DS";
+                case "es": return "R.ES";
+                case "fs": return "R.FS";
+                case "gs": return "R.GS";
+                case "ss": return "R.SS";
                 // pointer
-                case "si": return "IdxReg.SI";
-                case "di": return "IdxReg.DI";
-                case "bp": return "IdxReg.BP";
-                case "ip": return "IdxReg.IP";
-                case "sp": return "IdxReg.SP";
+                case "si": return "R.SI";
+                case "di": return "R.DI";
+                case "bp": return "R.BP";
+                case "ip": return "R.IP";
+                case "sp": return "R.SP";
                 // num seg
-                case "segr0": return "NumReg.Segr0";
-                case "segr1": return "NumReg.Segr1";
-                case "segr2": return "NumReg.Segr2";
-                case "segr3": return "NumReg.Segr3";
-                case "segr4": return "NumReg.Segr4";
-                case "segr5": return "NumReg.Segr5";
-                case "segr6": return "NumReg.Segr6";
-                case "segr7": return "NumReg.Segr7";
+                case "segr0": return "R.Segr0";
+                case "segr1": return "R.Segr1";
+                case "segr2": return "R.Segr2";
+                case "segr3": return "R.Segr3";
+                case "segr4": return "R.Segr4";
+                case "segr5": return "R.Segr5";
+                case "segr6": return "R.Segr6";
+                case "segr7": return "R.Segr7";
                 // float reg
-                case "st0": return "FloatReg.St0";
-                case "st1": return "FloatReg.St1";
-                case "st2": return "FloatReg.St2";
-                case "st3": return "FloatReg.St3";
-                case "st4": return "FloatReg.St4";
-                case "st5": return "FloatReg.St5";
-                case "st6": return "FloatReg.St6";
-                case "st7": return "FloatReg.St7";
+                case "st0": return "R.St0";
+                case "st1": return "R.St1";
+                case "st2": return "R.St2";
+                case "st3": return "R.St3";
+                case "st4": return "R.St4";
+                case "st5": return "R.St5";
+                case "st6": return "R.St6";
+                case "st7": return "R.St7";
                 // sse reg
                 case "xmm0": return "ExtReg.Xmm0";
                 case "xmm1": return "ExtReg.Xmm1";
