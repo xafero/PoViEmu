@@ -482,7 +482,7 @@ namespace PoViEmu.Expert
                 case 0xFD:
                     return new(pos, first, 2, O.xor, [R.DI, R.BP]);
                 case 0xFE:
-                    return new(pos, first, 2, O.xor, [R.DI, R.SI]);
+                    return new(pos, first, 2, O.xor, [R.DI, R.SI.With(second)]);
             }
             return null;
         }

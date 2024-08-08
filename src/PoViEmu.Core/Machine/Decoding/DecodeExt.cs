@@ -27,6 +27,11 @@ namespace PoViEmu.Core.Machine.Decoding
             return new RegPlusRegArg(reg, sec, raw);
         }
 
+        public static OpArg With(this Register reg, byte? raw = null)
+        {
+            return new RegisterArg(reg, raw);
+        }
+
         public static OpArg Plus(this byte? val)
         {
             // TODO
