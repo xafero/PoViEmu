@@ -28,17 +28,17 @@ namespace PoViEmu.Expert
             switch (second)
             {
                 case 0x00:
-                    return new(pos, first, 2, O.add, [R.BX.Plus(R.SI), R.AL]);
+                    return new(pos, first, 2, O.add, [R.BX.Plus(R.SI, second), R.AL]);
                 case 0x01:
-                    return new(pos, first, 2, O.add, [R.BX.Plus(R.DI), R.AL]);
+                    return new(pos, first, 2, O.add, [R.BX.Plus(R.DI, second), R.AL]);
                 case 0x02:
-                    return new(pos, first, 2, O.add, [R.BP.Plus(R.SI), R.AL]);
+                    return new(pos, first, 2, O.add, [R.BP.Plus(R.SI, second), R.AL]);
                 case 0x03:
-                    return new(pos, first, 2, O.add, [R.BP.Plus(R.DI), R.AL]);
+                    return new(pos, first, 2, O.add, [R.BP.Plus(R.DI, second), R.AL]);
                 case 0x04:
-                    return new(pos, first, 2, O.add, [R.SI.Box(), R.AL]);
+                    return new(pos, first, 2, O.add, [R.SI.Box(second), R.AL]);
                 case 0x05:
-                    return new(pos, first, 2, O.add, [R.DI.Box(), R.AL]);
+                    return new(pos, first, 2, O.add, [R.DI.Box(second), R.AL]);
                 case 0x06:
                     break;
                 case 0x07:

@@ -1,3 +1,4 @@
+using PoViEmu.Core.Machine.Args;
 using PoViEmu.Core.Machine.Ops;
 
 namespace PoViEmu.Core.Machine.Decoding
@@ -16,16 +17,14 @@ namespace PoViEmu.Core.Machine.Decoding
             return null;
         }
 
-        public static OpArg Box(this Register reg)
+        public static OpArg Box(this Register reg, byte? raw = null)
         {
-            // TODO
-            return null;
+            return new BoxArg(reg, raw);
         }
 
-        public static OpArg Plus(this Register reg, Register sec)
+        public static OpArg Plus(this Register reg, Register sec, byte? raw = null)
         {
-            // TODO
-            return null;
+            return new RegPlusRegArg(reg, sec, raw);
         }
 
         public static OpArg Plus(this byte? val)

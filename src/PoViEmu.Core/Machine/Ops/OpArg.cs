@@ -6,8 +6,8 @@ namespace PoViEmu.Core.Machine.Ops
     {
         public static implicit operator OpArg(Register v) => new RegisterArg(v);
 
-        public static implicit operator OpArg(byte v) => new ByteArg();
+        public static implicit operator OpArg(byte v) => new ByteArg(v);
 
-        public static implicit operator OpArg(short v) => new ShortArg();
+        public static implicit operator OpArg(short v) => new ShortArg(v);
     }
 }
