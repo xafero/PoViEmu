@@ -3,6 +3,7 @@ using System.IO;
 using PoViEmu.Core.Machine.Args;
 using PoViEmu.Core.Machine.Ops;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using PoViEmu.Common;
 using PoViEmu.Core.Machine.Args;
@@ -16,6 +17,7 @@ namespace PoViEmu.Core.Machine.Core
         int Size,
         OpCode Op,
         OpArg?[] Args,
+        byte?[]? Extra = null,
         Modifier? Mod = null
     )
     {
@@ -36,7 +38,9 @@ namespace PoViEmu.Core.Machine.Core
         private static byte[] FetchBytes(Instruction i)
         {
             foreach (var arg in i.Args.OfType<ICalcArg>()) arg.Parent = i;
-            return new[] { i.Code }.Concat(i.Args.OfType<IByteArg>()
+            IEnumerable<byte> bytes = new[] { i.Code };
+            if (i.Extra is { } extra) bytes = bytes.Concat(extra.OfType<byte>());
+            return bytes.Concat(i.Args.OfType<IByteArg>()
                 .SelectMany(a => a.Bytes)).ToArray();
         }
     }
