@@ -2,20 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
+using PoViEmu.CodeGen.Core;
 using PoViEmu.Common;
-using PoViEmu.Core.Machine;
 using PoViEmu.Core.Machine.Ops;
-using PoViEmu.CpuFuzzer.Core;
 using SD = System.Collections.Generic.SortedDictionary<string, object>;
 using SortedOps = System.Collections.Generic.SortedDictionary<string,
     System.Collections.Generic.SortedDictionary<string,
-        System.Collections.Generic.HashSet<PoViEmu.CpuFuzzer.Core.NasmLine>>>;
+        System.Collections.Generic.HashSet<PoViEmu.CodeGen.Core.NasmLine>>>;
 
 // ReSharper disable ForCanBeConvertedToForeach
 
-namespace PoViEmu.CpuFuzzer.App
+namespace PoViEmu.CodeGen.App
 {
     public static class CodeFuzz
     {

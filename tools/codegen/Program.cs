@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using PoViEmu.CpuFuzzer.App;
+using PoViEmu.CodeGen.App;
 
-namespace PoViEmu.CpuFuzzer
+namespace PoViEmu.CodeGen
 {
     internal static class Program
     {

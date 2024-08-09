@@ -1,18 +1,11 @@
-using System.Collections.Generic;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using PoViEmu.Common;
-using PoViEmu.Core.Machine;
-using PoViEmu.Core.Machine.Ops;
-using PoViEmu.CpuFuzzer.Core;
 using SortedOps = System.Collections.Generic.SortedDictionary<string,
     System.Collections.Generic.SortedDictionary<string,
-        System.Collections.Generic.HashSet<PoViEmu.CpuFuzzer.Core.NasmLine>>>;
+        System.Collections.Generic.HashSet<PoViEmu.CodeGen.Core.NasmLine>>>;
 
-namespace PoViEmu.CpuFuzzer.Core
+namespace PoViEmu.CodeGen.Core
 {
     public static class GenUtil
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using PoViEmu.CodeGen.Core;
 using PoViEmu.Common;
 using PoViEmu.Core.Machine.Ops;
 using PoViEmu.Tests;
@@ -10,7 +11,7 @@ using PoViEmu.CpuFuzzer.Core;
 using static PoViEmu.CpuFuzzer.Core.OptUtil;
 using SortedOps = System.Collections.Generic.SortedDictionary<string,
     System.Collections.Generic.SortedDictionary<string,
-        System.Collections.Generic.HashSet<PoViEmu.CpuFuzzer.Core.NasmLine>>>;
+        System.Collections.Generic.HashSet<PoViEmu.CodeGen.Core.NasmLine>>>;
 
 namespace PoViEmu.CpuFuzzer.App
 {
