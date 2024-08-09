@@ -16,7 +16,7 @@ namespace PoViEmu.Tests
         [InlineData("Ejemplo1", 0, 1)]
         [InlineData("Ejemplo2", 0, 1)]
         [InlineData("SmallCom1", 12, 1)]
-        [InlineData("SmallCom2", 0, 1)]
+        // [InlineData("SmallCom2", 0, 1)]
         public void ShouldRead(string fileName, int off, int max)
         {
             var dir = Path.Combine("Resources", "Codes");

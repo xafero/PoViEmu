@@ -25,9 +25,6 @@ namespace PoViEmu.CpuFuzzer
                 case "fill":
                     FillFuzz.Start();
                     break;
-                case "code":
-                    CodeFuzz.Start();
-                    break;
             }
 
             Console.WriteLine("Done.");
