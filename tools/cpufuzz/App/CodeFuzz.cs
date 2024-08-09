@@ -118,9 +118,9 @@ namespace PoViEmu.CpuFuzzer.App
             bld.Add("{");
             bld.Add($"{sp}public static class XIntel16");
             bld.Add($"{sp}{{");
-            bld.Add($"{sp}{sp}public static IEnumerable<Instruction> Disassemble(Stream s, byte[] buff)");
+            bld.Add($"{sp}{sp}public static IEnumerable<Instruction> Disassemble(Stream s, byte[] buff, long? start = null)");
             bld.Add($"{sp}{sp}{{");
-            bld.Add($"{sp}{sp}{sp}while (s.ReadBytesPos(buff) is {{ }} pos)");
+            bld.Add($"{sp}{sp}{sp}while (s.ReadBytesPos(buff, off: start) is {{ }} pos)");
             bld.Add($"{sp}{sp}{sp}{{");
             bld.Add($"{sp}{sp}{sp}{sp}var first = buff[0];");
             bld.Add($"{sp}{sp}{sp}{sp}switch (first)");
@@ -161,20 +161,8 @@ namespace PoViEmu.CpuFuzzer.App
                     aftex.Add($"{sp}{sp}{sp}var second = s.NextByte();");
                     aftex.Add($"{sp}{sp}{sp}switch (second)");
                     aftex.Add($"{sp}{sp}{sp}{{");
-                    foreach (var a1 in s1)
-                    {
-                        aftex.Add($"{sp}{sp}{sp}{sp}case 0x{a1.Key}:");
-                        if (a1.Value is SD b1)
-                        {
-                            if (b1.Count == 1 && b1.TryGetValue("_", out var b2) && b2 is string b3)
-                            {
-                                var b3Txt = b3.Split(' ', 2).Last();
-                                aftex.Add($"{sp}{sp}{sp}{sp}{sp}{b3Txt}");
-                                continue;
-                            }
-                        }
-                        aftex.Add($"{sp}{sp}{sp}{sp}{sp}break;");
-                    }
+                    var subAftex = GenerateSomeCode(s1, sp);
+                    aftex.AddRange(subAftex);
                     aftex.Add($"{sp}{sp}{sp}}}");
                     aftex.Add($"{sp}{sp}{sp}return null;");
                     aftex.Add($"{sp}{sp}}}");
@@ -189,6 +177,40 @@ namespace PoViEmu.CpuFuzzer.App
             bld.Add($"{sp}}}");
             bld.Add($"}}");
             return bld;
+        }
+
+        private static List<string> GenerateSomeCode(SD s1, string sp)
+        {
+            var aftex = new List<string>();
+            var items = s1.Select(i => GenerateSomeCode(i, sp))
+                .GroupBy(i => string.Join("|", i.Skip(1)));
+            foreach (var ag in items)
+            {
+                foreach (var it in ag)
+                {
+                    var first = it.First();
+                    aftex.Add(first);
+                }
+                aftex.Add(ag.Key);
+            }
+            return aftex;
+        }
+
+        private static List<string> GenerateSomeCode(KeyValuePair<string, object> a1, string sp)
+        {
+            var aftex = new List<string>();
+            aftex.Add($"{sp}{sp}{sp}{sp}case 0x{a1.Key}:");
+            if (a1.Value is SD b1)
+            {
+                if (b1.Count == 1 && b1.TryGetValue("_", out var b2) && b2 is string b3)
+                {
+                    var b3Txt = b3.Split(' ', 2).Last();
+                    aftex.Add($"{sp}{sp}{sp}{sp}{sp}{b3Txt}");
+                    return aftex;
+                }
+            }
+            aftex.Add($"{sp}{sp}{sp}{sp}{sp}break;");
+            return aftex;
         }
     }
 }
