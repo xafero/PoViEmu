@@ -5,6 +5,6 @@ namespace PoViEmu.Core.Machine.Decoding
 {
     public static class Constants
     {
-        public static OpArg One => new ImplicitArg();
+        public static OpArg One => new ImplicitArg(1);
     }
 }

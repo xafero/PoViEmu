@@ -105,5 +105,17 @@ namespace PoViEmu.Common
         }
 
         public static readonly Encoding Utf8 = Encoding.UTF8;
+
+        public static IEnumerable<string> SplitEvery(this string text, int count)
+        {
+            var bld = new StringBuilder();
+            for (var i = 0; i < text.Length; i += count)
+            {
+                bld.Clear();
+                for (var j = 0; j < count; j++)
+                    bld.Append(text[i + j]);
+                yield return bld.ToString();
+            }
+        }
     }
 }

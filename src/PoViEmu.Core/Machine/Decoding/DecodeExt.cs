@@ -7,14 +7,12 @@ namespace PoViEmu.Core.Machine.Decoding
     {
         public static OpArg On(this Modifier mod, OpArg arg)
         {
-            // TODO
-            return null;
+            return new ModArg(mod, arg);
         }
 
         public static OpArg On(this Modifier mod, OpArg arg, OpArg sec)
         {
-            // TODO
-            return null;
+            return new ModArg(mod, arg, sec);
         }
 
         public static OpArg Box(this Register reg, byte? raw = null)
