@@ -145,7 +145,7 @@ namespace PoViEmu.Expert
                 case 0x7E:
                 case 0x7F:
                 case 0xFF:
-                    return new(pos, first, 2, O.ja, [s.NextByte()], [second]);
+                    return new(pos, first, 2, O.ja, [    second   ]);
                 case 0x80:
                 case 0x81:
                 case 0x82:

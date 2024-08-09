@@ -251,7 +251,7 @@ namespace PoViEmu.Expert
                 case 0xFD:
                 case 0xFE:
                 case 0xFF:
-                    return new(pos, first, 2, O.aam, [s.NextByte()], [second]);
+                    return new(pos, first, 2, O.aam, [   second   ]   );
                 case 0x0A:
                     return new(pos, first, 2, O.aam, [], [second]);
             }
