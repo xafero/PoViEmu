@@ -16,6 +16,9 @@ namespace PoViEmu.CodeGen
             var arg0 = args.FirstOrDefault();
             switch (arg0)
             {
+                case "test":
+                    TestFuzz.Start();
+                    break;
                 default:
                     CodeFuzz.Start();
                     break;
