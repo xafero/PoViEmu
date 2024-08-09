@@ -4,6 +4,6 @@ namespace PoViEmu.Core.Machine.Args
 {
     public interface ICalcArg
     {
-        Instruction Parent { set; }
+        Instruction? Parent { set; }
     }
 }

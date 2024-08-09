@@ -262,7 +262,7 @@ namespace PoViEmu.Expert
                 case 0xFB:
                 case 0xFC:
                 case 0xFD:
-                    return new(pos, first, 2, O.jg, [(sbyte)second]);
+                    return new(pos, first, 2, O.jg, [new SkipArg(second)], [second]);
             }
             return null;
         }

@@ -4,12 +4,12 @@ namespace PoViEmu.Core.Machine.Args
 {
     public sealed class ImplicitArg : OpArg
     {
-        public ImplicitArg(int val)
+        public ImplicitArg(byte val)
         {
             Val = val;
         }
 
-        public int Val { get; }
+        public byte Val { get; }
 
         public override string ToString()
         {
