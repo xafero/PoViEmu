@@ -14,6 +14,7 @@
     <ProjectReference Include="..\..\src\PoViEmu.Common\PoViEmu.Common.csproj" />
     <ProjectReference Include="..\..\src\PoViEmu.Core\PoViEmu.Core.csproj" />
     <ProjectReference Include="..\..\test\PoViEmu.Tests\PoViEmu.Tests.csproj" />
+    <ProjectReference Include="..\codegen\codegen.csproj" />
   </ItemGroup>
   
 </Project>
