@@ -28,61 +28,46 @@ namespace PoViEmu.Expert
             switch (second)
             {
                 case 0x00:
-                    return new(pos, first, 2, O.pop, [M.word.On(R.BX.Plus(R.SI))]);
+                    return new(pos, first, 2, O.pop, [M.word.On(R.BX.Plus(R.SI))], [second]);
                 case 0x01:
-                    return new(pos, first, 2, O.pop, [M.word.On(R.BX.Plus(R.DI))]);
+                    return new(pos, first, 2, O.pop, [M.word.On(R.BX.Plus(R.DI))], [second]);
                 case 0x02:
-                    return new(pos, first, 2, O.pop, [M.word.On(R.BP.Plus(R.SI))]);
+                    return new(pos, first, 2, O.pop, [M.word.On(R.BP.Plus(R.SI))], [second]);
                 case 0x04:
-                    return new(pos, first, 2, O.pop, [M.word.On(R.SI.Box())]);
+                    return new(pos, first, 2, O.pop, [M.word.On(R.SI.Box())], [second]);
                 case 0x06:
-                    break;
-                case 0x07:
-                    return new(pos, first, 2, O.pop, [M.word.On(R.BX.Box())]);
                 case 0x40:
-                    break;
                 case 0x41:
-                    break;
                 case 0x42:
-                    break;
                 case 0x43:
-                    break;
                 case 0x44:
-                    break;
                 case 0x45:
-                    break;
                 case 0x46:
-                    break;
                 case 0x47:
-                    break;
                 case 0x80:
-                    break;
                 case 0x81:
-                    break;
                 case 0x82:
-                    break;
                 case 0x83:
-                    break;
                 case 0x84:
-                    break;
                 case 0x85:
-                    break;
                 case 0x86:
                     break;
+                case 0x07:
+                    return new(pos, first, 2, O.pop, [M.word.On(R.BX.Box())], [second]);
                 case 0xC0:
-                    return new(pos, first, 2, O.pop, [R.AX]);
+                    return new(pos, first, 2, O.pop, [R.AX], [second]);
                 case 0xC1:
-                    return new(pos, first, 2, O.pop, [R.CX]);
+                    return new(pos, first, 2, O.pop, [R.CX], [second]);
                 case 0xC2:
-                    return new(pos, first, 2, O.pop, [R.DX]);
+                    return new(pos, first, 2, O.pop, [R.DX], [second]);
                 case 0xC4:
-                    return new(pos, first, 2, O.pop, [R.SP]);
+                    return new(pos, first, 2, O.pop, [R.SP], [second]);
                 case 0xC5:
-                    return new(pos, first, 2, O.pop, [R.BP]);
+                    return new(pos, first, 2, O.pop, [R.BP], [second]);
                 case 0xC6:
-                    return new(pos, first, 2, O.pop, [R.SI]);
+                    return new(pos, first, 2, O.pop, [R.SI], [second]);
                 case 0xC7:
-                    return new(pos, first, 2, O.pop, [R.DI]);
+                    return new(pos, first, 2, O.pop, [R.DI], [second]);
             }
             return null;
         }
