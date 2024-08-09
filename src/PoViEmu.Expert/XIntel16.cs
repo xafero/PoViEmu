@@ -22,9 +22,9 @@ namespace PoViEmu.Expert
 {
     public static class XIntel16
     {
-        public static IEnumerable<Instruction> Disassemble(Stream s, byte[] buff)
+        public static IEnumerable<Instruction> Disassemble(Stream s, byte[] buff, long? start = null)
         {
-            while (s.ReadBytesPos(buff) is { } pos)
+            while (s.ReadBytesPos(buff, off: start) is { } pos)
             {
                 var first = buff[0];
                 switch (first)

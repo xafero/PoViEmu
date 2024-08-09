@@ -29,9 +29,11 @@ namespace PoViEmu.Core.Machine.Core
             return stream.Read(myBuffer, 0, count) == count ? myBuffer : null;
         }
 
-        public static long? ReadBytesPos(this Stream stream, byte[] buffer, int count = 1)
+        public static long? ReadBytesPos(this Stream stream, byte[] buffer, int count = 1, long? off = null)
         {
             var pos = stream.Position;
+            if (off is { } startOff)
+                pos -= startOff;
             return stream.Read(buffer, 0, count) == count ? pos : null;
         }
     }

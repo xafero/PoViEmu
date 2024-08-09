@@ -20,6 +20,16 @@ namespace PoViEmu.Common
             return txt.Trim();
         }
 
+        public static string ToMaxText(string file, int max)
+        {
+            var sep = "\n";
+            var lines = ToText(file).Split(sep);
+            if (max >= 1)
+                lines = lines.Take(max).ToArray();
+            var txt = string.Join(sep, lines);
+            return txt.Trim();
+        }
+
         public static T ToEnum<T>(ushort value, T defaultVal) where T : struct
         {
             return ToEnum($"{value}", defaultVal);
