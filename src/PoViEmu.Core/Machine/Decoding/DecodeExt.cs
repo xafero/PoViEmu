@@ -32,14 +32,12 @@ namespace PoViEmu.Core.Machine.Decoding
 
         public static OpArg Plus(this byte? val)
         {
-            // TODO
-            return null;
+            return new ByteModArg(val.GetValueOrDefault(), '+');
         }
 
         public static OpArg Minus(this byte? val)
         {
-            // TODO
-            return null;
+            return new ByteModArg(val.GetValueOrDefault(), '-');
         }
     }
 }
