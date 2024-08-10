@@ -108,6 +108,7 @@ namespace PoViEmu.CodeGen.App
             bld.Add("using R = PoViEmu.Core.Machine.Ops.Register;");
             bld.Add("using M = PoViEmu.Core.Machine.Ops.Modifier;");
             bld.Add("using A = PoViEmu.Core.Machine.Ops.OpArg;");
+            bld.Add("using C = PoViEmu.Core.Machine.Decoding.Constants;");
             return bld;
         }
 
@@ -124,7 +125,7 @@ namespace PoViEmu.CodeGen.App
             bld.Add($"{sp}{{");
             bld.Add($"{sp}{sp}public static IEnumerable<Instruction> Disassemble(Stream s, byte[] buff, long? start = null)");
             bld.Add($"{sp}{sp}{{");
-            bld.Add($"{sp}{sp}{sp}while (s.ReadBytesPos(buff, off: start) is {{ }} pos)");
+            bld.Add($"{sp}{sp}{sp}while (s.ReadBytesPos(buff, skip: start) is {{ }} pos)");
             bld.Add($"{sp}{sp}{sp}{{");
             bld.Add($"{sp}{sp}{sp}{sp}var first = buff[0];");
             bld.Add($"{sp}{sp}{sp}{sp}switch (first)");
@@ -175,7 +176,7 @@ namespace PoViEmu.CodeGen.App
                 }
             }
             bld.Add($"{sp}{sp}{sp}{sp}}}");
-            bld.Add($"{sp}{sp}{sp}{sp}throw new InstructionError(pos, first);");
+            bld.Add($"{sp}{sp}{sp}{sp}throw new InstructionError(pos, buff);");
             bld.Add($"{sp}{sp}{sp}}}");
             bld.Add($"{sp}{sp}}}");
             bld.Add($"{sp}}}");
@@ -212,9 +213,31 @@ namespace PoViEmu.CodeGen.App
                     aftex.Add($"{sp}{sp}{sp}{sp}{sp}{b3Txt}");
                     return aftex;
                 }
+                var flat = Flatten(b1, a1.Key);
+                foreach (var (flatK, flatV) in flat)
+                {
+                    var b3Txt = flatV.Split(' ', 2).Last();
+                    aftex.Add($"{sp}{sp}{sp}{sp}{sp}{b3Txt}"); /* "// {flatK}" */
+                    return aftex;
+                }
             }
             aftex.Add($"{sp}{sp}{sp}{sp}{sp}break;");
             return aftex;
+        }
+
+        private static IEnumerable<(string k, string v)> Flatten(SD dict, string key)
+        {
+            foreach (var item in dict)
+            {
+                if (item.Value is SD sub)
+                {
+                    foreach (var iv in Flatten(sub, $"{key}/{item.Key}"))
+                        yield return (iv.Item1, iv.Item2);
+                    continue;
+                }
+                var ivs = (string)item.Value;
+                yield return (($"{key}/{item.Key}").Trim('_', ' ', '/'), ivs);
+            }
         }
     }
 }

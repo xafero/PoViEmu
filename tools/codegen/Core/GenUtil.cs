@@ -36,7 +36,7 @@ namespace PoViEmu.CodeGen.Core
             switch (text)
             {
                 // constants
-                case "1": return "Constants.One";
+                case "1": return "C.One";
                 // 16 bit
                 case "ax": return "R.AX";
                 case "bx": return "R.BX";
@@ -233,11 +233,11 @@ namespace PoViEmu.CodeGen.Core
                 }
                 if (text.Length == 3 || text.Length == 4)
                 {
-                    return "s.NextByte()";
+                    return "s.NextByte(buff)";
                 }
                 if (text.Length == 6 || text.Length == 5)
                 {
-                    return "s.NextShort()";
+                    return "s.NextShort(buff)";
                 }
             }
             if (text.StartsWith('[') && text.EndsWith(']'))

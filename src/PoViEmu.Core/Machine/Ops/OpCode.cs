@@ -192,6 +192,8 @@ namespace PoViEmu.Core.Machine.Ops
         fdivp,
         loopne,
         loop,
-        jcxz
+        jcxz,
+        enter,
+        xabort
     }
 }

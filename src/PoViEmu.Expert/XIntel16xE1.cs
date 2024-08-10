@@ -17,6 +17,7 @@ using O = PoViEmu.Core.Machine.Ops.OpCode;
 using R = PoViEmu.Core.Machine.Ops.Register;
 using M = PoViEmu.Core.Machine.Ops.Modifier;
 using A = PoViEmu.Core.Machine.Ops.OpArg;
+using C = PoViEmu.Core.Machine.Decoding.Constants;
 
 namespace PoViEmu.Expert
 {

@@ -14,6 +14,54 @@ namespace PoViEmu.Core.Machine.Decoding
         {
             return new ModArg(mod, arg, sec);
         }
+        
+        public static OpArg Box(this short? reg)
+        {
+            // TODO ?!
+            return new BoxArg(Register.BX, null);
+        }
+        
+        public static OpArg Box(this byte? reg)
+        {
+            // TODO ?!
+            return new BoxArg(Register.BX, null);
+        }
+        
+        public static OpArg Plus(this OpArg arg, short? val)
+        {
+            // TODO ?!
+            return new BoxArg(Register.BX, null);
+        }
+        
+        public static OpArg Minus(this OpArg arg, short? val)
+        {
+            // TODO ?!
+            return new BoxArg(Register.BX, null);
+        }
+        
+        public static OpArg Plus(this Register arg, short? val)
+        {
+            // TODO ?!
+            return new BoxArg(Register.BX, null);
+        }
+        
+        public static OpArg Minus(this Register arg, short? val)
+        {
+            // TODO ?!
+            return new BoxArg(Register.BX, null);
+        }
+        
+        public static OpArg ToMem(this short? arg, short? val)
+        {
+            // TODO ?!
+            return new BoxArg(Register.BX, null);
+        }
+        
+        public static OpArg ToMem(this byte? arg, short? val)
+        {
+            // TODO ?!
+            return new BoxArg(Register.BX, null);
+        }
 
         public static OpArg Box(this Register reg, byte? raw = null)
         {

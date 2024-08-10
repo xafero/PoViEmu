@@ -17,6 +17,7 @@ using O = PoViEmu.Core.Machine.Ops.OpCode;
 using R = PoViEmu.Core.Machine.Ops.Register;
 using M = PoViEmu.Core.Machine.Ops.Modifier;
 using A = PoViEmu.Core.Machine.Ops.OpArg;
+using C = PoViEmu.Core.Machine.Decoding.Constants;
 
 namespace PoViEmu.Expert
 {
@@ -24,7 +25,7 @@ namespace PoViEmu.Expert
     {
         public static IEnumerable<Instruction> Disassemble(Stream s, byte[] buff, long? start = null)
         {
-            while (s.ReadBytesWithPos(buff, skip: start) is { } pos)
+            while (s.ReadBytesPos(buff, skip: start) is { } pos)
             {
                 var first = buff[0];
                 switch (first)
