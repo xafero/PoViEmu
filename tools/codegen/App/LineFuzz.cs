@@ -32,12 +32,12 @@ namespace PoViEmu.CodeGen.App
             {
                 var key = line.Key;
                 var val = line.OrderBy(y => y.H)
-                    .ThenBy(y => y.A ?? string.Empty)
-                    .ToArray();
+                    .ThenBy(y => y.A ?? string.Empty);
                 var valDict = CodeFuzz.ParseLineWithArgs(val);
+                var grpDict = TestFuzz.GroupByValue(valDict);
 
-                var listFile = Path.Combine(outDir, $"sublist_{key:D2}.json");
-                var json = JsonHelper.ToJson(valDict);
+                var listFile = Path.Combine(outDir, $"subgroup_{key:D2}.json");
+                var json = JsonHelper.ToJson(grpDict);
                 File.WriteAllText(listFile, json, Encoding.UTF8);
             }
 

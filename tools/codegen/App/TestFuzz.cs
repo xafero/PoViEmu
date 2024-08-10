@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -41,9 +42,7 @@ namespace PoViEmu.CodeGen.App
                 listDict[lineKey] = gen;
             }
 
-            var grouped = listDict.GroupBy(l => (string)l.Value)
-                .Select(l => (string.Join(" | ", l.Select(x => x.Key)), l.Key))
-                .ToDictionary(k => k.Item1, v => v.Item2);
+            var grouped = GroupByValue(listDict);
 
             var json = JsonHelper.ToJson(grouped);
             File.WriteAllText("lines.json", json, Encoding.UTF8);
@@ -75,6 +74,14 @@ namespace PoViEmu.CodeGen.App
 
             Console.WriteLine($"Generated {res.Count} test lines.");
             Console.WriteLine($"Processed {allLines.Length} lines.");
+        }
+
+        internal static IDictionary<string, string> GroupByValue(SD listDict)
+        {
+            var raw = listDict.GroupBy(l => (string)l.Value)
+                .Select(l => (string.Join(" | ", l.Select(x => x.Key)), l.Key))
+                .ToDictionary(k => k.Item1, v => v.Item2);
+            return new SortedDictionary<string, string>(raw);
         }
     }
 }
