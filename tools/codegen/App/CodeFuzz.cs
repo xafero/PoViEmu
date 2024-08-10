@@ -162,7 +162,7 @@ namespace PoViEmu.CodeGen.App
                     aftex.Add($"{sp}{sp}internal static Instruction? Parse(Stream s, " +
                               $"byte[] buff, long pos, byte first)");
                     aftex.Add($"{sp}{sp}{{");
-                    aftex.Add($"{sp}{sp}{sp}var second = s.NextByte();");
+                    aftex.Add($"{sp}{sp}{sp}var second = s.NextByte(buff);");
                     aftex.Add($"{sp}{sp}{sp}switch (second)");
                     aftex.Add($"{sp}{sp}{sp}{{");
                     var subAftex = GenerateSomeCode(s1, sp);

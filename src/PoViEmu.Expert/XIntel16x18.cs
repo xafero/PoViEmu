@@ -24,7 +24,7 @@ namespace PoViEmu.Expert
     {
         internal static Instruction? Parse(Stream s, byte[] buff, long pos, byte first)
         {
-            var second = s.NextByte();
+            var second = s.NextByte(buff);
             switch (second)
             {
                 case 0x02:

@@ -24,7 +24,7 @@ namespace PoViEmu.Expert
     {
         public static IEnumerable<Instruction> Disassemble(Stream s, byte[] buff, long? start = null)
         {
-            while (s.ReadBytesPos(buff, off: start) is { } pos)
+            while (s.ReadBytesWithPos(buff, skip: start) is { } pos)
             {
                 var first = buff[0];
                 switch (first)
@@ -1348,7 +1348,7 @@ namespace PoViEmu.Expert
                         }
                         break;
                 }
-                throw new InstructionError(pos, first);
+                throw new InstructionError(pos, buff);
             }
         }
     }
