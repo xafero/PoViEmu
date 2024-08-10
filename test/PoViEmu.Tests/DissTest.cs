@@ -13,9 +13,9 @@ namespace PoViEmu.Tests
     public class DissTest
     {
         [Theory]
-        [InlineData("Ejemplo1", 0, 1)]
-        [InlineData("Ejemplo2", 0, 1)]
-        [InlineData("SmallCom1", 12, 1)]
+        [InlineData("Ejemplo1", 0, 3)]
+        [InlineData("Ejemplo2", 0, 4)]
+        [InlineData("SmallCom1", 12, 6)]
         // [InlineData("SmallCom2", 0, 1)]
         public void ShouldRead(string fileName, int off, int max)
         {
