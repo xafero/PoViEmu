@@ -405,3 +405,4 @@ FodyWeavers.xsd
 Secret/
 dist/
 /tools/cpufuzz/out/
+/coverage
