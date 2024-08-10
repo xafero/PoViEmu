@@ -22,5 +22,14 @@ namespace PoViEmu.Common
             var bits = string.Join(" ", values.Select(v => v.ToBinary()));
             return bits;
         }
+
+        public static int HaveComplement(this byte value)
+        {
+            if ((value & 0x80) == 0)
+                return value;
+            var res = ~value;
+            res += 1;
+            return (byte)res;
+        }
     }
 }

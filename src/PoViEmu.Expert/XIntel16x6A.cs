@@ -63,6 +63,7 @@ namespace PoViEmu.Expert
                 case 0x26:
                 case 0x27:
                 case 0x28:
+                case 0x29:
                 case 0x2A:
                 case 0x2B:
                 case 0x2C:
@@ -141,7 +142,7 @@ namespace PoViEmu.Expert
                 case 0x7D:
                 case 0x7E:
                 case 0x7F:
-                    return new(pos, first, 2, O.push, [second.Plus()]);
+                    return new(pos, first, 2, O.push, [second.Plus()], [second]);
                 case 0x80:
                 case 0x83:
                 case 0x84:
@@ -246,7 +247,7 @@ namespace PoViEmu.Expert
                 case 0xFD:
                 case 0xFE:
                 case 0xFF:
-                    return new(pos, first, 2, O.push, [second.Minus()] );
+                    return new(pos, first, 2, O.push, [second.Minus()], [second] );
             }
             return null;
         }

@@ -148,7 +148,7 @@ namespace PoViEmu.Expert
                 case 0x7F:
                 case 0xFE:
                 case 0xFF:
-                    return new(pos, first, 2, O.jno, [  second  ]);
+                    return new(pos, first, 2, O.jno,[new SkipArg(second)], [  second  ]);
                 case 0x80:
                 case 0x82:
                 case 0x83:
@@ -262,7 +262,7 @@ namespace PoViEmu.Expert
                 case 0xF8:
                 case 0xFA:
                 case 0xFC:
-                    return new(pos, first, 2, O.jno, [s.NextShort()], [second]);
+                    return new(pos, first, 2, O.jno, [new SkipArg(second)], [second]);
             }
             return null;
         }

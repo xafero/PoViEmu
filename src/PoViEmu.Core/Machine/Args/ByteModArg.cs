@@ -1,8 +1,10 @@
+using System;
+using PoViEmu.Common;
 using PoViEmu.Core.Machine.Ops;
 
 namespace PoViEmu.Core.Machine.Args
 {
-    public sealed class ByteModArg : OpArg, IByteArg
+    public sealed class ByteModArg : OpArg
     {
         public ByteModArg(byte val, char op)
         {
@@ -15,9 +17,8 @@ namespace PoViEmu.Core.Machine.Args
 
         public override string ToString()
         {
-            return $"byte {Op}0x{Val:x}";
+            var val = Val.HaveComplement();
+            return $"byte {Op}0x{val:x}";
         }
-
-        public byte[] Bytes => [Val];
     }
 }

@@ -13,7 +13,7 @@ namespace PoViEmu.Core.Machine.Args
 
         public override string ToString()
         {
-            return $"0x{Value:x2}";
+            return $"0x{Value:x}";
         }
 
         public byte[] Bytes => [Value];
