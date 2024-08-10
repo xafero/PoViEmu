@@ -25,20 +25,7 @@ namespace PoViEmu.CodeGen.App
             var allLines = allDict.Iter().ToArray();
 
             var listFile = Path.Combine(outDir, "list.json");
-            var listDict = new SD();
-
-            foreach (var line in allLines.Where(l => l.H != nameof(OpCode.Unknown)))
-            {
-                var lineKey = line.X;
-                var bytes = Convert.FromHexString(line.X);
-                var cmd = line.H.ToNotKeyword();
-                var arg = line.A.ParseArg();
-                var size = bytes.Length;
-                var suffix = string.Empty;
-                if (size == 2) suffix = ", [second]";
-                var gen = $"yield return new(pos, first, {size}, O.{cmd}, [{arg}]{suffix});";
-                listDict[lineKey] = gen;
-            }
+            var listDict = ParseLineWithArgs(allLines);
 
             Console.WriteLine($"Generated {listDict.Count} keys.");
             JsonHelper.SaveToFile(listDict, listFile);
@@ -79,6 +66,24 @@ namespace PoViEmu.CodeGen.App
             }
 
             Console.WriteLine($"Processed {allLines.Length} lines.");
+        }
+
+        internal static SD ParseLineWithArgs(IEnumerable<NasmLine> allLines)
+        {
+            var listDict = new SD();
+            foreach (var line in allLines.Where(l => l.H != nameof(OpCode.Unknown)))
+            {
+                var lineKey = line.X;
+                var bytes = Convert.FromHexString(line.X);
+                var cmd = line.H.ToNotKeyword();
+                var arg = line.A.ParseArg();
+                var size = bytes.Length;
+                var suffix = string.Empty;
+                if (size == 2) suffix = ", [second]";
+                var gen = $"yield return new(pos, first, {size}, O.{cmd}, [{arg}]{suffix});";
+                listDict[lineKey] = gen;
+            }
+            return listDict;
         }
 
         private static List<string> CreateHeader()

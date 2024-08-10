@@ -19,8 +19,11 @@ namespace PoViEmu.CodeGen
                 case "test":
                     TestFuzz.Start();
                     break;
-                default:
+                case "code":
                     CodeFuzz.Start();
+                    break;
+                case "line":
+                    LineFuzz.Start();
                     break;
             }
 
