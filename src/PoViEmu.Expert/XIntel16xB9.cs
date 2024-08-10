@@ -17,6 +17,7 @@ using O = PoViEmu.Core.Machine.Ops.OpCode;
 using R = PoViEmu.Core.Machine.Ops.Register;
 using M = PoViEmu.Core.Machine.Ops.Modifier;
 using A = PoViEmu.Core.Machine.Ops.OpArg;
+using C = PoViEmu.Core.Machine.Decoding.Constants;
 
 namespace PoViEmu.Expert
 {
@@ -111,7 +112,6 @@ namespace PoViEmu.Expert
                 case 0x5B:
                 case 0x5C:
                 case 0x5D:
-                case 0x5E:
                 case 0x5F:
                 case 0x60:
                 case 0x61:
@@ -256,7 +256,9 @@ namespace PoViEmu.Expert
                 case 0xFB:
                 case 0xFE:
                 case 0xFF:
-                    break;
+                    return new(pos, first, 3, O.mov, [R.CX, s.NextShort(buff)]);
+                case 0x5E:
+                    return new(pos, first, 3, O.mov, [R.CX, s.NextByte(buff)]);
             }
             return null;
         }
