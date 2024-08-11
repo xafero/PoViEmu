@@ -151,9 +151,9 @@ namespace PoViEmu.Expert
                 case 0x44:
                     return new(pos, first, 3, O.adc, [R.AL, R.SI.Minus(s.NextByte(buff))],   [ second ]  );
                 case 0x45:
-                    return new(pos, first, 3, O.adc, [R.AL, R.DI.Plus(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 3, O.adc, [R.AL, R.DI.Signed(s.NextByte(buff))],   [ second ]  );
                 case 0x46:
-                    return new(pos, first, 3, O.adc, [R.AL, R.BP.Plus(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 3, O.adc, [R.AL, R.BP.Signed(s.NextByte(buff))],   [ second ]  );
                 case 0x47:
                     return new(pos, first, 3, O.adc, [R.AL, R.BX.Minus(s.NextByte(buff))],   [ second ]  );
                 case 0x49:
@@ -177,9 +177,9 @@ namespace PoViEmu.Expert
                 case 0x54:
                     return new(pos, first, 3, O.adc, [R.DL, R.SI.Minus(s.NextByte(buff))],   [ second ]  );
                 case 0x55:
-                    return new(pos, first, 3, O.adc, [R.DL, R.DI.Plus(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 3, O.adc, [R.DL, R.DI.Signed(s.NextByte(buff))],   [ second ]  );
                 case 0x56:
-                    return new(pos, first, 3, O.adc, [R.DL, R.BP.Plus(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 3, O.adc, [R.DL, R.BP.Signed(s.NextByte(buff))],   [ second ]  );
                 case 0x57:
                     return new(pos, first, 3, O.adc, [R.DL, R.BX.Minus(s.NextByte(buff))],   [ second ]  );
                 case 0x58:
@@ -191,9 +191,9 @@ namespace PoViEmu.Expert
                 case 0x5C:
                     return new(pos, first, 3, O.adc, [R.BL, R.SI.Minus(s.NextByte(buff))],   [ second ]  );
                 case 0x5D:
-                    return new(pos, first, 3, O.adc, [R.BL, R.DI.Plus(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 3, O.adc, [R.BL, R.DI.Signed(s.NextByte(buff))],   [ second ]  );
                 case 0x5F:
-                    return new(pos, first, 3, O.adc, [R.BL, R.BX.Plus(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 3, O.adc, [R.BL, R.BX.Signed(s.NextByte(buff))],   [ second ]  );
                 case 0x60:
                     return new(pos, first, 3, O.adc, [R.AH, R.BX.Plus(R.SI).Signed(s.NextByte(buff))],   [ second ]  );
                 case 0x61:
@@ -203,11 +203,11 @@ namespace PoViEmu.Expert
                 case 0x63:
                     return new(pos, first, 3, O.adc, [R.AH, R.BP.Plus(R.DI).Signed(s.NextByte(buff))],   [ second ]  );
                 case 0x65:
-                    return new(pos, first, 3, O.adc, [R.AH, R.DI.Plus(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 3, O.adc, [R.AH, R.DI.Signed(s.NextByte(buff))],   [ second ]  );
                 case 0x66:
                     return new(pos, first, 3, O.adc, [R.AH, R.BP.Minus(s.NextByte(buff))],   [ second ]  );
                 case 0x67:
-                    return new(pos, first, 3, O.adc, [R.AH, R.BX.Plus(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 3, O.adc, [R.AH, R.BX.Signed(s.NextByte(buff))],   [ second ]  );
                 case 0x68:
                     return new(pos, first, 3, O.adc, [R.CH, R.BX.Plus(R.SI).Signed(s.NextByte(buff))],   [ second ]  );
                 case 0x69:
@@ -217,9 +217,9 @@ namespace PoViEmu.Expert
                 case 0x6B:
                     return new(pos, first, 3, O.adc, [R.CH, R.BP.Plus(R.DI).Signed(s.NextByte(buff))],   [ second ]  );
                 case 0x6C:
-                    return new(pos, first, 3, O.adc, [R.CH, R.SI.Plus(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 3, O.adc, [R.CH, R.SI.Signed(s.NextByte(buff))],   [ second ]  );
                 case 0x6E:
-                    return new(pos, first, 3, O.adc, [R.CH, R.BP.Plus(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 3, O.adc, [R.CH, R.BP.Signed(s.NextByte(buff))],   [ second ]  );
                 case 0x6F:
                     return new(pos, first, 3, O.adc, [R.CH, R.BX.Minus(s.NextByte(buff))],   [ second ]  );
                 case 0x70:
@@ -231,9 +231,9 @@ namespace PoViEmu.Expert
                 case 0x73:
                     return new(pos, first, 3, O.adc, [R.DH, R.BP.Plus(R.DI).Signed(s.NextByte(buff))],   [ second ]  );
                 case 0x74:
-                    return new(pos, first, 3, O.adc, [R.DH, R.SI.Plus(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 3, O.adc, [R.DH, R.SI.Signed(s.NextByte(buff))],   [ second ]  );
                 case 0x75:
-                    return new(pos, first, 3, O.adc, [R.DH, R.DI.Plus(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 3, O.adc, [R.DH, R.DI.Signed(s.NextByte(buff))],   [ second ]  );
                 case 0x77:
                     return new(pos, first, 3, O.adc, [R.DH, R.BX.Minus(s.NextByte(buff))],   [ second ]  );
                 case 0x78:
@@ -245,11 +245,11 @@ namespace PoViEmu.Expert
                 case 0x7B:
                     return new(pos, first, 3, O.adc, [R.BH, R.BP.Plus(R.DI).Signed(s.NextByte(buff))],   [ second ]  );
                 case 0x7C:
-                    return new(pos, first, 3, O.adc, [R.BH, R.SI.Plus(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 3, O.adc, [R.BH, R.SI.Signed(s.NextByte(buff))],   [ second ]  );
                 case 0x7D:
                     return new(pos, first, 3, O.adc, [R.BH, R.DI.Minus(s.NextByte(buff))],   [ second ]  );
                 case 0x7E:
-                    return new(pos, first, 3, O.adc, [R.BH, R.BP.Plus(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 3, O.adc, [R.BH, R.BP.Signed(s.NextByte(buff))],   [ second ]  );
                 case 0x7F:
                     return new(pos, first, 3, O.adc, [R.BH, R.BX.Minus(s.NextByte(buff))],   [ second ]  );
                 case 0x80:
