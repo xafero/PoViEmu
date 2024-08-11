@@ -1,4 +1,3 @@
-using System;
 using PoViEmu.Common;
 using PoViEmu.Core.Machine.Ops;
 
@@ -17,7 +16,7 @@ namespace PoViEmu.Core.Machine.Args
 
         public override string ToString()
         {
-            var val = Val.HaveComplement();
+            var val = Val.HaveComplement(out _);
             return $"byte {Op}0x{val:x}";
         }
     }

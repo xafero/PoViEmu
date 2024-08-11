@@ -15,10 +15,10 @@ namespace PoViEmu.Core.Machine.Decoding
             => new ModArg(mod, arg, sec);
 
         public static OpArg Box(this short? val)
-            => new BoxArg(new ShortArg(val.GetValueOrDefault()));
+            => new BoxArg(new ShortArg(val.GetValueOrDefault(), false));
 
         public static OpArg Box(this byte? val)
-            => new BoxArg(new ByteArg(val.GetValueOrDefault()));
+            => new BoxArg(new ByteArg(val.GetValueOrDefault(), false));
 
         public static OpArg Plus(this Register arg, short? val)
             => Plus(new RegisterArg(arg), val);
@@ -45,10 +45,10 @@ namespace PoViEmu.Core.Machine.Decoding
             => new ByteModArg(val.GetValueOrDefault(), '-');
 
         public static OpArg Plus(this OpArg arg, short? val)
-            => DoMathArg(arg, '+', new ShortArg(val.GetValueOrDefault()));
+            => DoMathArg(arg, '+', new ShortArg(val.GetValueOrDefault(), true));
 
         public static OpArg Minus(this OpArg arg, short? val)
-            => DoMathArg(arg, '-', new ShortArg(val.GetValueOrDefault()));
+            => DoMathArg(arg, '-', new ShortArg(val.GetValueOrDefault(), true));
 
         private static OpArg DoMathArg(this OpArg arg, char op, OpArg sec)
         {

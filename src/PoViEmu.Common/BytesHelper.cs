@@ -23,13 +23,30 @@ namespace PoViEmu.Common
             return bits;
         }
 
-        public static int HaveComplement(this byte value)
+        public static byte HaveComplement(this byte value, out bool isNeg)
         {
             if ((value & 0x80) == 0)
+            {
+                isNeg = false;
                 return value;
+            }
+            isNeg = true;
             var res = ~value;
             res += 1;
             return (byte)res;
+        }
+
+        public static short HaveComplement(this short value, out bool isNeg)
+        {
+            if ((value & 0x8000) == 0)
+            {
+                isNeg = false;
+                return value;
+            }
+            isNeg = true;
+            var res = ~value;
+            res += 1;
+            return (short)res;
         }
     }
 }
