@@ -25,8 +25,8 @@ namespace PoViEmu.Expert
     {
         internal static Instruction? Parse(Stream s, byte[] buff, long pos, byte first)
         {
-                var jmpA=s.NextShort(buff);
-                    return new(pos, first, 3, O.jmp, [jmpA] );
+            var jmpA = s.NextShort(buff).Skip();
+            return new(pos, first, 3, O.jmp, [jmpA]);
         }
     }
 }

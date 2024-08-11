@@ -16,7 +16,7 @@ namespace PoViEmu.Core.Machine.Core
         byte Code,
         int Size,
         OpCode Op,
-        OpArg?[] Args,
+        OpArg?[]? Args,
         byte?[]? Extra = null,
         Modifier? Mod = null
     )
@@ -37,10 +37,11 @@ namespace PoViEmu.Core.Machine.Core
 
         private static byte[] FetchBytes(Instruction i)
         {
-            foreach (var arg in i.Args.OfType<ICalcArg>()) arg.Parent = i;
+            var args = i.Args ?? [];
+            foreach (var arg in args.OfType<ICalcArg>()) arg.Parent = i;
             IEnumerable<byte> bytes = new[] { i.Code };
             if (i.Extra is { } extra) bytes = bytes.Concat(extra.OfType<byte>());
-            return bytes.Concat(i.Args.OfType<IByteArg>()
+            return bytes.Concat(args.OfType<IByteArg>()
                 .SelectMany(a => a.Bytes)).ToArray();
         }
     }

@@ -37,7 +37,7 @@ namespace PoViEmu.Core.Machine.Decoding
 
         public static OpArg ToMem(this byte? arg, short? val)
             => new MemArg(arg.GetValueOrDefault(), val.GetValueOrDefault());
-        
+
         public static OpArg ToMem(this short? arg, byte? val)
             => new MemArg(arg.GetValueOrDefault(), val.GetValueOrDefault());
 
@@ -130,6 +130,16 @@ namespace PoViEmu.Core.Machine.Decoding
             return obj is short fs ? BitConverter.GetBytes(fs) :
                 obj is byte bs ? [bs] :
                 [];
+        }
+
+        public static SkipShortArg Skip(this short? value)
+        {
+            return new SkipShortArg(value);
+        }
+
+        public static SkipByteArg Skip(this byte? value)
+        {
+            return new SkipByteArg(value);
         }
     }
 }
