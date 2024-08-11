@@ -1,23 +1,9 @@
 ﻿// ReSharper disable InconsistentNaming
 
-using System.Collections.Generic;
 using System.IO;
-using PoViEmu.Core.Machine.Args;
 using PoViEmu.Core.Machine.Core;
-using PoViEmu.Core.Machine.Ops;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using PoViEmu.Core.Machine.Args;
-using PoViEmu.Core.Machine.Core;
-using PoViEmu.Core.Machine.Decoding;
-using PoViEmu.Core.Machine.Ops;
 using O = PoViEmu.Core.Machine.Ops.OpCode;
 using R = PoViEmu.Core.Machine.Ops.Register;
-using M = PoViEmu.Core.Machine.Ops.Modifier;
-using A = PoViEmu.Core.Machine.Ops.OpArg;
-using C = PoViEmu.Core.Machine.Decoding.Constants;
 
 namespace PoViEmu.Expert
 {
@@ -260,7 +246,7 @@ namespace PoViEmu.Expert
                 case 0xFD:
                 case 0xFE:
                 case 0xFF:
-                    return new(pos, first, 2, O.mov, [R.AL   ,   second  ]    );
+                    return new(pos, first, 2, O.mov, [R.AL, second]);
             }
             return null;
         }

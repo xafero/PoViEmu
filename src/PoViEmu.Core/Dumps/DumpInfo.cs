@@ -22,12 +22,12 @@ namespace PoViEmu.Core.Dumps
         /// Values: M, N, h, m, o
         /// </summary>
         public char Flag { get; set; }
-        
+
         public DateTime TimeStamp { get; set; }
         public Version Version { get; set; }
         public DateTime DeviceStamp { get; set; }
         public DumpModel DeviceModel { get; set; }
-        
+
         public IDictionary<FileAddress, AddInInfo> AddIns { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace PoViEmu.Core.Dumps
         /// PV-S250 or PV-S450 since 2001
         /// </summary>
         Z481,
-        
+
         /// <summary>
         /// Special case for S250 ?
         /// </summary>

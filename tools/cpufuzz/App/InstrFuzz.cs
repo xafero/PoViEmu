@@ -31,7 +31,7 @@ namespace PoViEmu.CpuFuzzer.App
                     continue;
                 }
                 Console.WriteLine();
-                
+
                 var actual = new MemoryStream(bytes).Disassemble().ToText();
                 var diffs = DiffTool.DiffThis(expected, actual);
                 if (diffs.Count == 0)

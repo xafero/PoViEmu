@@ -9,7 +9,7 @@ using PoViEmu.Core.Machine;
 using PoViEmu.CpuFuzzer.Core;
 using PoViEmu.Expert;
 using SortedOps = System.Collections.Generic.SortedDictionary<PoViEmu.Core.Machine.Ops.OpCode,
-    System.Collections.Generic.SortedDictionary<string, 
+    System.Collections.Generic.SortedDictionary<string,
         System.Collections.Generic.HashSet<PoViEmu.CodeGen.Core.NasmLine>>>;
 
 namespace PoViEmu.CpuFuzzer.App

@@ -12,9 +12,9 @@ namespace PoViEmu.CodeGen.Core
         public static IEnumerable<NasmLine> Iter(this SortedOps dict)
         {
             foreach (var (_, b) in dict)
-            foreach (var (_, d) in b)
-            foreach (var l in d)
-                yield return l;
+                foreach (var (_, d) in b)
+                    foreach (var l in d)
+                        yield return l;
         }
 
         public static string ToNotKeyword(this object code)

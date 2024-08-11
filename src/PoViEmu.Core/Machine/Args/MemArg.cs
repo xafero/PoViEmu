@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using PoViEmu.Core.Machine.Decoding;
 using PoViEmu.Core.Machine.Ops;

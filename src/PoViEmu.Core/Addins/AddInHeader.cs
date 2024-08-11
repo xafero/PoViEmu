@@ -39,7 +39,7 @@ namespace PoViEmu.Core.Addins
         /// </summary>
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 4)]
         public string HeaderVersion;
-        
+
         /// <summary>
         /// [offset 0x0010]
         /// Status of the Add-In

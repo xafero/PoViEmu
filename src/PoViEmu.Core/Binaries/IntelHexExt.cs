@@ -19,37 +19,37 @@ namespace PoViEmu.Core.Binaries
             switch (record.RecordType)
             {
                 case IntelHexRecordType.Data:
-                {
-                    var nextAddress = record.Offset + state.BaseAddress;
-                    for (var i = 0; i < record.RecordLength; i++)
                     {
-                        var current = nextAddress + i;
-                        var value = record.Data[i];
-                        onData(current, value);
+                        var nextAddress = record.Offset + state.BaseAddress;
+                        for (var i = 0; i < record.RecordLength; i++)
+                        {
+                            var current = nextAddress + i;
+                            var value = record.Data[i];
+                            onData(current, value);
+                        }
+                        break;
                     }
-                    break;
-                }
                 case IntelHexRecordType.EndOfFile:
-                {
-                    state.EndOfFile = true;
-                    break;
-                }
+                    {
+                        state.EndOfFile = true;
+                        break;
+                    }
                 case IntelHexRecordType.ExtendedSegmentAddress:
-                {
-                    state.BaseAddress = (record.Data[0] << 8 | record.Data[1]) << 4;
-                    break;
-                }
+                    {
+                        state.BaseAddress = (record.Data[0] << 8 | record.Data[1]) << 4;
+                        break;
+                    }
                 case IntelHexRecordType.ExtendedLinearAddress:
-                {
-                    state.BaseAddress = (record.Data[0] << 8 | record.Data[1]) << 16;
-                    break;
-                }
+                    {
+                        state.BaseAddress = (record.Data[0] << 8 | record.Data[1]) << 16;
+                        break;
+                    }
                 case IntelHexRecordType.StartSegmentAddress:
-                {
-                    state.CS = (ushort)(record.Data[0] << 8 + record.Data[1]);
-                    state.IP = (ushort)(record.Data[2] << 8 + record.Data[3]);
-                    break;
-                }
+                    {
+                        state.CS = (ushort)(record.Data[0] << 8 + record.Data[1]);
+                        state.IP = (ushort)(record.Data[2] << 8 + record.Data[3]);
+                        break;
+                    }
                 case IntelHexRecordType.StartLinearAddress:
                     state.EIP = (uint)(record.Data[0] << 24) +
                                 (uint)(record.Data[1] << 16) +

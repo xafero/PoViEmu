@@ -1,12 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using PoViEmu.CodeGen.Core;
 using PoViEmu.Common;
 using PoViEmu.Core.Machine.Ops;
-using SD = System.Collections.Generic.SortedDictionary<string, object>;
 using SortedOps = System.Collections.Generic.SortedDictionary<string,
     System.Collections.Generic.SortedDictionary<string,
         System.Collections.Generic.HashSet<PoViEmu.CodeGen.Core.NasmLine>>>;
