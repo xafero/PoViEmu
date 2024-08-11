@@ -8,8 +8,8 @@ namespace PoViEmu.Core.Machine.Decoding
 {
     public static class DecodeExt
     {
-        public static OpArg On(this Modifier mod, OpArg arg)
-            => new ModArg(mod, arg);
+        public static OpArg On(this Modifier mod, OpArg? arg)
+            => new ModArg(mod, arg!);
 
         public static OpArg On(this Modifier mod, OpArg arg, OpArg sec)
             => new ModArg(mod, arg, sec);
@@ -61,7 +61,7 @@ namespace PoViEmu.Core.Machine.Decoding
             throw new InvalidOperationException($"{arg.GetType()} {op} {sec.GetType()}");
         }
 
-        public static byte[] CollectBytes(this Instruction? parent, params OpArg[] args)
+        public static byte[] CollectBytes(this Instruction? parent, params OpArg?[] args)
         {
             var list = new List<byte>();
             foreach (var arg in args)

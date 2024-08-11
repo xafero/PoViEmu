@@ -19,6 +19,6 @@ namespace PoViEmu.Core.Machine.Args
             return $"[{A}]";
         }
 
-        public byte[] Bytes => Val == null ? [] : [Val.Value];
+        public byte[] Bytes => Val == null ? A is IByteArg x ? x.Bytes : [] : [Val.Value];
     }
 }
