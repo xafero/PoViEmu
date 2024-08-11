@@ -17,6 +17,7 @@ using O = PoViEmu.Core.Machine.Ops.OpCode;
 using R = PoViEmu.Core.Machine.Ops.Register;
 using M = PoViEmu.Core.Machine.Ops.Modifier;
 using A = PoViEmu.Core.Machine.Ops.OpArg;
+using C = PoViEmu.Core.Machine.Decoding.Constants;
 
 namespace PoViEmu.Expert
 {
@@ -36,22 +37,39 @@ namespace PoViEmu.Expert
                 case 0x04:
                     return new(pos, first, 2, O.pop, [M.word.On(R.SI.Box())], [second]);
                 case 0x06:
+                    return new(pos, first, 4, O.pop, [M.word.On(s.NextShort(buff).Box())]);
+                case 0x07:
+                    return new(pos, first, 2, O.pop, [M.word.On(R.BX.Box())], [second]);
                 case 0x40:
+                    return new(pos, first, 3, O.pop, [M.word.On(R.BX.Plus(R.SI).Minus(s.NextByte(buff)))]);
                 case 0x41:
+                    return new(pos, first, 3, O.pop, [M.word.On(R.BX.Plus(R.DI).Minus(s.NextByte(buff)))]);
                 case 0x42:
+                    return new(pos, first, 3, O.pop, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextByte(buff)))]);
                 case 0x43:
+                    return new(pos, first, 3, O.pop, [M.word.On(R.BP.Plus(R.DI).Plus(s.NextByte(buff)))]);
                 case 0x44:
+                    return new(pos, first, 3, O.pop, [M.word.On(R.SI.Plus(s.NextByte(buff)))]);
                 case 0x45:
+                    return new(pos, first, 3, O.pop, [M.word.On(R.DI.Minus(s.NextByte(buff)))]);
                 case 0x46:
+                    return new(pos, first, 3, O.pop, [M.word.On(R.BP.Plus(s.NextByte(buff)))]);
                 case 0x47:
+                    return new(pos, first, 3, O.pop, [M.word.On(R.BX.Plus(s.NextByte(buff)))]);
                 case 0x80:
+                    return new(pos, first, 4, O.pop, [M.word.On(R.BX.Plus(R.SI).Plus(s.NextShort(buff)))]);
                 case 0x81:
+                    return new(pos, first, 4, O.pop, [M.word.On(R.BX.Plus(R.DI).Minus(s.NextShort(buff)))]);
                 case 0x82:
+                    return new(pos, first, 4, O.pop, [M.word.On(R.BP.Plus(R.SI).Minus(s.NextShort(buff)))]);
                 case 0x83:
+                    return new(pos, first, 4, O.pop, [M.word.On(R.BP.Plus(R.DI).Plus(s.NextShort(buff)))]);
                 case 0x84:
+                    return new(pos, first, 4, O.pop, [M.word.On(R.SI.Plus(s.NextShort(buff)))]);
                 case 0x85:
+                    return new(pos, first, 4, O.pop, [M.word.On(R.DI.Minus(s.NextShort(buff)))]);
                 case 0x86:
-                    break;
+                    return new(pos, first, 4, O.pop, [M.word.On(R.BP.Plus(s.NextShort(buff)))]);
                 case 0x07:
                     return new(pos, first, 2, O.pop, [M.word.On(R.BX.Box())], [second]);
                 case 0xC0:

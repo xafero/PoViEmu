@@ -17,6 +17,7 @@ using O = PoViEmu.Core.Machine.Ops.OpCode;
 using R = PoViEmu.Core.Machine.Ops.Register;
 using M = PoViEmu.Core.Machine.Ops.Modifier;
 using A = PoViEmu.Core.Machine.Ops.OpArg;
+using C = PoViEmu.Core.Machine.Decoding.Constants;
 
 namespace PoViEmu.Expert
 {
@@ -38,37 +39,83 @@ namespace PoViEmu.Expert
                 case 0x05:
                     return new(pos, first, 2, O.inc, [M.@byte.On(R.DI.Box())], [second]);
                 case 0x06:
+                    return new(pos, first, 4, O.inc, [M.@byte.On(s.NextShort(buff).Box())]);
+                case 0x07:
+                    return new(pos, first, 2, O.inc, [M.@byte.On(R.BX.Box())], [second]);
+                case 0x08:
+                    return new(pos, first, 2, O.dec, [M.@byte.On(R.BX.Plus(R.SI))], [second]);
+                case 0x09:
+                    return new(pos, first, 2, O.dec, [M.@byte.On(R.BX.Plus(R.DI))], [second]);
+                case 0x0A:
+                    return new(pos, first, 2, O.dec, [M.@byte.On(R.BP.Plus(R.SI))], [second]);
+                case 0x0B:
+                    return new(pos, first, 2, O.dec, [M.@byte.On(R.BP.Plus(R.DI))], [second]);
+                case 0x0C:
+                    return new(pos, first, 2, O.dec, [M.@byte.On(R.SI.Box())], [second]);
+                case 0x0D:
+                    return new(pos, first, 2, O.dec, [M.@byte.On(R.DI.Box())], [second]);
                 case 0x0E:
+                    return new(pos, first, 4, O.dec, [M.@byte.On(s.NextShort(buff).Box())]);
+                case 0x0F:
+                    return new(pos, first, 2, O.dec, [M.@byte.On(R.BX.Box())], [second]);
                 case 0x40:
+                    return new(pos, first, 3, O.inc, [M.@byte.On(R.BX.Plus(R.SI).Plus(s.NextByte(buff)))]);
                 case 0x41:
+                    return new(pos, first, 3, O.inc, [M.@byte.On(R.BX.Plus(R.DI).Plus(s.NextByte(buff)))]);
                 case 0x42:
+                    return new(pos, first, 3, O.inc, [M.@byte.On(R.BP.Plus(R.SI).Plus(s.NextByte(buff)))]);
                 case 0x43:
+                    return new(pos, first, 3, O.inc, [M.@byte.On(R.BP.Plus(R.DI).Plus(s.NextByte(buff)))]);
                 case 0x44:
+                    return new(pos, first, 3, O.inc, [M.@byte.On(R.SI.Plus(s.NextByte(buff)))]);
                 case 0x45:
+                    return new(pos, first, 3, O.inc, [M.@byte.On(R.DI.Plus(s.NextByte(buff)))]);
                 case 0x46:
+                    return new(pos, first, 3, O.inc, [M.@byte.On(R.BP.Plus(s.NextByte(buff)))]);
                 case 0x47:
+                    return new(pos, first, 3, O.inc, [M.@byte.On(R.BX.Plus(s.NextByte(buff)))]);
                 case 0x48:
+                    return new(pos, first, 3, O.dec, [M.@byte.On(R.BX.Plus(R.SI).Plus(s.NextByte(buff)))]);
                 case 0x49:
+                    return new(pos, first, 3, O.dec, [M.@byte.On(R.BX.Plus(R.DI).Plus(s.NextByte(buff)))]);
                 case 0x4A:
+                    return new(pos, first, 3, O.dec, [M.@byte.On(R.BP.Plus(R.SI).Plus(s.NextByte(buff)))]);
                 case 0x4B:
+                    return new(pos, first, 3, O.dec, [M.@byte.On(R.BP.Plus(R.DI).Minus(s.NextByte(buff)))]);
                 case 0x4C:
+                    return new(pos, first, 3, O.dec, [M.@byte.On(R.SI.Plus(s.NextByte(buff)))]);
                 case 0x4D:
+                    return new(pos, first, 3, O.dec, [M.@byte.On(R.DI.Plus(s.NextByte(buff)))]);
                 case 0x4E:
+                    return new(pos, first, 3, O.dec, [M.@byte.On(R.BP.Plus(s.NextByte(buff)))]);
                 case 0x4F:
+                    return new(pos, first, 3, O.dec, [M.@byte.On(R.BX.Minus(s.NextByte(buff)))]);
                 case 0x80:
+                    return new(pos, first, 4, O.inc, [M.@byte.On(R.BX.Plus(R.SI).Plus(s.NextShort(buff)))]);
                 case 0x81:
+                    return new(pos, first, 4, O.inc, [M.@byte.On(R.BX.Plus(R.DI).Plus(s.NextShort(buff)))]);
                 case 0x82:
+                    return new(pos, first, 4, O.inc, [M.@byte.On(R.BP.Plus(R.SI).Minus(s.NextShort(buff)))]);
                 case 0x84:
+                    return new(pos, first, 4, O.inc, [M.@byte.On(R.SI.Minus(s.NextShort(buff)))]);
                 case 0x85:
+                    return new(pos, first, 4, O.inc, [M.@byte.On(R.DI.Minus(s.NextShort(buff)))]);
                 case 0x86:
+                    return new(pos, first, 4, O.inc, [M.@byte.On(R.BP.Plus(s.NextShort(buff)))]);
                 case 0x87:
+                    return new(pos, first, 4, O.inc, [M.@byte.On(R.BX.Plus(s.NextShort(buff)))]);
                 case 0x88:
+                    return new(pos, first, 4, O.dec, [M.@byte.On(R.BX.Plus(R.SI).Minus(s.NextShort(buff)))]);
                 case 0x8A:
+                    return new(pos, first, 4, O.dec, [M.@byte.On(R.BP.Plus(R.SI).Plus(s.NextShort(buff)))]);
                 case 0x8B:
+                    return new(pos, first, 4, O.dec, [M.@byte.On(R.BP.Plus(R.DI).Minus(s.NextShort(buff)))]);
                 case 0x8C:
+                    return new(pos, first, 4, O.dec, [M.@byte.On(R.SI.Plus(s.NextShort(buff)))]);
                 case 0x8D:
+                    return new(pos, first, 4, O.dec, [M.@byte.On(R.DI.Plus(s.NextShort(buff)))]);
                 case 0x8E:
-                    break;
+                    return new(pos, first, 4, O.dec, [M.@byte.On(R.BP.Plus(s.NextShort(buff)))]);
                 case 0x07:
                     return new(pos, first, 2, O.inc, [M.@byte.On(R.BX.Box())], [second]);
                 case 0x08:
