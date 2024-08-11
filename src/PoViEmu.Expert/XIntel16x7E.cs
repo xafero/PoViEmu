@@ -258,7 +258,7 @@ namespace PoViEmu.Expert
                 case 0xF9:
                 case 0xFA:
                 case 0xFB:
-                    return new(pos, first, 2, O.jng, [new SkipArg(second)], [second]);
+                    return new(pos, first, 2, O.jng, [new SkipArg(second)],  [second]  );
             }
             return null;
         }

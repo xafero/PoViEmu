@@ -256,11 +256,11 @@ namespace PoViEmu.Expert
                 case 0xFD:
                 case 0xFE:
                 case 0xFF:
-                    return new(pos, first, 3, O.adc, [R.AX, s.NextShort(buff)]);
+                    return new(pos, first, 3, O.adc, [R.AX, s.NextShort(buff)],   [ second ]  );
                 case 0x57:
                 case 0xD2:
                 case 0xE3:
-                    return new(pos, first, 3, O.adc, [R.AX, s.NextByte(buff)]);
+                    return new(pos, first, 3, O.adc, [R.AX, s.NextByte(buff)],   [ second ]  );
             }
             return null;
         }

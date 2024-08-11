@@ -263,9 +263,9 @@ namespace PoViEmu.Expert
                 case 0xFD:
                 case 0xFE:
                 case 0xFF:
-                    return new(pos, first, 3, O.mov, [R.AL, s.NextShort(buff).Box()]);
+                    return new(pos, first, 3, O.mov, [R.AL, s.NextShort(buff).Box()],   [ second ]  );
                 case 0x11:
-                    return new(pos, first, 3, O.mov, [R.AL, s.NextByte(buff).Box()]);
+                    return new(pos, first, 3, O.mov, [R.AL, s.NextByte(buff).Box()],   [ second ]  );
             }
             return null;
         }

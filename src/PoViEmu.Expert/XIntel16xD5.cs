@@ -260,7 +260,7 @@ namespace PoViEmu.Expert
                 case 0xFF:
                     return new(pos, first, 2, O.aad, [second   ] );
                 case 0x0A:
-                    return new(pos, first, 2, O.aad, [], [second]);
+                    return new(pos, first, 2, O.aad, [],  [second]  );
             }
             return null;
         }

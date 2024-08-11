@@ -44,7 +44,7 @@ namespace PoViEmu.Expert
                 case 0x0D:
                 case 0x0E:
                 case 0x0F:
-                    return new(pos, first, 2, O.@out, [second, R.AL]);
+                    return new(pos, first, 2, O.@out, [second, R.AL]    );
                 case 0x10:
                 case 0x11:
                 case 0x12:
@@ -259,7 +259,7 @@ namespace PoViEmu.Expert
                 case 0xFD:
                 case 0xFE:
                 case 0xFF:
-                    return new(pos, first, 2, O.@out, [second, R.AL]);
+                    return new(pos, first, 2, O.@out, [second, R.AL]  );
             }
             return null;
         }

@@ -256,12 +256,12 @@ namespace PoViEmu.Expert
                 case 0xFC:
                 case 0xFD:
                 case 0xFF:
-                    return new(pos, first, 5, O.jmp, [s.NextShort(buff).ToMem(s.NextShort(buff))]);
+                    return new(pos, first, 5, O.jmp, [s.NextShort(buff).ToMem(s.NextShort(buff))],   [ second ]  );
                 case 0x7D:
                 case 0xE3:
-                    return new(pos, first, 5, O.jmp, [s.NextShort(buff).ToMem(s.NextByte(buff))]);
+                    return new(pos, first, 5, O.jmp, [s.NextShort(buff).ToMem(s.NextByte(buff))],   [ second ]  );
                 case 0xCB:
-                    return new(pos, first, 5, O.jmp, [s.NextByte(buff).ToMem(s.NextShort(buff))]);
+                    return new(pos, first, 5, O.jmp, [s.NextByte(buff).ToMem(s.NextShort(buff))],   [ second ]  );
             }
             return null;
         }

@@ -254,7 +254,7 @@ namespace PoViEmu.Expert
                 case 0xFC:
                 case 0xFD:
                 case 0xFE:
-                    return new(pos, first, 2, O.add, [R.AL, second]);
+                    return new(pos, first, 2, O.add, [R.AL, second]   );
             }
             return null;
         }
