@@ -38,8 +38,6 @@ namespace PoViEmu.Expert
                     return new(pos, first, 2, O.pop, [M.word.On(R.SI.Box())], [second]);
                 case 0x06:
                     return new(pos, first, 4, O.pop, [M.word.On(s.NextShort(buff).Box())]);
-                case 0x07:
-                    return new(pos, first, 2, O.pop, [M.word.On(R.BX.Box())], [second]);
                 case 0x40:
                     return new(pos, first, 3, O.pop, [M.word.On(R.BX.Plus(R.SI).Minus(s.NextByte(buff)))]);
                 case 0x41:

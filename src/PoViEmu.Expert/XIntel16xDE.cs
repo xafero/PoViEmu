@@ -17,6 +17,7 @@ using O = PoViEmu.Core.Machine.Ops.OpCode;
 using R = PoViEmu.Core.Machine.Ops.Register;
 using M = PoViEmu.Core.Machine.Ops.Modifier;
 using A = PoViEmu.Core.Machine.Ops.OpArg;
+using C = PoViEmu.Core.Machine.Decoding.Constants;
 
 namespace PoViEmu.Expert
 {
@@ -40,124 +41,7 @@ namespace PoViEmu.Expert
                 case 0x05:
                     return new(pos, first, 2, O.fiadd, [M.word.On(R.DI.Box())], [second]);
                 case 0x06:
-                case 0x0E:
-                case 0x16:
-                case 0x1E:
-                case 0x26:
-                case 0x2E:
-                case 0x40:
-                case 0x42:
-                case 0x43:
-                case 0x45:
-                case 0x46:
-                case 0x48:
-                case 0x49:
-                case 0x4A:
-                case 0x4C:
-                case 0x4D:
-                case 0x4E:
-                case 0x4F:
-                case 0x50:
-                case 0x51:
-                case 0x52:
-                case 0x53:
-                case 0x54:
-                case 0x55:
-                case 0x57:
-                case 0x58:
-                case 0x5A:
-                case 0x5B:
-                case 0x5C:
-                case 0x5D:
-                case 0x5E:
-                case 0x5F:
-                case 0x60:
-                case 0x61:
-                case 0x62:
-                case 0x63:
-                case 0x65:
-                case 0x66:
-                case 0x67:
-                case 0x69:
-                case 0x6A:
-                case 0x6C:
-                case 0x6D:
-                case 0x6E:
-                case 0x6F:
-                case 0x70:
-                case 0x71:
-                case 0x72:
-                case 0x73:
-                case 0x74:
-                case 0x75:
-                case 0x76:
-                case 0x77:
-                case 0x79:
-                case 0x7A:
-                case 0x7B:
-                case 0x7C:
-                case 0x7D:
-                case 0x7E:
-                case 0x7F:
-                case 0x80:
-                case 0x81:
-                case 0x83:
-                case 0x84:
-                case 0x85:
-                case 0x86:
-                case 0x88:
-                case 0x8A:
-                case 0x8B:
-                case 0x8C:
-                case 0x8D:
-                case 0x8E:
-                case 0x8F:
-                case 0x90:
-                case 0x91:
-                case 0x92:
-                case 0x93:
-                case 0x94:
-                case 0x95:
-                case 0x96:
-                case 0x97:
-                case 0x98:
-                case 0x99:
-                case 0x9A:
-                case 0x9B:
-                case 0x9C:
-                case 0x9D:
-                case 0x9E:
-                case 0x9F:
-                case 0xA0:
-                case 0xA1:
-                case 0xA2:
-                case 0xA3:
-                case 0xA4:
-                case 0xA5:
-                case 0xA6:
-                case 0xA7:
-                case 0xA8:
-                case 0xA9:
-                case 0xAA:
-                case 0xAB:
-                case 0xAC:
-                case 0xAD:
-                case 0xAE:
-                case 0xAF:
-                case 0xB0:
-                case 0xB1:
-                case 0xB2:
-                case 0xB3:
-                case 0xB4:
-                case 0xB5:
-                case 0xB6:
-                case 0xB7:
-                case 0xB8:
-                case 0xB9:
-                case 0xBC:
-                case 0xBD:
-                case 0xBF:
-                    break;
+                    return new(pos, first, 4, O.fiadd, [M.word.On(s.NextShort(buff).Box())]);
                 case 0x07:
                     return new(pos, first, 2, O.fiadd, [M.word.On(R.BX.Box())], [second]);
                 case 0x08:
@@ -170,6 +54,8 @@ namespace PoViEmu.Expert
                     return new(pos, first, 2, O.fimul, [M.word.On(R.BP.Plus(R.DI))], [second]);
                 case 0x0C:
                     return new(pos, first, 2, O.fimul, [M.word.On(R.SI.Box())], [second]);
+                case 0x0E:
+                    return new(pos, first, 4, O.fimul, [M.word.On(s.NextShort(buff).Box())]);
                 case 0x0F:
                     return new(pos, first, 2, O.fimul, [M.word.On(R.BX.Box())], [second]);
                 case 0x10:
@@ -182,6 +68,8 @@ namespace PoViEmu.Expert
                     return new(pos, first, 2, O.ficom, [M.word.On(R.SI.Box())], [second]);
                 case 0x15:
                     return new(pos, first, 2, O.ficom, [M.word.On(R.DI.Box())], [second]);
+                case 0x16:
+                    return new(pos, first, 4, O.ficom, [M.word.On(s.NextShort(buff).Box())]);
                 case 0x17:
                     return new(pos, first, 2, O.ficom, [M.word.On(R.BX.Box())], [second]);
                 case 0x18:
@@ -194,6 +82,8 @@ namespace PoViEmu.Expert
                     return new(pos, first, 2, O.ficomp, [M.word.On(R.BP.Plus(R.DI))], [second]);
                 case 0x1C:
                     return new(pos, first, 2, O.ficomp, [M.word.On(R.SI.Box())], [second]);
+                case 0x1E:
+                    return new(pos, first, 4, O.ficomp, [M.word.On(s.NextShort(buff).Box())]);
                 case 0x1F:
                     return new(pos, first, 2, O.ficomp, [M.word.On(R.BX.Box())], [second]);
                 case 0x20:
@@ -206,6 +96,8 @@ namespace PoViEmu.Expert
                     return new(pos, first, 2, O.fisub, [M.word.On(R.BP.Plus(R.DI))], [second]);
                 case 0x25:
                     return new(pos, first, 2, O.fisub, [M.word.On(R.DI.Box())], [second]);
+                case 0x26:
+                    return new(pos, first, 4, O.fisub, [M.word.On(s.NextShort(buff).Box())]);
                 case 0x27:
                     return new(pos, first, 2, O.fisub, [M.word.On(R.BX.Box())], [second]);
                 case 0x28:
@@ -220,6 +112,8 @@ namespace PoViEmu.Expert
                     return new(pos, first, 2, O.fisubr, [M.word.On(R.SI.Box())], [second]);
                 case 0x2D:
                     return new(pos, first, 2, O.fisubr, [M.word.On(R.DI.Box())], [second]);
+                case 0x2E:
+                    return new(pos, first, 4, O.fisubr, [M.word.On(s.NextShort(buff).Box())]);
                 case 0x2F:
                     return new(pos, first, 2, O.fisubr, [M.word.On(R.BX.Box())], [second]);
                 case 0x30:
@@ -248,6 +142,230 @@ namespace PoViEmu.Expert
                     return new(pos, first, 2, O.fidivr, [M.word.On(R.DI.Box())], [second]);
                 case 0x3F:
                     return new(pos, first, 2, O.fidivr, [M.word.On(R.BX.Box())], [second]);
+                case 0x40:
+                    return new(pos, first, 3, O.fiadd, [M.word.On(R.BX.Plus(R.SI).Plus(s.NextByte(buff)))]);
+                case 0x42:
+                    return new(pos, first, 3, O.fiadd, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextByte(buff)))]);
+                case 0x43:
+                    return new(pos, first, 3, O.fiadd, [M.word.On(R.BP.Plus(R.DI).Plus(s.NextByte(buff)))]);
+                case 0x45:
+                    return new(pos, first, 3, O.fiadd, [M.word.On(R.DI.Plus(s.NextByte(buff)))]);
+                case 0x46:
+                    return new(pos, first, 3, O.fiadd, [M.word.On(R.BP.Plus(s.NextByte(buff)))]);
+                case 0x48:
+                    return new(pos, first, 3, O.fimul, [M.word.On(R.BX.Plus(R.SI).Plus(s.NextByte(buff)))]);
+                case 0x49:
+                    return new(pos, first, 3, O.fimul, [M.word.On(R.BX.Plus(R.DI).Plus(s.NextByte(buff)))]);
+                case 0x4A:
+                    return new(pos, first, 3, O.fimul, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextByte(buff)))]);
+                case 0x4C:
+                    return new(pos, first, 3, O.fimul, [M.word.On(R.SI.Plus(s.NextByte(buff)))]);
+                case 0x4D:
+                    return new(pos, first, 3, O.fimul, [M.word.On(R.DI.Plus(s.NextByte(buff)))]);
+                case 0x4E:
+                    return new(pos, first, 3, O.fimul, [M.word.On(R.BP.Minus(s.NextByte(buff)))]);
+                case 0x4F:
+                    return new(pos, first, 3, O.fimul, [M.word.On(R.BX.Plus(s.NextByte(buff)))]);
+                case 0x50:
+                    return new(pos, first, 3, O.ficom, [M.word.On(R.BX.Plus(R.SI).Plus(s.NextByte(buff)))]);
+                case 0x51:
+                    return new(pos, first, 3, O.ficom, [M.word.On(R.BX.Plus(R.DI).Plus(s.NextByte(buff)))]);
+                case 0x52:
+                    return new(pos, first, 3, O.ficom, [M.word.On(R.BP.Plus(R.SI).Minus(s.NextByte(buff)))]);
+                case 0x53:
+                    return new(pos, first, 3, O.ficom, [M.word.On(R.BP.Plus(R.DI).Plus(s.NextByte(buff)))]);
+                case 0x54:
+                    return new(pos, first, 3, O.ficom, [M.word.On(R.SI.Plus(s.NextByte(buff)))]);
+                case 0x55:
+                    return new(pos, first, 3, O.ficom, [M.word.On(R.DI.Minus(s.NextByte(buff)))]);
+                case 0x57:
+                    return new(pos, first, 3, O.ficom, [M.word.On(R.BX.Plus(s.NextByte(buff)))]);
+                case 0x58:
+                    return new(pos, first, 3, O.ficomp, [M.word.On(R.BX.Plus(R.SI).Plus(s.NextByte(buff)))]);
+                case 0x5A:
+                    return new(pos, first, 3, O.ficomp, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextByte(buff)))]);
+                case 0x5B:
+                    return new(pos, first, 3, O.ficomp, [M.word.On(R.BP.Plus(R.DI).Plus(s.NextByte(buff)))]);
+                case 0x5C:
+                    return new(pos, first, 3, O.ficomp, [M.word.On(R.SI.Plus(s.NextByte(buff)))]);
+                case 0x5D:
+                    return new(pos, first, 3, O.ficomp, [M.word.On(R.DI.Plus(s.NextByte(buff)))]);
+                case 0x5E:
+                    return new(pos, first, 3, O.ficomp, [M.word.On(R.BP.Plus(s.NextByte(buff)))]);
+                case 0x5F:
+                    return new(pos, first, 3, O.ficomp, [M.word.On(R.BX.Minus(s.NextByte(buff)))]);
+                case 0x60:
+                    return new(pos, first, 3, O.fisub, [M.word.On(R.BX.Plus(R.SI).Plus(s.NextByte(buff)))]);
+                case 0x61:
+                    return new(pos, first, 3, O.fisub, [M.word.On(R.BX.Plus(R.DI).Plus(s.NextByte(buff)))]);
+                case 0x62:
+                    return new(pos, first, 3, O.fisub, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextByte(buff)))]);
+                case 0x63:
+                    return new(pos, first, 3, O.fisub, [M.word.On(R.BP.Plus(R.DI).Minus(s.NextByte(buff)))]);
+                case 0x65:
+                    return new(pos, first, 3, O.fisub, [M.word.On(R.DI.Minus(s.NextByte(buff)))]);
+                case 0x66:
+                    return new(pos, first, 3, O.fisub, [M.word.On(R.BP.Plus(s.NextByte(buff)))]);
+                case 0x67:
+                    return new(pos, first, 3, O.fisub, [M.word.On(R.BX.Plus(s.NextByte(buff)))]);
+                case 0x69:
+                    return new(pos, first, 3, O.fisubr, [M.word.On(R.BX.Plus(R.DI).Plus(s.NextByte(buff)))]);
+                case 0x6A:
+                    return new(pos, first, 3, O.fisubr, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextByte(buff)))]);
+                case 0x6C:
+                    return new(pos, first, 3, O.fisubr, [M.word.On(R.SI.Plus(s.NextByte(buff)))]);
+                case 0x6D:
+                    return new(pos, first, 3, O.fisubr, [M.word.On(R.DI.Plus(s.NextByte(buff)))]);
+                case 0x6E:
+                    return new(pos, first, 3, O.fisubr, [M.word.On(R.BP.Minus(s.NextByte(buff)))]);
+                case 0x6F:
+                    return new(pos, first, 3, O.fisubr, [M.word.On(R.BX.Minus(s.NextByte(buff)))]);
+                case 0x70:
+                    return new(pos, first, 3, O.fidiv, [M.word.On(R.BX.Plus(R.SI).Plus(s.NextByte(buff)))]);
+                case 0x71:
+                    return new(pos, first, 3, O.fidiv, [M.word.On(R.BX.Plus(R.DI).Plus(s.NextByte(buff)))]);
+                case 0x72:
+                    return new(pos, first, 3, O.fidiv, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextByte(buff)))]);
+                case 0x73:
+                    return new(pos, first, 3, O.fidiv, [M.word.On(R.BP.Plus(R.DI).Plus(s.NextByte(buff)))]);
+                case 0x74:
+                    return new(pos, first, 3, O.fidiv, [M.word.On(R.SI.Plus(s.NextByte(buff)))]);
+                case 0x75:
+                    return new(pos, first, 3, O.fidiv, [M.word.On(R.DI.Minus(s.NextByte(buff)))]);
+                case 0x76:
+                    return new(pos, first, 3, O.fidiv, [M.word.On(R.BP.Minus(s.NextByte(buff)))]);
+                case 0x77:
+                    return new(pos, first, 3, O.fidiv, [M.word.On(R.BX.Plus(s.NextByte(buff)))]);
+                case 0x79:
+                    return new(pos, first, 3, O.fidivr, [M.word.On(R.BX.Plus(R.DI).Minus(s.NextByte(buff)))]);
+                case 0x7A:
+                    return new(pos, first, 3, O.fidivr, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextByte(buff)))]);
+                case 0x7B:
+                    return new(pos, first, 3, O.fidivr, [M.word.On(R.BP.Plus(R.DI).Plus(s.NextByte(buff)))]);
+                case 0x7C:
+                    return new(pos, first, 3, O.fidivr, [M.word.On(R.SI.Plus(s.NextByte(buff)))]);
+                case 0x7D:
+                    return new(pos, first, 3, O.fidivr, [M.word.On(R.DI.Minus(s.NextByte(buff)))]);
+                case 0x7E:
+                    return new(pos, first, 3, O.fidivr, [M.word.On(R.BP.Plus(s.NextByte(buff)))]);
+                case 0x7F:
+                    return new(pos, first, 3, O.fidivr, [M.word.On(R.BX.Plus(s.NextByte(buff)))]);
+                case 0x80:
+                    return new(pos, first, 4, O.fiadd, [M.word.On(R.BX.Plus(R.SI).Minus(s.NextShort(buff)))]);
+                case 0x81:
+                    return new(pos, first, 4, O.fiadd, [M.word.On(R.BX.Plus(R.DI).Minus(s.NextShort(buff)))]);
+                case 0x83:
+                    return new(pos, first, 4, O.fiadd, [M.word.On(R.BP.Plus(R.DI).Minus(s.NextShort(buff)))]);
+                case 0x84:
+                    return new(pos, first, 4, O.fiadd, [M.word.On(R.SI.Minus(s.NextShort(buff)))]);
+                case 0x85:
+                    return new(pos, first, 4, O.fiadd, [M.word.On(R.DI.Plus(s.NextShort(buff)))]);
+                case 0x86:
+                    return new(pos, first, 4, O.fiadd, [M.word.On(R.BP.Minus(s.NextShort(buff)))]);
+                case 0x88:
+                    return new(pos, first, 4, O.fimul, [M.word.On(R.BX.Plus(R.SI).Plus(s.NextShort(buff)))]);
+                case 0x8A:
+                    return new(pos, first, 4, O.fimul, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextShort(buff)))]);
+                case 0x8B:
+                    return new(pos, first, 4, O.fimul, [M.word.On(R.BP.Plus(R.DI).Plus(s.NextShort(buff)))]);
+                case 0x8C:
+                    return new(pos, first, 4, O.fimul, [M.word.On(R.SI.Minus(s.NextShort(buff)))]);
+                case 0x8D:
+                    return new(pos, first, 4, O.fimul, [M.word.On(R.DI.Plus(s.NextShort(buff)))]);
+                case 0x8E:
+                    return new(pos, first, 4, O.fimul, [M.word.On(R.BP.Minus(s.NextShort(buff)))]);
+                case 0x8F:
+                    return new(pos, first, 4, O.fimul, [M.word.On(R.BX.Minus(s.NextShort(buff)))]);
+                case 0x90:
+                    return new(pos, first, 4, O.ficom, [M.word.On(R.BX.Plus(R.SI).Plus(s.NextShort(buff)))]);
+                case 0x91:
+                    return new(pos, first, 4, O.ficom, [M.word.On(R.BX.Plus(R.DI).Minus(s.NextShort(buff)))]);
+                case 0x92:
+                    return new(pos, first, 4, O.ficom, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextShort(buff)))]);
+                case 0x93:
+                    return new(pos, first, 4, O.ficom, [M.word.On(R.BP.Plus(R.DI).Plus(s.NextShort(buff)))]);
+                case 0x94:
+                    return new(pos, first, 4, O.ficom, [M.word.On(R.SI.Minus(s.NextShort(buff)))]);
+                case 0x95:
+                    return new(pos, first, 4, O.ficom, [M.word.On(R.DI.Minus(s.NextShort(buff)))]);
+                case 0x96:
+                    return new(pos, first, 4, O.ficom, [M.word.On(R.BP.Minus(s.NextShort(buff)))]);
+                case 0x97:
+                    return new(pos, first, 4, O.ficom, [M.word.On(R.BX.Plus(s.NextShort(buff)))]);
+                case 0x98:
+                    return new(pos, first, 4, O.ficomp, [M.word.On(R.BX.Plus(R.SI).Minus(s.NextShort(buff)))]);
+                case 0x99:
+                    return new(pos, first, 4, O.ficomp, [M.word.On(R.BX.Plus(R.DI).Plus(s.NextShort(buff)))]);
+                case 0x9A:
+                    return new(pos, first, 4, O.ficomp, [M.word.On(R.BP.Plus(R.SI).Minus(s.NextShort(buff)))]);
+                case 0x9B:
+                    return new(pos, first, 4, O.ficomp, [M.word.On(R.BP.Plus(R.DI).Minus(s.NextShort(buff)))]);
+                case 0x9C:
+                    return new(pos, first, 4, O.ficomp, [M.word.On(R.SI.Minus(s.NextShort(buff)))]);
+                case 0x9D:
+                    return new(pos, first, 4, O.ficomp, [M.word.On(R.DI.Minus(s.NextShort(buff)))]);
+                case 0x9E:
+                    return new(pos, first, 4, O.ficomp, [M.word.On(R.BP.Plus(s.NextShort(buff)))]);
+                case 0x9F:
+                    return new(pos, first, 4, O.ficomp, [M.word.On(R.BX.Minus(s.NextShort(buff)))]);
+                case 0xA0:
+                    return new(pos, first, 4, O.fisub, [M.word.On(R.BX.Plus(R.SI).Plus(s.NextShort(buff)))]);
+                case 0xA1:
+                    return new(pos, first, 4, O.fisub, [M.word.On(R.BX.Plus(R.DI).Minus(s.NextShort(buff)))]);
+                case 0xA2:
+                    return new(pos, first, 4, O.fisub, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextShort(buff)))]);
+                case 0xA3:
+                    return new(pos, first, 4, O.fisub, [M.word.On(R.BP.Plus(R.DI).Plus(s.NextShort(buff)))]);
+                case 0xA4:
+                    return new(pos, first, 4, O.fisub, [M.word.On(R.SI.Plus(s.NextShort(buff)))]);
+                case 0xA5:
+                    return new(pos, first, 4, O.fisub, [M.word.On(R.DI.Plus(s.NextShort(buff)))]);
+                case 0xA6:
+                    return new(pos, first, 4, O.fisub, [M.word.On(R.BP.Minus(s.NextShort(buff)))]);
+                case 0xA7:
+                    return new(pos, first, 4, O.fisub, [M.word.On(R.BX.Plus(s.NextShort(buff)))]);
+                case 0xA8:
+                    return new(pos, first, 4, O.fisubr, [M.word.On(R.BX.Plus(R.SI).Plus(s.NextShort(buff)))]);
+                case 0xA9:
+                    return new(pos, first, 4, O.fisubr, [M.word.On(R.BX.Plus(R.DI).Minus(s.NextShort(buff)))]);
+                case 0xAA:
+                    return new(pos, first, 4, O.fisubr, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextShort(buff)))]);
+                case 0xAB:
+                    return new(pos, first, 4, O.fisubr, [M.word.On(R.BP.Plus(R.DI).Plus(s.NextShort(buff)))]);
+                case 0xAC:
+                    return new(pos, first, 4, O.fisubr, [M.word.On(R.SI.Minus(s.NextShort(buff)))]);
+                case 0xAD:
+                    return new(pos, first, 4, O.fisubr, [M.word.On(R.DI.Plus(s.NextShort(buff)))]);
+                case 0xAE:
+                    return new(pos, first, 4, O.fisubr, [M.word.On(R.BP.Plus(s.NextShort(buff)))]);
+                case 0xAF:
+                    return new(pos, first, 4, O.fisubr, [M.word.On(R.BX.Plus(s.NextShort(buff)))]);
+                case 0xB0:
+                    return new(pos, first, 4, O.fidiv, [M.word.On(R.BX.Plus(R.SI).Minus(s.NextShort(buff)))]);
+                case 0xB1:
+                    return new(pos, first, 4, O.fidiv, [M.word.On(R.BX.Plus(R.DI).Minus(s.NextShort(buff)))]);
+                case 0xB2:
+                    return new(pos, first, 4, O.fidiv, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextShort(buff)))]);
+                case 0xB3:
+                    return new(pos, first, 4, O.fidiv, [M.word.On(R.BP.Plus(R.DI).Minus(s.NextShort(buff)))]);
+                case 0xB4:
+                    return new(pos, first, 4, O.fidiv, [M.word.On(R.SI.Minus(s.NextShort(buff)))]);
+                case 0xB5:
+                    return new(pos, first, 4, O.fidiv, [M.word.On(R.DI.Plus(s.NextShort(buff)))]);
+                case 0xB6:
+                    return new(pos, first, 4, O.fidiv, [M.word.On(R.BP.Minus(s.NextShort(buff)))]);
+                case 0xB7:
+                    return new(pos, first, 4, O.fidiv, [M.word.On(R.BX.Plus(s.NextShort(buff)))]);
+                case 0xB8:
+                    return new(pos, first, 4, O.fidivr, [M.word.On(R.BX.Plus(R.SI).Minus(s.NextShort(buff)))]);
+                case 0xB9:
+                    return new(pos, first, 4, O.fidivr, [M.word.On(R.BX.Plus(R.DI).Plus(s.NextShort(buff)))]);
+                case 0xBC:
+                    return new(pos, first, 4, O.fidivr, [M.word.On(R.SI.Minus(s.NextShort(buff)))]);
+                case 0xBD:
+                    return new(pos, first, 4, O.fidivr, [M.word.On(R.DI.Minus(s.NextShort(buff)))]);
+                case 0xBF:
+                    return new(pos, first, 4, O.fidivr, [M.word.On(R.BX.Minus(s.NextShort(buff)))]);
                 case 0xC0:
                     return new(pos, first, 2, O.faddp, [R.St0], [second]);
                 case 0xC1:

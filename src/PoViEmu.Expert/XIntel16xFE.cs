@@ -116,22 +116,6 @@ namespace PoViEmu.Expert
                     return new(pos, first, 4, O.dec, [M.@byte.On(R.DI.Plus(s.NextShort(buff)))]);
                 case 0x8E:
                     return new(pos, first, 4, O.dec, [M.@byte.On(R.BP.Plus(s.NextShort(buff)))]);
-                case 0x07:
-                    return new(pos, first, 2, O.inc, [M.@byte.On(R.BX.Box())], [second]);
-                case 0x08:
-                    return new(pos, first, 2, O.dec, [M.@byte.On(R.BX.Plus(R.SI))], [second]);
-                case 0x09:
-                    return new(pos, first, 2, O.dec, [M.@byte.On(R.BX.Plus(R.DI))], [second]);
-                case 0x0A:
-                    return new(pos, first, 2, O.dec, [M.@byte.On(R.BP.Plus(R.SI))], [second]);
-                case 0x0B:
-                    return new(pos, first, 2, O.dec, [M.@byte.On(R.BP.Plus(R.DI))], [second]);
-                case 0x0C:
-                    return new(pos, first, 2, O.dec, [M.@byte.On(R.SI.Box())], [second]);
-                case 0x0D:
-                    return new(pos, first, 2, O.dec, [M.@byte.On(R.DI.Box())], [second]);
-                case 0x0F:
-                    return new(pos, first, 2, O.dec, [M.@byte.On(R.BX.Box())], [second]);
                 case 0xC0:
                     return new(pos, first, 2, O.inc, [R.AL], [second]);
                 case 0xC1:
