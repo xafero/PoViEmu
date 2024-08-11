@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using System.Text;
 using PoViEmu.Common;
 using PoViEmu.Core.Machine;
@@ -12,10 +13,10 @@ namespace PoViEmu.Tests
     public class DissTest
     {
         [Theory]
-        [InlineData("Ejemplo1", 0, 3)]
-        [InlineData("Ejemplo2", 0, 4)]
+        [InlineData("Ejemplo1", 0, 7)]
+        [InlineData("Ejemplo2", 0, 7)]
         [InlineData("SmallCom1", 12, 6)]
-        [InlineData("SmallCom2", 0, 1)]
+        [InlineData("SmallCom2", 0, 11)]
         public void ShouldRead(string fileName, int off, int max)
         {
             var dir = Path.Combine("Resources", "Codes");
@@ -26,7 +27,7 @@ namespace PoViEmu.Tests
         {
             var file = Path.Combine(dir, $"{fileName}.bin");
             using var stream = File.OpenRead(file);
-            var codes = stream.Disassemble(off).ToMax(max);
+            var codes = stream.Disassemble(off, err: false).ToMax(max).ToArray();
 
             var actual = codes.ToText();
             var dFile = Path.Combine(dir, $"{fileName}.dtx");
