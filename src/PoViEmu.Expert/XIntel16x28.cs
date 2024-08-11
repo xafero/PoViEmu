@@ -367,7 +367,7 @@ namespace PoViEmu.Expert
                 case 0xAF:
                     return new(pos, first, 4, O.sub, [R.BX.Signed(s.NextShort(buff)), R.CH],   [ second ]  );
                 case 0xB0:
-                    return new(pos, first, 4, O.sub, [R.BX.Plus(R.SI).Signed(s.NextByte(buff)), R.DH],   [ second ]  );
+                    return new(pos, first, 4, O.sub, [R.BX.Plus(R.SI).Signed(s.NextShort(buff)), R.DH],   [ second ]  );
                 case 0xB1:
                     return new(pos, first, 4, O.sub, [R.BX.Plus(R.DI).Signed(s.NextShort(buff)), R.DH],   [ second ]  );
                 case 0xB2:
@@ -393,7 +393,7 @@ namespace PoViEmu.Expert
                 case 0xBE:
                     return new(pos, first, 4, O.sub, [R.BP.Signed(s.NextShort(buff)), R.BH],   [ second ]  );
                 case 0xBF:
-                    return new(pos, first, 4, O.sub, [R.BX.Minus(s.NextByte(buff)), R.BH],   [ second ]  );
+                    return new(pos, first, 4, O.sub, [R.BX.Signed(s.NextShort(buff)), R.BH],   [ second ]  );
                 case 0xC0:
                     return new(pos, first, 2, O.sub, [R.AL, R.AL],  [second]  );
                 case 0xC2:
