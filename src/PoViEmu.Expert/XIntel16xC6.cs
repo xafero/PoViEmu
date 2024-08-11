@@ -43,11 +43,11 @@ namespace PoViEmu.Expert
                 case 0x06:
                     return new(pos, first, 5, O.mov, [M.@byte.On(s.NextShort(buff).Box(), s.NextByte(buff))],   [ second ]  );
                 case 0x41:
-                    return new(pos, first, 4, O.mov, [M.@byte.On(R.BX.Plus(R.DI).Plus(s.NextByte(buff))), s.NextByte(buff)],   [ second ]  );
+                    return new(pos, first, 4, O.mov, [M.@byte.On(R.BX.Plus(R.DI).Signed(s.NextByte(buff))), s.NextByte(buff)],   [ second ]  );
                 case 0x42:
-                    return new(pos, first, 4, O.mov, [M.@byte.On(R.BP.Plus(R.SI).Plus(s.NextByte(buff))), s.NextByte(buff)],   [ second ]  );
+                    return new(pos, first, 4, O.mov, [M.@byte.On(R.BP.Plus(R.SI).Signed(s.NextByte(buff))), s.NextByte(buff)],   [ second ]  );
                 case 0x43:
-                    return new(pos, first, 4, O.mov, [M.@byte.On(R.BP.Plus(R.DI).Plus(s.NextByte(buff))), s.NextByte(buff)],   [ second ]  );
+                    return new(pos, first, 4, O.mov, [M.@byte.On(R.BP.Plus(R.DI).Signed(s.NextByte(buff))), s.NextByte(buff)],   [ second ]  );
                 case 0x44:
                     return new(pos, first, 4, O.mov, [M.@byte.On(R.SI.Plus(s.NextByte(buff)), s.NextByte(buff))],   [ second ]  );
                 case 0x45:

@@ -133,13 +133,13 @@ namespace PoViEmu.Expert
                 case 0x3F:
                     return new(pos, first, 3, O.sar, [M.word.On(R.BX.Box(), M.@byte.On(s.NextByte(buff)))],   [ second ]  );
                 case 0x40:
-                    return new(pos, first, 4, O.rol, [M.word.On(R.BX.Plus(R.SI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.rol, [M.word.On(R.BX.Plus(R.SI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x41:
-                    return new(pos, first, 4, O.rol, [M.word.On(R.BX.Plus(R.DI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.rol, [M.word.On(R.BX.Plus(R.DI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x42:
-                    return new(pos, first, 4, O.rol, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.rol, [M.word.On(R.BP.Plus(R.SI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x43:
-                    return new(pos, first, 4, O.rol, [M.word.On(R.BP.Plus(R.DI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.rol, [M.word.On(R.BP.Plus(R.DI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x44:
                     return new(pos, first, 4, O.rol, [M.word.On(R.SI.Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x45:
@@ -151,7 +151,7 @@ namespace PoViEmu.Expert
                 case 0x49:
                     return new(pos, first, 4, O.ror, [M.word.On(R.BX.Plus(R.DI).Minus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x4A:
-                    return new(pos, first, 4, O.ror, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.ror, [M.word.On(R.BP.Plus(R.SI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x4B:
                     return new(pos, first, 4, O.ror, [M.word.On(R.BP.Plus(R.DI).Minus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x4C:
@@ -165,11 +165,11 @@ namespace PoViEmu.Expert
                 case 0x50:
                     return new(pos, first, 4, O.rcl, [M.word.On(R.BX.Plus(R.SI).Minus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x51:
-                    return new(pos, first, 4, O.rcl, [M.word.On(R.BX.Plus(R.DI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.rcl, [M.word.On(R.BX.Plus(R.DI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x52:
                     return new(pos, first, 4, O.rcl, [M.word.On(R.BP.Plus(R.SI).Minus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x53:
-                    return new(pos, first, 4, O.rcl, [M.word.On(R.BP.Plus(R.DI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.rcl, [M.word.On(R.BP.Plus(R.DI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x54:
                     return new(pos, first, 4, O.rcl, [M.word.On(R.SI.Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x55:
@@ -179,13 +179,13 @@ namespace PoViEmu.Expert
                 case 0x57:
                     return new(pos, first, 4, O.rcl, [M.word.On(R.BX.Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x58:
-                    return new(pos, first, 4, O.rcr, [M.word.On(R.BX.Plus(R.SI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.rcr, [M.word.On(R.BX.Plus(R.SI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x59:
-                    return new(pos, first, 4, O.rcr, [M.word.On(R.BX.Plus(R.DI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.rcr, [M.word.On(R.BX.Plus(R.DI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x5A:
-                    return new(pos, first, 4, O.rcr, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.rcr, [M.word.On(R.BP.Plus(R.SI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x5B:
-                    return new(pos, first, 4, O.rcr, [M.word.On(R.BP.Plus(R.DI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.rcr, [M.word.On(R.BP.Plus(R.DI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x5C:
                     return new(pos, first, 4, O.rcr, [M.word.On(R.SI.Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x5D:
@@ -195,11 +195,11 @@ namespace PoViEmu.Expert
                 case 0x5F:
                     return new(pos, first, 4, O.rcr, [M.word.On(R.BX.Minus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x61:
-                    return new(pos, first, 4, O.shl, [M.word.On(R.BX.Plus(R.DI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.shl, [M.word.On(R.BX.Plus(R.DI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x62:
-                    return new(pos, first, 4, O.shl, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.shl, [M.word.On(R.BP.Plus(R.SI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x63:
-                    return new(pos, first, 4, O.shl, [M.word.On(R.BP.Plus(R.DI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.shl, [M.word.On(R.BP.Plus(R.DI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x64:
                     return new(pos, first, 4, O.shl, [M.word.On(R.SI.Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x65:
@@ -209,13 +209,13 @@ namespace PoViEmu.Expert
                 case 0x67:
                     return new(pos, first, 4, O.shl, [M.word.On(R.BX.Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x68:
-                    return new(pos, first, 4, O.shr, [M.word.On(R.BX.Plus(R.SI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.shr, [M.word.On(R.BX.Plus(R.SI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x69:
-                    return new(pos, first, 4, O.shr, [M.word.On(R.BX.Plus(R.DI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.shr, [M.word.On(R.BX.Plus(R.DI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x6A:
-                    return new(pos, first, 4, O.shr, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.shr, [M.word.On(R.BP.Plus(R.SI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x6B:
-                    return new(pos, first, 4, O.shr, [M.word.On(R.BP.Plus(R.DI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.shr, [M.word.On(R.BP.Plus(R.DI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x6C:
                     return new(pos, first, 4, O.shr, [M.word.On(R.SI.Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x6D:
@@ -225,13 +225,13 @@ namespace PoViEmu.Expert
                 case 0x6F:
                     return new(pos, first, 4, O.shr, [M.word.On(R.BX.Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x78:
-                    return new(pos, first, 4, O.sar, [M.word.On(R.BX.Plus(R.SI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.sar, [M.word.On(R.BX.Plus(R.SI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x79:
-                    return new(pos, first, 4, O.sar, [M.word.On(R.BX.Plus(R.DI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.sar, [M.word.On(R.BX.Plus(R.DI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x7A:
-                    return new(pos, first, 4, O.sar, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.sar, [M.word.On(R.BP.Plus(R.SI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x7B:
-                    return new(pos, first, 4, O.sar, [M.word.On(R.BP.Plus(R.DI).Plus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.sar, [M.word.On(R.BP.Plus(R.DI).Signed(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x7C:
                     return new(pos, first, 4, O.sar, [M.word.On(R.SI.Minus(s.NextByte(buff))), M.@byte.On(s.NextByte(buff))],   [ second ]  );
                 case 0x7D:

@@ -43,9 +43,9 @@ namespace PoViEmu.Expert
                 case 0x41:
                     return new(pos, first, 3, O.pop, [M.word.On(R.BX.Plus(R.DI).Minus(s.NextByte(buff)))],   [ second ]  );
                 case 0x42:
-                    return new(pos, first, 3, O.pop, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextByte(buff)))],   [ second ]  );
+                    return new(pos, first, 3, O.pop, [M.word.On(R.BP.Plus(R.SI).Signed(s.NextByte(buff)))],   [ second ]  );
                 case 0x43:
-                    return new(pos, first, 3, O.pop, [M.word.On(R.BP.Plus(R.DI).Plus(s.NextByte(buff)))],   [ second ]  );
+                    return new(pos, first, 3, O.pop, [M.word.On(R.BP.Plus(R.DI).Signed(s.NextByte(buff)))],   [ second ]  );
                 case 0x44:
                     return new(pos, first, 3, O.pop, [M.word.On(R.SI.Plus(s.NextByte(buff)))],   [ second ]  );
                 case 0x45:
