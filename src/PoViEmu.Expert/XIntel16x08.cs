@@ -273,7 +273,7 @@ namespace PoViEmu.Expert
                 case 0x86:
                     return new(pos, first, 4, O.or, [R.BP.Signed(s.NextShort(buff)), R.AL],   [ second ]  );
                 case 0x87:
-                    return new(pos, first, 4, O.or, [R.BX.Signed(s.NextByte(buff)), R.AL],   [ second ]  );
+                    return new(pos, first, 4, O.or, [R.BX.Signed(s.NextShort(buff)), R.AL],   [ second ]  );
                 case 0x88:
                     return new(pos, first, 4, O.or, [R.BX.Plus(R.SI).Signed(s.NextShort(buff)), R.CL],   [ second ]  );
                 case 0x89:
