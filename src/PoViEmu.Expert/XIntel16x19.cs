@@ -65,7 +65,7 @@ namespace PoViEmu.Expert
                 case 0x15:
                     return new(pos, first, 2, O.sbb, [R.DI.Box(), R.DX],  [second]  );
                 case 0x16:
-                    return new(pos, first, 4, O.sbb, [s.NextByte(buff).Box(), R.DX],   [ second ]  );
+                    return new(pos, first, 4, O.sbb, [s.NextShort(buff).Box(), R.DX],   [ second ]  );
                 case 0x17:
                     return new(pos, first, 2, O.sbb, [R.BX.Box(), R.DX],  [second]  );
                 case 0x18:

@@ -103,7 +103,7 @@ namespace PoViEmu.Expert
                 case 0x2D:
                     return new(pos, first, 2, O.lds, [R.BP, R.DI.Box()],  [second]  );
                 case 0x2E:
-                    return new(pos, first, 4, O.lds, [R.BP, s.NextByte(buff).Box()],   [ second ]  );
+                    return new(pos, first, 4, O.lds, [R.BP, s.NextShort(buff).Box()],   [ second ]  );
                 case 0x2F:
                     return new(pos, first, 2, O.lds, [R.BP, R.BX.Box()],  [second]  );
                 case 0x30:

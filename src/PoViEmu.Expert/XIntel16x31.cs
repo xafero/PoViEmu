@@ -265,7 +265,7 @@ namespace PoViEmu.Expert
                 case 0x85:
                     return new(pos, first, 4, O.xor, [R.DI.Signed(s.NextShort(buff)), R.AX],   [ second ]  );
                 case 0x86:
-                    return new(pos, first, 4, O.xor, [R.BP.Minus(s.NextByte(buff)), R.AX],   [ second ]  );
+                    return new(pos, first, 4, O.xor, [R.BP.Signed(s.NextShort(buff)), R.AX],   [ second ]  );
                 case 0x87:
                     return new(pos, first, 4, O.xor, [R.BX.Signed(s.NextShort(buff)), R.AX],   [ second ]  );
                 case 0x88:

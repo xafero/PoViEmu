@@ -297,7 +297,7 @@ namespace PoViEmu.Expert
                 case 0x95:
                     return new(pos, first, 4, O.lea, [R.DX, R.DI.Signed(s.NextShort(buff))],   [ second ]  );
                 case 0x96:
-                    return new(pos, first, 4, O.lea, [R.DX, R.BP.Minus(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.lea, [R.DX, R.BP.Signed(s.NextShort(buff))],   [ second ]  );
                 case 0x97:
                     return new(pos, first, 4, O.lea, [R.DX, R.BX.Signed(s.NextShort(buff))],   [ second ]  );
                 case 0x98:

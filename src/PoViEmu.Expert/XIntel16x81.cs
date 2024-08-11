@@ -469,7 +469,7 @@ namespace PoViEmu.Expert
                 case 0xEC:
                     return new(pos, first, 4, O.sub, [R.SP, s.NextShort(buff)], [ second ]  );
                 case 0xED:
-                    return new(pos, first, 4, O.sub, [R.BP, s.NextByte(buff)], [ second ]  );
+                    return new(pos, first, 4, O.sub, [R.BP, s.NextShort(buff)], [ second ]  );
                 case 0xEE:
                     return new(pos, first, 4, O.sub, [R.SI, s.NextShort(buff)], [ second ]  );
                 case 0xEF:

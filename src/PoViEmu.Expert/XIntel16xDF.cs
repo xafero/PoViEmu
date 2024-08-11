@@ -329,7 +329,7 @@ namespace PoViEmu.Expert
                 case 0xA1:
                     return new(pos, first, 4, O.fbld, [M.tword.On(R.BX.Plus(R.DI).Signed(s.NextShort(buff)))],   [ second ]  );
                 case 0xA2:
-                    return new(pos, first, 4, O.fbld, [M.tword.On(R.BP.Plus(R.SI).Minus(s.NextByte(buff)))],   [ second ]  );
+                    return new(pos, first, 4, O.fbld, [M.tword.On(R.BP.Plus(R.SI).Signed(s.NextShort(buff)))],   [ second ]  );
                 case 0xA3:
                     return new(pos, first, 4, O.fbld, [M.tword.On(R.BP.Plus(R.DI).Signed(s.NextShort(buff)))],   [ second ]  );
                 case 0xA4:

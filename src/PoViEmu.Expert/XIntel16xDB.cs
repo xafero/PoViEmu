@@ -199,7 +199,7 @@ namespace PoViEmu.Expert
                 case 0x7F:
                     return new(pos, first, 3, O.fstp, [M.tword.On(R.BX.Signed(s.NextByte(buff)))],   [ second ]  );
                 case 0x80:
-                    return new(pos, first, 4, O.fild, [M.dword.On(R.BX.Plus(R.SI).Signed(s.NextByte(buff)))],   [ second ]  );
+                    return new(pos, first, 4, O.fild, [M.dword.On(R.BX.Plus(R.SI).Signed(s.NextShort(buff)))],   [ second ]  );
                 case 0x81:
                     return new(pos, first, 4, O.fild, [M.dword.On(R.BX.Plus(R.DI).Signed(s.NextShort(buff)))],   [ second ]  );
                 case 0x82:

@@ -295,7 +295,7 @@ namespace PoViEmu.Expert
                 case 0x92:
                     return new(pos, first, 4, O.cmp, [R.DX, R.BP.Plus(R.SI).Signed(s.NextShort(buff))],   [ second ]  );
                 case 0x93:
-                    return new(pos, first, 4, O.cmp, [R.DX, R.BP.Plus(R.DI).Signed(s.NextByte(buff))],   [ second ]  );
+                    return new(pos, first, 4, O.cmp, [R.DX, R.BP.Plus(R.DI).Signed(s.NextShort(buff))],   [ second ]  );
                 case 0x94:
                     return new(pos, first, 4, O.cmp, [R.DX, R.SI.Signed(s.NextShort(buff))],   [ second ]  );
                 case 0x95:

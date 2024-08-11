@@ -257,7 +257,7 @@ namespace PoViEmu.Expert
                 case 0x98:
                     return new(pos, first, 4, O.neg, [M.word.On(R.BX.Plus(R.SI).Signed(s.NextShort(buff)))], [ second ]  );
                 case 0x99:
-                    return new(pos, first, 4, O.neg, [M.word.On(R.BX.Plus(R.DI).Minus(s.NextByte(buff)))], [ second ]  );
+                    return new(pos, first, 4, O.neg, [M.word.On(R.BX.Plus(R.DI).Signed(s.NextShort(buff)))], [ second ]  );
                 case 0x9A:
                     return new(pos, first, 4, O.neg, [M.word.On(R.BP.Plus(R.SI).Signed(s.NextShort(buff)))], [ second ]  );
                 case 0x9B:
