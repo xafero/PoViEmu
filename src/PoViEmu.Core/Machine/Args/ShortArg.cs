@@ -9,15 +9,16 @@ namespace PoViEmu.Core.Machine.Args
         public ShortArg(short val, bool signed)
         {
             Value = val;
-            Signed = signed;
+            if (signed && val.HaveComplement(out var isNeg) is var signedVal && isNeg)
+                SignedVal = signedVal;
         }
 
         public short Value { get; }
-        public bool Signed { get; }
+        public short? SignedVal { get; }
 
         public override string ToString()
         {
-            var val = Signed ? Value.HaveComplement(out _) : Value;
+            var val = SignedVal ?? Value;
             return $"0x{val:x}";
         }
 

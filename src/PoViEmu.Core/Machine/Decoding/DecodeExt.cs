@@ -20,8 +20,14 @@ namespace PoViEmu.Core.Machine.Decoding
         public static OpArg Box(this byte? val)
             => new BoxArg(new ByteArg(val.GetValueOrDefault(), false));
 
+        public static OpArg Plus(this Register arg, byte? val)
+            => Plus(new RegisterArg(arg), val);
+
         public static OpArg Plus(this Register arg, short? val)
             => Plus(new RegisterArg(arg), val);
+
+        public static OpArg Minus(this Register arg, byte? val)
+            => Minus(new RegisterArg(arg), val);
 
         public static OpArg Minus(this Register arg, short? val)
             => Minus(new RegisterArg(arg), val);
@@ -44,21 +50,50 @@ namespace PoViEmu.Core.Machine.Decoding
         public static OpArg Minus(this byte? val)
             => new ByteModArg(val.GetValueOrDefault(), '-');
 
+        public static OpArg Plus(this OpArg arg, byte? val)
+            => DoMathArg(arg, '+', new ByteArg(val.GetValueOrDefault(), true));
+
         public static OpArg Plus(this OpArg arg, short? val)
             => DoMathArg(arg, '+', new ShortArg(val.GetValueOrDefault(), true));
 
+        public static OpArg Minus(this OpArg arg, byte? val)
+            => DoMathArg(arg, '-', new ByteArg(val.GetValueOrDefault(), true));
+
         public static OpArg Minus(this OpArg arg, short? val)
             => DoMathArg(arg, '-', new ShortArg(val.GetValueOrDefault(), true));
+
+        public static OpArg Signed(this OpArg arg, byte? val)
+        {
+            var ba = new ByteArg(val.GetValueOrDefault(), true);
+            var op = ba.SignedVal != null ? '-' : '+';
+            return DoMathArg(arg, op, ba);
+        }
 
         private static OpArg DoMathArg(this OpArg arg, char op, OpArg sec)
         {
             if (arg is RegisterArg rga && sec is ShortArg sha1)
                 return new MathXyArg(rga, op, sha1);
 
+            if (arg is RegisterArg rgb && sec is ByteArg shb1)
+                return new MathXyArg(rgb, op, shb1);
+
             if (arg is RegPlusRegArg rpa && sec is ShortArg sha2)
                 return new MathXyzArg(rpa.A, '+', rpa.B, op, sha2);
 
+            if (arg is RegPlusRegArg rpb && sec is ByteArg shb2)
+                return new MathXyzArg(rpb.A, '+', rpb.B, op, shb2);
+
             throw new InvalidOperationException($"{arg.GetType()} {op} {sec.GetType()}");
+        }
+
+        private static char SwitchMath(char op)
+        {
+            switch (op)
+            {
+                case '+': return '-';
+                case '-': return '+';
+            }
+            throw new ArgumentException($"{op} ?!");
         }
 
         public static byte[] CollectBytes(this Instruction? parent, params OpArg?[] args)

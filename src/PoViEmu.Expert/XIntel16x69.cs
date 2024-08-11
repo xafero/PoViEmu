@@ -141,7 +141,7 @@ namespace PoViEmu.Expert
                 case 0x40:
                     return new(pos, first, 5, O.imul, [R.AX, R.BX.Plus(R.SI).Minus(s.NextByte(buff)), M.word.On(s.NextShort(buff))], [ second ]);
                 case 0x42:
-                    return new(pos, first, 5, O.imul, [R.AX, R.BP.Plus(R.SI).Plus(s.NextByte(buff)), M.word.On(s.NextShort(buff))], [ second ]);
+                    return new(pos, first, 5, O.imul, [R.AX, R.BP.Plus(R.SI).Signed(s.NextByte(buff)), M.word.On(s.NextShort(buff))], [ second ]);
                 case 0x43:
                     return new(pos, first, 5, O.imul, [R.AX, R.BP.Plus(R.DI).Plus(s.NextByte(buff)), M.word.On(s.NextShort(buff))], [ second ]);
                 case 0x44:
