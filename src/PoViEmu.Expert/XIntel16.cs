@@ -23,7 +23,7 @@ namespace PoViEmu.Expert
 {
     public static class XIntel16
     {
-        public static IEnumerable<Instruction> Disassemble(Stream s, byte[] buff, long? start = null)
+        public static IEnumerable<Instruction> Disassemble(Stream s, byte[] buff, long? start = null, bool err = true)
         {
             while (s.ReadBytesPos(buff, skip: start) is { } pos)
             {
@@ -1349,7 +1349,9 @@ namespace PoViEmu.Expert
                         }
                         break;
                 }
-                throw new InstructionError(pos, buff);
+                if (err)
+                    throw new InstructionError(pos, buff);
+                yield return default;
             }
         }
     }
