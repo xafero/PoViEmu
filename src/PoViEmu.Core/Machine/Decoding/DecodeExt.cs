@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using PoViEmu.Core.Machine.Args;
+using PoViEmu.Core.Machine.Core;
 using PoViEmu.Core.Machine.Ops;
 
 namespace PoViEmu.Core.Machine.Decoding
@@ -6,86 +9,69 @@ namespace PoViEmu.Core.Machine.Decoding
     public static class DecodeExt
     {
         public static OpArg On(this Modifier mod, OpArg arg)
-        {
-            return new ModArg(mod, arg);
-        }
+            => new ModArg(mod, arg);
 
         public static OpArg On(this Modifier mod, OpArg arg, OpArg sec)
-        {
-            return new ModArg(mod, arg, sec);
-        }
-        
-        public static OpArg Box(this short? reg)
-        {
-            // TODO ?!
-            return new BoxArg(Register.BX, null);
-        }
-        
-        public static OpArg Box(this byte? reg)
-        {
-            // TODO ?!
-            return new BoxArg(Register.BX, null);
-        }
-        
-        public static OpArg Plus(this OpArg arg, short? val)
-        {
-            // TODO ?!
-            return new BoxArg(Register.BX, null);
-        }
-        
-        public static OpArg Minus(this OpArg arg, short? val)
-        {
-            // TODO ?!
-            return new BoxArg(Register.BX, null);
-        }
-        
+            => new ModArg(mod, arg, sec);
+
+        public static OpArg Box(this short? val)
+            => new BoxArg(new ShortArg(val.GetValueOrDefault()));
+
+        public static OpArg Box(this byte? val)
+            => new BoxArg(new ByteArg(val.GetValueOrDefault()));
+
         public static OpArg Plus(this Register arg, short? val)
-        {
-            // TODO ?!
-            return new BoxArg(Register.BX, null);
-        }
-        
+            => Plus(new RegisterArg(arg), val);
+
         public static OpArg Minus(this Register arg, short? val)
-        {
-            // TODO ?!
-            return new BoxArg(Register.BX, null);
-        }
-        
+            => Minus(new RegisterArg(arg), val);
+
         public static OpArg ToMem(this short? arg, short? val)
-        {
-            // TODO ?!
-            return new BoxArg(Register.BX, null);
-        }
-        
+            => new MemArg(arg.GetValueOrDefault(), val.GetValueOrDefault());
+
         public static OpArg ToMem(this byte? arg, short? val)
-        {
-            // TODO ?!
-            return new BoxArg(Register.BX, null);
-        }
+            => new MemArg(arg.GetValueOrDefault(), val.GetValueOrDefault());
 
         public static OpArg Box(this Register reg, byte? raw = null)
-        {
-            return new BoxArg(reg, raw);
-        }
+            => new BoxArg(reg, raw);
 
         public static OpArg Plus(this Register reg, Register sec, byte? raw = null)
-        {
-            return new RegPlusRegArg(reg, sec, raw);
-        }
-
-        public static OpArg With(this Register reg, byte? raw = null)
-        {
-            return new RegisterArg(reg, raw);
-        }
+            => new RegPlusRegArg(reg, sec, raw);
 
         public static OpArg Plus(this byte? val)
-        {
-            return new ByteModArg(val.GetValueOrDefault(), '+');
-        }
+            => new ByteModArg(val.GetValueOrDefault(), '+');
 
         public static OpArg Minus(this byte? val)
+            => new ByteModArg(val.GetValueOrDefault(), '-');
+
+        public static OpArg Plus(this OpArg arg, short? val)
+            => DoMathArg(arg, '+', new ShortArg(val.GetValueOrDefault()));
+
+        public static OpArg Minus(this OpArg arg, short? val)
+            => DoMathArg(arg, '-', new ShortArg(val.GetValueOrDefault()));
+
+        private static OpArg DoMathArg(this OpArg arg, char op, OpArg sec)
         {
-            return new ByteModArg(val.GetValueOrDefault(), '-');
+            if (arg is RegisterArg rga && sec is ShortArg sha1)
+                return new MathXyArg(rga, op, sha1);
+
+            if (arg is RegPlusRegArg rpa && sec is ShortArg sha2)
+                return new MathXyzArg(rpa.A, '+', rpa.B, op, sha2);
+
+            throw new InvalidOperationException($"{arg.GetType()} {op} {sec.GetType()}");
+        }
+
+        public static byte[] CollectBytes(this Instruction? parent, params OpArg[] args)
+        {
+            var list = new List<byte>();
+            foreach (var arg in args)
+            {
+                if (arg is ICalcArg calc)
+                    calc.Parent = parent;
+                if (arg is IByteArg bit)
+                    list.AddRange(bit.Bytes);
+            }
+            return list.ToArray();
         }
     }
 }

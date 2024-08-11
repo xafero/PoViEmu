@@ -5,18 +5,18 @@ namespace PoViEmu.Core.Machine.Args
 {
     public sealed class BoxArg : OpArg, IByteArg
     {
-        public BoxArg(Register a, byte? val)
+        public BoxArg(OpArg a, byte? val = null)
         {
             A = a;
             Val = val;
         }
 
-        public Register A { get; }
+        public OpArg A { get; }
         public byte? Val { get; }
 
         public override string ToString()
         {
-            return $"[{A.ToSmallName()}]";
+            return $"[{A}]";
         }
 
         public byte[] Bytes => Val == null ? [] : [Val.Value];

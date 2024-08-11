@@ -16,7 +16,7 @@ namespace PoViEmu.Tests
             catch (EqualException e)
             {
                 var nl = Environment.NewLine;
-                throw new InvalidOperationException($"{actual}{nl}{nl}{expected}", e);
+                throw new InvalidOperationException($"{nl}{actual}{nl}{nl}{expected}", e);
             }
         }
 
