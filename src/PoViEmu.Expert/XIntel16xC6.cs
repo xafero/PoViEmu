@@ -57,19 +57,19 @@ namespace PoViEmu.Expert
                 case 0x47:
                     return new(pos, first, 4, O.mov, [M.@byte.On(R.BX.Plus(s.NextByte(buff)), s.NextByte(buff))]);
                 case 0x80:
-                    return new(pos, first, 5, O.mov, [M.@byte.On(R.BX.Plus(R.SI).Minus(s.NextShort(buff))), s.NextByte(buff)]);
+                    return new(pos, first, 5, O.mov, [M.@byte.On(R.BX.Plus(R.SI).Signed(s.NextShort(buff))), s.NextByte(buff)]);
                 case 0x81:
-                    return new(pos, first, 5, O.mov, [M.@byte.On(R.BX.Plus(R.DI).Minus(s.NextShort(buff))), s.NextByte(buff)]);
+                    return new(pos, first, 5, O.mov, [M.@byte.On(R.BX.Plus(R.DI).Signed(s.NextShort(buff))), s.NextByte(buff)]);
                 case 0x82:
-                    return new(pos, first, 5, O.mov, [M.@byte.On(R.BP.Plus(R.SI).Plus(s.NextShort(buff))), s.NextByte(buff)]);
+                    return new(pos, first, 5, O.mov, [M.@byte.On(R.BP.Plus(R.SI).Signed(s.NextShort(buff))), s.NextByte(buff)]);
                 case 0x83:
-                    return new(pos, first, 5, O.mov, [M.@byte.On(R.BP.Plus(R.DI).Plus(s.NextShort(buff))), s.NextByte(buff)]);
+                    return new(pos, first, 5, O.mov, [M.@byte.On(R.BP.Plus(R.DI).Signed(s.NextShort(buff))), s.NextByte(buff)]);
                 case 0x85:
-                    return new(pos, first, 5, O.mov, [M.@byte.On(R.DI.Minus(s.NextShort(buff))), s.NextByte(buff)]);
+                    return new(pos, first, 5, O.mov, [M.@byte.On(R.DI.Signed(s.NextShort(buff))), s.NextByte(buff)]);
                 case 0x86:
-                    return new(pos, first, 5, O.mov, [M.@byte.On(R.BP.Plus(s.NextShort(buff))), s.NextByte(buff)]);
+                    return new(pos, first, 5, O.mov, [M.@byte.On(R.BP.Signed(s.NextShort(buff))), s.NextByte(buff)]);
                 case 0x87:
-                    return new(pos, first, 5, O.mov, [M.@byte.On(R.BX.Minus(s.NextShort(buff))), s.NextByte(buff)]);
+                    return new(pos, first, 5, O.mov, [M.@byte.On(R.BX.Signed(s.NextShort(buff))), s.NextByte(buff)]);
                 case 0xC0:
                     return new(pos, first, 3, O.mov, [R.AL, s.NextByte(buff)]);
                 case 0xC2:

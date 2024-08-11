@@ -249,123 +249,123 @@ namespace PoViEmu.Expert
                 case 0x7D:
                     return new(pos, first, 3, O.cmp, [R.BH, R.DI.Plus(s.NextByte(buff))]);
                 case 0x80:
-                    return new(pos, first, 4, O.cmp, [R.AL, R.BX.Plus(R.SI).Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.AL, R.BX.Plus(R.SI).Signed(s.NextShort(buff))]);
                 case 0x81:
-                    return new(pos, first, 4, O.cmp, [R.AL, R.BX.Plus(R.DI).Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.AL, R.BX.Plus(R.DI).Signed(s.NextShort(buff))]);
                 case 0x82:
-                    return new(pos, first, 4, O.cmp, [R.AL, R.BP.Plus(R.SI).Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.AL, R.BP.Plus(R.SI).Signed(s.NextShort(buff))]);
                 case 0x83:
-                    return new(pos, first, 4, O.cmp, [R.AL, R.BP.Plus(R.DI).Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.AL, R.BP.Plus(R.DI).Signed(s.NextShort(buff))]);
                 case 0x84:
-                    return new(pos, first, 4, O.cmp, [R.AL, R.SI.Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.AL, R.SI.Signed(s.NextShort(buff))]);
                 case 0x85:
-                    return new(pos, first, 4, O.cmp, [R.AL, R.DI.Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.AL, R.DI.Signed(s.NextShort(buff))]);
                 case 0x86:
-                    return new(pos, first, 4, O.cmp, [R.AL, R.BP.Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.AL, R.BP.Signed(s.NextShort(buff))]);
                 case 0x87:
-                    return new(pos, first, 4, O.cmp, [R.AL, R.BX.Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.AL, R.BX.Signed(s.NextShort(buff))]);
                 case 0x88:
-                    return new(pos, first, 4, O.cmp, [R.CL, R.BX.Plus(R.SI).Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.CL, R.BX.Plus(R.SI).Signed(s.NextShort(buff))]);
                 case 0x89:
-                    return new(pos, first, 4, O.cmp, [R.CL, R.BX.Plus(R.DI).Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.CL, R.BX.Plus(R.DI).Signed(s.NextShort(buff))]);
                 case 0x8A:
-                    return new(pos, first, 4, O.cmp, [R.CL, R.BP.Plus(R.SI).Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.CL, R.BP.Plus(R.SI).Signed(s.NextShort(buff))]);
                 case 0x8C:
-                    return new(pos, first, 4, O.cmp, [R.CL, R.SI.Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.CL, R.SI.Signed(s.NextShort(buff))]);
                 case 0x8D:
-                    return new(pos, first, 4, O.cmp, [R.CL, R.DI.Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.CL, R.DI.Signed(s.NextShort(buff))]);
                 case 0x8F:
-                    return new(pos, first, 4, O.cmp, [R.CL, R.BX.Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.CL, R.BX.Signed(s.NextShort(buff))]);
                 case 0x90:
-                    return new(pos, first, 4, O.cmp, [R.DL, R.BX.Plus(R.SI).Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.DL, R.BX.Plus(R.SI).Signed(s.NextShort(buff))]);
                 case 0x91:
-                    return new(pos, first, 4, O.cmp, [R.DL, R.BX.Plus(R.DI).Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.DL, R.BX.Plus(R.DI).Signed(s.NextShort(buff))]);
                 case 0x92:
-                    return new(pos, first, 4, O.cmp, [R.DL, R.BP.Plus(R.SI).Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.DL, R.BP.Plus(R.SI).Signed(s.NextShort(buff))]);
                 case 0x93:
-                    return new(pos, first, 4, O.cmp, [R.DL, R.BP.Plus(R.DI).Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.DL, R.BP.Plus(R.DI).Signed(s.NextShort(buff))]);
                 case 0x94:
-                    return new(pos, first, 4, O.cmp, [R.DL, R.SI.Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.DL, R.SI.Signed(s.NextShort(buff))]);
                 case 0x95:
-                    return new(pos, first, 4, O.cmp, [R.DL, R.DI.Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.DL, R.DI.Signed(s.NextShort(buff))]);
                 case 0x96:
-                    return new(pos, first, 4, O.cmp, [R.DL, R.BP.Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.DL, R.BP.Signed(s.NextShort(buff))]);
                 case 0x97:
-                    return new(pos, first, 4, O.cmp, [R.DL, R.BX.Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.DL, R.BX.Signed(s.NextShort(buff))]);
                 case 0x98:
-                    return new(pos, first, 4, O.cmp, [R.BL, R.BX.Plus(R.SI).Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.BL, R.BX.Plus(R.SI).Signed(s.NextShort(buff))]);
                 case 0x99:
-                    return new(pos, first, 4, O.cmp, [R.BL, R.BX.Plus(R.DI).Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.BL, R.BX.Plus(R.DI).Signed(s.NextShort(buff))]);
                 case 0x9A:
-                    return new(pos, first, 4, O.cmp, [R.BL, R.BP.Plus(R.SI).Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.BL, R.BP.Plus(R.SI).Signed(s.NextShort(buff))]);
                 case 0x9B:
-                    return new(pos, first, 4, O.cmp, [R.BL, R.BP.Plus(R.DI).Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.BL, R.BP.Plus(R.DI).Signed(s.NextShort(buff))]);
                 case 0x9C:
-                    return new(pos, first, 4, O.cmp, [R.BL, R.SI.Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.BL, R.SI.Signed(s.NextShort(buff))]);
                 case 0x9D:
-                    return new(pos, first, 4, O.cmp, [R.BL, R.DI.Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.BL, R.DI.Signed(s.NextShort(buff))]);
                 case 0x9E:
-                    return new(pos, first, 4, O.cmp, [R.BL, R.BP.Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.BL, R.BP.Signed(s.NextShort(buff))]);
                 case 0x9F:
-                    return new(pos, first, 4, O.cmp, [R.BL, R.BX.Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.BL, R.BX.Signed(s.NextShort(buff))]);
                 case 0xA0:
-                    return new(pos, first, 4, O.cmp, [R.AH, R.BX.Plus(R.SI).Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.AH, R.BX.Plus(R.SI).Signed(s.NextShort(buff))]);
                 case 0xA1:
-                    return new(pos, first, 4, O.cmp, [R.AH, R.BX.Plus(R.DI).Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.AH, R.BX.Plus(R.DI).Signed(s.NextShort(buff))]);
                 case 0xA2:
-                    return new(pos, first, 4, O.cmp, [R.AH, R.BP.Plus(R.SI).Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.AH, R.BP.Plus(R.SI).Signed(s.NextShort(buff))]);
                 case 0xA3:
-                    return new(pos, first, 4, O.cmp, [R.AH, R.BP.Plus(R.DI).Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.AH, R.BP.Plus(R.DI).Signed(s.NextShort(buff))]);
                 case 0xA4:
-                    return new(pos, first, 4, O.cmp, [R.AH, R.SI.Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.AH, R.SI.Signed(s.NextShort(buff))]);
                 case 0xA5:
-                    return new(pos, first, 4, O.cmp, [R.AH, R.DI.Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.AH, R.DI.Signed(s.NextShort(buff))]);
                 case 0xA6:
-                    return new(pos, first, 4, O.cmp, [R.AH, R.BP.Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.AH, R.BP.Signed(s.NextShort(buff))]);
                 case 0xA7:
-                    return new(pos, first, 4, O.cmp, [R.AH, R.BX.Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.AH, R.BX.Signed(s.NextShort(buff))]);
                 case 0xA8:
-                    return new(pos, first, 4, O.cmp, [R.CH, R.BX.Plus(R.SI).Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.CH, R.BX.Plus(R.SI).Signed(s.NextShort(buff))]);
                 case 0xA9:
-                    return new(pos, first, 4, O.cmp, [R.CH, R.BX.Plus(R.DI).Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.CH, R.BX.Plus(R.DI).Signed(s.NextShort(buff))]);
                 case 0xAA:
-                    return new(pos, first, 4, O.cmp, [R.CH, R.BP.Plus(R.SI).Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.CH, R.BP.Plus(R.SI).Signed(s.NextShort(buff))]);
                 case 0xAB:
-                    return new(pos, first, 4, O.cmp, [R.CH, R.BP.Plus(R.DI).Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.CH, R.BP.Plus(R.DI).Signed(s.NextShort(buff))]);
                 case 0xAC:
-                    return new(pos, first, 4, O.cmp, [R.CH, R.SI.Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.CH, R.SI.Signed(s.NextShort(buff))]);
                 case 0xAD:
-                    return new(pos, first, 4, O.cmp, [R.CH, R.DI.Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.CH, R.DI.Signed(s.NextShort(buff))]);
                 case 0xAE:
-                    return new(pos, first, 4, O.cmp, [R.CH, R.BP.Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.CH, R.BP.Signed(s.NextShort(buff))]);
                 case 0xAF:
-                    return new(pos, first, 4, O.cmp, [R.CH, R.BX.Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.CH, R.BX.Signed(s.NextShort(buff))]);
                 case 0xB0:
-                    return new(pos, first, 4, O.cmp, [R.DH, R.BX.Plus(R.SI).Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.DH, R.BX.Plus(R.SI).Signed(s.NextShort(buff))]);
                 case 0xB1:
-                    return new(pos, first, 4, O.cmp, [R.DH, R.BX.Plus(R.DI).Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.DH, R.BX.Plus(R.DI).Signed(s.NextShort(buff))]);
                 case 0xB2:
-                    return new(pos, first, 4, O.cmp, [R.DH, R.BP.Plus(R.SI).Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.DH, R.BP.Plus(R.SI).Signed(s.NextShort(buff))]);
                 case 0xB5:
-                    return new(pos, first, 4, O.cmp, [R.DH, R.DI.Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.DH, R.DI.Signed(s.NextShort(buff))]);
                 case 0xB6:
-                    return new(pos, first, 4, O.cmp, [R.DH, R.BP.Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.DH, R.BP.Signed(s.NextShort(buff))]);
                 case 0xB7:
-                    return new(pos, first, 4, O.cmp, [R.DH, R.BX.Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.DH, R.BX.Signed(s.NextShort(buff))]);
                 case 0xB8:
-                    return new(pos, first, 4, O.cmp, [R.BH, R.BX.Plus(R.SI).Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.BH, R.BX.Plus(R.SI).Signed(s.NextShort(buff))]);
                 case 0xB9:
-                    return new(pos, first, 4, O.cmp, [R.BH, R.BX.Plus(R.DI).Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.BH, R.BX.Plus(R.DI).Signed(s.NextShort(buff))]);
                 case 0xBA:
-                    return new(pos, first, 4, O.cmp, [R.BH, R.BP.Plus(R.SI).Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.BH, R.BP.Plus(R.SI).Signed(s.NextShort(buff))]);
                 case 0xBB:
-                    return new(pos, first, 4, O.cmp, [R.BH, R.BP.Plus(R.DI).Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.BH, R.BP.Plus(R.DI).Signed(s.NextShort(buff))]);
                 case 0xBC:
-                    return new(pos, first, 4, O.cmp, [R.BH, R.SI.Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.BH, R.SI.Signed(s.NextShort(buff))]);
                 case 0xBD:
-                    return new(pos, first, 4, O.cmp, [R.BH, R.DI.Plus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.BH, R.DI.Signed(s.NextShort(buff))]);
                 case 0xBF:
-                    return new(pos, first, 4, O.cmp, [R.BH, R.BX.Minus(s.NextShort(buff))]);
+                    return new(pos, first, 4, O.cmp, [R.BH, R.BX.Signed(s.NextShort(buff))]);
                 case 0xC1:
                     return new(pos, first, 2, O.cmp, [R.AL, R.CL], [second]);
                 case 0xC2:

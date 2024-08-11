@@ -61,21 +61,21 @@ namespace PoViEmu.Expert
                 case 0x47:
                     return new(pos, first, 5, O.mov, [M.word.On(R.BX.Plus(s.NextByte(buff))), s.NextShort(buff)]);
                 case 0x80:
-                    return new(pos, first, 6, O.mov, [M.word.On(R.BX.Plus(R.SI).Minus(s.NextShort(buff))), s.NextShort(buff)]);
+                    return new(pos, first, 6, O.mov, [M.word.On(R.BX.Plus(R.SI).Signed(s.NextShort(buff))), s.NextShort(buff)]);
                 case 0x81:
-                    return new(pos, first, 6, O.mov, [M.word.On(R.BX.Plus(R.DI).Plus(s.NextShort(buff))), s.NextShort(buff)]);
+                    return new(pos, first, 6, O.mov, [M.word.On(R.BX.Plus(R.DI).Signed(s.NextShort(buff))), s.NextShort(buff)]);
                 case 0x82:
-                    return new(pos, first, 6, O.mov, [M.word.On(R.BP.Plus(R.SI).Plus(s.NextShort(buff))), s.NextShort(buff)]);
+                    return new(pos, first, 6, O.mov, [M.word.On(R.BP.Plus(R.SI).Signed(s.NextShort(buff))), s.NextShort(buff)]);
                 case 0x83:
-                    return new(pos, first, 6, O.mov, [M.word.On(R.BP.Plus(R.DI).Minus(s.NextShort(buff))), s.NextShort(buff)]);
+                    return new(pos, first, 6, O.mov, [M.word.On(R.BP.Plus(R.DI).Signed(s.NextShort(buff))), s.NextShort(buff)]);
                 case 0x84:
-                    return new(pos, first, 6, O.mov, [M.word.On(R.SI.Minus(s.NextShort(buff))), s.NextShort(buff)]);
+                    return new(pos, first, 6, O.mov, [M.word.On(R.SI.Signed(s.NextShort(buff))), s.NextShort(buff)]);
                 case 0x85:
-                    return new(pos, first, 6, O.mov, [M.word.On(R.DI.Minus(s.NextShort(buff))), s.NextShort(buff)]);
+                    return new(pos, first, 6, O.mov, [M.word.On(R.DI.Signed(s.NextShort(buff))), s.NextShort(buff)]);
                 case 0x86:
-                    return new(pos, first, 6, O.mov, [M.word.On(R.BP.Plus(s.NextShort(buff))), s.NextShort(buff)]);
+                    return new(pos, first, 6, O.mov, [M.word.On(R.BP.Signed(s.NextShort(buff))), s.NextShort(buff)]);
                 case 0x87:
-                    return new(pos, first, 6, O.mov, [M.word.On(R.BX.Plus(s.NextShort(buff))), s.NextShort(buff)]);
+                    return new(pos, first, 6, O.mov, [M.word.On(R.BX.Signed(s.NextShort(buff))), s.NextShort(buff)]);
                 case 0xC0:
                     return new(pos, first, 4, O.mov, [R.AX, s.NextShort(buff)]);
                 case 0xC1:

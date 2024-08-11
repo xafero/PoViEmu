@@ -241,107 +241,107 @@ namespace PoViEmu.Expert
                 case 0x7F:
                     return new(pos, first, 3, O.idiv, [M.@byte.On(R.BX.Plus(s.NextByte(buff)))]);
                 case 0x80:
-                    return new(pos, first, 5, O.test, [M.@byte.On(R.BX.Plus(R.SI).Minus(s.NextShort(buff))), s.NextByte(buff)]);
+                    return new(pos, first, 5, O.test, [M.@byte.On(R.BX.Plus(R.SI).Signed(s.NextShort(buff))), s.NextByte(buff)]);
                 case 0x81:
-                    return new(pos, first, 5, O.test, [M.@byte.On(R.BX.Plus(R.DI).Minus(s.NextShort(buff))), s.NextByte(buff)]);
+                    return new(pos, first, 5, O.test, [M.@byte.On(R.BX.Plus(R.DI).Signed(s.NextShort(buff))), s.NextByte(buff)]);
                 case 0x82:
-                    return new(pos, first, 5, O.test, [M.@byte.On(R.BP.Plus(R.SI).Minus(s.NextShort(buff))), s.NextByte(buff)]);
+                    return new(pos, first, 5, O.test, [M.@byte.On(R.BP.Plus(R.SI).Signed(s.NextShort(buff))), s.NextByte(buff)]);
                 case 0x83:
-                    return new(pos, first, 5, O.test, [M.@byte.On(R.BP.Plus(R.DI).Plus(s.NextShort(buff))), s.NextByte(buff)]);
+                    return new(pos, first, 5, O.test, [M.@byte.On(R.BP.Plus(R.DI).Signed(s.NextShort(buff))), s.NextByte(buff)]);
                 case 0x84:
-                    return new(pos, first, 5, O.test, [M.@byte.On(R.SI.Plus(s.NextShort(buff))), s.NextByte(buff)]);
+                    return new(pos, first, 5, O.test, [M.@byte.On(R.SI.Signed(s.NextShort(buff))), s.NextByte(buff)]);
                 case 0x85:
-                    return new(pos, first, 5, O.test, [M.@byte.On(R.DI.Plus(s.NextShort(buff))), s.NextByte(buff)]);
+                    return new(pos, first, 5, O.test, [M.@byte.On(R.DI.Signed(s.NextShort(buff))), s.NextByte(buff)]);
                 case 0x86:
-                    return new(pos, first, 5, O.test, [M.@byte.On(R.BP.Plus(s.NextShort(buff))), s.NextByte(buff)]);
+                    return new(pos, first, 5, O.test, [M.@byte.On(R.BP.Signed(s.NextShort(buff))), s.NextByte(buff)]);
                 case 0x87:
-                    return new(pos, first, 5, O.test, [M.@byte.On(R.BX.Minus(s.NextShort(buff))), s.NextByte(buff)]);
+                    return new(pos, first, 5, O.test, [M.@byte.On(R.BX.Signed(s.NextShort(buff))), s.NextByte(buff)]);
                 case 0x90:
-                    return new(pos, first, 4, O.not, [M.@byte.On(R.BX.Plus(R.SI).Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.not, [M.@byte.On(R.BX.Plus(R.SI).Signed(s.NextShort(buff)))]);
                 case 0x91:
-                    return new(pos, first, 4, O.not, [M.@byte.On(R.BX.Plus(R.DI).Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.not, [M.@byte.On(R.BX.Plus(R.DI).Signed(s.NextShort(buff)))]);
                 case 0x92:
-                    return new(pos, first, 4, O.not, [M.@byte.On(R.BP.Plus(R.SI).Minus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.not, [M.@byte.On(R.BP.Plus(R.SI).Signed(s.NextShort(buff)))]);
                 case 0x93:
-                    return new(pos, first, 4, O.not, [M.@byte.On(R.BP.Plus(R.DI).Minus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.not, [M.@byte.On(R.BP.Plus(R.DI).Signed(s.NextShort(buff)))]);
                 case 0x94:
-                    return new(pos, first, 4, O.not, [M.@byte.On(R.SI.Minus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.not, [M.@byte.On(R.SI.Signed(s.NextShort(buff)))]);
                 case 0x95:
-                    return new(pos, first, 4, O.not, [M.@byte.On(R.DI.Minus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.not, [M.@byte.On(R.DI.Signed(s.NextShort(buff)))]);
                 case 0x96:
-                    return new(pos, first, 4, O.not, [M.@byte.On(R.BP.Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.not, [M.@byte.On(R.BP.Signed(s.NextShort(buff)))]);
                 case 0x98:
-                    return new(pos, first, 4, O.neg, [M.@byte.On(R.BX.Plus(R.SI).Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.neg, [M.@byte.On(R.BX.Plus(R.SI).Signed(s.NextShort(buff)))]);
                 case 0x99:
-                    return new(pos, first, 4, O.neg, [M.@byte.On(R.BX.Plus(R.DI).Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.neg, [M.@byte.On(R.BX.Plus(R.DI).Signed(s.NextShort(buff)))]);
                 case 0x9A:
-                    return new(pos, first, 4, O.neg, [M.@byte.On(R.BP.Plus(R.SI).Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.neg, [M.@byte.On(R.BP.Plus(R.SI).Signed(s.NextShort(buff)))]);
                 case 0x9B:
-                    return new(pos, first, 4, O.neg, [M.@byte.On(R.BP.Plus(R.DI).Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.neg, [M.@byte.On(R.BP.Plus(R.DI).Signed(s.NextShort(buff)))]);
                 case 0x9C:
-                    return new(pos, first, 4, O.neg, [M.@byte.On(R.SI.Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.neg, [M.@byte.On(R.SI.Signed(s.NextShort(buff)))]);
                 case 0x9D:
-                    return new(pos, first, 4, O.neg, [M.@byte.On(R.DI.Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.neg, [M.@byte.On(R.DI.Signed(s.NextShort(buff)))]);
                 case 0x9E:
-                    return new(pos, first, 4, O.neg, [M.@byte.On(R.BP.Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.neg, [M.@byte.On(R.BP.Signed(s.NextShort(buff)))]);
                 case 0x9F:
-                    return new(pos, first, 4, O.neg, [M.@byte.On(R.BX.Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.neg, [M.@byte.On(R.BX.Signed(s.NextShort(buff)))]);
                 case 0xA0:
-                    return new(pos, first, 4, O.mul, [M.@byte.On(R.BX.Plus(R.SI).Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.mul, [M.@byte.On(R.BX.Plus(R.SI).Signed(s.NextShort(buff)))]);
                 case 0xA1:
-                    return new(pos, first, 4, O.mul, [M.@byte.On(R.BX.Plus(R.DI).Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.mul, [M.@byte.On(R.BX.Plus(R.DI).Signed(s.NextShort(buff)))]);
                 case 0xA2:
                     return new(pos, first, 4, O.mul, [M.@byte.On(R.BP.Plus(R.SI).Minus(s.NextByte(buff)))]);
                 case 0xA4:
-                    return new(pos, first, 4, O.mul, [M.@byte.On(R.SI.Minus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.mul, [M.@byte.On(R.SI.Signed(s.NextShort(buff)))]);
                 case 0xA5:
-                    return new(pos, first, 4, O.mul, [M.@byte.On(R.DI.Minus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.mul, [M.@byte.On(R.DI.Signed(s.NextShort(buff)))]);
                 case 0xA6:
-                    return new(pos, first, 4, O.mul, [M.@byte.On(R.BP.Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.mul, [M.@byte.On(R.BP.Signed(s.NextShort(buff)))]);
                 case 0xA8:
-                    return new(pos, first, 4, O.imul, [M.@byte.On(R.BX.Plus(R.SI).Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.imul, [M.@byte.On(R.BX.Plus(R.SI).Signed(s.NextShort(buff)))]);
                 case 0xA9:
-                    return new(pos, first, 4, O.imul, [M.@byte.On(R.BX.Plus(R.DI).Minus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.imul, [M.@byte.On(R.BX.Plus(R.DI).Signed(s.NextShort(buff)))]);
                 case 0xAA:
-                    return new(pos, first, 4, O.imul, [M.@byte.On(R.BP.Plus(R.SI).Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.imul, [M.@byte.On(R.BP.Plus(R.SI).Signed(s.NextShort(buff)))]);
                 case 0xAB:
-                    return new(pos, first, 4, O.imul, [M.@byte.On(R.BP.Plus(R.DI).Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.imul, [M.@byte.On(R.BP.Plus(R.DI).Signed(s.NextShort(buff)))]);
                 case 0xAC:
-                    return new(pos, first, 4, O.imul, [M.@byte.On(R.SI.Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.imul, [M.@byte.On(R.SI.Signed(s.NextShort(buff)))]);
                 case 0xAD:
-                    return new(pos, first, 4, O.imul, [M.@byte.On(R.DI.Minus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.imul, [M.@byte.On(R.DI.Signed(s.NextShort(buff)))]);
                 case 0xAE:
-                    return new(pos, first, 4, O.imul, [M.@byte.On(R.BP.Minus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.imul, [M.@byte.On(R.BP.Signed(s.NextShort(buff)))]);
                 case 0xAF:
-                    return new(pos, first, 4, O.imul, [M.@byte.On(R.BX.Minus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.imul, [M.@byte.On(R.BX.Signed(s.NextShort(buff)))]);
                 case 0xB0:
-                    return new(pos, first, 4, O.div, [M.@byte.On(R.BX.Plus(R.SI).Minus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.div, [M.@byte.On(R.BX.Plus(R.SI).Signed(s.NextShort(buff)))]);
                 case 0xB1:
-                    return new(pos, first, 4, O.div, [M.@byte.On(R.BX.Plus(R.DI).Minus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.div, [M.@byte.On(R.BX.Plus(R.DI).Signed(s.NextShort(buff)))]);
                 case 0xB2:
-                    return new(pos, first, 4, O.div, [M.@byte.On(R.BP.Plus(R.SI).Minus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.div, [M.@byte.On(R.BP.Plus(R.SI).Signed(s.NextShort(buff)))]);
                 case 0xB3:
-                    return new(pos, first, 4, O.div, [M.@byte.On(R.BP.Plus(R.DI).Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.div, [M.@byte.On(R.BP.Plus(R.DI).Signed(s.NextShort(buff)))]);
                 case 0xB4:
-                    return new(pos, first, 4, O.div, [M.@byte.On(R.SI.Minus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.div, [M.@byte.On(R.SI.Signed(s.NextShort(buff)))]);
                 case 0xB5:
-                    return new(pos, first, 4, O.div, [M.@byte.On(R.DI.Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.div, [M.@byte.On(R.DI.Signed(s.NextShort(buff)))]);
                 case 0xB6:
-                    return new(pos, first, 4, O.div, [M.@byte.On(R.BP.Minus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.div, [M.@byte.On(R.BP.Signed(s.NextShort(buff)))]);
                 case 0xB7:
-                    return new(pos, first, 4, O.div, [M.@byte.On(R.BX.Minus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.div, [M.@byte.On(R.BX.Signed(s.NextShort(buff)))]);
                 case 0xB8:
-                    return new(pos, first, 4, O.idiv, [M.@byte.On(R.BX.Plus(R.SI).Minus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.idiv, [M.@byte.On(R.BX.Plus(R.SI).Signed(s.NextShort(buff)))]);
                 case 0xB9:
-                    return new(pos, first, 4, O.idiv, [M.@byte.On(R.BX.Plus(R.DI).Minus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.idiv, [M.@byte.On(R.BX.Plus(R.DI).Signed(s.NextShort(buff)))]);
                 case 0xBB:
-                    return new(pos, first, 4, O.idiv, [M.@byte.On(R.BP.Plus(R.DI).Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.idiv, [M.@byte.On(R.BP.Plus(R.DI).Signed(s.NextShort(buff)))]);
                 case 0xBD:
-                    return new(pos, first, 4, O.idiv, [M.@byte.On(R.DI.Minus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.idiv, [M.@byte.On(R.DI.Signed(s.NextShort(buff)))]);
                 case 0xBE:
-                    return new(pos, first, 4, O.idiv, [M.@byte.On(R.BP.Minus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.idiv, [M.@byte.On(R.BP.Signed(s.NextShort(buff)))]);
                 case 0xBF:
-                    return new(pos, first, 4, O.idiv, [M.@byte.On(R.BX.Plus(s.NextShort(buff)))]);
+                    return new(pos, first, 4, O.idiv, [M.@byte.On(R.BX.Signed(s.NextShort(buff)))]);
                 case 0xC0:
                     return new(pos, first, 3, O.test, [R.AL, s.NextByte(buff)]);
                 case 0xC1:
