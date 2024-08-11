@@ -11,7 +11,7 @@ namespace PoViEmu.Core.Machine.Decoding
         public static OpArg On(this Modifier mod, OpArg? arg)
             => new ModArg(mod, arg!);
 
-        public static OpArg On(this Modifier mod, OpArg arg, OpArg sec)
+        public static OpArg On(this Modifier mod, OpArg arg, OpArg? sec)
             => new ModArg(mod, arg, sec);
 
         public static OpArg Box(this short? val)
@@ -62,9 +62,22 @@ namespace PoViEmu.Core.Machine.Decoding
         public static OpArg Minus(this OpArg arg, short? val)
             => DoMathArg(arg, '-', new ShortArg(val.GetValueOrDefault(), true));
 
+        public static OpArg Signed(this Register reg, byte? val)
+            => Signed(new RegisterArg(reg), val);
+
+        public static OpArg Signed(this Register reg, short? val)
+            => Signed(new RegisterArg(reg), val);
+
         public static OpArg Signed(this OpArg arg, byte? val)
         {
             var ba = new ByteArg(val.GetValueOrDefault(), true);
+            var op = ba.SignedVal != null ? '-' : '+';
+            return DoMathArg(arg, op, ba);
+        }
+
+        public static OpArg Signed(this OpArg arg, short? val)
+        {
+            var ba = new ShortArg(val.GetValueOrDefault(), true);
             var op = ba.SignedVal != null ? '-' : '+';
             return DoMathArg(arg, op, ba);
         }

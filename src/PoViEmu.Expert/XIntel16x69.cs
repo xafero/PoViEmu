@@ -289,7 +289,7 @@ namespace PoViEmu.Expert
                 case 0x93:
                     return new(pos, first, 6, O.imul, [R.DX, R.BP.Plus(R.DI).Minus(s.NextShort(buff)), M.word.On(s.NextShort(buff))], [ second ]);
                 case 0x94:
-                    return new(pos, first, 6, O.imul, [R.DX, R.SI.Minus(s.NextShort(buff)), M.word.On(s.NextShort(buff))], [ second ]);
+                    return new(pos, first, 6, O.imul, [R.DX, R.SI.Signed(s.NextShort(buff)), M.word.On(s.NextShort(buff))], [ second ]);
                 case 0x95:
                     return new(pos, first, 6, O.imul, [R.DX, R.DI.Plus(s.NextShort(buff)), M.word.On(s.NextShort(buff))], [ second ]);
                 case 0x96:
