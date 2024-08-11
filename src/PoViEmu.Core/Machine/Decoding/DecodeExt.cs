@@ -32,10 +32,16 @@ namespace PoViEmu.Core.Machine.Decoding
         public static OpArg Minus(this Register arg, short? val)
             => Minus(new RegisterArg(arg), val);
 
-        public static OpArg ToMem(this short? arg, short? val)
+        public static OpArg ToMem(this byte? arg, byte? val)
             => new MemArg(arg.GetValueOrDefault(), val.GetValueOrDefault());
 
         public static OpArg ToMem(this byte? arg, short? val)
+            => new MemArg(arg.GetValueOrDefault(), val.GetValueOrDefault());
+        
+        public static OpArg ToMem(this short? arg, byte? val)
+            => new MemArg(arg.GetValueOrDefault(), val.GetValueOrDefault());
+
+        public static OpArg ToMem(this short? arg, short? val)
             => new MemArg(arg.GetValueOrDefault(), val.GetValueOrDefault());
 
         public static OpArg Box(this Register reg, byte? raw = null)
@@ -44,11 +50,8 @@ namespace PoViEmu.Core.Machine.Decoding
         public static OpArg Plus(this Register reg, Register sec, byte? raw = null)
             => new RegPlusRegArg(reg, sec, raw);
 
-        public static OpArg Plus(this byte? val)
-            => new ByteModArg(val.GetValueOrDefault(), '+');
-
-        public static OpArg Minus(this byte? val)
-            => new ByteModArg(val.GetValueOrDefault(), '-');
+        public static OpArg SignBit(this byte? val)
+            => new ByteModArg(val.GetValueOrDefault());
 
         public static OpArg Plus(this OpArg arg, byte? val)
             => DoMathArg(arg, '+', new ByteArg(val.GetValueOrDefault(), true));
@@ -120,6 +123,13 @@ namespace PoViEmu.Core.Machine.Decoding
                     list.AddRange(bit.Bytes);
             }
             return list.ToArray();
+        }
+
+        public static byte[] ToLittleEndian(this object obj)
+        {
+            return obj is short fs ? BitConverter.GetBytes(fs) :
+                obj is byte bs ? [bs] :
+                [];
         }
     }
 }

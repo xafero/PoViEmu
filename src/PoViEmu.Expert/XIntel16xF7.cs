@@ -137,7 +137,7 @@ namespace PoViEmu.Expert
                 case 0x43:
                     return new(pos, first, 5, O.test, [M.word.On(R.BP.Plus(R.DI).Signed(s.NextByte(buff))), s.NextShort(buff)], [ second ]  );
                 case 0x44:
-                    return new(pos, first, 5, O.test, [M.word.On(R.SI.Minus(s.NextByte(buff))), s.NextShort(buff)], [ second ]  );
+                    return new(pos, first, 5, O.test, [M.word.On(R.SI.Signed(s.NextByte(buff))), s.NextShort(buff)], [ second ]  );
                 case 0x50:
                     return new(pos, first, 3, O.not, [M.word.On(R.BX.Plus(R.SI).Signed(s.NextByte(buff)))], [ second ]  );
                 case 0x51:
