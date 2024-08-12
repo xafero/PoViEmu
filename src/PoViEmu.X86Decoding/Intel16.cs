@@ -49,12 +49,9 @@ namespace PoViEmu.X86Decoding
                         }
                         break;
                     case 0x04:
-                        if (Intel16x04.Parse(s, buff, pos, first) is { } x04)
-                        {
-                            yield return x04;
-                            continue;
-                        }
-                        break;
+                        var add04 = s.NextByte(buff);
+                        yield return new(pos, first, 2, O.add, [R.AL, add04]);
+                        continue;
                     case 0x05:
                         var add05 = s.NextShort(buff);
                         yield return new(pos, first, 3, O.add, [R.AX, add05]);
@@ -132,19 +129,13 @@ namespace PoViEmu.X86Decoding
                         }
                         break;
                     case 0x14:
-                        if (Intel16x14.Parse(s, buff, pos, first) is { } x14)
-                        {
-                            yield return x14;
-                            continue;
-                        }
-                        break;
+                        var adc14 = s.NextByte(buff);
+                        yield return new(pos, first, 2, O.adc, [R.AL, adc14]);
+                        continue;
                     case 0x15:
-                        if (Intel16x15.Parse(s, buff, pos, first) is { } x15)
-                        {
-                            yield return x15;
-                            continue;
-                        }
-                        break;
+                        var adc15 = s.NextShort(buff);
+                        yield return new(pos, first, 3, O.adc, [R.AX, adc15]);
+                        continue;
                     case 0x16:
                         yield return new(pos, first, 1, O.push, [R.SS]);
                         continue;
@@ -552,19 +543,13 @@ namespace PoViEmu.X86Decoding
                         yield return new(pos, first, 2, O.jl, [jl7C.Skip()]);
                         continue;
                     case 0x7D:
-                        if (Intel16x7D.Parse(s, buff, pos, first) is { } x7D)
-                        {
-                            yield return x7D;
-                            continue;
-                        }
-                        break;
+                        var jnl7D = s.NextByte(buff);
+                        yield return new(pos, first, 2, O.jnl, [jnl7D.Skip()]);
+                        continue;
                     case 0x7E:
-                        if (Intel16x7E.Parse(s, buff, pos, first) is { } x7E)
-                        {
-                            yield return x7E;
-                            continue;
-                        }
-                        break;
+                        var jng7E = s.NextByte(buff);
+                        yield return new(pos, first, 2, O.jng, [jng7E.Skip()]);
+                        continue;
                     case 0x7F:
                         var jg7F = s.NextByte(buff);
                         yield return new(pos, first, 2, O.jg, [jg7F.Skip()]);
