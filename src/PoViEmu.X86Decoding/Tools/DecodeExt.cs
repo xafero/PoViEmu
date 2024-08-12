@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using PoViEmu.Core.Machine.Args;
-using PoViEmu.Core.Machine.Core;
-using PoViEmu.Core.Machine.Ops;
+using PoViEmu.X86Decoding.Args;
+using PoViEmu.X86Decoding.Core;
+using PoViEmu.X86Decoding.Ops;
 
-namespace PoViEmu.Core.Machine.Decoding
+namespace PoViEmu.X86Decoding.Tools
 {
     public static class DecodeExt
     {

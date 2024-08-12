@@ -1,4 +1,4 @@
-namespace PoViEmu.Core.Machine.Ops
+namespace PoViEmu.X86Decoding.Ops
 {
     public enum OpCode : byte
     {

@@ -1,11 +1,11 @@
 using System;
-using PoViEmu.Core.Machine.Args;
-using PoViEmu.Core.Machine.Ops;
 using System.Collections.Generic;
 using System.Linq;
 using PoViEmu.Common;
+using PoViEmu.X86Decoding.Args;
+using PoViEmu.X86Decoding.Ops;
 
-namespace PoViEmu.Core.Machine.Core
+namespace PoViEmu.X86Decoding.Core
 {
     public readonly record struct Instruction(
         long Offset,

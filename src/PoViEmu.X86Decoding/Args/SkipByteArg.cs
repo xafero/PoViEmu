@@ -1,4 +1,4 @@
-namespace PoViEmu.Core.Machine.Args
+namespace PoViEmu.X86Decoding.Args
 {
     public sealed class SkipByteArg : SkipArg, IByteArg
     {

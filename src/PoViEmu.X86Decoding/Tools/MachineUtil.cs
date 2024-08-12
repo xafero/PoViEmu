@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace PoViEmu.Core.Machine.Core
+namespace PoViEmu.X86Decoding.Tools
 {
     public static class MachineUtil
     {

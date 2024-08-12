@@ -1,6 +1,6 @@
-using PoViEmu.Core.Machine.Core;
+using PoViEmu.X86Decoding.Core;
 
-namespace PoViEmu.Core.Machine.Args
+namespace PoViEmu.X86Decoding.Args
 {
     public interface ICalcArg
     {

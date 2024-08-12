@@ -1,7 +1,7 @@
-using PoViEmu.Core.Machine.Args;
-using PoViEmu.Core.Machine.Ops;
+using PoViEmu.X86Decoding.Args;
+using PoViEmu.X86Decoding.Ops;
 
-namespace PoViEmu.Core.Machine.Decoding
+namespace PoViEmu.X86Decoding.Core
 {
     public static class Constants
     {

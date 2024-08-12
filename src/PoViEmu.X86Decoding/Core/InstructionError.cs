@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace PoViEmu.Core.Machine.Decoding
+namespace PoViEmu.X86Decoding.Core
 {
     [Serializable]
     public sealed class InstructionError : Exception

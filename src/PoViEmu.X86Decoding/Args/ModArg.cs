@@ -1,8 +1,8 @@
-using PoViEmu.Core.Machine.Core;
-using PoViEmu.Core.Machine.Decoding;
-using PoViEmu.Core.Machine.Ops;
+using PoViEmu.X86Decoding.Core;
+using PoViEmu.X86Decoding.Ops;
+using PoViEmu.X86Decoding.Tools;
 
-namespace PoViEmu.Core.Machine.Args
+namespace PoViEmu.X86Decoding.Args
 {
     public sealed class ModArg : OpArg, ICalcArg, IByteArg
     {

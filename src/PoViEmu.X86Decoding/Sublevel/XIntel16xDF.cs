@@ -1,13 +1,13 @@
 ﻿// ReSharper disable InconsistentNaming
 
 using System.IO;
-using PoViEmu.Core.Machine.Core;
-using PoViEmu.Core.Machine.Decoding;
-using O = PoViEmu.Core.Machine.Ops.OpCode;
-using R = PoViEmu.Core.Machine.Ops.Register;
-using M = PoViEmu.Core.Machine.Ops.Modifier;
+using PoViEmu.X86Decoding.Core;
+using PoViEmu.X86Decoding.Tools;
+using O = PoViEmu.X86Decoding.Ops.OpCode;
+using R = PoViEmu.X86Decoding.Ops.Register;
+using M = PoViEmu.X86Decoding.Ops.Modifier;
 
-namespace PoViEmu.Expert
+namespace PoViEmu.X86Decoding.Sublevel
 {
     internal static class Intel16xDF
     {

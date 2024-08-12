@@ -1,7 +1,7 @@
-using PoViEmu.Core.Machine.Core;
-using PoViEmu.Core.Machine.Ops;
+using PoViEmu.X86Decoding.Core;
+using PoViEmu.X86Decoding.Ops;
 
-namespace PoViEmu.Core.Machine.Args
+namespace PoViEmu.X86Decoding.Args
 {
     public abstract class SkipArg : OpArg, ICalcArg
     {

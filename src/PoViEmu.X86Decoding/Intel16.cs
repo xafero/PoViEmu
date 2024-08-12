@@ -2,12 +2,12 @@
 
 using System.Collections.Generic;
 using System.IO;
-using PoViEmu.Core.Machine.Core;
-using PoViEmu.Expert;
-using PoViEmu.Core.Machine.Decoding;
-using PoViEmu.Core.Machine.Ops;
-using O = PoViEmu.Core.Machine.Ops.OpCode;
-using R = PoViEmu.Core.Machine.Ops.Register;
+using PoViEmu.X86Decoding.Core;
+using PoViEmu.X86Decoding.Ops;
+using PoViEmu.X86Decoding.Sublevel;
+using PoViEmu.X86Decoding.Tools;
+using O = PoViEmu.X86Decoding.Ops.OpCode;
+using R = PoViEmu.X86Decoding.Ops.Register;
 
 namespace PoViEmu.X86Decoding
 {

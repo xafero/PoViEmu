@@ -1,6 +1,6 @@
-using PoViEmu.Core.Machine.Args;
+using PoViEmu.X86Decoding.Args;
 
-namespace PoViEmu.Core.Machine.Ops
+namespace PoViEmu.X86Decoding.Ops
 {
     public abstract class OpArg
     {

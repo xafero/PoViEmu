@@ -1,11 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System;
 using System.Linq;
-using PoViEmu.Core.Machine.Core;
-using PoViEmu.X86Decoding;
+using PoViEmu.X86Decoding.Core;
 
-namespace PoViEmu.Expert
+namespace PoViEmu.X86Decoding
 {
     public static class Intel16Util
     {

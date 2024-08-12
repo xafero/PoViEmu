@@ -1,8 +1,8 @@
 using System;
 using PoViEmu.Common;
-using PoViEmu.Core.Machine.Ops;
+using PoViEmu.X86Decoding.Ops;
 
-namespace PoViEmu.Core.Machine.Args
+namespace PoViEmu.X86Decoding.Args
 {
     public sealed class ShortArg : OpArg, IByteArg
     {

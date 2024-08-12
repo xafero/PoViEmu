@@ -1,9 +1,8 @@
 using System;
 using System.IO;
-using PoViEmu.Core.Machine;
 using PoViEmu.Tests;
 using PoViEmu.CpuFuzzer.Core;
-using PoViEmu.Expert;
+using PoViEmu.X86Decoding;
 using static PoViEmu.CpuFuzzer.Core.OptUtil;
 
 namespace PoViEmu.CpuFuzzer.App
