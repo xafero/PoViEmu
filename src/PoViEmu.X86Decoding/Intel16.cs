@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.IO;
 using PoViEmu.Core.Machine.Core;
+using PoViEmu.Expert;
 using PoViEmu.Core.Machine.Decoding;
 using O = PoViEmu.Core.Machine.Ops.OpCode;
 using R = PoViEmu.Core.Machine.Ops.Register;

@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\PoViEmu.Common\PoViEmu.Common.csproj" />
     <ProjectReference Include="..\..\src\PoViEmu.Core\PoViEmu.Core.csproj" />
+    <ProjectReference Include="..\..\src\PoViEmu.X86Decoding\PoViEmu.X86Decoding.csproj" />
   </ItemGroup>
   
 </Project>

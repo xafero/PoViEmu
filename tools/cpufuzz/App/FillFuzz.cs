@@ -7,6 +7,7 @@ using PoViEmu.CodeGen.Core;
 using PoViEmu.Common;
 using PoViEmu.Core.Machine.Ops;
 using PoViEmu.Tests;
+using PoViEmu.X86Instructions;
 using static PoViEmu.CpuFuzzer.Core.OptUtil;
 using SortedOps = System.Collections.Generic.SortedDictionary<string,
     System.Collections.Generic.SortedDictionary<string,

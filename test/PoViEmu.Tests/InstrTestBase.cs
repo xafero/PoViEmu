@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using PoViEmu.Core.Machine;
 using PoViEmu.Expert;
 
 namespace PoViEmu.Tests

@@ -2,7 +2,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using PoViEmu.Common;
-using PoViEmu.Core.Machine;
 using PoViEmu.Expert;
 using Xunit;
 

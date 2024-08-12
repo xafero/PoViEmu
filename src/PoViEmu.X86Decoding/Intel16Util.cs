@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using PoViEmu.Core.Machine.Core;
 using PoViEmu.Core.Machine.Core;
 using PoViEmu.X86Decoding;
 

@@ -5,6 +5,7 @@ using System.Linq;
 using PoViEmu.CodeGen.Core;
 using PoViEmu.Common;
 using PoViEmu.Core.Machine.Ops;
+using PoViEmu.X86Instructions;
 using SD = System.Collections.Generic.SortedDictionary<string, object>;
 using SortedOps = System.Collections.Generic.SortedDictionary<string,
     System.Collections.Generic.SortedDictionary<string,

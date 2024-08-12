@@ -1,6 +1,7 @@
 using System.IO;
 using PoViEmu.Core;
 using PoViEmu.Common;
+using PoViEmu.X86Instructions;
 using Xunit;
 
 #pragma warning disable xUnit1013

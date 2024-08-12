@@ -5,6 +5,7 @@ using System.Text;
 using PoViEmu.CodeGen.Core;
 using PoViEmu.Common;
 using PoViEmu.Core.Machine.Ops;
+using PoViEmu.X86Instructions;
 using SortedOps = System.Collections.Generic.SortedDictionary<string,
     System.Collections.Generic.SortedDictionary<string,
         System.Collections.Generic.HashSet<PoViEmu.CodeGen.Core.NasmLine>>>;
