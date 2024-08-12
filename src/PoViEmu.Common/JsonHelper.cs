@@ -1,8 +1,9 @@
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using PoViEmu.Common;
 
-namespace PoViEmu.Common
+namespace PoViEmu.X86Instructions
 {
     public static class JsonHelper
     {

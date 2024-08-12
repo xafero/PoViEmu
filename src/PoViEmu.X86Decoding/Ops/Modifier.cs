@@ -4,13 +4,13 @@ namespace PoViEmu.Core.Machine.Ops
     {
         Unknown = 0,
 
-        qword,
-        tword,
-        dword,
-        word,
-        far,
         @byte,
+        dword,
+        far,
+        qword,
         @short,
-        to
+        to,
+        tword,
+        word
     }
 }

@@ -7,9 +7,9 @@ using PoViEmu.Core.Machine.Decoding;
 using O = PoViEmu.Core.Machine.Ops.OpCode;
 using R = PoViEmu.Core.Machine.Ops.Register;
 
-namespace PoViEmu.Expert
+namespace PoViEmu.X86Decoding
 {
-    public static class XIntel16
+    public static class Intel16
     {
         public static IEnumerable<Instruction> Disassemble(Stream s, byte[] buff, long? start = null, bool err = true)
         {
