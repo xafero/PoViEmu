@@ -19,5 +19,11 @@
   <ItemGroup>
     <ProjectReference Include="..\PoViEmu.UI\PoViEmu.UI.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Stuff\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   
 </Project>

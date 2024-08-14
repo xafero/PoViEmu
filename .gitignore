@@ -407,3 +407,4 @@ dist/
 /tools/cpufuzz/out/
 /coverage
 /tools/codegen/out/
+/src/PoViEmu.UI.Desktop/Stuff/*
