@@ -18,5 +18,9 @@
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PoViEmu.X86Decoding\PoViEmu.X86Decoding.csproj" />
+  </ItemGroup>
   
 </Project>
