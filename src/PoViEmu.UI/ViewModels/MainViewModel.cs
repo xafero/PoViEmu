@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using CommunityToolkit.Mvvm.ComponentModel;
+using PoViEmu.Common;
 using PoViEmu.X86Decoding;
 
 namespace PoViEmu.UI.ViewModels
@@ -10,8 +12,13 @@ namespace PoViEmu.UI.ViewModels
 
         public MainViewModel()
         {
-            var mem = new MemoryStream([90, 04, 02, 03, 02, 51, 52, 90, 60, 21]);
-            var txt = mem.Disassemble(err: false).ToText();
+            var stuffDir = SysInfo.GetEntryDir().GetChild("Stuff");
+            var file = stuffDir.GetChild("sample.bin");
+
+            // Console.WriteLine(Convert.ToHexString(File.ReadAllBytes(file)));
+
+            using var stream = File.OpenRead(file);
+            var txt = stream.Disassemble(skip: 1524, err: false).ToText();
             Greeting = txt;
         }
     }

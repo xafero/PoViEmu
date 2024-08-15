@@ -10,5 +10,10 @@ namespace PoViEmu.Common
 
         public static string CurrentDir
             => Environment.CurrentDirectory;
+
+        public static string GetChild(this string root, string sub)
+        {
+            return Path.Combine(root, sub);
+        }
     }
 }
