@@ -18,9 +18,15 @@ namespace PoViEmu.X86Decoding
             return instr;
         }
 
+        public static IEnumerable<string> ToLines(this IEnumerable<Instruction> instr)
+        {
+            var text = instr.Select(i => i.ToString());
+            return text;
+        }
+
         public static string ToText(this IEnumerable<Instruction> instr)
         {
-            var text = string.Join(Environment.NewLine, instr.Select(i => i.ToString()));
+            var text = string.Join(Environment.NewLine, ToLines(instr));
             return text;
         }
     }

@@ -117,5 +117,11 @@ namespace PoViEmu.Common
                 yield return bld.ToString();
             }
         }
+
+        public static string[] SplitOn(string l)
+        {
+            var opt = StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries;
+            return l.Split(' ', 3, opt);
+        }
     }
 }

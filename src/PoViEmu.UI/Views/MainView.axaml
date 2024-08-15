@@ -3,15 +3,27 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignWidth="600" d:DesignHeight="500"
              x:Class="PoViEmu.UI.Views.MainView"
-             x:DataType="vm:MainViewModel">
-    
-  <Design.DataContext>
-    <vm:MainViewModel />
-  </Design.DataContext>
+             x:DataType="vm:MainViewModel"
+             Loaded="Control_OnLoaded">
 
-  <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-  
+    <Design.DataContext>
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <ItemsControl ItemsSource="{Binding Assembly}"
+                  HorizontalAlignment="Center" VerticalAlignment="Center">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="{Binding Offset}" />
+                    <Label Content="{Binding Hex}" />
+                    <Label Content="{Binding Command}" />
+                </StackPanel>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+
 </UserControl>

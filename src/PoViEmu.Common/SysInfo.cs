@@ -5,6 +5,11 @@ namespace PoViEmu.Common
 {
     public static class SysInfo
     {
+        public static string GetEntryDir<T>()
+        {
+            return GetEntryDir(typeof(T).Assembly);
+        }
+
         public static string GetEntryDir(Assembly? assembly = null)
         {
             var ass = assembly ?? Assembly.GetEntryAssembly();

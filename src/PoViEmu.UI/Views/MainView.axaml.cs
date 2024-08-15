@@ -1,11 +1,20 @@
 using Avalonia.Controls;
+using Avalonia.Interactivity;
+using PoViEmu.UI.ViewModels;
 
-namespace PoViEmu.UI.Views;
-
-public partial class MainView : UserControl
+namespace PoViEmu.UI.Views
 {
-    public MainView()
+    public partial class MainView : UserControl
     {
-        InitializeComponent();
+        public MainView()
+        {
+            InitializeComponent();
+        }
+
+        private void Control_OnLoaded(object? sender, RoutedEventArgs e)
+        {
+            if (DataContext is MainViewModel mvm)
+                mvm.Init();
+        }
     }
 }
