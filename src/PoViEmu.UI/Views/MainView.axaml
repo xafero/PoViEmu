@@ -20,8 +20,8 @@
         </Panel>
         <HeaderedContentControl DockPanel.Dock="Right">
             <HeaderedContentControl.Header>
-                <Border BorderThickness="2" BorderBrush="Black">
-                    <Label>Disassembly</Label>
+                <Border BorderThickness="2" BorderBrush="Black" CornerRadius="10">
+                    <Label HorizontalAlignment="Center">Disassembly</Label>
                 </Border>
             </HeaderedContentControl.Header>
             <ScrollViewer>
