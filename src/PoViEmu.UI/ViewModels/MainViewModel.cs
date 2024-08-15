@@ -28,7 +28,7 @@ namespace PoViEmu.UI.ViewModels
                 return new AssemblyLine(parts[0], parts[1], parts[2]);
             });
             Assembly.Clear();
-            Array.ForEach(objects.Take(6).ToArray(), o => Assembly.Add(o));
+            Array.ForEach(objects.Skip(4).Take(20).ToArray(), o => Assembly.Add(o));
         }
     }
 }
