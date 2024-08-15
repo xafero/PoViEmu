@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
              mc:Ignorable="d"
-             d:DesignWidth="600" d:DesignHeight="500"
+             d:DesignWidth="600" d:DesignHeight="730"
              x:Class="PoViEmu.UI.Views.MainView"
              x:DataType="vm:MainViewModel"
              Loaded="Control_OnLoaded">
@@ -13,17 +13,35 @@
         <vm:MainViewModel />
     </Design.DataContext>
 
-    <ItemsControl ItemsSource="{Binding Assembly}"
-                  HorizontalAlignment="Center" VerticalAlignment="Center">
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="{Binding Offset}" />
-                    <Label Content="{Binding Hex}" />
-                    <Label Content="{Binding Command}" />
-                </StackPanel>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-    </ItemsControl>
+    <DockPanel LastChildFill="True">
+        <Panel DockPanel.Dock="Top">
+        </Panel>
+        <Panel DockPanel.Dock="Bottom">
+        </Panel>
+        <HeaderedContentControl DockPanel.Dock="Right">
+            <HeaderedContentControl.Header>
+                <Border BorderThickness="2" BorderBrush="Black">
+                    <Label>Disassembly</Label>
+                </Border>
+            </HeaderedContentControl.Header>
+            <ScrollViewer>
+                <ItemsControl ItemsSource="{Binding Assembly}"
+                              HorizontalAlignment="Center" VerticalAlignment="Center"
+                              Background="White">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="{Binding Offset}" />
+                                <Label Content="{Binding Hex}" />
+                                <Label Content="{Binding Command}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </HeaderedContentControl>
+        <Panel>
+        </Panel>
+    </DockPanel>
 
 </UserControl>
