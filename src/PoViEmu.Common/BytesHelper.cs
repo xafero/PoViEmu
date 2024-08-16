@@ -48,5 +48,12 @@ namespace PoViEmu.Common
             res += 1;
             return (short)res;
         }
+
+        public static byte[] Allocate(int mb)
+        {
+            var data = new byte[mb * 1024 * 1024];
+            Array.Clear(data, 0, data.Length);
+            return data;
+        }
     }
 }
