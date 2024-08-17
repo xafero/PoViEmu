@@ -19,9 +19,44 @@
         </Panel>
         <Panel DockPanel.Dock="Bottom">
         </Panel>
-        <vw:UnassView DockPanel.Dock="Right">
-        </vw:UnassView>
+        <Panel DockPanel.Dock="Right">
+        </Panel>
         <Panel>
+            <Viewbox>
+                <Canvas Width="580" Height="730">
+                    <Canvas.Background>
+                        <ImageBrush Source="../Assets/Skins/PVS660.png" />
+                    </Canvas.Background>
+                    <Button Canvas.Bottom="244" Canvas.Left="76">
+                        <Image Source="../Assets/Buttons/symbol-off.png"
+                               Width="33" Height="40" />
+                    </Button>
+                    <Button Canvas.Bottom="244" Canvas.Left="127">
+                        <Image Source="../Assets/Buttons/symbol-menu.png"
+                               Width="40" Height="40" />
+                    </Button>
+                    <Button Canvas.Bottom="244" Canvas.Left="185">
+                        <Image Source="../Assets/Buttons/symbol-sched.png"
+                               Width="40" Height="40" />
+                    </Button>
+                    <Button Canvas.Bottom="244" Canvas.Left="243">
+                        <Image Source="../Assets/Buttons/symbol-contacts.png"
+                               Width="40" Height="40" />
+                    </Button>
+                    <Button Canvas.Bottom="244" Canvas.Left="301">
+                        <Image Source="../Assets/Buttons/symbol-memo.png"
+                               Width="40" Height="40" />
+                    </Button>
+                    <Button Canvas.Bottom="244" Canvas.Left="359">
+                        <Image Source="../Assets/Buttons/symbol-quick.png"
+                               Width="40" Height="40" />
+                    </Button>
+                    <Button Canvas.Bottom="244" Canvas.Left="417">
+                        <Image Source="../Assets/Buttons/symbol-esc.png"
+                               Width="33" Height="40" />
+                    </Button>
+                </Canvas>
+            </Viewbox>
         </Panel>
     </DockPanel>
 
