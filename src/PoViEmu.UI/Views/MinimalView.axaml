@@ -20,9 +20,13 @@
                 <Button Canvas.Bottom="60" Canvas.Left="0"
                         Width="342" Height="342" Background="White">
                 </Button>
-                <Button Canvas.Bottom="4" Canvas.Left="2">
+                <Button Canvas.Bottom="34" Canvas.Left="2">
                     <Image Source="../Assets/Buttons/symbol-off.png"
-                           Width="30" Height="40" />
+                           Width="30" Height="10" />
+                </Button>
+                <Button Canvas.Bottom="4" Canvas.Left="2">
+                    <Image Source="../Assets/Buttons/symbol-light.png"
+                           Width="30" Height="17" />
                 </Button>
                 <Button Canvas.Bottom="4" Canvas.Left="50">
                     <Image Source="../Assets/Buttons/symbol-menu.png"
@@ -33,7 +37,7 @@
                            Width="30" Height="40" />
                 </Button>
                 <Button Canvas.Bottom="4" Canvas.Left="146">
-                    <Image Source="../Assets/Buttons/symbol-contacts.png"
+                    <Image Source="../Assets/Buttons/symbol-cont.png"
                            Width="30" Height="40" />
                 </Button>
                 <Button Canvas.Bottom="4" Canvas.Left="194">
@@ -44,9 +48,13 @@
                     <Image Source="../Assets/Buttons/symbol-quick.png"
                            Width="30" Height="40" />
                 </Button>
-                <Button Canvas.Bottom="4" Canvas.Left="290">
+                <Button Canvas.Bottom="34" Canvas.Left="290">
                     <Image Source="../Assets/Buttons/symbol-esc.png"
-                           Width="30" Height="40" />
+                           Width="30" Height="10" />
+                </Button>
+                <Button Canvas.Bottom="4" Canvas.Left="290">
+                    <Image Source="../Assets/Buttons/symbol-bar.png"
+                           Width="30" Height="17" />
                 </Button>
             </Canvas>
         </Viewbox>

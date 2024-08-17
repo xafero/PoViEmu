@@ -22,9 +22,13 @@
             <Button Canvas.Bottom="300" Canvas.Left="70"
                     Width="342" Height="342" Background="White">
             </Button>
-            <Button Canvas.Bottom="244" Canvas.Left="69">
+            <Button Canvas.Bottom="274" Canvas.Left="69">
                 <Image Source="../Assets/Buttons/symbol-off.png"
-                       Width="30" Height="40" />
+                       Width="30" Height="10" />
+            </Button>
+            <Button Canvas.Bottom="244" Canvas.Left="69">
+                <Image Source="../Assets/Buttons/symbol-light.png"
+                       Width="30" Height="17" />
             </Button>
             <Button Canvas.Bottom="244" Canvas.Left="118">
                 <Image Source="../Assets/Buttons/symbol-menu.png"
@@ -35,7 +39,7 @@
                        Width="30" Height="40" />
             </Button>
             <Button Canvas.Bottom="244" Canvas.Left="217">
-                <Image Source="../Assets/Buttons/symbol-contacts.png"
+                <Image Source="../Assets/Buttons/symbol-cont.png"
                        Width="30" Height="40" />
             </Button>
             <Button Canvas.Bottom="244" Canvas.Left="266">
@@ -46,9 +50,13 @@
                 <Image Source="../Assets/Buttons/symbol-quick.png"
                        Width="30" Height="40" />
             </Button>
-            <Button Canvas.Bottom="244" Canvas.Left="365">
+            <Button Canvas.Bottom="274" Canvas.Left="365">
                 <Image Source="../Assets/Buttons/symbol-esc.png"
-                       Width="30" Height="40" />
+                       Width="30" Height="10" />
+            </Button>
+            <Button Canvas.Bottom="244" Canvas.Left="365">
+                <Image Source="../Assets/Buttons/symbol-bar.png"
+                       Width="30" Height="17" />
             </Button>
         </Canvas>
     </Viewbox>
