@@ -22,44 +22,7 @@
         <Panel DockPanel.Dock="Right">
         </Panel>
         <Panel>
-            <Viewbox>
-                <Canvas Width="513" Height="730">
-                    <Canvas.Background>
-                        <ImageBrush Source="../Assets/Skins/PVS660.png" Stretch="Fill" />
-                    </Canvas.Background>
-                    <Button Canvas.Bottom="300" Canvas.Left="70"
-                            Width="342" Height="342" Background="White">
-                    </Button>
-                    <Button Canvas.Bottom="244" Canvas.Left="69">
-                        <Image Source="../Assets/Buttons/symbol-off.png"
-                               Width="30" Height="40" />
-                    </Button>
-                    <Button Canvas.Bottom="244" Canvas.Left="118">
-                        <Image Source="../Assets/Buttons/symbol-menu.png"
-                               Width="30" Height="40" />
-                    </Button>
-                    <Button Canvas.Bottom="244" Canvas.Left="167">
-                        <Image Source="../Assets/Buttons/symbol-sched.png"
-                               Width="30" Height="40" />
-                    </Button>
-                    <Button Canvas.Bottom="244" Canvas.Left="217">
-                        <Image Source="../Assets/Buttons/symbol-contacts.png"
-                               Width="30" Height="40" />
-                    </Button>
-                    <Button Canvas.Bottom="244" Canvas.Left="266">
-                        <Image Source="../Assets/Buttons/symbol-memo.png"
-                               Width="30" Height="40" />
-                    </Button>
-                    <Button Canvas.Bottom="244" Canvas.Left="316">
-                        <Image Source="../Assets/Buttons/symbol-quick.png"
-                               Width="30" Height="40" />
-                    </Button>
-                    <Button Canvas.Bottom="244" Canvas.Left="365">
-                        <Image Source="../Assets/Buttons/symbol-esc.png"
-                               Width="30" Height="40" />
-                    </Button>
-                </Canvas>
-            </Viewbox>
+            <vw:HandheldView />
         </Panel>
     </DockPanel>
 
