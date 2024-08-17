@@ -23,12 +23,11 @@
         </Panel>
         <Panel>
             <Viewbox>
-                <Border BorderThickness="2" BorderBrush="Purple">
                 <Canvas Width="513" Height="730">
                     <Canvas.Background>
                         <ImageBrush Source="../Assets/Skins/PVS660.png" Stretch="Fill" />
                     </Canvas.Background>
-                    <Button Canvas.Bottom="300" Canvas.Left="70" 
+                    <Button Canvas.Bottom="300" Canvas.Left="70"
                             Width="342" Height="342" Background="White">
                     </Button>
                     <Button Canvas.Bottom="244" Canvas.Left="69">
@@ -60,7 +59,6 @@
                                Width="30" Height="40" />
                     </Button>
                 </Canvas>
-                </Border>
             </Viewbox>
         </Panel>
     </DockPanel>
