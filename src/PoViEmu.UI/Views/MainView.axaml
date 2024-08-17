@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
+             xmlns:vw="clr-namespace:PoViEmu.UI.Views"
              mc:Ignorable="d"
              d:DesignWidth="660" d:DesignHeight="730"
              x:Class="PoViEmu.UI.Views.MainView"
@@ -18,21 +19,8 @@
         </Panel>
         <Panel DockPanel.Dock="Bottom">
         </Panel>
-        <HeaderedContentControl DockPanel.Dock="Right">
-            <HeaderedContentControl.Header>
-                <Border BorderThickness="2" BorderBrush="Black" CornerRadius="10">
-                    <Label HorizontalAlignment="Center">Disassembly</Label>
-                </Border>
-            </HeaderedContentControl.Header>
-            <DataGrid ItemsSource="{Binding Assembly}"
-                      IsReadOnly="True" GridLinesVisibility="All">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Width="Auto" Header="Offset" Binding="{Binding Offset}" />
-                    <DataGridTextColumn Width="Auto" Header="Bytes" Binding="{Binding Hex}" />
-                    <DataGridTextColumn Header="Operation" Binding="{Binding Command}" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </HeaderedContentControl>
+        <vw:UnassView DockPanel.Dock="Right">
+        </vw:UnassView>
         <Panel>
         </Panel>
     </DockPanel>

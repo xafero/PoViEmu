@@ -4,17 +4,20 @@ using PoViEmu.UI.ViewModels;
 
 namespace PoViEmu.UI.Views
 {
-    public partial class MainView : UserControl
+    public partial class UnassView : UserControl
     {
-        public MainView()
+        public UnassView()
         {
             InitializeComponent();
         }
 
         private void Control_OnLoaded(object? sender, RoutedEventArgs e)
         {
-            if (DataContext is MainViewModel mvm)
-                mvm.Title = nameof(PoViEmu);
+            if (DataContext is not UnassViewModel)
+                DataContext = new UnassViewModel();
+
+            if (DataContext is UnassViewModel mvm)
+                mvm.Init();
         }
     }
 }
