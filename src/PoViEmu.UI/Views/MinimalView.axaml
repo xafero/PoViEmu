@@ -1,0 +1,55 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
+             xmlns:vw="clr-namespace:PoViEmu.UI.Views"
+             mc:Ignorable="d"
+             d:DesignWidth="660" d:DesignHeight="730"
+             x:Class="PoViEmu.UI.Views.MinimalView"
+             x:DataType="vm:MinimalViewModel"
+             Loaded="Control_OnLoaded">
+
+    <Design.DataContext>
+        <vm:MinimalViewModel />
+    </Design.DataContext>
+
+    <Border BorderBrush="Black" BorderThickness="5" CornerRadius="25">
+        <Viewbox>
+            <Canvas Width="340" Height="407">
+                <Button Canvas.Bottom="60" Canvas.Left="0"
+                        Width="342" Height="342" Background="White">
+                </Button>
+                <Button Canvas.Bottom="4" Canvas.Left="2">
+                    <Image Source="../Assets/Buttons/symbol-off.png"
+                           Width="30" Height="40" />
+                </Button>
+                <Button Canvas.Bottom="4" Canvas.Left="50">
+                    <Image Source="../Assets/Buttons/symbol-menu.png"
+                           Width="30" Height="40" />
+                </Button>
+                <Button Canvas.Bottom="4" Canvas.Left="98">
+                    <Image Source="../Assets/Buttons/symbol-sched.png"
+                           Width="30" Height="40" />
+                </Button>
+                <Button Canvas.Bottom="4" Canvas.Left="146">
+                    <Image Source="../Assets/Buttons/symbol-contacts.png"
+                           Width="30" Height="40" />
+                </Button>
+                <Button Canvas.Bottom="4" Canvas.Left="194">
+                    <Image Source="../Assets/Buttons/symbol-memo.png"
+                           Width="30" Height="40" />
+                </Button>
+                <Button Canvas.Bottom="4" Canvas.Left="242">
+                    <Image Source="../Assets/Buttons/symbol-quick.png"
+                           Width="30" Height="40" />
+                </Button>
+                <Button Canvas.Bottom="4" Canvas.Left="290">
+                    <Image Source="../Assets/Buttons/symbol-esc.png"
+                           Width="30" Height="40" />
+                </Button>
+            </Canvas>
+        </Viewbox>
+    </Border>
+
+</UserControl>

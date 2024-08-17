@@ -22,7 +22,9 @@
         <Panel DockPanel.Dock="Right">
         </Panel>
         <Panel>
-            <vw:HandheldView />
+            <!-- <vw:HandheldView /> -->
+            <!-- <vw:MinimalView /> -->
+            <vw:MinimalView />
         </Panel>
     </DockPanel>
 
