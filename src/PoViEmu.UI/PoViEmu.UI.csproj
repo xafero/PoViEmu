@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PoViEmu.Core\PoViEmu.Core.csproj" />
     <ProjectReference Include="..\PoViEmu.X86Decoding\PoViEmu.X86Decoding.csproj" />
   </ItemGroup>
   

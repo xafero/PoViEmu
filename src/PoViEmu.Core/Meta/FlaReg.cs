@@ -12,5 +12,11 @@ namespace PoViEmu.Core.Meta
 
         public Dictionary<CpuRegister, ushort> Registers { get; }
         public Dictionary<CpuFlag, bool> Flags { get; }
+
+        public void Clear()
+        {
+            Registers.Clear();
+            Flags.Clear();
+        }
     }
 }

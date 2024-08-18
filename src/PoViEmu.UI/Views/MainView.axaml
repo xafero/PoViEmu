@@ -24,7 +24,7 @@
         <Panel>
             <!-- <vw:HandheldView /> -->
             <!-- <vw:MinimalView /> -->
-            <vw:HandheldView />
+            <vw:RegisterView />
         </Panel>
     </DockPanel>
 
