@@ -20,26 +20,30 @@
                 <Label HorizontalAlignment="Center">Simulation</Label>
             </Border>
         </HeaderedContentControl.Header>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button>
-                <Image Source="../Assets/Buttons/btn-start.png"
-                       Width="30" Height="30" />
-            </Button>
-            <Button>
-                <Image Source="../Assets/Buttons/btn-pause.png"
-                       Width="30" Height="30" />
-            </Button>
-            <Button>
-                <Image Source="../Assets/Buttons/btn-step.png"
-                       Width="30" Height="30" />
-            </Button>
-            <Button>
-                <Image Source="../Assets/Buttons/btn-stop.png"
-                       Width="30" Height="30" />
-            </Button>
-            
-            <!-- FontFamily="{StaticResource MonoFont}" -->
-            
+        <StackPanel>
+            <StackPanel>
+                <Label FontFamily="{StaticResource MonoFont}"
+                       FontSize="{StaticResource TabItemHeaderFontSize}"
+                       HorizontalAlignment="Center" Content="{Binding CpuTime}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button>
+                    <Image Source="../Assets/Buttons/btn-start.png"
+                           Width="30" Height="30" />
+                </Button>
+                <Button>
+                    <Image Source="../Assets/Buttons/btn-pause.png"
+                           Width="30" Height="30" />
+                </Button>
+                <Button>
+                    <Image Source="../Assets/Buttons/btn-step.png"
+                           Width="30" Height="30" />
+                </Button>
+                <Button>
+                    <Image Source="../Assets/Buttons/btn-stop.png"
+                           Width="30" Height="30" />
+                </Button>
+            </StackPanel>
         </StackPanel>
     </HeaderedContentControl>
 

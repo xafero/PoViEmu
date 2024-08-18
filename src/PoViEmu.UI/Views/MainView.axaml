@@ -17,11 +17,12 @@
     <DockPanel LastChildFill="True">
         <Panel DockPanel.Dock="Left">
             <!-- <vw:RegisterView /> -->
+            <!-- <vw:RawMemView /> -->
         </Panel>
         <Panel DockPanel.Dock="Right">
             <StackPanel Orientation="Vertical">
                 <!-- <vw:StackView /> -->
-                <!-- <vw:SimCtrlView /> -->
+                <vw:SimCtrlView />
             </StackPanel>
         </Panel>
         <Panel DockPanel.Dock="Bottom">
@@ -32,7 +33,6 @@
         <Panel>
             <!-- <vw:HandheldView /> -->
             <!-- <vw:MinimalView /> -->
-            <vw:RawMemView />
         </Panel>
     </DockPanel>
 
