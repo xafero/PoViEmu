@@ -37,6 +37,9 @@
                 <Image Source="../Assets/Buttons/btn-stop.png"
                        Width="30" Height="30" />
             </Button>
+            
+            <!-- FontFamily="{StaticResource MonoFont}" -->
+            
         </StackPanel>
     </HeaderedContentControl>
 
