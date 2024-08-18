@@ -15,16 +15,20 @@
     </Design.DataContext>
 
     <DockPanel LastChildFill="True">
-        <Panel DockPanel.Dock="Top">
+        <Panel DockPanel.Dock="Left">
+            <vw:RegisterView />
+        </Panel>
+        <Panel DockPanel.Dock="Right">
+            <vw:StackView />
         </Panel>
         <Panel DockPanel.Dock="Bottom">
+            <vw:EmsView />
         </Panel>
         <Panel DockPanel.Dock="Right">
         </Panel>
         <Panel>
             <!-- <vw:HandheldView /> -->
-            <!-- <vw:MinimalView /> -->
-            <vw:RegisterView />
+            <vw:MinimalView />
         </Panel>
     </DockPanel>
 

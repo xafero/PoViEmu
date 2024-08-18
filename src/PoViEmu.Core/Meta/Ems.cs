@@ -13,5 +13,11 @@ namespace PoViEmu.Core.Meta
 
         public Dictionary<EmsBank, ushort> Banks { get; }
         public Dictionary<EmsFrame, ushort> Frames { get; }
+
+        public void Clear()
+        {
+            Banks.Clear();
+            Frames.Clear();
+        }
     }
 }
