@@ -16,7 +16,7 @@ namespace PoViEmu.UI.ViewModels
             CpuTime = TimeSpan.Zero;
             ShouldRun = true;
 
-            _thread = new Thread(OnLoop);
+            _thread = new Thread(OnLoop) { IsBackground = true };
             _thread.Start();
         }
 
