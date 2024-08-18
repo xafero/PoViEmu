@@ -33,18 +33,4 @@ namespace PoViEmu.Core.Meta
             throw new NotImplementedException();
         }
     }
-
-    public static class X
-    {
-        public static void Do()
-        {
-            Metronome m = new Metronome();
-            m.Start();
-            m.Step();
-            m.Pause();
-            m.Stop();
-            
-            // Open / Close log file
-        }
-    }
 }

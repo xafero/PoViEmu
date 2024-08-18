@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
-using PoViEmu.Common;
 using PoViEmu.Core.Meta;
 using PoViEmu.UI.Models;
-using PoViEmu.X86Decoding;
 using B = PoViEmu.Core.Meta.EmsBank;
 using F = PoViEmu.Core.Meta.EmsFrame;
 

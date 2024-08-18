@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using CommunityToolkit.Mvvm.ComponentModel;
-using PoViEmu.Common;
-using PoViEmu.UI.Models;
-using PoViEmu.X86Decoding;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace PoViEmu.UI.ViewModels
 {

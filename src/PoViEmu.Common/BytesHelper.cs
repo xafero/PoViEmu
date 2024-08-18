@@ -1,13 +1,15 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PoViEmu.Common
 {
     public static class BytesHelper
     {
-        public static string ToHex(this byte[] bytes, bool prependSize = true)
+        public static string ToHex(this byte[] bytes, bool prependSize = true, bool withSpace = false)
         {
-            var hex = Convert.ToHexString(bytes);
+            var txt = Convert.ToHexString(bytes);
+            var hex = withSpace ? string.Join(' ', txt.SplitEvery(2)) : txt;
             return prependSize ? $"({bytes.Length}) {hex}" : hex;
         }
 
@@ -54,6 +56,23 @@ namespace PoViEmu.Common
             var data = new byte[mb * 1024 * 1024];
             Array.Clear(data, 0, data.Length);
             return data;
+        }
+
+        public static IEnumerable<byte[]> SplitEvery(this byte[] text, int count)
+        {
+            var bld = new List<byte>();
+            for (var i = 0; i < text.Length; i += count)
+            {
+                bld.Clear();
+                for (var j = 0; j < count; j++)
+                {
+                    var idx = i + j;
+                    if (idx >= text.Length)
+                        break;
+                    bld.Add(text[idx]);
+                }
+                yield return bld.ToArray();
+            }
         }
     }
 }
