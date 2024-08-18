@@ -19,7 +19,10 @@
             <vw:RegisterView />
         </Panel>
         <Panel DockPanel.Dock="Right">
-            <vw:StackView />
+            <StackPanel Orientation="Vertical">
+                <vw:StackView />
+                <vw:SimCtrlView />
+            </StackPanel>
         </Panel>
         <Panel DockPanel.Dock="Bottom">
             <vw:EmsView />

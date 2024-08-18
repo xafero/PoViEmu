@@ -1,0 +1,43 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
+             xmlns:m="clr-namespace:PoViEmu.UI.Models"
+             mc:Ignorable="d"
+             d:DesignWidth="260" d:DesignHeight="440"
+             x:Class="PoViEmu.UI.Views.SimCtrlView"
+             x:DataType="vm:SimCtrlViewModel"
+             Loaded="Control_OnLoaded">
+
+    <Design.DataContext>
+        <vm:SimCtrlViewModel />
+    </Design.DataContext>
+
+    <HeaderedContentControl>
+        <HeaderedContentControl.Header>
+            <Border BorderThickness="2" BorderBrush="Black" CornerRadius="10">
+                <Label HorizontalAlignment="Center">Simulation</Label>
+            </Border>
+        </HeaderedContentControl.Header>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button>
+                <Image Source="../Assets/Buttons/btn-start.png"
+                       Width="30" Height="30" />
+            </Button>
+            <Button>
+                <Image Source="../Assets/Buttons/btn-pause.png"
+                       Width="30" Height="30" />
+            </Button>
+            <Button>
+                <Image Source="../Assets/Buttons/btn-step.png"
+                       Width="30" Height="30" />
+            </Button>
+            <Button>
+                <Image Source="../Assets/Buttons/btn-stop.png"
+                       Width="30" Height="30" />
+            </Button>
+        </StackPanel>
+    </HeaderedContentControl>
+
+</UserControl>
