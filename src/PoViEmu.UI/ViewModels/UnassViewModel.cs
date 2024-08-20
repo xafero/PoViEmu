@@ -5,7 +5,7 @@ using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using PoViEmu.Common;
 using PoViEmu.UI.Models;
-using PoViEmu.X86Decoding;
+// using PoViEmu.X86Decoding;
 
 namespace PoViEmu.UI.ViewModels
 {
@@ -19,7 +19,7 @@ namespace PoViEmu.UI.ViewModels
             var file = stuffDir.GetChild("sample.bin");
 
             using var stream = File.OpenRead(file);
-            var lines = stream.Disassemble(skip: 1524, err: false).ToLines();
+            var lines = new string[0]; //stream.Disassemble(skip: 1524, err: false).ToLines();
             var objects = lines.Select(l =>
             {
                 var parts = TextHelper.SplitOn(l);
