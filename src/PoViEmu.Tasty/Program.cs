@@ -50,7 +50,9 @@ namespace PoViEmu.Tasty
 
                 Instruction instr;
                 var decoder = GetDecoder(out var mem);
-                var rawBytes = Convert.FromHexString("2EFF2E050000F000F0FFFFFFFFFFFFFF2B0000C4B41600C4AF0B00C4300100C02B0000C4");
+                var rawBytes = Convert
+                    .FromHexString("2EFF2E050000F000F0FFFFFFFFFFFFFF2B0000C4B41600C4AF0B00C4300100C02B0000C4")
+                    .Concat(new byte[] { 52, 31, 45, 98, 221, 148 }).ToArray();
                 mem.Write(rawBytes);
                 mem.Position = 0L;
 
