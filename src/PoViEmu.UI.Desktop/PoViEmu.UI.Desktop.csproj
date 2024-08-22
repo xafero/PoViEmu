@@ -3,19 +3,11 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
+    <RuntimeIdentifiers>win-x64;osx-x64;linux-x64</RuntimeIdentifiers>
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
   </PropertyGroup>
   
-  <PropertyGroup>
-    <RuntimeIdentifiers>win-x64;osx-x64;linux-x64</RuntimeIdentifiers>
-    <NeutralLanguage>en</NeutralLanguage>
-    <Version>0.0.1</Version>
-    <Description>16-bit PocketViewer emulator</Description>
-    <Authors>xafero</Authors>
-    <Copyright>Written 2024 by xafero</Copyright>
-  </PropertyGroup>
-
   <PropertyGroup Condition="'$(RuntimeIdentifier)' != ''">
     <PublishSingleFile>true</PublishSingleFile>
     <TrimmerSingleWarn>false</TrimmerSingleWarn>

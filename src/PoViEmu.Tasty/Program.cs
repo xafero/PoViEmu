@@ -12,7 +12,7 @@ namespace PoViEmu.Tasty
     {
         private static void Main(string[] args)
         {
-            var info = new VersionInfo();
+            dynamic info = 42; // new VersionInfo();
 
             // var x = JsonConvert.SerializeObject(new { x = info }, Formatting.Indented);
             // Console.WriteLine(x);
