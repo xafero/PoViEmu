@@ -1,9 +1,8 @@
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using Iced.Intel;
-using Newtonsoft.Json;
+using PoViEmu.Core;
 
 // ReSharper disable HeuristicUnreachableCode
 
@@ -11,30 +10,6 @@ namespace PoViEmu.Tasty
 {
     internal static class Program
     {
-        private static NasmFormatter GetFormatter()
-        {
-            var options = new FormatterOptions
-            {
-                BinaryPrefix = "0b",
-                BinarySuffix = null,
-                HexPrefix = "0x",
-                HexSuffix = null,
-                SmallHexNumbersInDecimal = false,
-                SpaceAfterOperandSeparator = true,
-                UppercaseMnemonics = true
-            };
-            NasmFormatter formatter = new(options);
-            return formatter;
-        }
-
-        private static Decoder GetDecoder(out MemoryStream stream)
-        {
-            stream = new MemoryStream();
-            CodeReader reader = new StreamCodeReader(stream);
-            var decoder = Decoder.Create(16, reader, DecoderOptions.NoInvalidCheck);
-            return decoder;
-        }
-
         private static void Main(string[] args)
         {
             var info = new VersionInfo();
@@ -46,10 +21,10 @@ namespace PoViEmu.Tasty
 
             void Loop(object? _)
             {
-                var fmt = GetFormatter();
+                var fmt = IntelDecoder.GetFormatter();
 
                 Instruction instr;
-                var decoder = GetDecoder(out var mem);
+                var decoder = IntelDecoder.GetDecoder(out var mem);
                 var rawBytes = Convert
                     .FromHexString("2EFF2E050000F000F0FFFFFFFFFFFFFF2B0000C4B41600C4AF0B00C4300100C02B0000C4")
                     .Concat(new byte[] { 52, 31, 45, 98, 221, 148 }).ToArray();
