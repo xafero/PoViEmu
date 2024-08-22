@@ -12,7 +12,7 @@ namespace PoViEmu.Core
         public static AddInInfo Read(byte[] bytes)
         {
             var gotSize = bytes.Length;
-            if (gotSize != HeaderSize)
+            if (gotSize < HeaderSize)
                 throw new InvalidOperationException($"Got {gotSize} bytes instead of {HeaderSize}!");
             var header = Marshalling.Read<AddInHeader>(bytes);
             var result = new AddInInfo(header);
@@ -28,7 +28,7 @@ namespace PoViEmu.Core
                 _ = result.LibraryVersion;
                 _ = result.Version;
             }
-            catch (IndexOutOfRangeException)
+            catch (Exception ex) when (ex is IndexOutOfRangeException or FormatException)
             {
                 throw new InvalidOperationException("Could not parse the header!");
             }
