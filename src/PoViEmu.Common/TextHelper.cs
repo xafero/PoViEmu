@@ -45,7 +45,16 @@ namespace PoViEmu.Common
             return text
                 .Replace((char)0, ' ')
                 .Replace((char)65533, ' ')
-                .Replace((char)3, ' ')
+                .Replace((char)3, ' ')                 
+                .Replace('ÿ', ' ')
+                .Replace('º', ' ')
+                .Replace('“', ' ')
+                .Replace('¡', ' ')
+                .Replace('\u00a2', ' ')
+                .Replace('\u00ad', ' ')
+                .Replace('ª', ' ')
+                .Replace('\u00b8', ' ')
+                .Replace('\u00bd', ' ')
                 .Trim();
         }
 
