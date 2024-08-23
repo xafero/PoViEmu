@@ -34,7 +34,7 @@ namespace discover
                 {
                     var idx = item.Value.IndexOf(hex, StringComparison.InvariantCultureIgnoreCase);
                     var end = idx + (hex.Length / 2);
-                    Console.WriteLine("   # " + item.Key + ", at " + idx + " until " + end);
+                    Console.WriteLine($"   # {item.Key}, at {idx} until {end}");
                 }
             }
         }
