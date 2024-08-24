@@ -28,11 +28,11 @@ namespace PoViEmu.Core.Images
             return array;
         }
 
-        public static void FromPvToBmp(byte[] bytes, Stream stream)
+        public static Image<Rgba32> FromPvToBmp(byte[] bytes)
         {
             var width = BitConverter.ToInt16(bytes[..2]);
             var height = BitConverter.ToInt16(bytes[2..4]);
-            using var image = new Image<Rgba32>(width, height);
+            var image = new Image<Rgba32>(width, height);
 
             var bytesPerRow = (width + 7) / 8;
             var offset = 4;
@@ -43,6 +43,13 @@ namespace PoViEmu.Core.Images
                 var y = (i - offset) / bytesPerRow;
                 SetRowPixels(image, y, booleans);
             }
+
+            return image;
+        }
+
+        public static void FromPvToBmp(byte[] bytes, Stream stream)
+        {
+            using var image = FromPvToBmp(bytes);
             image.SaveAsBmp(stream);
             stream.Flush();
         }

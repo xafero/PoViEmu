@@ -31,7 +31,7 @@ namespace PoViEmu.Core.Images
             {
                 var pixel = image[x, row];
                 var pixelInt = (pixel.B << 0) | (pixel.G << 8) | (pixel.R << 16);
-                var isZero = pixelInt <= 857879 ? true : pixelInt == 16777215 ? false : default(bool?);
+                var isZero = pixelInt <= 3026477 ? true : pixelInt == 16777215 ? false : default(bool?);
                 if (isZero == null)
                     throw new InvalidOperationException($"{pixel} => {pixelInt}");
                 yield return isZero.Value;
@@ -45,7 +45,14 @@ namespace PoViEmu.Core.Images
             stream.Write(BitConverter.GetBytes((short)image.Width));
             stream.Write(BitConverter.GetBytes((short)image.Height));
 
-            var img32 = (Image<Rgba32>)image;
+            Image<Rgba32> img32;
+            if (image is Image<Rgb24> img24)
+                img32 = img24.CloneAs<Rgba32>();
+            else if (image is Image<L8> img8)
+                img32 = img8.CloneAs<Rgba32>();
+            else
+                img32 = (Image<Rgba32>)image;
+
             for (var y = 0; y < image.Height; y++)
                 foreach (var bit in GetBytesFrom(GetRowBits(img32, y).ToArray()))
                     stream.WriteByte(bit);
