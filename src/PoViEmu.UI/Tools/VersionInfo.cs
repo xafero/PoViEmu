@@ -4,7 +4,7 @@ using TI = ThisAssembly.Info;
 
 // ReSharper disable UnusedMember.Global
 
-namespace PoViEmu.Tasty
+namespace PoViEmu.UI.Tools
 {
     public sealed class VersionInfo
     {
