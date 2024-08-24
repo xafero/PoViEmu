@@ -73,12 +73,12 @@ namespace PoViEmu.Common
             return dt;
         }
 
-        public static string ToHex<T>(T enumVal, ushort enumNum) where T : struct, Enum
+        public static string? ToHex<T>(T enumVal, ushort enumNum) where T : struct, Enum
         {
             return Enum.IsDefined(enumVal) ? null : $"0x{enumNum:X2}";
         }
 
-        public static string TrimNull(this string text)
+        public static string? TrimNull(this string text)
         {
             return string.IsNullOrWhiteSpace(text) ? null : text.Trim();
         }

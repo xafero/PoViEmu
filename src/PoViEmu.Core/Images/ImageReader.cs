@@ -35,15 +35,17 @@ namespace PoViEmu.Core.Images
             var image = new Image<Rgba32>(width, height);
 
             var bytesPerRow = (width + 7) / 8;
-            var offset = 4;
+            const int offset = 4;
             for (var i = offset; i < bytes.Length; i += bytesPerRow)
             {
                 var line = bytes[i..(i + bytesPerRow)];
                 var booleans = line.SelectMany(GetBoolFrom).ToArray();
                 var y = (i - offset) / bytesPerRow;
                 SetRowPixels(image, y, booleans);
-            }
 
+                if (y + 1 >= image.Height)
+                    break;
+            }
             return image;
         }
 
