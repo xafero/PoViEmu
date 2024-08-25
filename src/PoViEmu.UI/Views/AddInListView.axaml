@@ -31,30 +31,4 @@
         </ListBox.ItemTemplate>
     </ListBox>
 
-    <!-- <ScrollViewer>
-        <ItemsControl ItemsSource="{Binding AddIns}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Button HorizontalAlignment="Center" Margin="4"
-                            CornerRadius="15" Background="White"
-                            Width="135" Height="84">
-                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Image Source="{Binding OffsetIcon}"
-                                   Width="64" MaxHeight="56" />
-                            <TextBlock Padding="0,5,0,0">
-                                <Run Text="{Binding Info.Name}" />
-                                <Run Text="{Binding Info.Version}" />
-                            </TextBlock>
-                        </StackPanel>
-                    </Button>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
-    </ScrollViewer> -->
-
 </UserControl>
