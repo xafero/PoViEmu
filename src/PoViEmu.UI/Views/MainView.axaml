@@ -29,6 +29,7 @@
             <!-- <vw:EmsView /> -->
         </Panel>
         <Panel DockPanel.Dock="Right">
+            <vw:AddInListView />
         </Panel>
         <Panel>
             <!-- <vw:HandheldView /> -->
