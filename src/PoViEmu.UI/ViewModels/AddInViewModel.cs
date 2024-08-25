@@ -21,7 +21,7 @@ namespace PoViEmu.UI.ViewModels
         public AddInViewModel()
         {
             var home = EnvHelper.GetHomeDir()!;
-            _folder = Path.Combine(home, "Desktop", "Apps_cp1o", "User_Bin");
+            _folder = Path.Combine(home, "Desktop", "Apps_cp1o", "Extra"); // "User_Bin"
         }
 
         public void Load()
