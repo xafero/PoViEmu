@@ -2,18 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using PoViEmu.Common;
 using PoViEmu.Core;
 using PoViEmu.Core.Dumps;
 using PoViEmu.Core.Images;
+using PoViEmu.Core.Inventory;
 using SixLabors.ImageSharp;
 
 namespace Discover
 {
-    public record ImageObj(int Width, int Height, byte[] Png);
-
     internal static class ReadBins
     {
         internal static void Run(Options opt)
@@ -60,15 +58,15 @@ namespace Discover
 
                     _ = JsonHelper.ToJson(aInfo);
 
-                    var aEntry = new
+                    var aEntry = new AddInEntry
                     {
                         Path = localFile,
                         Name = aInfo.Obj.Info.Name,
                         Version = aInfo.Obj.Info.Version,
                         Compiled = aInfo.Obj.Info.Compiled,
                         Size = aLen,
-                        MenuIcon = ReadImage(aInfo.Obj.OffsetIcon),
-                        ListIcon = ReadImage(aInfo.Obj.OffsetLIcon)
+                        MenuIcon = aInfo.Obj.OffsetIcon.ToImageObj(),
+                        ListIcon = aInfo.Obj.OffsetLIcon.ToImageObj()
                     };
                     aDict4.Add(aEntry);
                     continue;
@@ -84,14 +82,18 @@ namespace Discover
                     var dModel = $"{dInfo.Obj.Model}";
                     var dName = Path.GetFileNameWithoutExtension(file).Replace('_', ' ').Title();
 
+                    _ = JsonHelper.ToJson(dInfo);
+
                     if (dInfo.Obj.DeviceModel == DumpModel.Unknown && dInfo.Obj.AddIns.Count == 0)
                     {
                         if (!bios.TryGetValue(dModel, out var dictB))
                             bios[dModel] = dictB = new List<object>();
 
-                        var bEntry = new
+                        var bEntry = new BiosEntry
                         {
-                            Path = localFile, Name = dName, Size = dLen
+                            Path = localFile,
+                            Name = dName,
+                            Size = dLen
                         };
 
                         var x = (List<object>)dictB;
@@ -104,9 +106,12 @@ namespace Discover
 
                     var dAdds = dInfo.Obj.AddIns.Select(a =>
                         a.Value.Name.TrimNull() ?? a.Value.Mode.ToString()).ToArray();
-                    var sEntry = new
+                    var sEntry = new SystemEntry
                     {
-                        Path = localFile, Name = dName, Size = dLen, AddIns = dAdds
+                        Path = localFile,
+                        Name = dName,
+                        Size = dLen,
+                        AddIns = dAdds
                     };
 
                     var y = (List<object>)dictS;
@@ -123,19 +128,11 @@ namespace Discover
 
             var json = JsonHelper.ToJson(new
             {
-                /*AddIns = addIns,*/ System = system, Bios = bios
+                AddIns = addIns, System = system, Bios = bios
             });
             File.WriteAllText("repo.json", json, Encoding.UTF8);
         }
-
-        private static ImageObj ReadImage(Image image)
-        {
-            using var mem = new MemoryStream();
-            image.SaveAsPng(mem);
-            mem.Flush();
-            return new ImageObj(image.Width, image.Height, mem.ToArray());
-        }
-
+        
         private static bool IsIgnoredFile(string ext)
         {
             return ext == ".json" || ext == ".hex" || ext == ".ttf" || ext == ".png" || ext == ".cs" ||
@@ -154,7 +151,7 @@ namespace Discover
         private static AddInInfoPlus<Image> ReadAddIn(string file, out string hex, out int len)
         {
             var bytes = File.ReadAllBytes(file);
-            hex = HashThis(bytes);
+            hex = HashHelper.GetSha(bytes);
             len = bytes.Length;
             var info = AddInReader.Read(bytes);
             var plus = info.WithImages(bytes);
@@ -164,18 +161,12 @@ namespace Discover
         private static DumpInfo ReadDump(string file, out string hex, out int len)
         {
             var bytes = File.ReadAllBytes(file);
-            hex = HashThis(bytes);
+            hex = HashHelper.GetSha(bytes);
             len = bytes.Length;
             var info = DumpReader.Read(bytes);
             var mem = new MemoryStream(bytes);
             info.LoadOsAddIns(mem);
             return info;
-        }
-
-        private static string HashThis(byte[] bytes)
-        {
-            var hash = SHA1.HashData(bytes);
-            return Convert.ToHexString(hash);
         }
     }
 }
