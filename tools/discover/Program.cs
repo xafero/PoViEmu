@@ -12,6 +12,11 @@ namespace Discover
                 if (o.HexMatch)
                 {
                     HexMatch.Run(o);
+                    return;
+                }
+                if (o.ReadBins)
+                {
+                    ReadBins.Run(o);
                 }
             });
         }

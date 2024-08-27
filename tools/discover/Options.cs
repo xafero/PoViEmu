@@ -9,6 +9,9 @@ namespace Discover
         [Option('h', "hex", HelpText = "Find hex matches.")]
         public bool HexMatch { get; set; }
 
+        [Option('r', "rip", HelpText = "Find binary app infos.")]
+        public bool ReadBins { get; set; }
+
         [Option('i', "input", HelpText = "Set input directory.")]
         public string InputDir { get; set; }
     }
