@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using PoViEmu.Common;
@@ -24,7 +25,7 @@ namespace Discover
 
             var addIns = new SortedDictionary<string,
                 IDictionary<string, IDictionary<string, IDictionary<string, List<object>>>>>();
-            var system = new SortedDictionary<string, IDictionary<string, object>>();
+            var system = new SortedDictionary<string, object>();
             var bios = new SortedDictionary<string, object>();
 
             foreach (var file in files)
@@ -81,11 +82,35 @@ namespace Discover
                 {
                     var dInfo = new { File = file, Obj = ReadDump(file, out var dHex, out var dLen) };
                     var dModel = $"{dInfo.Obj.Model}";
-                    if (!system.TryGetValue(dModel, out var dict))
-                        system[dModel] = dict = new SortedDictionary<string, object>();
+                    var dName = Path.GetFileNameWithoutExtension(file).Replace('_', ' ').Title();
 
-                    // Console.WriteLine(JsonHelper.ToJson(dInfo) + " / " + dHex + " / " + dLen);
+                    if (dInfo.Obj.DeviceModel == DumpModel.Unknown && dInfo.Obj.AddIns.Count == 0)
+                    {
+                        if (!bios.TryGetValue(dModel, out var dictB))
+                            bios[dModel] = dictB = new List<object>();
 
+                        var bEntry = new
+                        {
+                            Path = localFile, Name = dName, Size = dLen
+                        };
+
+                        var x = (List<object>)dictB;
+                        x.Add(bEntry);
+                        continue;
+                    }
+
+                    if (!system.TryGetValue(dModel, out var dictS))
+                        system[dModel] = dictS = new List<object>();
+
+                    var dAdds = dInfo.Obj.AddIns.Select(a =>
+                        a.Value.Name.TrimNull() ?? a.Value.Mode.ToString()).ToArray();
+                    var sEntry = new
+                    {
+                        Path = localFile, Name = dName, Size = dLen, AddIns = dAdds
+                    };
+
+                    var y = (List<object>)dictS;
+                    y.Add(sEntry);
                     continue;
                 }
                 catch (Exception)
@@ -98,7 +123,7 @@ namespace Discover
 
             var json = JsonHelper.ToJson(new
             {
-                AddIns = addIns, System = system, Bios = bios
+                /*AddIns = addIns,*/ System = system, Bios = bios
             });
             File.WriteAllText("repo.json", json, Encoding.UTF8);
         }

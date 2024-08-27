@@ -9,6 +9,11 @@ namespace PoViEmu.Common
 {
     public static class TextHelper
     {
+        public static string Title(this string text)
+        {
+            return text[..1].ToUpperInvariant() + text[1..];
+        }
+
         public static string Space(int count)
         {
             return new string(Enumerable.Repeat(' ', count).ToArray());
