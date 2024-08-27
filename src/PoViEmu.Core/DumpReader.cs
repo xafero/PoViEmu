@@ -12,7 +12,7 @@ namespace PoViEmu.Core
         public static DumpInfo Read(byte[] bytes)
         {
             var gotSize = bytes.Length;
-            if (gotSize != HeaderSize)
+            if (gotSize < HeaderSize)
                 throw new InvalidOperationException($"Got {gotSize} bytes instead of {HeaderSize}!");
             var header = Marshalling.Read<DumpHeader>(bytes);
             var result = new DumpInfo(header);
