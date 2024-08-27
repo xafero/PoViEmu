@@ -3,6 +3,17 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Discover</RootNamespace>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <Company>xafero</Company>
+    <AssemblyName>Discovery</AssemblyName>
+    <InformationalVersion>0.1</InformationalVersion>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
+  </ItemGroup>
     
 </Project>
