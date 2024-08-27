@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 using PoViEmu.Common;
 using PoViEmu.Core;
 using PoViEmu.Core.Dumps;
@@ -9,6 +11,8 @@ using SixLabors.ImageSharp;
 
 namespace Discover
 {
+    public record ImageObj(int Width, int Height, byte[] Png);
+
     internal static class ReadBins
     {
         internal static void Run(Options opt)
@@ -17,6 +21,11 @@ namespace Discover
 
             const SearchOption o = SearchOption.AllDirectories;
             var files = Directory.EnumerateFiles(folder, "*.*", o);
+
+            var addIns = new SortedDictionary<string,
+                IDictionary<string, IDictionary<string, IDictionary<string, List<object>>>>>();
+            var system = new SortedDictionary<string, IDictionary<string, object>>();
+            var bios = new SortedDictionary<string, object>();
 
             foreach (var file in files)
             {
@@ -27,12 +36,40 @@ namespace Discover
                 if (IsIgnoredFile(ext))
                     continue;
 
+                var localFile = file.Replace(folder, string.Empty).TrimStart('/');
                 try
                 {
                     var aInfo = new { File = file, Obj = ReadAddIn(file, out var aHex, out var aLen) };
 
-                    Console.WriteLine(JsonHelper.ToJson(aInfo) + " / " + aHex + " / " + aLen);
+                    var aModel = $"{aInfo.Obj.Info.Model}";
+                    if (!addIns.TryGetValue(aModel, out var aDict1))
+                        addIns[aModel] = aDict1 = new SortedDictionary<string,
+                            IDictionary<string, IDictionary<string, List<object>>>>();
 
+                    var aName = aInfo.Obj.Info.Name.ToUpperInvariant();
+                    if (!aDict1.TryGetValue(aName, out var aDict2))
+                        aDict1[aName] = aDict2 = new SortedDictionary<string, IDictionary<string, List<object>>>();
+
+                    var aVer = $"{aInfo.Obj.Info.Version}";
+                    if (!aDict2.TryGetValue(aVer, out var aDict3))
+                        aDict2[aVer] = aDict3 = new SortedDictionary<string, List<object>>();
+
+                    if (!aDict3.TryGetValue(aHex, out var aDict4))
+                        aDict3[aHex] = aDict4 = new List<object>();
+
+                    _ = JsonHelper.ToJson(aInfo);
+
+                    var aEntry = new
+                    {
+                        Path = localFile,
+                        Name = aInfo.Obj.Info.Name,
+                        Version = aInfo.Obj.Info.Version,
+                        Compiled = aInfo.Obj.Info.Compiled,
+                        Size = aLen,
+                        MenuIcon = ReadImage(aInfo.Obj.OffsetIcon),
+                        ListIcon = ReadImage(aInfo.Obj.OffsetLIcon)
+                    };
+                    aDict4.Add(aEntry);
                     continue;
                 }
                 catch (Exception)
@@ -43,8 +80,11 @@ namespace Discover
                 try
                 {
                     var dInfo = new { File = file, Obj = ReadDump(file, out var dHex, out var dLen) };
+                    var dModel = $"{dInfo.Obj.Model}";
+                    if (!system.TryGetValue(dModel, out var dict))
+                        system[dModel] = dict = new SortedDictionary<string, object>();
 
-                    Console.WriteLine(JsonHelper.ToJson(dInfo) + " / " + dHex + " / " + dLen);
+                    // Console.WriteLine(JsonHelper.ToJson(dInfo) + " / " + dHex + " / " + dLen);
 
                     continue;
                 }
@@ -55,6 +95,20 @@ namespace Discover
 
                 Console.Error.WriteLine($" * Could not read '{file}'!");
             }
+
+            var json = JsonHelper.ToJson(new
+            {
+                AddIns = addIns, System = system, Bios = bios
+            });
+            File.WriteAllText("repo.json", json, Encoding.UTF8);
+        }
+
+        private static ImageObj ReadImage(Image image)
+        {
+            using var mem = new MemoryStream();
+            image.SaveAsPng(mem);
+            mem.Flush();
+            return new ImageObj(image.Width, image.Height, mem.ToArray());
         }
 
         private static bool IsIgnoredFile(string ext)
@@ -95,7 +149,7 @@ namespace Discover
 
         private static string HashThis(byte[] bytes)
         {
-            var hash = SHA256.HashData(bytes);
+            var hash = SHA1.HashData(bytes);
             return Convert.ToHexString(hash);
         }
     }
