@@ -4,11 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using PoViEmu.Common;
-using PoViEmu.Core;
 using PoViEmu.Core.Dumps;
-using PoViEmu.Core.Images;
 using PoViEmu.Core.Inventory;
-using SixLabors.ImageSharp;
+using static PoViEmu.Core.Inventory.StockUtil;
 
 namespace Discover
 {
@@ -132,7 +130,7 @@ namespace Discover
             });
             File.WriteAllText("repo.json", json, Encoding.UTF8);
         }
-        
+
         private static bool IsIgnoredFile(string ext)
         {
             return ext == ".json" || ext == ".hex" || ext == ".ttf" || ext == ".png" || ext == ".cs" ||
@@ -146,27 +144,6 @@ namespace Discover
         {
             return file.Contains("/bin/Debug/") || file.Contains("/obj/Debug/") ||
                    file.Contains("/.git/") || file.Contains("/parent/");
-        }
-
-        private static AddInInfoPlus<Image> ReadAddIn(string file, out string hex, out int len)
-        {
-            var bytes = File.ReadAllBytes(file);
-            hex = HashHelper.GetSha(bytes);
-            len = bytes.Length;
-            var info = AddInReader.Read(bytes);
-            var plus = info.WithImages(bytes);
-            return plus;
-        }
-
-        private static DumpInfo ReadDump(string file, out string hex, out int len)
-        {
-            var bytes = File.ReadAllBytes(file);
-            hex = HashHelper.GetSha(bytes);
-            len = bytes.Length;
-            var info = DumpReader.Read(bytes);
-            var mem = new MemoryStream(bytes);
-            info.LoadOsAddIns(mem);
-            return info;
         }
     }
 }
