@@ -16,7 +16,13 @@ namespace Discover
         {
             var folder = Path.GetFullPath(opt.InputDir);
 
-            var container = new RepoEntry();
+            var container = new RepoEntry
+            {
+                AddIn = new(),
+                Bios = new(),
+                System = new()
+            };
+
             var addIns = container.AddIn;
             var system = container.System;
             var bios = container.Bios;
@@ -44,7 +50,7 @@ namespace Discover
                     if (!addIns.TryGetValue(aModel, out var aDict1))
                         addIns[aModel] = aDict1 = new SortedDictionary<string,
                             IDictionary<string, IDictionary<string, List<AddInEntry>>>>();
-                    
+
                     var aLName = aInfo.Obj.Info.Name.TrimNull() ?? localName;
                     var aName = aLName.ToUpperInvariant();
                     if (!aDict1.TryGetValue(aName, out var aDict2))
@@ -86,8 +92,11 @@ namespace Discover
 
                     if (dInfo.Obj.DeviceModel == DumpModel.Unknown && dInfo.Obj.AddIns.Count == 0)
                     {
-                        if (!bios.TryGetValue(dModel, out var dictB))
-                            bios[dModel] = dictB = new List<object>();
+                        if (!bios.TryGetValue(dModel, out var bDict1))
+                            bios[dModel] = bDict1 = new SortedDictionary<string, List<BiosEntry>>();
+
+                        if (!bDict1.TryGetValue(dHex, out var bDict2))
+                            bDict1[dHex] = bDict2 = new List<BiosEntry>();
 
                         var bEntry = new BiosEntry
                         {
@@ -95,14 +104,15 @@ namespace Discover
                             Name = localName,
                             Size = dLen
                         };
-
-                        var x = (List<object>)dictB;
-                        x.Add(bEntry);
+                        bDict2.Add(bEntry);
                         continue;
                     }
 
-                    if (!system.TryGetValue(dModel, out var dictS))
-                        system[dModel] = dictS = new List<object>();
+                    if (!system.TryGetValue(dModel, out var sDict1))
+                        system[dModel] = sDict1 = new SortedDictionary<string, List<SystemEntry>>();
+
+                    if (!sDict1.TryGetValue(dHex, out var sDict2))
+                        sDict1[dHex] = sDict2 = new List<SystemEntry>();
 
                     var dAdds = dInfo.Obj.AddIns.Select(a =>
                         a.Value.Name.TrimNull() ?? a.Value.Mode.ToString()).OrderBy(x => x).ToArray();
@@ -113,9 +123,7 @@ namespace Discover
                         Size = dLen,
                         AddIns = dAdds
                     };
-
-                    var y = (List<object>)dictS;
-                    y.Add(sEntry);
+                    sDict2.Add(sEntry);
                     continue;
                 }
                 catch (Exception)
@@ -126,10 +134,7 @@ namespace Discover
                 Console.Error.WriteLine($" * Could not read '{file}'!");
             }
 
-            var json = JsonHelper.ToJson(new
-            {
-                AddIns = addIns, System = system, Bios = bios
-            });
+            var json = JsonHelper.ToJson(container);
             File.WriteAllText("repo.json", json, Encoding.UTF8);
         }
 

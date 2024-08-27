@@ -9,8 +9,8 @@ namespace PoViEmu.Core.Inventory
         public SortedDictionary<string, IDictionary<string,
             IDictionary<string, IDictionary<string, List<AddInEntry>>>>> AddIn { get; set; }
 
-        [JsonProperty("S")] public SortedDictionary<string, object> System { get; set; }
+        [JsonProperty("S")] public SortedDictionary<string, IDictionary<string, List<SystemEntry>>> System { get; set; }
 
-        [JsonProperty("B")] public SortedDictionary<string, object> Bios { get; set; }
+        [JsonProperty("B")] public SortedDictionary<string, IDictionary<string, List<BiosEntry>>> Bios { get; set; }
     }
 }
