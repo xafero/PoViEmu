@@ -1,15 +1,22 @@
 using System;
+using Newtonsoft.Json;
 
 namespace PoViEmu.Core.Inventory
 {
     public class AddInEntry
     {
-        public string Path { get; set; }
-        public string Name { get; set; }
-        public Version Version { get; set; }
-        public DateTime Compiled { get; set; }
-        public int Size { get; set; }
-        public ImageObj MenuIcon { get; set; }
-        public ImageObj ListIcon { get; set; }
+        [JsonProperty("P")] public string Path { get; set; }
+
+        [JsonProperty("N")] public string Name { get; set; }
+
+        [JsonProperty("V")] public Version Version { get; set; }
+
+        [JsonProperty("C")] public DateTime Compiled { get; set; }
+
+        [JsonProperty("S")] public int Size { get; set; }
+
+        [JsonProperty("M")] public ImageObj MenuIcon { get; set; }
+
+        [JsonProperty("L")] public ImageObj ListIcon { get; set; }
     }
 }

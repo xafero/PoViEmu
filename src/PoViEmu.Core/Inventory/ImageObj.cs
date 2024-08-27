@@ -1,9 +1,13 @@
+using Newtonsoft.Json;
+
 namespace PoViEmu.Core.Inventory
 {
     public class ImageObj
     {
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public byte[] Png { get; set; }
+        [JsonProperty("W")] public int Width { get; set; }
+
+        [JsonProperty("H")] public int Height { get; set; }
+
+        [JsonProperty("P")] public byte[] Png { get; set; }
     }
 }

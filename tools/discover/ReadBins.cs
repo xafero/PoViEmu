@@ -16,13 +16,13 @@ namespace Discover
         {
             var folder = Path.GetFullPath(opt.InputDir);
 
+            var container = new RepoEntry();
+            var addIns = container.AddIn;
+            var system = container.System;
+            var bios = container.Bios;
+
             const SearchOption o = SearchOption.AllDirectories;
             var files = Directory.EnumerateFiles(folder, "*.*", o);
-
-            var addIns = new SortedDictionary<string,
-                IDictionary<string, IDictionary<string, IDictionary<string, List<object>>>>>();
-            var system = new SortedDictionary<string, object>();
-            var bios = new SortedDictionary<string, object>();
 
             foreach (var file in files)
             {
@@ -34,6 +34,8 @@ namespace Discover
                     continue;
 
                 var localFile = file.Replace(folder, string.Empty).TrimStart('/');
+                var localName = Path.GetFileNameWithoutExtension(file).Replace('_', ' ').Title();
+
                 try
                 {
                     var aInfo = new { File = file, Obj = ReadAddIn(file, out var aHex, out var aLen) };
@@ -41,25 +43,26 @@ namespace Discover
                     var aModel = $"{aInfo.Obj.Info.Model}";
                     if (!addIns.TryGetValue(aModel, out var aDict1))
                         addIns[aModel] = aDict1 = new SortedDictionary<string,
-                            IDictionary<string, IDictionary<string, List<object>>>>();
-
-                    var aName = aInfo.Obj.Info.Name.ToUpperInvariant();
+                            IDictionary<string, IDictionary<string, List<AddInEntry>>>>();
+                    
+                    var aLName = aInfo.Obj.Info.Name.TrimNull() ?? localName;
+                    var aName = aLName.ToUpperInvariant();
                     if (!aDict1.TryGetValue(aName, out var aDict2))
-                        aDict1[aName] = aDict2 = new SortedDictionary<string, IDictionary<string, List<object>>>();
+                        aDict1[aName] = aDict2 = new SortedDictionary<string, IDictionary<string, List<AddInEntry>>>();
 
                     var aVer = $"{aInfo.Obj.Info.Version}";
                     if (!aDict2.TryGetValue(aVer, out var aDict3))
-                        aDict2[aVer] = aDict3 = new SortedDictionary<string, List<object>>();
+                        aDict2[aVer] = aDict3 = new SortedDictionary<string, List<AddInEntry>>();
 
                     if (!aDict3.TryGetValue(aHex, out var aDict4))
-                        aDict3[aHex] = aDict4 = new List<object>();
+                        aDict3[aHex] = aDict4 = new List<AddInEntry>();
 
                     _ = JsonHelper.ToJson(aInfo);
 
                     var aEntry = new AddInEntry
                     {
                         Path = localFile,
-                        Name = aInfo.Obj.Info.Name,
+                        Name = aLName,
                         Version = aInfo.Obj.Info.Version,
                         Compiled = aInfo.Obj.Info.Compiled,
                         Size = aLen,
@@ -78,7 +81,6 @@ namespace Discover
                 {
                     var dInfo = new { File = file, Obj = ReadDump(file, out var dHex, out var dLen) };
                     var dModel = $"{dInfo.Obj.Model}";
-                    var dName = Path.GetFileNameWithoutExtension(file).Replace('_', ' ').Title();
 
                     _ = JsonHelper.ToJson(dInfo);
 
@@ -90,7 +92,7 @@ namespace Discover
                         var bEntry = new BiosEntry
                         {
                             Path = localFile,
-                            Name = dName,
+                            Name = localName,
                             Size = dLen
                         };
 
@@ -103,11 +105,11 @@ namespace Discover
                         system[dModel] = dictS = new List<object>();
 
                     var dAdds = dInfo.Obj.AddIns.Select(a =>
-                        a.Value.Name.TrimNull() ?? a.Value.Mode.ToString()).ToArray();
+                        a.Value.Name.TrimNull() ?? a.Value.Mode.ToString()).OrderBy(x => x).ToArray();
                     var sEntry = new SystemEntry
                     {
                         Path = localFile,
-                        Name = dName,
+                        Name = localName,
                         Size = dLen,
                         AddIns = dAdds
                     };
