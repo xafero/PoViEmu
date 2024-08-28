@@ -20,7 +20,7 @@ namespace PoViEmu.UI.ViewModels
             var repo = AppRepo.Instance;
             await repo.Load(root);
 
-            var a1 = repo.SearchAddIn("chess").First();
+            var a1 = repo.SearchAddIn("os").First();
             AddIn.Add(new AddInPlusItem(a1));
 
             var a2 = repo.SearchSystem(a1.Model).First();
