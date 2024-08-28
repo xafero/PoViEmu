@@ -15,5 +15,13 @@ namespace PoViEmu.Common
         {
             return Path.Combine(root, sub);
         }
+
+        public static string MakeDirFor(this string root, string file, params string[] dirs)
+        {
+            var target = Path.Combine(root, Path.Combine(dirs));
+            if (!Directory.Exists(target))
+                Directory.CreateDirectory(target);
+            return Path.Combine(target, file);
+        }
     }
 }
