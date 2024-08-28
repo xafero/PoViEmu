@@ -1,3 +1,4 @@
+using ByteSizeLib;
 using Newtonsoft.Json;
 
 namespace PoViEmu.Core.Inventory
@@ -11,5 +12,8 @@ namespace PoViEmu.Core.Inventory
         [JsonProperty("S")] public int Size { get; set; }
 
         [JsonProperty("A")] public string[] AddIns { get; set; }
+
+        [JsonIgnore] public ByteSize HumanSize => ByteSize.FromBytes(Size);
+        [JsonIgnore] public string HumanAddIns => string.Join(", ", AddIns);
     }
 }

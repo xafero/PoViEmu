@@ -16,16 +16,68 @@
 
     <TabControl Margin="10" TabStripPlacement="Bottom" HorizontalAlignment="Center">
         <TabItem Header="Addins">
-            <TextBlock Margin="15" Text="{Binding AddIn[0]}">
-            </TextBlock>
+            <ItemsControl ItemsSource="{Binding AddIn}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button CornerRadius="25" Padding="15" Background="White">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock TextAlignment="Center" FontWeight="Bold" FontStyle="Italic"
+                                           Text="{Binding Item.Model}" />
+                                <TextBlock Margin="5" TextAlignment="Center"
+                                           FontSize="24" FontWeight="Bold"
+                                           Text="{Binding Item.Entry.Name}" />
+                                <TextBlock Margin="5" TextAlignment="Center"
+                                           FontSize="18" FontWeight="Bold"
+                                           Text="{Binding Item.Entry.Version}" />
+                                <Image Source="{Binding MenuIcon}" MaxHeight="64" />
+                                <TextBlock TextAlignment="Center" Padding="0,4,0,0"
+                                           Text="{Binding Item.Entry.HumanSize}" />
+                            </StackPanel>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </TabItem>
         <TabItem Header="System">
-            <TextBlock Margin="15" Text="{Binding System[0]}">
-            </TextBlock>
+            <ItemsControl ItemsSource="{Binding System}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button CornerRadius="25" Padding="15" Background="White">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock TextAlignment="Center" FontWeight="Bold" FontStyle="Italic"
+                                           Text="{Binding Model}" />
+                                <TextBlock Margin="5" TextAlignment="Center"
+                                           FontSize="24" FontWeight="Bold"
+                                           Text="{Binding Entry.Name}" />
+                                <TextBlock TextAlignment="Center"
+                                           Text="{Binding Entry.HumanSize}" />
+                                <TextBlock TextAlignment="Center" Padding="0,10,0,0"
+                                           Text="{Binding Entry.HumanAddIns}"
+                                           TextWrapping="WrapWithOverflow" />
+                            </StackPanel>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </TabItem>
         <TabItem Header="Bios">
-            <TextBlock Margin="15" Text="{Binding Bios[0]}">
-            </TextBlock>
+            <ItemsControl ItemsSource="{Binding Bios}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button CornerRadius="25" Padding="15" Background="White">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock TextAlignment="Center" FontWeight="Bold" FontStyle="Italic"
+                                           Text="{Binding Model}" />
+                                <TextBlock Margin="5" TextAlignment="Center"
+                                           FontSize="24" FontWeight="Bold"
+                                           Text="{Binding Entry.Name}" />
+                                <TextBlock TextAlignment="Center"
+                                           Text="{Binding Entry.HumanSize}" />
+                            </StackPanel>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </TabItem>
     </TabControl>
 

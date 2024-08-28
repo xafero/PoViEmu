@@ -1,4 +1,5 @@
 using System;
+using ByteSizeLib;
 using Newtonsoft.Json;
 
 namespace PoViEmu.Core.Inventory
@@ -18,5 +19,7 @@ namespace PoViEmu.Core.Inventory
         [JsonProperty("M")] public ImageObj MenuIcon { get; set; }
 
         [JsonProperty("L")] public ImageObj ListIcon { get; set; }
+
+        [JsonIgnore] public ByteSize HumanSize => ByteSize.FromBytes(Size);
     }
 }

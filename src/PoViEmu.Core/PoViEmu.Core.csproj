@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ByteSize" Version="2.1.2" />
     <PackageReference Include="HexIO" Version="3.0.5" />
     <PackageReference Include="Iced" Version="1.21.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="2.1.9" />
@@ -21,8 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Constant Include="Defaults.Repo.Base" Comment="Main repository base"
-              Value="https://raw.githubusercontent.com/klaumit/CasioPocketEmu/main"  />
+    <Constant Include="Defaults.Repo.Base" Comment="Main repository base" Value="https://raw.githubusercontent.com/klaumit/CasioPocketEmu/main" />
   </ItemGroup>
   
 </Project>
