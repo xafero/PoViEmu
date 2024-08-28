@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,22 +19,38 @@ namespace PoViEmu.Core.Inventory
 
         private RepoEntry _repo;
 
-        public async Task Load()
+        public async Task Load(string root)
         {
-            var root = PathHelper.CurrentDir;
-            var repoJsonUrl = $"{_baseUrl}/repo.json";
-            var repoJsonFile = root.MakeDirFor("index.json", "cache", "repo");
-            var text = await WebHelper.GetCachedText(repoJsonUrl, repoJsonFile);
+            var repoUrl = $"{_baseUrl}/repo.json";
+            var repoFile = root.MakeDirFor("index.json", "cache", "repo");
+            var text = await WebHelper.GetCachedText(repoUrl, repoFile);
             _repo = JsonHelper.FromJson<RepoEntry>(text);
         }
 
-        public async Task<CachedItem<T>> GetCached<T>(T item, string file) where T : IRelUrl
+        public async Task<CachedItem<T>> GetCached<T>(string root, T item) where T : IRelUrl
         {
+            string[] dirs;
+            switch (item)
+            {
+                case AddInItem ai:
+                    dirs = ["cache", "addins", ai.Model];
+                    break;
+                case SystemItem si:
+                    dirs = ["cache", "system", si.Model];
+                    break;
+                case BiosItem bi:
+                    dirs = ["cache", "bios", bi.Model];
+                    break;
+                default:
+                    throw new InvalidOperationException(typeof(T).FullName);
+            }
             var itemUrl = item.BuildUrl(_baseUrl);
-            var bytes = await WebHelper.GetCachedBytes(itemUrl, file);
+            var itemName = PathHelper.GetLast(itemUrl);
+            var itemFile = root.MakeDirFor(itemName, dirs);
+            var bytes = await WebHelper.GetCachedBytes(itemUrl, itemFile);
             return new CachedItem<T>(item, bytes);
         }
-        
+
         public IEnumerable<AddInItem> AllAddInEntries()
         {
             foreach (var item1 in _repo.AddIn)

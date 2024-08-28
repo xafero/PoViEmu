@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 
 namespace PoViEmu.Common
 {
@@ -22,6 +23,11 @@ namespace PoViEmu.Common
             if (!Directory.Exists(target))
                 Directory.CreateDirectory(target);
             return Path.Combine(target, file);
+        }
+
+        public static string GetLast(string url)
+        {
+            return url.Split('/').Last();
         }
     }
 }
