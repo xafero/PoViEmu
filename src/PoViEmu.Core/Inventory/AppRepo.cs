@@ -23,10 +23,17 @@ namespace PoViEmu.Core.Inventory
             var root = PathHelper.CurrentDir;
             var repoJsonUrl = $"{_baseUrl}/repo.json";
             var repoJsonFile = root.MakeDirFor("index.json", "cache", "repo");
-            var text = await WebHelper.GetOrDownloadText(repoJsonUrl, repoJsonFile);
+            var text = await WebHelper.GetCachedText(repoJsonUrl, repoJsonFile);
             _repo = JsonHelper.FromJson<RepoEntry>(text);
         }
 
+        public async Task<CachedItem<T>> GetCached<T>(T item, string file) where T : IRelUrl
+        {
+            var itemUrl = item.BuildUrl(_baseUrl);
+            var bytes = await WebHelper.GetCachedBytes(itemUrl, file);
+            return new CachedItem<T>(item, bytes);
+        }
+        
         public IEnumerable<AddInItem> AllAddInEntries()
         {
             foreach (var item1 in _repo.AddIn)
@@ -63,9 +70,25 @@ namespace PoViEmu.Core.Inventory
             => AllBiosEntries().Where(a => a.Model.Contains(model, TextHelper.Ignore));
     }
 
-    public record AddInItem(string Model, string Hash, AddInEntry Entry);
+    public record CachedItem<T>(T Item, byte[] Bytes) where T : IRelUrl;
 
-    public record SystemItem(string Model, string Hash, SystemEntry Entry);
+    public record AddInItem(string Model, string Hash, AddInEntry Entry) : IRelUrl
+    {
+        public string BuildUrl(string @base) => $"{@base}/{Entry.Path}";
+    }
 
-    public record BiosItem(string Model, string Hash, BiosEntry Entry);
+    public record SystemItem(string Model, string Hash, SystemEntry Entry) : IRelUrl
+    {
+        public string BuildUrl(string @base) => $"{@base}/{Entry.Path}";
+    }
+
+    public record BiosItem(string Model, string Hash, BiosEntry Entry) : IRelUrl
+    {
+        public string BuildUrl(string @base) => $"{@base}/{Entry.Path}";
+    }
+
+    public interface IRelUrl
+    {
+        string BuildUrl(string @base);
+    }
 }
