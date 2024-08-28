@@ -29,12 +29,13 @@
             <!-- <vw:EmsView /> -->
         </Panel>
         <Panel DockPanel.Dock="Right">
-            <vw:AddInListView />
+            <!-- <vw:AddInListView /> -->
         </Panel>
         <Panel>
             <!-- <vw:HandheldView /> -->
             <!-- <vw:MinimalView /> -->
-            <vw:AddInView />
+            <!-- <vw:AddInView /> -->
+            <vw:RepoView />
         </Panel>
     </DockPanel>
 
