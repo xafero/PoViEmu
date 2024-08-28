@@ -50,7 +50,7 @@ namespace PoViEmu.Common
             return text
                 .Replace((char)0, ' ')
                 .Replace((char)65533, ' ')
-                .Replace((char)3, ' ')                 
+                .Replace((char)3, ' ')
                 .Replace('ÿ', ' ')
                 .Replace('º', ' ')
                 .Replace('“', ' ')
@@ -148,5 +148,7 @@ namespace PoViEmu.Common
             var txt = new string(chars.ToArray());
             return txt;
         }
+
+        public const StringComparison Ignore = StringComparison.InvariantCultureIgnoreCase;
     }
 }
