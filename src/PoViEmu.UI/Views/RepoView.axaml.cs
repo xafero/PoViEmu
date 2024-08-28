@@ -11,13 +11,13 @@ namespace PoViEmu.UI.Views
             InitializeComponent();
         }
 
-        private void Control_OnLoaded(object? sender, RoutedEventArgs e)
+        private async void Control_OnLoaded(object? sender, RoutedEventArgs e)
         {
             if (DataContext is not RepoViewModel)
                 DataContext = new RepoViewModel();
 
             if (DataContext is RepoViewModel mvm)
-                mvm.Init();
+                await mvm.Init();
         }
     }
 }

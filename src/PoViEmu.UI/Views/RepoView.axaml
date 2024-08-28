@@ -14,9 +14,19 @@
         <vm:RepoViewModel />
     </Design.DataContext>
 
-    <StackPanel>
-        <Button>Hello</Button>
-        <Button>World</Button>
-    </StackPanel>
+    <TabControl Margin="10" TabStripPlacement="Bottom" HorizontalAlignment="Center">
+        <TabItem Header="Addins">
+            <TextBlock Margin="15" Text="{Binding AddIn[0]}">
+            </TextBlock>
+        </TabItem>
+        <TabItem Header="System">
+            <TextBlock Margin="15" Text="{Binding System[0]}">
+            </TextBlock>
+        </TabItem>
+        <TabItem Header="Bios">
+            <TextBlock Margin="15" Text="{Binding Bios[0]}">
+            </TextBlock>
+        </TabItem>
+    </TabControl>
 
 </UserControl>
