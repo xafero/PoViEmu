@@ -61,8 +61,9 @@ namespace PoViEmu.Core.Inventory
                 yield return new(item1.Key, item4.Key, item5);
         }
 
-        public IEnumerable<AddInItem> SearchAddIn(string text)
-            => AllAddInEntries().Where(a => a.Entry.Name.Contains(text, TextHelper.Ignore));
+        public IEnumerable<AddInItem> SearchAddIn(string? text)
+            => AllAddInEntries()
+                .Where(a => text == null || a.Entry.Name.Contains(text, TextHelper.Ignore));
 
         public IEnumerable<SystemItem> AllSystemEntries()
         {
@@ -72,8 +73,9 @@ namespace PoViEmu.Core.Inventory
                 yield return new(item1.Key, item2.Key, item3);
         }
 
-        public IEnumerable<SystemItem> SearchSystem(string model)
-            => AllSystemEntries().Where(a => a.Model.Contains(model, TextHelper.Ignore));
+        public IEnumerable<SystemItem> SearchSystem(string? text)
+            => AllSystemEntries()
+                .Where(a => text == null || a.Model.Contains(text, TextHelper.Ignore));
 
         public IEnumerable<BiosItem> AllBiosEntries()
         {
@@ -83,8 +85,9 @@ namespace PoViEmu.Core.Inventory
                 yield return new(item1.Key, item2.Key, item3);
         }
 
-        public IEnumerable<BiosItem> SearchBios(string model)
-            => AllBiosEntries().Where(a => a.Model.Contains(model, TextHelper.Ignore));
+        public IEnumerable<BiosItem> SearchBios(string? text)
+            => AllBiosEntries()
+                .Where(a => text == null || a.Model.Contains(text, TextHelper.Ignore));
     }
 
     public record CachedItem<T>(T Item, byte[] Bytes) where T : IRelUrl;

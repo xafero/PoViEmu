@@ -85,7 +85,12 @@ namespace PoViEmu.Core.Addins
         QuickForm = 0x0900,
 
         /// <summary>
-        /// IW_MGAME 
+        /// IW_MMAIL
+        /// </summary>
+        Mail = 0x1000,
+
+        /// <summary>
+        /// IW_MGAME
         /// </summary>
         Game = 0x0A00
     }

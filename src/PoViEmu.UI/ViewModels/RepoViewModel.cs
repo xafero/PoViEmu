@@ -20,14 +20,14 @@ namespace PoViEmu.UI.ViewModels
             var repo = AppRepo.Instance;
             await repo.Load(root);
 
-            var a1 = repo.SearchAddIn("os").First();
-            AddIn.Add(new AddInPlusItem(a1));
+            foreach (var item in repo.SearchAddIn(null).Select(i => new AddInPlusItem(i)))
+                AddIn.Add(item);
 
-            var a2 = repo.SearchSystem(a1.Model).First();
-            System.Add(a2);
+            foreach (var item in repo.SearchSystem(null))
+                System.Add(item);
 
-            var a3 = repo.SearchBios(a2.Model).First();
-            Bios.Add(a3);
+            foreach (var item in repo.SearchBios(null))
+                Bios.Add(item);
         }
     }
 }
