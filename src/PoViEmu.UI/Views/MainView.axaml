@@ -34,8 +34,8 @@
         <Panel>
             <!-- <vw:HandheldView /> -->
             <!-- <vw:MinimalView /> -->
-            <!-- <vw:AddInView /> -->
-            <vw:RepoView />
+            <vw:AddInView />
+            <!-- <vw:RepoView /> -->
         </Panel>
     </DockPanel>
 
