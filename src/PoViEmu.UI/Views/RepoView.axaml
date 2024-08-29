@@ -14,12 +14,12 @@
         <vm:RepoViewModel />
     </Design.DataContext>
 
-    <TabControl Margin="10" TabStripPlacement="Bottom" HorizontalAlignment="Center">
-        <TabItem Header="Addins">
+    <TabControl Margin="10" HorizontalContentAlignment="Center">
+        <TabItem Header="AddIns">
             <DataGrid ItemsSource="{Binding AddIn}"
                       FontFamily="{StaticResource MonoFont}"
                       IsReadOnly="True" GridLinesVisibility="All"
-                      HorizontalAlignment="Center">
+                      CanUserResizeColumns="True" CellPointerPressed="OnCellPointerPressed">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>
@@ -32,6 +32,7 @@
                     <DataGridTextColumn Header="Version" Binding="{Binding Item.Entry.Version}" />
                     <DataGridTextColumn Header="Size" Binding="{Binding Item.Entry.HumanSize}" />
                     <DataGridTextColumn Header="Model" Binding="{Binding Item.Model}" />
+                    <DataGridCheckBoxColumn Header="Cached" Binding="{Binding Exists}" />
                 </DataGrid.Columns>
             </DataGrid>
         </TabItem>
@@ -39,12 +40,13 @@
             <DataGrid ItemsSource="{Binding System}"
                       FontFamily="{StaticResource MonoFont}"
                       IsReadOnly="True" GridLinesVisibility="All"
-                      HorizontalAlignment="Center">
+                      CanUserResizeColumns="True" CellPointerPressed="OnCellPointerPressed">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Entry.Name}" />
-                    <DataGridTextColumn Header="Size" Binding="{Binding Entry.HumanSize}" />
-                    <DataGridTextColumn Header="Apps" Binding="{Binding Entry.AddIns.Length}" />
-                    <DataGridTextColumn Header="Model" Binding="{Binding Model}" />
+                    <DataGridTextColumn Header="Name" Binding="{Binding Item.Entry.Name}" />
+                    <DataGridTextColumn Header="Size" Binding="{Binding Item.Entry.HumanSize}" />
+                    <DataGridTextColumn Header="Apps" Binding="{Binding Item.Entry.AddIns.Length}" />
+                    <DataGridTextColumn Header="Model" Binding="{Binding Item.Model}" />
+                    <DataGridCheckBoxColumn Header="Cached" Binding="{Binding Exists}" />
                 </DataGrid.Columns>
             </DataGrid>
         </TabItem>
@@ -52,11 +54,12 @@
             <DataGrid ItemsSource="{Binding Bios}"
                       FontFamily="{StaticResource MonoFont}"
                       IsReadOnly="True" GridLinesVisibility="All"
-                      HorizontalAlignment="Center">
+                      CanUserResizeColumns="True" CellPointerPressed="OnCellPointerPressed">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Entry.Name}" />
-                    <DataGridTextColumn Header="Size" Binding="{Binding Entry.HumanSize}" />
-                    <DataGridTextColumn Header="Model" Binding="{Binding Model}" />
+                    <DataGridTextColumn Header="Name" Binding="{Binding Item.Entry.Name}" />
+                    <DataGridTextColumn Header="Size" Binding="{Binding Item.Entry.HumanSize}" />
+                    <DataGridTextColumn Header="Model" Binding="{Binding Item.Model}" />
+                    <DataGridCheckBoxColumn Header="Cached" Binding="{Binding Exists}" />
                 </DataGrid.Columns>
             </DataGrid>
         </TabItem>

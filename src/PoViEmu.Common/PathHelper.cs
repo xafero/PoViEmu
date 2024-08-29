@@ -24,6 +24,11 @@ namespace PoViEmu.Common
                 Directory.CreateDirectory(target);
             return Path.Combine(target, file);
         }
+        
+        public static string GetDirFor(this string root, string file, params string[] dirs)
+        {
+            return Path.Combine(Path.Combine(root, Path.Combine(dirs)), file);
+        }
 
         public static string GetLast(string url)
         {

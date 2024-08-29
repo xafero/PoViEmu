@@ -6,29 +6,51 @@ using PoViEmu.Common;
 
 namespace PoViEmu.Core.Inventory
 {
+    public sealed class AppConst
+    {
+        public static AppConst Instance { get; } = new();
+
+        private AppConst()
+        {
+            DataRoot = PathHelper.CurrentDir;
+            BaseUrl = ThisAssembly.Constants.Defaults.Repo.Base;
+        }
+
+        public string DataRoot { get; }
+        public string BaseUrl { get; }
+    }
+
     public sealed class AppRepo
     {
         public static AppRepo Instance { get; } = new();
 
-        private readonly string _baseUrl;
-
-        public AppRepo(string baseUrl = ThisAssembly.Constants.Defaults.Repo.Base)
-        {
-            _baseUrl = baseUrl;
-        }
-
         private RepoEntry _repo;
 
-        public async Task Load(string root)
+        public async Task Load()
         {
-            var repoUrl = $"{_baseUrl}/repo.json";
+            var inst = AppConst.Instance;
+            var root = inst.DataRoot;
+            var baseUrl = inst.BaseUrl;
+
+            var repoUrl = $"{baseUrl}/repo.json";
             var repoFile = root.MakeDirFor("index.json", "cache", "repo");
             var text = await WebHelper.GetCachedText(repoUrl, repoFile);
             _repo = JsonHelper.FromJson<RepoEntry>(text);
         }
 
-        public async Task<CachedItem<T>> GetCached<T>(string root, T item) where T : IRelUrl
+        public async Task<CachedItem<T>> GetCached<T>(T item) where T : IRelUrl
         {
+            var (itemUrl, itemFile) = GetFilePath(item, createDir: true);
+            var bytes = await WebHelper.GetCachedBytes(itemUrl, itemFile);
+            return new CachedItem<T>(item, bytes);
+        }
+
+        public (string url, string file) GetFilePath<T>(T item, bool createDir = false) where T : IRelUrl
+        {
+            var inst = AppConst.Instance;
+            var root = inst.DataRoot;
+            var baseUrl = inst.BaseUrl;
+
             string[] dirs;
             switch (item)
             {
@@ -44,11 +66,10 @@ namespace PoViEmu.Core.Inventory
                 default:
                     throw new InvalidOperationException(typeof(T).FullName);
             }
-            var itemUrl = item.BuildUrl(_baseUrl);
+            var itemUrl = item.BuildUrl(baseUrl);
             var itemName = PathHelper.GetLast(itemUrl);
-            var itemFile = root.MakeDirFor(itemName, dirs);
-            var bytes = await WebHelper.GetCachedBytes(itemUrl, itemFile);
-            return new CachedItem<T>(item, bytes);
+            var itemFile = createDir ? root.MakeDirFor(itemName, dirs) : root.GetDirFor(itemName, dirs);
+            return (itemUrl, itemFile);
         }
 
         public IEnumerable<AddInItem> AllAddInEntries()
