@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using PoViEmu.Common;
+using PoViEmu.Core.Decoding;
 using PoViEmu.UI.Models;
+
 // using PoViEmu.X86Decoding;
 
 namespace PoViEmu.UI.ViewModels
@@ -19,7 +21,10 @@ namespace PoViEmu.UI.ViewModels
             var file = stuffDir.GetChild("sample.bin");
 
             using var stream = File.OpenRead(file);
-            var lines = new string[0]; //stream.Disassemble(skip: 1524, err: false).ToLines();
+            stream.Seek(1524, SeekOrigin.Begin);
+
+            using var reader = new MemCodeReader(stream);
+            var lines = reader.Decode().Select(t => t.ToString());
             var objects = lines.Select(l =>
             {
                 var parts = TextHelper.SplitOn(l);
