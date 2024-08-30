@@ -6,20 +6,6 @@ using PoViEmu.Common;
 
 namespace PoViEmu.Core.Inventory
 {
-    public sealed class AppConst
-    {
-        public static AppConst Instance { get; } = new();
-
-        private AppConst()
-        {
-            DataRoot = PathHelper.CurrentDir;
-            BaseUrl = ThisAssembly.Constants.Defaults.Repo.Base;
-        }
-
-        public string DataRoot { get; }
-        public string BaseUrl { get; }
-    }
-
     public sealed class AppRepo
     {
         public static AppRepo Instance { get; } = new();
@@ -109,27 +95,5 @@ namespace PoViEmu.Core.Inventory
         public IEnumerable<BiosItem> SearchBios(string? text)
             => AllBiosEntries()
                 .Where(a => text == null || a.Model.Contains(text, TextHelper.Ignore));
-    }
-
-    public record CachedItem<T>(T Item, byte[] Bytes) where T : IRelUrl;
-
-    public record AddInItem(string Model, string Hash, AddInEntry Entry) : IRelUrl
-    {
-        public string BuildUrl(string @base) => $"{@base}/{Entry.Path}";
-    }
-
-    public record SystemItem(string Model, string Hash, SystemEntry Entry) : IRelUrl
-    {
-        public string BuildUrl(string @base) => $"{@base}/{Entry.Path}";
-    }
-
-    public record BiosItem(string Model, string Hash, BiosEntry Entry) : IRelUrl
-    {
-        public string BuildUrl(string @base) => $"{@base}/{Entry.Path}";
-    }
-
-    public interface IRelUrl
-    {
-        string BuildUrl(string @base);
     }
 }

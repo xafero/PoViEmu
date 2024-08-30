@@ -14,9 +14,9 @@ namespace PoViEmu.Common
             return text[..1].ToUpperInvariant() + text[1..];
         }
 
-        public static string Space(int count)
+        public static string Space(int count, char c = ' ')
         {
-            return new string(Enumerable.Repeat(' ', count).ToArray());
+            return new string(Enumerable.Repeat(c, count).ToArray());
         }
 
         public static string ToText(string file)
@@ -150,5 +150,11 @@ namespace PoViEmu.Common
         }
 
         public const StringComparison Ignore = StringComparison.InvariantCultureIgnoreCase;
+
+        public static string AddSpaceTo(this string rawText, int size)
+        {
+            var text = rawText.Trim();
+            return text + Space(size - text.Length);
+        }
     }
 }
