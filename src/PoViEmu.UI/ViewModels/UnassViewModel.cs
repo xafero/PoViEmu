@@ -24,7 +24,7 @@ namespace PoViEmu.UI.ViewModels
             stream.Seek(1524, SeekOrigin.Begin);
 
             using var reader = new MemCodeReader(stream);
-            var lines = reader.Decode().Select(t => t.ToString());
+            var lines = reader.Decode(0x0).Select(t => t.ToString());
             var objects = lines.Select(l =>
             {
                 var parts = TextHelper.SplitOn(l);

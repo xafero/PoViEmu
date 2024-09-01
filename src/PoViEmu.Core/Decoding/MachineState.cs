@@ -5,7 +5,6 @@ using System.Text;
 using Newtonsoft.Json;
 using PoViEmu.Common;
 using System.IO;
-using PoViEmu.Core.Decoding;
 
 // ReSharper disable UnassignedField.Global
 // ReSharper disable InconsistentNaming
@@ -207,7 +206,7 @@ namespace PoViEmu.Core.Decoding
                 (off: item.Key, vals: item.Value.Select((val, i) =>
                     (addr: (ushort)(item.Key + i * 2), val))));
 
-        public override string ToString() => ToString(Environment.NewLine);
+        public override string ToString() => ToString(" ");
 
         public string ToString(string sep)
         {
