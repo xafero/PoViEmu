@@ -151,10 +151,10 @@ namespace PoViEmu.Common
 
         public const StringComparison Ignore = StringComparison.InvariantCultureIgnoreCase;
 
-        public static string AddSpaceTo(this string rawText, int size)
+        public static string AddSpaceTo(this string rawText, int size, char c = ' ')
         {
             var text = rawText.Trim();
-            return text + Space(size - text.Length);
+            return text + Space(size - text.Length, c);
         }
 
         public static string DecodeChars(this byte[] line)
