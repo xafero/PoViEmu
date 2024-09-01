@@ -11,14 +11,4 @@ namespace PoViEmu.UI.Models
         [JsonIgnore] public Bitmap MenuIcon => Item.Entry.MenuIcon.Png.LoadImage();
         [JsonIgnore] public bool Exists => File.Exists(AppRepo.Instance.GetFilePath(Item).file);
     }
-
-    public record SystemPlusItem(SystemItem Item)
-    {
-        [JsonIgnore] public bool Exists => File.Exists(AppRepo.Instance.GetFilePath(Item).file);
-    }
-
-    public record BiosPlusItem(BiosItem Item)
-    {
-        [JsonIgnore] public bool Exists => File.Exists(AppRepo.Instance.GetFilePath(Item).file);
-    }
 }
