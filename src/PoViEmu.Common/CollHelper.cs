@@ -9,5 +9,24 @@ namespace PoViEmu.Common
         {
             return maxCount >= 1 ? items.Take(maxCount) : items;
         }
+
+        public static IEnumerable<T[]> SplitIt<T>(this IEnumerable<T> items, int count)
+        {
+            var res = new List<T>();
+            foreach (var item in items)
+            {
+                res.Add(item);
+                if (res.Count != count)
+                    continue;
+                var array = res.ToArray();
+                res.Clear();
+                yield return array;
+            }
+            if (res.Count == 0)
+                yield break;
+            var last = res.ToArray();
+            res.Clear();
+            yield return last;
+        }
     }
 }
