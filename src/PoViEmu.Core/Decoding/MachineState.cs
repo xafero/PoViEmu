@@ -210,10 +210,10 @@ namespace PoViEmu.Core.Decoding
 
         public string ToString(string sep)
         {
-            var stack = string.Join(",", Stack.Select(x =>
-                $"SS:{x.Key:X4} #{x.Value.Count * 2}"));
-            var memory = string.Join(",", Memory.SelectMany(x =>
-                x.Value.Select(k => $"{x.Key:X4}:{k.Key:X4} #{k.Value.Count}")));
+            var stack = string.Join(",", Stack?.Select(x =>
+                $"SS:{x.Key:X4} #{x.Value.Count * 2}") ?? []);
+            var memory = string.Join(",", Memory?.SelectMany(x =>
+                x.Value.Select(k => $"{x.Key:X4}:{k.Key:X4} #{k.Value.Count}")) ?? []);
             return $"AX={AX:x4}{sep}BX={BX:x4}{sep}CX={CX:x4}{sep}DX={DX:x4}{sep}" +
                    $"SI={SI:x4}{sep}DI={DI:x4}{sep}DS={DS:x4}{sep}ES={ES:x4}{sep}" +
                    $"SS={SS:x4}{sep}SP={SP:x4}{sep}BP={BP:x4}{sep}CS={CS:x4}{sep}" +
