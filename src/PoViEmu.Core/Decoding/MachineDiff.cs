@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using PoViEmu.Common;
-using PoViEmu.Core.Decoding;
 
 // ReSharper disable InconsistentNaming
 
