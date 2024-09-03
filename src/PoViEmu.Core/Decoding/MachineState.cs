@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
-using PoViEmu.Common;
-using System.IO;
 
 // ReSharper disable UnassignedField.Global
 // ReSharper disable InconsistentNaming
@@ -151,60 +147,9 @@ namespace PoViEmu.Core.Decoding
         public Dictionary<ushort, IDictionary<ushort, List<byte>>> Memory;
 
         /* For debugging */
-        public string ToMemoryString() => ToMemoryString(Environment.NewLine);
-
-        public string ToMemoryString(string sep)
-        {
-            var bld = new StringBuilder();
-            const int step = 16;
-            foreach (var seg in Memory)
-            foreach (var off in seg.Value)
-            {
-                var i = 0;
-                foreach (var line in off.Value.SplitIt(step))
-                {
-                    var text = $"{seg.Key:X4}:{off.Key + (i * step):X4}   " +
-                               $"{string.Join(" ", line.Select(b => $"{b:X2}"))}   " +
-                               $"{line.DecodeChars()}";
-                    bld.Append(text);
-                    bld.Append(sep);
-                    i++;
-                }
-            }
-            return bld.ToString();
-        }
-
-        public string ToCodeString() => ToCodeString(Environment.NewLine);
-
-        public string ToCodeString(string sep)
-        {
-            var bld = new StringBuilder();
-            foreach (var seg in Memory)
-            foreach (var off in seg.Value)
-            {
-                using var mem = new MemoryStream(off.Value.ToArray());
-                using var reader = new MemCodeReader(mem);
-                foreach (var item in reader.Decode(off.Key))
-                {
-                    var text = item.ToString($"{seg.Key:X4}:");
-                    bld.Append(text);
-                    bld.Append(sep);
-                }
-            }
-            return bld.ToString();
-        }
-
-        public string ToStackString() => ToStackString(" ");
-
-        public string ToStackString(string sep)
-            => string.Join(sep, StackVals.Select(t
-                => $"SS:{t.o:X4} {string.Join(" ", t.v.Select(x => $"{x.val:x4}"))}"));
-
-        [JsonIgnore]
-        public IEnumerable<(ushort o, IEnumerable<(ushort addr, ushort val)> v)> StackVals
-            => Stack.Select(item =>
-                (off: item.Key, vals: item.Value.Select((val, i) =>
-                    (addr: (ushort)(item.Key + i * 2), val))));
+        public string ToMemoryString() => this.ToMemoryString(Environment.NewLine);
+        public string ToCodeString() => this.ToCodeString(Environment.NewLine);
+        public string ToStackString() => this.ToStackString(" ");
 
         public override string ToString() => ToString(" ");
 
