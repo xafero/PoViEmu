@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 // ReSharper disable UnassignedField.Global
 // ReSharper disable InconsistentNaming
@@ -11,129 +10,129 @@ namespace PoViEmu.Core.Decoding
         /// <summary>
         /// Accumulator Register
         /// </summary>
-        public ushort AX;
+        public ushort AX = 0;
 
         /// <summary>
         /// Base Register
         /// </summary>
-        public ushort BX;
+        public ushort BX = 0;
 
         /// <summary>
         /// Count Register
         /// </summary>
-        public ushort CX;
+        public ushort CX = 0;
 
         /// <summary>
         /// Data Register
         /// </summary>
-        public ushort DX;
+        public ushort DX = 0;
 
         /// <summary>
         /// Source Index         
         /// </summary>
-        public ushort SI;
+        public ushort SI = 0;
 
         /// <summary>
         /// Destination Index 
         /// </summary>
-        public ushort DI;
+        public ushort DI = 0;
 
         /// <summary>
         /// Data Segment           
         /// </summary>
-        public ushort DS;
+        public ushort DS = 0;
 
         /// <summary>
         /// Extra Segment 
         /// </summary>
-        public ushort ES;
+        public ushort ES = 0;
 
         /// <summary>
         /// Stack Segment              
         /// </summary>
-        public ushort SS;
+        public ushort SS = 0;
 
         /// <summary>
         /// Stack Pointer    
         /// </summary>
-        public ushort SP;
+        public ushort SP = 0;
 
         /// <summary>
         /// Base Pointer             
         /// </summary>
-        public ushort BP;
+        public ushort BP = 0;
 
         /// <summary>
         /// Code Segment               
         /// </summary>
-        public ushort CS;
+        public ushort CS = 0;
 
         /// <summary>
         /// Instruction Pointer     
         /// </summary>
-        public ushort IP;
+        public ushort IP = 0;
 
         /// <summary>
         /// Carry Flag
         /// </summary>
-        public bool CF;
+        public bool CF = false;
 
         /// <summary>
         /// Zero Flag
         /// </summary>
-        public bool ZF;
+        public bool ZF = false;
 
         /// <summary>
         /// Sign Flag
         /// </summary>
-        public bool SF;
+        public bool SF = false;
 
         /// <summary>
         /// Direction Flag
         /// </summary>
-        public bool DF;
+        public bool DF = false;
 
         /// <summary>
         /// Interrupt Enable Flag
         /// </summary>
-        public bool IF;
+        public bool IF = false;
 
         /// <summary>
         /// Overflow Flag
         /// </summary>
-        public bool OF;
+        public bool OF = false;
 
         /// <summary>
         /// Parity Flag
         /// </summary>
-        public bool PF;
+        public bool PF = false;
 
         /// <summary>
         /// Auxiliary Carry Flag
         /// </summary>
-        public bool AF;
+        public bool AF = false;
 
         /* Ems */
-        public ushort Bank0;
-        public ushort Bank1;
-        public ushort Bank2;
-        public ushort Bank3;
-        public ushort Bank4;
-        public ushort Bank5;
-        public ushort Bank6;
+        public ushort Bank0 = 0;
+        public ushort Bank1 = 0;
+        public ushort Bank2 = 0;
+        public ushort Bank3 = 0;
+        public ushort Bank4 = 0;
+        public ushort Bank5 = 0;
+        public ushort Bank6 = 0;
 
-        public ushort Frame0;
-        public ushort Frame1;
-        public ushort Frame2;
-        public ushort Frame3;
-        public ushort Frame4;
-        public ushort Frame5;
-        public ushort Frame6;
-        public ushort Frame7;
-        public ushort Frame8;
-        public ushort Frame9;
-        public ushort Frame10;
-        public ushort Frame11;
+        public ushort Frame0 = 0;
+        public ushort Frame1 = 0;
+        public ushort Frame2 = 0;
+        public ushort Frame3 = 0;
+        public ushort Frame4 = 0;
+        public ushort Frame5 = 0;
+        public ushort Frame6 = 0;
+        public ushort Frame7 = 0;
+        public ushort Frame8 = 0;
+        public ushort Frame9 = 0;
+        public ushort Frame10 = 0;
+        public ushort Frame11 = 0;
 
         /// <summary>
         /// The stack
@@ -145,28 +144,12 @@ namespace PoViEmu.Core.Decoding
         /// </summary>
         public Dictionary<ushort, IDictionary<ushort, List<byte>>> Memory;
 
-        public override string ToString() => ToString(" ");
-
-        public string ToString(string sep)
+        public MachineState()
         {
-            var stack = string.Join(",", Stack?.Select(x =>
-                $"SS:{x.Key:X4} #{x.Value.Count * 2}") ?? []);
-            var memory = string.Join(",", Memory?.SelectMany(x =>
-                x.Value.Select(k => $"{x.Key:X4}:{k.Key:X4} #{k.Value.Count}")) ?? []);
-            return $"AX={AX:x4}{sep}BX={BX:x4}{sep}CX={CX:x4}{sep}DX={DX:x4}{sep}" +
-                   $"SI={SI:x4}{sep}DI={DI:x4}{sep}DS={DS:x4}{sep}ES={ES:x4}{sep}" +
-                   $"SS={SS:x4}{sep}SP={SP:x4}{sep}BP={BP:x4}{sep}CS={CS:x4}{sep}" +
-                   $"IP={IP:x4}{sep}CF={(CF ? 1 : 0)}{sep}ZF={(ZF ? 1 : 0)}{sep}" +
-                   $"SF={(SF ? 1 : 0)}{sep}DF={(DF ? 1 : 0)}{sep}" +
-                   $"IF={(IF ? 1 : 0)}{sep}OF={(OF ? 1 : 0)}{sep}" +
-                   $"PF={(PF ? 1 : 0)}{sep}AF={(AF ? 1 : 0)}{sep}" +
-                   $"B0={Bank0:x4}{sep}B1={Bank1:x4}{sep}B2={Bank2:x4}{sep}" +
-                   $"B3={Bank3:x4}{sep}B4={Bank4:x4}{sep}B5={Bank5:x4}{sep}" +
-                   $"B6={Bank6:x4}{sep}F0={Frame0:x4}{sep}F1={Frame1:x4}{sep}" +
-                   $"F2={Frame2:x4}{sep}F3={Frame3:x4}{sep}F4={Frame4:x4}{sep}" +
-                   $"F5={Frame5:x4}{sep}F6={Frame6:x4}{sep}F7={Frame7:x4}{sep}" +
-                   $"F8={Frame8:x4}{sep}F9={Frame9:x4}{sep}F10={Frame10:x4}{sep}" +
-                   $"F11={Frame11:x4}{sep}Stack=({stack}){sep}Memory=({memory})";
+            Stack = new();
+            Memory = new();
         }
+
+        public override string ToString() => this.ToRegisterString(" ");
     }
 }
