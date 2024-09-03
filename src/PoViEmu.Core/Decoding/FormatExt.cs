@@ -7,7 +7,7 @@ using PoViEmu.Common;
 
 namespace PoViEmu.Core.Decoding
 {
-    public static class DiffExt
+    public static class FormatExt
     {
         public static string ToAllToString(this MachineState state)
         {
@@ -21,10 +21,7 @@ namespace PoViEmu.Core.Decoding
             bld.AppendLine();
             return bld.ToString();
         }
-    }
-    
-    public static class FormatExt
-    {
+
         public static string ToMemoryString(this MachineState s, string? rawSep = null)
         {
             var sep = rawSep ?? Environment.NewLine;

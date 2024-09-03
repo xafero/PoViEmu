@@ -1,16 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using DiffPlex.DiffBuilder;
 using DiffPlex.DiffBuilder.Model;
-using PoViEmu.Common;
 
 namespace PoViEmu.Core.Diffs
 {
-    public record DiffValue(string Key, string? Old, string? New);
-
-    public record DiffLine(char Mod, string Key, string Val);
-
     public static class DiffUtil
     {
         public static IEnumerable<DiffValue> Check(string before, string after)
