@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -145,11 +144,6 @@ namespace PoViEmu.Core.Decoding
         /// The memory
         /// </summary>
         public Dictionary<ushort, IDictionary<ushort, List<byte>>> Memory;
-
-        /* For debugging */
-        public string ToMemoryString() => this.ToMemoryString(Environment.NewLine);
-        public string ToCodeString() => this.ToCodeString(Environment.NewLine);
-        public string ToStackString() => this.ToStackString(" ");
 
         public override string ToString() => ToString(" ");
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,8 +9,9 @@ namespace PoViEmu.Core.Decoding
 {
     public static class FormatExt
     {
-        public static string ToMemoryString(this MachineState s, string sep)
+        public static string ToMemoryString(this MachineState s, string? rawSep = null)
         {
+            var sep = rawSep ?? Environment.NewLine;
             var bld = new StringBuilder();
             const int step = 16;
             foreach (var seg in s.Memory)
@@ -29,8 +31,9 @@ namespace PoViEmu.Core.Decoding
             return bld.ToString();
         }
 
-        public static string ToCodeString(this MachineState s, string sep)
+        public static string ToCodeString(this MachineState s, string? rawSep = null)
         {
+            var sep = rawSep ?? Environment.NewLine;
             var bld = new StringBuilder();
             foreach (var seg in s.Memory)
             foreach (var off in seg.Value)
@@ -47,9 +50,21 @@ namespace PoViEmu.Core.Decoding
             return bld.ToString();
         }
 
-        public static string ToStackString(this MachineState s, string sep)
-            => string.Join(sep, s.GetStackVals().Select(t
-                => $"SS:{t.o:X4} {string.Join(" ", t.v.Select(x => $"{x.val:x4}"))}"));
+        public static string ToStackString(this MachineState s, string? rawSep = null)
+        {
+            var sep = rawSep ?? Environment.NewLine;
+            var bld = new StringBuilder();
+            foreach (var (_, vals) in s.GetStackVals())
+            {
+                foreach (var t in vals)
+                {
+                    var text = $"SS:{t.addr:X4}   {t.val:x4}";
+                    bld.Append(text);
+                    bld.Append(sep);
+                }
+            }
+            return bld.ToString();
+        }
 
         public static IEnumerable<(ushort o, IEnumerable<(ushort addr, ushort val)> v)>
             GetStackVals(this MachineState s)
