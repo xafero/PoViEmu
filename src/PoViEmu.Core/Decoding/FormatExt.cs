@@ -7,6 +7,22 @@ using PoViEmu.Common;
 
 namespace PoViEmu.Core.Decoding
 {
+    public static class DiffExt
+    {
+        public static string ToAllToString(this MachineState state)
+        {
+            var bld = new StringBuilder();
+            var nl = Environment.NewLine;
+            bld.Append(state.ToRegisterString(nl));
+            bld.AppendLine();
+            bld.Append(state.ToStackString());
+            bld.AppendLine();
+            bld.Append(state.ToMemoryString());
+            bld.AppendLine();
+            return bld.ToString();
+        }
+    }
+    
     public static class FormatExt
     {
         public static string ToMemoryString(this MachineState s, string? rawSep = null)
