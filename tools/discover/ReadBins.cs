@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using PoViEmu.Common;
+using PoViEmu.Core;
 using PoViEmu.Core.Dumps;
 using PoViEmu.Core.Inventory;
 using static PoViEmu.Core.Inventory.StockUtil;
@@ -87,7 +88,7 @@ namespace Discover
 
                 try
                 {
-                    var dInfo = new { File = file, Obj = ReadDump(file, out var dHex, out var dLen) };
+                    var dInfo = new { File = file, Obj = ReadDeviceDump(file, out var dHex, out var dLen) };
                     var dModel = $"{dInfo.Obj.Model}";
 
                     _ = JsonHelper.ToJson(dInfo);
@@ -117,7 +118,7 @@ namespace Discover
                         sDict1[dHex] = sDict2 = new List<SystemEntry>();
 
                     var dAdds = dInfo.Obj.AddIns.Select(a =>
-                        a.Value.Name.TrimNull() ?? a.Value.Mode.ToString()).OrderBy(x => x).ToArray();
+                        a.Value.GetName()).OrderBy(x => x).ToArray();
                     var sEntry = new SystemEntry
                     {
                         Path = localFile,

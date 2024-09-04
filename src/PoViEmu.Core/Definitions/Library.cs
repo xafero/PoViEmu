@@ -8,10 +8,10 @@ namespace PoViEmu.Core.Definitions
         public static List<DeviceDef> GetAllDevices()
         {
             const string soc = "NC3022";
-            const string hit = "SH3_7709";
+            // const string hit = "SH3_7709";
             const string rs = "RS232";
             const string ird = "IrDA";
-            const string usb = "USB1";
+            // const string usb = "USB1";
             ScreenSize size = new(160, 160);
 
             var list = new List<DeviceDef>
@@ -37,10 +37,10 @@ namespace PoViEmu.Core.Definitions
                 new("PV-S400+", 2002, "G501", soc,
                     B.FromMebiBytes(4), size, rs, "USA"),
                 new("PV-S600+", 2002, "G501", soc,
-                    B.FromMebiBytes(6), size, rs, "USA"),
-
-                new("PV-S1600", 2003, "EDV20", hit,
-                    B.FromMebiBytes(12), size, usb, "World")
+                    B.FromMebiBytes(6), size, rs, "USA")
+                
+                /*, new("PV-S1600", 2003, "EDV20", hit,
+                    B.FromMebiBytes(12), size, usb, "World") */
             };
 
             return list;

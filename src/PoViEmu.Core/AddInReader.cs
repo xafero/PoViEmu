@@ -47,5 +47,10 @@ namespace PoViEmu.Core
         {
             return info._real;
         }
+
+        public static string GetName(this AddInInfo info)
+        {
+            return info.Name.TrimNull() ?? info.Mode.ToString();
+        }
     }
 }
