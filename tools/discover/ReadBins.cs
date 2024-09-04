@@ -20,12 +20,14 @@ namespace Discover
             {
                 AddIn = new(),
                 Bios = new(),
-                System = new()
+                System = new(),
+                Chip = new()
             };
 
             var addIns = container.AddIn;
             var system = container.System;
             var bios = container.Bios;
+            var chip = container.Chip;
 
             const SearchOption o = SearchOption.AllDirectories;
             var files = Directory.EnumerateFiles(folder, "*.*", o);
@@ -129,6 +131,28 @@ namespace Discover
                 catch (Exception)
                 {
                     // ignored
+                }
+
+                var tmp = "/Chips/";
+                if (file.Contains(tmp))
+                {
+                    var cModel = file.Split(tmp)[1].Split('/', 2).First();
+                    _ = ReadOther(file, out var cHex, out var cLen);
+
+                    if (!chip.TryGetValue(cModel, out var cDict1))
+                        chip[cModel] = cDict1 = new SortedDictionary<string, List<ChipEntry>>();
+
+                    if (!cDict1.TryGetValue(cHex, out var cDict2))
+                        cDict1[cHex] = cDict2 = new List<ChipEntry>();
+
+                    var cEntry = new ChipEntry
+                    {
+                        Path = localFile,
+                        Name = localName,
+                        Size = cLen
+                    };
+                    cDict2.Add(cEntry);
+                    continue;
                 }
 
                 Console.Error.WriteLine($" * Could not read '{file}'!");

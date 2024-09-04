@@ -12,5 +12,7 @@ namespace PoViEmu.Core.Inventory
         [JsonProperty("S")] public SortedDictionary<string, IDictionary<string, List<SystemEntry>>> System { get; set; }
 
         [JsonProperty("B")] public SortedDictionary<string, IDictionary<string, List<BiosEntry>>> Bios { get; set; }
+        
+        [JsonProperty("C")] public SortedDictionary<string, IDictionary<string, List<ChipEntry>>> Chip { get; set; }
     }
 }

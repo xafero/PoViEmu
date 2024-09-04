@@ -41,5 +41,13 @@ namespace PoViEmu.Core.Inventory
             info.LoadOsAddIns(mem);
             return info;
         }
+
+        public static byte[] ReadOther(string file, out string hex, out int len)
+        {
+            var bytes = File.ReadAllBytes(file);
+            hex = HashHelper.GetSha(bytes);
+            len = bytes.Length;
+            return bytes;
+        }
     }
 }
