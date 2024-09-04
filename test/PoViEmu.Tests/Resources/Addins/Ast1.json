@@ -1,0 +1,16 @@
+{
+  "Signature": "CASIO",
+  "Model": "Z486",
+  "HeaderVersion": "1.0",
+  "Status": "Regular",
+  "Mode": "SdkBuilt",
+  "Name": "asstest",
+  "Size": 2148,
+  "Compiled": "2024-08-23T22:36:00",
+  "Version": "1.1",
+  "Library": "2000-02-15T09:40:00",
+  "LibraryVersion": "1.0",
+  "OffsetIcon": 1888,
+  "OffsetLIcon": 2064,
+  "UserComment": ""
+}

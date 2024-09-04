@@ -9,6 +9,8 @@ namespace PoViEmu.Tests
         [Theory]
         [InlineData("Small")]
         [InlineData("Hello")]
+        [InlineData("Ast1")]
+        [InlineData("Ast2")]
         public void ShouldRead(string fileName)
         {
             var dir = Path.Combine("Resources", "Addins");
