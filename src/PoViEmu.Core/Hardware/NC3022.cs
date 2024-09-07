@@ -1,8 +1,6 @@
 using System;
 using Iced.Intel;
-using PoViEmu.Common;
 using PoViEmu.Core.Decoding;
-using R = Iced.Intel.Register;
 using OK = Iced.Intel.OpKind;
 
 // ReSharper disable InconsistentNaming
@@ -11,7 +9,7 @@ namespace PoViEmu.Core.Hardware
 {
     public sealed class NC3022
     {
-        public void Execute(MachineState s, Instruction i)
+        public void Execute(ref MachineState s, Instruction i)
         {
             var m = i.Mnemonic;
             switch (m)

@@ -1,8 +1,6 @@
 using System;
 using System.Linq;
-using System.Text;
 using Iced.Intel;
-using PoViEmu.Common;
 using R = Iced.Intel.Register;
 using OK = Iced.Intel.OpKind;
 
