@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using Tomlyn;
 
 // ReSharper disable InconsistentNaming
@@ -58,7 +60,7 @@ namespace PoViEmu.Core.Decoding
             ConvertPropertyName = name => name.ToUpperInvariant()
         };
 
-        public static string SerializeState(this MachineState state)
+        public static string SerializeState(this MachineState state, string root)
         {
             var model = new StateModel
             {
@@ -103,13 +105,13 @@ namespace PoViEmu.Core.Decoding
                 F10 = state.Frame10.AsHex(),
                 F11 = state.Frame11.AsHex(),
                 Stack = state.Stack.AsHex(),
-                Memory = state.Memory.AsHex()
+                Memory = state.Memory.AsHex(root)
             };
             var text = Toml.FromModel(model, Opt);
             return text;
         }
 
-        public static MachineState DeserializeState(this string text)
+        public static MachineState DeserializeState(this string text, string root)
         {
             var model = Toml.ToModel<StateModel>(text, null, Opt);
             var state = new MachineState
@@ -155,9 +157,17 @@ namespace PoViEmu.Core.Decoding
                 Frame10 = model.F10.AsUShort(),
                 Frame11 = model.F11.AsUShort(),
                 Stack = model.Stack.AsUShort(),
-                Memory = model.Memory.AsUShort()
+                Memory = model.Memory.AsUShort(root)
             };
             return state;
+        }
+
+        public static MachineState ReadFile(string file)
+        {
+            var root = Path.GetDirectoryName(file) ?? string.Empty;
+            var text = File.ReadAllText(file, Encoding.UTF8);
+            var model = DeserializeState(text, root);
+            return model;
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace PoViEmu.Core.Decoding
@@ -45,36 +46,38 @@ namespace PoViEmu.Core.Decoding
                 v => v.Value.Select(i => i.AsUShort()).ToList());
 
         public static Dictionary<ushort, Dictionary<ushort, IMemBlob>> AsUShort(this
-            Dictionary<string, Dictionary<string, string[]>> d)
+            Dictionary<string, Dictionary<string, string[]>> d, string root)
             => d.ToDictionary(k => k.Key.AsUShort(),
                 v => v.Value.ToDictionary(w => w.Key.AsUShort(),
-                    u => FromStringArray(u.Value)));
+                    u => FromStringArray(u.Value, root)));
 
         public static Dictionary<string, Dictionary<string, string[]>> AsHex(this
-            Dictionary<ushort, Dictionary<ushort, IMemBlob>> d)
+            Dictionary<ushort, Dictionary<ushort, IMemBlob>> d, string root)
             => d.ToDictionary(k => k.Key.AsHex(),
                 v => v.Value.ToDictionary(w => w.Key.AsHex(),
-                    u => ToStringArray(u.Value)));
+                    u => ToStringArray(u.Value, root)));
 
-        private static string[] ToStringArray(IMemBlob obj)
+        private static string[] ToStringArray(IMemBlob obj, string root)
         {
             if (obj is MemFile mf)
             {
-                var path = mf.Path;
+                var path = Path.GetRelativePath(root, mf.Path);
                 var offset = mf.Offset;
-                return [path, $"{offset}"];
+                var length = mf.Length;
+                return [path, $"{offset}", $"{length}"];
             }
             var bytes = obj.GetBytes();
             return bytes.Select(i => i.AsHex()).ToArray();
         }
 
-        private static IMemBlob FromStringArray(string[] array)
+        private static IMemBlob FromStringArray(string[] array, string root)
         {
-            if (array.Length == 2 && !array[0].StartsWith("0x"))
+            if (array.Length == 3 && !array[0].StartsWith("0x"))
             {
-                var path = array[0];
+                var path = Path.GetFullPath(Path.Combine(root, array[0]));
                 var offset = int.Parse(array[1]);
-                return new MemFile(path, offset);
+                var length = int.Parse(array[2]);
+                return new MemFile(path, offset, length);
             }
             var bytes = array.Select(i => i.AsByte());
             return new MemList(bytes.ToList());

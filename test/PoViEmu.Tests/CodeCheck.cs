@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
 using PoViEmu.Core.Decoding;
 
 namespace PoViEmu.Tests
@@ -9,14 +8,24 @@ namespace PoViEmu.Tests
     {
         public static void DoShouldRead(string dir, string fileName)
         {
-            var file = Path.Combine(dir, $"{fileName}.raw");
-            var bytes = File.ReadAllBytes(file);
+            var file = Path.Combine(dir, $"{fileName}.tml");
+            var state = IniStateTool.ReadFile(file);
 
-            var state = new MachineState
-            {
-                Memory = { [0] = new() { { 0, new MemList(bytes.ToList()) } } }
-            };
-            var debug = state.ToCodeString();
+
+
+
+
+
+
+
+            
+
+
+
+            var debug = state.ToCodeString(); 
+            
+            // JsonHelper.ToJson(state, false);
+
             throw new InvalidOperationException(debug);
         }
     }
