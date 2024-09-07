@@ -31,10 +31,11 @@ namespace PoViEmu.Core.Decoding
             foreach (var off in seg.Value)
             {
                 var i = 0;
-                foreach (var line in off.Value.SplitIt(step))
+                foreach (var line in off.Value.GetBytes().SplitIt(step))
                 {
+                    var rawByteStr = string.Join(" ", line.Select(b => $"{b:X2}"));
                     var text = $"{seg.Key:X4}:{off.Key + (i * step):X4}   " +
-                               $"{string.Join(" ", line.Select(b => $"{b:X2}"))}   " +
+                               $"{rawByteStr.AddSpaceTo(47)}   " +
                                $"{line.DecodeChars()}";
                     bld.Append(text);
                     bld.Append(sep);
@@ -51,7 +52,7 @@ namespace PoViEmu.Core.Decoding
             foreach (var seg in s.Memory)
             foreach (var off in seg.Value)
             {
-                using var mem = new MemoryStream(off.Value.ToArray());
+                using var mem = new MemoryStream(off.Value.GetBytes().ToArray());
                 using var reader = new MemCodeReader(mem);
                 foreach (var item in reader.Decode(off.Key))
                 {

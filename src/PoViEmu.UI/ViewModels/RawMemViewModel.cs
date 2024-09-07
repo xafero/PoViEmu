@@ -7,7 +7,7 @@ namespace PoViEmu.UI.ViewModels
 {
     public partial class RawMemViewModel : ViewModelBase
     {
-        [ObservableProperty] private ObservableCollection<BytesLine> _byteLines = new();
+        [ObservableProperty] private ObservableCollection<BytesLine> _byteLines = [];
 
         public void Init()
         {

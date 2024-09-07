@@ -64,7 +64,7 @@ namespace Discover
                         aDict2[aVer] = aDict3 = new SortedDictionary<string, List<AddInEntry>>();
 
                     if (!aDict3.TryGetValue(aHex, out var aDict4))
-                        aDict3[aHex] = aDict4 = new List<AddInEntry>();
+                        aDict3[aHex] = aDict4 = [];
 
                     _ = JsonHelper.ToJson(aInfo);
 
@@ -99,7 +99,7 @@ namespace Discover
                             bios[dModel] = bDict1 = new SortedDictionary<string, List<BiosEntry>>();
 
                         if (!bDict1.TryGetValue(dHex, out var bDict2))
-                            bDict1[dHex] = bDict2 = new List<BiosEntry>();
+                            bDict1[dHex] = bDict2 = [];
 
                         var bEntry = new BiosEntry
                         {
@@ -115,7 +115,7 @@ namespace Discover
                         system[dModel] = sDict1 = new SortedDictionary<string, List<SystemEntry>>();
 
                     if (!sDict1.TryGetValue(dHex, out var sDict2))
-                        sDict1[dHex] = sDict2 = new List<SystemEntry>();
+                        sDict1[dHex] = sDict2 = [];
 
                     var dAdds = dInfo.Obj.AddIns.Select(a =>
                         a.Value.GetName()).OrderBy(x => x).ToArray();
@@ -144,7 +144,7 @@ namespace Discover
                         chip[cModel] = cDict1 = new SortedDictionary<string, List<ChipEntry>>();
 
                     if (!cDict1.TryGetValue(cHex, out var cDict2))
-                        cDict1[cHex] = cDict2 = new List<ChipEntry>();
+                        cDict1[cHex] = cDict2 = [];
 
                     var cEntry = new ChipEntry
                     {

@@ -6,7 +6,7 @@ namespace PoViEmu.UI.ViewModels
 {
     public partial class StackViewModel : ViewModelBase
     {
-        [ObservableProperty] private ObservableCollection<StackLine> _stack = new();
+        [ObservableProperty] private ObservableCollection<StackLine> _stack = [];
 
         public void Init()
         {

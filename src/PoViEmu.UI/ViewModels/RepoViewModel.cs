@@ -9,9 +9,9 @@ namespace PoViEmu.UI.ViewModels
 {
     public partial class RepoViewModel : ViewModelBase
     {
-        [ObservableProperty] private ObservableCollection<AddInPlusItem> _addIn = new();
-        [ObservableProperty] private ObservableCollection<SystemPlusItem> _system = new();
-        [ObservableProperty] private ObservableCollection<BiosPlusItem> _bios = new();
+        [ObservableProperty] private ObservableCollection<AddInPlusItem> _addIn = [];
+        [ObservableProperty] private ObservableCollection<SystemPlusItem> _system = [];
+        [ObservableProperty] private ObservableCollection<BiosPlusItem> _bios = [];
 
         public async Task Init()
         {

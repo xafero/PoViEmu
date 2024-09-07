@@ -142,7 +142,7 @@ namespace PoViEmu.Core.Decoding
         /// <summary>
         /// The memory
         /// </summary>
-        public Dictionary<ushort, IDictionary<ushort, List<byte>>> Memory;
+        public Dictionary<ushort, Dictionary<ushort, IMemBlob>> Memory;
 
         public MachineState()
         {

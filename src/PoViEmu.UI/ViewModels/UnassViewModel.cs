@@ -13,7 +13,7 @@ namespace PoViEmu.UI.ViewModels
 {
     public partial class UnassViewModel : ViewModelBase
     {
-        [ObservableProperty] private ObservableCollection<AssemblyLine> _assembly = new();
+        [ObservableProperty] private ObservableCollection<AssemblyLine> _assembly = [];
 
         public void Init()
         {

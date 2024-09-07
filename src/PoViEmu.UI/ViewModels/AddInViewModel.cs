@@ -16,7 +16,7 @@ namespace PoViEmu.UI.ViewModels
 {
     public partial class AddInViewModel : ViewModelBase
     {
-        [ObservableProperty] private ObservableCollection<AddInInfoPlus<Bitmap>> _addIns = new();
+        [ObservableProperty] private ObservableCollection<AddInInfoPlus<Bitmap>> _addIns = [];
 
         public void Load()
         {

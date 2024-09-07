@@ -13,8 +13,8 @@ namespace PoViEmu.UI.ViewModels
     {
         [ObservableProperty] private Ems _ems = new();
 
-        [ObservableProperty] private ObservableCollection<ShortLine> _bnkLines = new();
-        [ObservableProperty] private ObservableCollection<ShortLine> _fraLines = new();
+        [ObservableProperty] private ObservableCollection<ShortLine> _bnkLines = [];
+        [ObservableProperty] private ObservableCollection<ShortLine> _fraLines = [];
 
         public void Init()
         {

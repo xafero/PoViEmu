@@ -13,7 +13,7 @@ namespace PoViEmu.Core.Decoding
             Stream = stream;
             Position = 0;
             Offset = 0;
-            Current = new List<int>();
+            Current = [];
             Track = track;
         }
 
