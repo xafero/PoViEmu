@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using PoViEmu.Core.Decoding;
+using PoViEmu.Core.Hardware;
 
 namespace PoViEmu.Tests
 {
@@ -11,31 +12,19 @@ namespace PoViEmu.Tests
             var file = Path.Combine(dir, $"{fileName}.tml");
             var state = IniStateTool.ReadFile(file);
 
-
-
-
-
-
-            foreach (var (seg,i) in state.ToInstructions())
+            var cpu = new NC3022();
+            foreach (var (seg, i) in state.ToInstructions())
             {
-                throw new InvalidOperationException(seg + " / " + i);
+                try
+                {
+                    cpu.Execute(state, i.Parsed);
+                }
+                catch (Exception ex)
+                {
+                    var debug = $"{seg:x4}:{i:x4}".Trim();
+                    throw new InvalidOperationException(debug, ex);
+                }
             }
-            
-
-            
-            
-
-            
-
-            
-
-
-
-            var debug = state.ToCodeString(); 
-            
-            // JsonHelper.ToJson(state, false);
-
-            throw new InvalidOperationException(debug);
         }
     }
 }
