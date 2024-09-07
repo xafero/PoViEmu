@@ -42,6 +42,16 @@ namespace PoViEmu.Core.Decoding
             };
         }
 
+        public static byte ReadMem(this ref MachineState state, Instruction i, int size)
+        {
+            throw new InvalidOperationException("?! " + i + " " + size);
+        }
+
+        public static byte WriteMem(this ref MachineState state, Instruction i, int size, ushort value)
+        {
+            throw new InvalidOperationException("?! " + i + " " + size + " " + value);
+        }
+
         public static ushort Get(this ref MachineState state, R register)
         {
             return register switch
@@ -110,5 +120,10 @@ namespace PoViEmu.Core.Decoding
                     return val;
                 })
             );
+
+        public static byte AL(this ref MachineState state)
+        {
+            throw new NotImplementedException("?");
+        }
     }
 }

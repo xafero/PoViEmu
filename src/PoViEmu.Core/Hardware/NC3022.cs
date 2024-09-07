@@ -35,12 +35,14 @@ namespace PoViEmu.Core.Hardware
                     {
                         if (i is { Op0Kind: OK.Register, Op1Kind: OK.Register })
                         {
-                            // TODO
+                            var andRR = (ushort)(s.Get(i.Op0Register) & s.Get(i.Op1Register));
+                            s.Set(i.Op0Register, andRR);
                             return;
                         }
                         if (i is { Op0Kind: OK.Register, Op1Kind: OK.Memory })
                         {
-                            // TODO
+                            var andRM = (ushort)(s.Get(i.Op0Register) & s.ReadMem(i, 2));
+                            s.Set(i.Op0Register, andRM);
                             return;
                         }
                     }
@@ -50,7 +52,8 @@ namespace PoViEmu.Core.Hardware
                     {
                         if (i is { Op0Kind: OK.Register, Op1Kind: OK.Immediate16 })
                         {
-                            // TODO
+                            var adcRI = (ushort)(s.Get(i.Op0Register) + i.Immediate16 + (s.CF ? 1 : 0));
+                            s.Set(i.Op0Register, adcRI);
                             return;
                         }
                     }
@@ -60,12 +63,14 @@ namespace PoViEmu.Core.Hardware
                     {
                         if (i is { Op0Kind: OK.Register, Op1Kind: OK.Register })
                         {
-                            // TODO
+                            var orRR = (ushort)(s.Get(i.Op0Register) | s.Get(i.Op1Register));
+                            s.Set(i.Op0Register, orRR);
                             return;
                         }
                         if (i is { Op0Kind: OK.Register, Op1Kind: OK.Memory })
                         {
-                            // TODO
+                            var orRM = (ushort)(s.Get(i.Op0Register) | s.ReadMem(i, 2));
+                            s.Set(i.Op0Register, orRM);
                             return;
                         }
                     }
@@ -75,7 +80,9 @@ namespace PoViEmu.Core.Hardware
                     {
                         if (i is { Op0Kind: OK.Register, Op1Kind: OK.Register or OK.Immediate8 })
                         {
-                            // TODO
+                            var shift = i.Op1Kind == OK.Register ? s.Get(i.Op1Register) : i.Immediate8;
+                            var shlRR = (ushort)(s.Get(i.Op0Register) << shift);
+                            s.Set(i.Op0Register, shlRR);
                             return;
                         }
                     }
@@ -85,7 +92,9 @@ namespace PoViEmu.Core.Hardware
                     {
                         if (i is { Op0Kind: OK.Register, Op1Kind: OK.Register })
                         {
-                            // TODO
+                            var shift = s.Get(i.Op1Register);
+                            var sarRR = (ushort)(s.Get(i.Op0Register) >> shift);
+                            s.Set(i.Op0Register, sarRR);
                             return;
                         }
                     }
@@ -95,7 +104,8 @@ namespace PoViEmu.Core.Hardware
                     {
                         if (i is { Op0Kind: OK.Register })
                         {
-                            // TODO
+                            var notR = (ushort)~s.Get(i.Op0Register);
+                            s.Set(i.Op0Register, notR);
                             return;
                         }
                     }
@@ -111,12 +121,14 @@ namespace PoViEmu.Core.Hardware
                         }
                         if (i is { Op0Kind: OK.Register, Op1Kind: OK.Memory })
                         {
-                            // TODO
+                            var plus = (ushort)(s.Get(i.Op0Register) + s.ReadMem(i, 2));
+                            s.Set(i.Op0Register, plus);
                             return;
                         }
                         if (i is { Op0Kind: OK.Memory, Op1Kind: OK.Register })
                         {
-                            // TODO
+                            var plus = (ushort)(s.ReadMem(i, 2) + s.Get(i.Op1Register));
+                            s.WriteMem(i, 2, plus);
                             return;
                         }
                     }
@@ -132,17 +144,20 @@ namespace PoViEmu.Core.Hardware
                         }
                         if (i is { Op0Kind: OK.Register, Op1Kind: OK.Memory })
                         {
-                            // TODO
+                            var minus = (ushort)(s.Get(i.Op0Register) - s.ReadMem(i, 2));
+                            s.Set(i.Op0Register, minus);
                             return;
                         }
                         if (i is { Op0Kind: OK.Memory, Op1Kind: OK.Immediate8to16 })
                         {
-                            // TODO
+                            var minus = (ushort)(s.ReadMem(i, 2) - i.Immediate8to16);
+                            s.WriteMem(i, 2, minus);
                             return;
                         }
                         if (i is { Op0Kind: OK.Register, Op1Kind: OK.Immediate16 or OK.Immediate8to16 })
                         {
-                            // TODO
+                            var minus = (ushort)(s.Get(i.Op0Register) - s.GetValue(i, 1));
+                            s.Set(i.Op0Register, minus);
                             return;
                         }
                     }
@@ -150,77 +165,93 @@ namespace PoViEmu.Core.Hardware
                 case Mnemonic.Retf:
                     if (i is { OpCount: 0 })
                     {
-                        // TODO
+                        s.Pop(out var ip);
+                        s.Pop(out var cs);
+                        s.IP = ip;
+                        s.CS = cs;
                         return;
                     }
                     break;
                 case Mnemonic.Cwd:
                     if (i is { OpCount: 0 })
                     {
-                        // TODO
+                        s.DX = (ushort)(s.AX >= 0x8000 ? 0xFFFF : 0x0000);
                         return;
                     }
                     break;
                 case Mnemonic.Cbw:
                     if (i is { OpCount: 0 })
                     {
-                        // TODO
+                        s.AX = (ushort)((s.AL() & 0x80) != 0 ? (s.AX | 0xFF00) : (s.AX & 0x00FF));
                         return;
                     }
                     break;
                 case Mnemonic.Mul:
                     if (i is { OpCount: 1 })
                     {
-                        /* TODO */
+                        var mulResult = (uint)(s.AX * s.Get(i.Op0Register));
+                        s.DX = (ushort)(mulResult >> 16);
+                        s.AX = (ushort)(mulResult & 0xFFFF);
                         return;
                     }
                     break;
                 case Mnemonic.Idiv:
                     if (i is { OpCount: 1 })
                     {
-                        /* TODO */
+                        var dividend = ((uint)s.DX << 16) | s.AX;
+                        var divisor = s.Get(i.Op0Register);
+                        var quotient = dividend / divisor;
+                        var remainder = dividend % divisor;
+                        s.AX = (ushort)(quotient & 0xFFFF);
+                        s.DX = (ushort)(remainder & 0xFFFF);
                         return;
                     }
                     break;
                 case Mnemonic.Jne:
                     if (i is { OpCount: 1 })
                     {
-                        /* TODO */
+                        // Jump if not equal
+                        if (!s.ZF) s.IP = i.NearBranch16;
                         return;
                     }
                     break;
                 case Mnemonic.Je:
                     if (i is { OpCount: 1 })
                     {
-                        /* TODO */
+                        // Jump if equal
+                        if (s.ZF) s.IP = i.NearBranch16;
                         return;
                     }
                     break;
                 case Mnemonic.Jl:
                     if (i is { OpCount: 1 })
                     {
-                        /* TODO */
+                        // Jump if less
+                        if (s.SF != s.OF) s.IP = i.NearBranch16;
                         return;
                     }
                     break;
                 case Mnemonic.Jle:
                     if (i is { OpCount: 1 })
                     {
-                        /* TODO */
+                        // Jump if less or equal
+                        if (s.ZF || (s.SF != s.OF)) s.IP = i.NearBranch16;
                         return;
                     }
                     break;
                 case Mnemonic.Jge:
                     if (i is { OpCount: 1 })
                     {
-                        /* TODO */
+                        // Jump if greater or equal
+                        if (s.SF == s.OF) s.IP = i.NearBranch16;
                         return;
                     }
                     break;
                 case Mnemonic.Jmp:
                     if (i is { OpCount: 1 })
                     {
-                        /* TODO */
+                        // Unconditional jump
+                        s.IP = i.NearBranch16;
                         return;
                     }
                     break;
