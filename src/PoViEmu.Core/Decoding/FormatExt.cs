@@ -49,19 +49,30 @@ namespace PoViEmu.Core.Decoding
         {
             var sep = rawSep ?? Environment.NewLine;
             var bld = new StringBuilder();
-            foreach (var seg in s.Memory)
-            foreach (var off in seg.Value)
+            foreach (var (seg, item) in ToInstructions(s))
             {
-                using var mem = new MemoryStream(off.Value.GetBytes().ToArray());
-                using var reader = new MemCodeReader(mem);
-                foreach (var item in reader.Decode(off.Key))
-                {
-                    var text = item.ToString($"{seg.Key:X4}:");
-                    bld.Append(text);
-                    bld.Append(sep);
-                }
+                var text = item.ToString($"{seg:X4}:");
+                bld.Append(text);
+                bld.Append(sep);
             }
             return bld.ToString();
+        }
+
+        public static IEnumerable<(ushort k, XInstruction i)> ToInstructions(this MachineState s)
+        {
+            foreach (var seg in s.Memory)
+            foreach (var off in seg.Value)
+            foreach (var instr in ToInstructions(off.Value, off.Key))
+                yield return (seg.Key, instr);
+        }
+
+        public static IEnumerable<XInstruction> ToInstructions(this IMemBlob m, ushort off)
+        {
+            var buffer = m.GetBytes().ToArray();
+            using var mem = new MemoryStream(buffer);
+            using var reader = new MemCodeReader(mem);
+            foreach (var item in reader.Decode(off))
+                yield return item;
         }
 
         public static string ToStackString(this MachineState s, string? rawSep = null)

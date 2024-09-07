@@ -16,7 +16,16 @@ namespace PoViEmu.Tests
 
 
 
+            foreach (var (seg,i) in state.ToInstructions())
+            {
+                throw new InvalidOperationException(seg + " / " + i);
+            }
+            
 
+            
+            
+
+            
 
             
 
