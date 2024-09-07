@@ -12,7 +12,7 @@ namespace PoViEmu.Core.Decoding
     {
         public const int StackSize = 2;
 
-        public static void Push(this MachineState state, ushort value)
+        public static void Push(this ref MachineState state, ushort value)
         {
             state.SP -= StackSize;
 
@@ -20,7 +20,7 @@ namespace PoViEmu.Core.Decoding
             list.Value.Insert(0, value);
         }
 
-        public static void Pop(this MachineState state, out ushort value)
+        public static void Pop(this ref MachineState state, out ushort value)
         {
             var list = state.Stack.First();
             value = list.Value.First();
@@ -29,7 +29,7 @@ namespace PoViEmu.Core.Decoding
             state.SP += StackSize;
         }
 
-        public static ushort GetValue(this MachineState state, Instruction instr, int opNr)
+        public static ushort GetValue(this ref MachineState state, Instruction instr, int opNr)
         {
             return opNr switch
             {
@@ -42,7 +42,7 @@ namespace PoViEmu.Core.Decoding
             };
         }
 
-        public static ushort Get(this MachineState state, R register)
+        public static ushort Get(this ref MachineState state, R register)
         {
             return register switch
             {
@@ -62,7 +62,7 @@ namespace PoViEmu.Core.Decoding
             };
         }
         
-        public static void Set(this MachineState state, R register, ushort value)
+        public static void Set(this ref MachineState state, R register, ushort value)
         {
             switch (register)
             {
