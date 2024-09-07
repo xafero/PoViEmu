@@ -15,7 +15,7 @@ namespace PoViEmu.Core.Decoding
             var nl = Environment.NewLine;
             bld.Append(state.ToRegisterString(nl));
             bld.AppendLine();
-            bld.Append(state.ToStackString());
+            // TODO bld.Append(state.ToStackString());
             bld.AppendLine();
             bld.Append(state.ToMemoryString());
             bld.AppendLine();
