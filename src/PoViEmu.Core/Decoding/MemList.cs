@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,11 +13,15 @@ namespace PoViEmu.Core.Decoding
             List = list;
         }
 
-        public MemList(IMemBlob blob) : this(blob.GetBytes().ToList())
+        public MemList(IMemBlob blob) : this(blob.GetBytes())
         {
         }
 
-        public MemList() : this(new List<byte>())
+        public MemList(IEnumerable<byte> bytes) : this([..bytes])
+        {
+        }
+
+        public MemList() : this(Array.Empty<byte>())
         {
         }
 

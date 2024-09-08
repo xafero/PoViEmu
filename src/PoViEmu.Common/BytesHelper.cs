@@ -74,5 +74,13 @@ namespace PoViEmu.Common
                 yield return bld.ToArray();
             }
         }
+
+        public static void Write(this byte[] array, int offset, int length, byte val)
+        {
+            for (var i = 0; i < length; i++)
+            {
+                array[offset + i] = val;
+            }
+        }
     }
 }

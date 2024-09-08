@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ByteSizeLib;
+using PoViEmu.Common;
 using PoViEmu.Core;
 using PoViEmu.Core.Addins;
+using PoViEmu.Core.Decoding;
 using PoViEmu.Core.Hardware;
 using PoViEmu.Core.Images;
 
@@ -36,13 +39,33 @@ namespace Discover
                     var aim = ai.Model;
                     Console.WriteLine($"    {ain} v{aiv} (compiled at {ai.Compiled:u} for {aim})");
 
-                    var iconLen = ImageReader.GetByteSize(bytes[(int)ai.OffsetIcon..]);
-                    var lIconLen = ImageReader.GetByteSize(bytes[(int)ai.OffsetLIcon..]);
+                    var offIcon = (int)ai.OffsetIcon;
+                    var offLIcon = (int)ai.OffsetLIcon;
+                    var iconLen = ImageReader.GetByteSize(bytes[offIcon..]);
+                    var lIconLen = ImageReader.GetByteSize(bytes[offLIcon..]);
 
                     Console.WriteLine(ai.OffsetIcon + " " + iconLen);
                     Console.WriteLine(ai.OffsetLIcon + " " + lIconLen);
-                    
-                    
+
+                    byte empty = 0xFF;
+                    int skip = 0x605;
+                    var copy = bytes[skip..];
+                    copy.Write(offIcon - skip, iconLen, empty);
+                    copy.Write(offLIcon - skip, lIconLen, empty);
+                    File.WriteAllBytes("test.bin", copy);
+
+                    var state = new MachineState
+                    {
+                        Memory =
+                        {
+                            [0] = new()
+                            {
+                                [0x100] = new MemList(copy)
+                            }
+                        }
+                    };
+                    Console.WriteLine(state.ToMemoryString());
+                    Console.WriteLine(state.ToCodeString());
                 }
                 break;
             }
