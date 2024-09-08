@@ -8,6 +8,7 @@ using PoViEmu.Common;
 using PoViEmu.Core;
 using PoViEmu.Core.Addins;
 using PoViEmu.Core.Decoding;
+using PoViEmu.Core.Dumps;
 using PoViEmu.Core.Hardware;
 using PoViEmu.Core.Images;
 
@@ -35,16 +36,27 @@ namespace Discover
                 var local = file.Replace(folder, string.Empty)[1..];
                 Console.WriteLine($" * [{mt}] {local} ({ByteSize.FromBytes(size)})");
 
+                var addIns = new List<AddInInfo>();
                 var obj = mt.Load(bytes);
-                if (obj is AddInInfo ai)
-                {
-                    var ain = ai.GetName();
-                    var aiv = ai.Version;
-                    var aim = ai.Model;
-                    Console.WriteLine($"    {ain} v{aiv} (compiled at {ai.Compiled:u} for {aim})");
 
-                    var offIcon = (int)ai.OffsetIcon;
-                    var offLIcon = (int)ai.OffsetLIcon;
+                if (obj is DumpInfo di)
+                {
+                    addIns.AddRange(di.AddIns.Values);
+                }
+                else if (obj is AddInInfo ai)
+                {
+                    addIns.Add(ai);
+                }
+
+                foreach (var adi in addIns)
+                {
+                    var ain = adi.GetName();
+                    var aiv = adi.Version;
+                    var aim = adi.Model;
+                    Console.WriteLine($"    {ain} v{aiv} (compiled at {adi.Compiled:u} for {aim})");
+
+                    var offIcon = (int)adi.OffsetIcon;
+                    var offLIcon = (int)adi.OffsetLIcon;
                     if (offIcon == -1 || offLIcon == -1 || size <= 0xFF)
                         continue;
 

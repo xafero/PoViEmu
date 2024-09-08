@@ -1,6 +1,8 @@
 using System;
+using System.IO;
 using PoViEmu.Common;
 using PoViEmu.Core.Addins;
+using PoViEmu.Core.Dumps;
 
 namespace PoViEmu.Core.Hardware
 {
@@ -58,8 +60,24 @@ namespace PoViEmu.Core.Hardware
             return kind switch
             {
                 MimeType.X86PvApp => LoadApp(bytes),
+                MimeType.X86PvDump => LoadDump(bytes),
                 _ => new InvalidOperationException($"{kind}, {bytes.Length} B ?!")
             };
+        }
+
+        private static DumpInfo? LoadDump(byte[] bytes)
+        {
+            try
+            {
+                var info = DumpReader.Read(bytes);
+                var mem = new MemoryStream(bytes);
+                info.LoadOsAddIns(mem);
+                return info;
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
         }
 
         private static AddInInfo? LoadApp(byte[] bytes)
