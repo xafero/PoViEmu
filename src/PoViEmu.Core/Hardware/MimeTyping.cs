@@ -1,10 +1,4 @@
-using System;
-using Iced.Intel;
-using System;
-using System.IO;
-using System.Linq;
 using PoViEmu.Common;
-using PoViEmu.Core.Decoding;
 
 namespace PoViEmu.Core.Hardware
 {

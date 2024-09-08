@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using PoViEmu.Common;
 using PoViEmu.Core.Hardware;
 
 namespace Discover
@@ -19,11 +18,9 @@ namespace Discover
             {
                 if (IsIgnoredExt(file) || IsIgnoredDir(file))
                     continue;
-                
                 var bytes = File.ReadAllBytes(file);
                 if (bytes.GetMimeType() is not { } mt)
                     continue;
-                
                 Console.WriteLine($" * [{mt}] {file}");
                 
                 
