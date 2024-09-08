@@ -5,6 +5,7 @@ using ByteSizeLib;
 using PoViEmu.Core;
 using PoViEmu.Core.Addins;
 using PoViEmu.Core.Hardware;
+using PoViEmu.Core.Images;
 
 namespace Discover
 {
@@ -30,7 +31,17 @@ namespace Discover
                 var obj = mt.Load(bytes);
                 if (obj is AddInInfo ai)
                 {
-                    Console.WriteLine($"    {ai.GetName()} v{ai.Version} (compiled at {ai.Compiled:u} for {ai.Model})");
+                    var ain = ai.GetName();
+                    var aiv = ai.Version;
+                    var aim = ai.Model;
+                    Console.WriteLine($"    {ain} v{aiv} (compiled at {ai.Compiled:u} for {aim})");
+
+                    var iconLen = ImageReader.GetByteSize(bytes[(int)ai.OffsetIcon..]);
+                    var lIconLen = ImageReader.GetByteSize(bytes[(int)ai.OffsetLIcon..]);
+
+                    Console.WriteLine(ai.OffsetIcon + " " + iconLen);
+                    Console.WriteLine(ai.OffsetLIcon + " " + lIconLen);
+                    
                     
                 }
                 break;
