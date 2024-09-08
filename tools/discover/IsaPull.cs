@@ -19,12 +19,14 @@ namespace Discover
             {
                 if (IsIgnoredExt(file) || IsIgnoredDir(file))
                     continue;
-
+                
                 var bytes = File.ReadAllBytes(file);
                 if (bytes.GetMimeType() is not { } mt)
                     continue;
-
-                Console.WriteLine($" * {file}");
+                
+                Console.WriteLine($" * [{mt}] {file}");
+                
+                
             }
         }
 
