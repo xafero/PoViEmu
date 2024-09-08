@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using ByteSizeLib;
+using Iced.Intel;
 using PoViEmu.Common;
 using PoViEmu.Core;
 using PoViEmu.Core.Addins;
@@ -86,8 +87,18 @@ namespace Discover
                     {
                         if (i.IsInvalid)
                             continue;
+                        if (i.Encoding != EncodingKind.Legacy)
+                            continue;
 
                         var key = i.Code.ToString();
+                        if (key.Contains("r32") || key.Contains("imm32") ||
+                            key.Contains("rm32") || key.Contains("m32") ||
+                            key.Contains("moffs32") || key.Contains("ptr1632") || 
+                            key.Contains("rel32") || key.Contains("m1632") ||
+                            key.Contains("rel8_32") || key.Contains("m128") ||
+                            key.Contains("m64"))
+                            continue;
+
                         if (!instr.TryGetValue(key, out var subD))
                             instr[key] = subD = new();
 
@@ -95,7 +106,8 @@ namespace Discover
                         if (!subD.TryGetValue(sub, out var list))
                             subD[sub] = list = new();
 
-                        var line = i.ToString();
+                        var line = $"{hex} | {i}";
+                        list.Clear();
                         list.Add(line);
                     }
                 }
@@ -125,7 +137,9 @@ namespace Discover
         private static bool IsIgnoredDir(string file)
         {
             var s = Path.DirectorySeparatorChar;
-            return file.Contains($"{s}.venv{s}");
+            return file.Contains($"{s}.venv{s}") ||
+                   file.Contains($"{s}bin{s}Debug{s}") ||
+                   file.Contains($"{s}bin{s}Release{s}");
         }
     }
 }
