@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using ByteSizeLib;
 using PoViEmu.Common;
 using PoViEmu.Core;
@@ -19,6 +21,8 @@ namespace Discover
 
             const SearchOption o = SearchOption.AllDirectories;
             var files = Directory.EnumerateFiles(folder, "*.*", o);
+
+            var instr = new SortedDictionary<string, SortedDictionary<string, SortedSet<string>>>();
 
             foreach (var file in files)
             {
@@ -59,11 +63,28 @@ namespace Discover
                             }
                         }
                     };
-                    Console.WriteLine(state.ToMemoryString());
-                    Console.WriteLine(state.ToCodeString());
+
+                    foreach (var (_, (hex, i)) in state.ToInstructions())
+                    {
+                        if (i.IsInvalid)
+                            continue;
+
+                        var key = i.Code.ToString();
+                        if (!instr.TryGetValue(key, out var subD))
+                            instr[key] = subD = new();
+                        var sub = hex;
+                        if (!subD.TryGetValue(sub, out var list))
+                            subD[sub] = list = new();
+
+                        var line = i.ToString();
+                        list.Add(line);
+                    }
                 }
                 break;
             }
+
+            var json = JsonHelper.ToJson(instr);
+            File.WriteAllText("found-isa.json", json, Encoding.UTF8);
         }
 
         private static readonly string[] Ext =
