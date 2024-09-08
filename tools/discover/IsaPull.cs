@@ -32,7 +32,8 @@ namespace Discover
                 if (bytes.GetMimeType() is not { } mt)
                     continue;
                 var size = bytes.Length;
-                Console.WriteLine($" * [{mt}] {file} ({ByteSize.FromBytes(size)})");
+                var local = file.Replace(folder, string.Empty)[1..];
+                Console.WriteLine($" * [{mt}] {local} ({ByteSize.FromBytes(size)})");
 
                 var obj = mt.Load(bytes);
                 if (obj is AddInInfo ai)
@@ -44,8 +45,13 @@ namespace Discover
 
                     var offIcon = (int)ai.OffsetIcon;
                     var offLIcon = (int)ai.OffsetLIcon;
+                    if (offIcon == -1 || offLIcon == -1 || size <= 0xFF)
+                        continue;
+
                     var iconLen = ImageReader.GetByteSize(bytes[offIcon..]);
                     var lIconLen = ImageReader.GetByteSize(bytes[offLIcon..]);
+                    if (iconLen > 350_000 || lIconLen > 350_000)
+                        continue;
 
                     byte empty = 0xFF;
                     var copy = bytes[..];
