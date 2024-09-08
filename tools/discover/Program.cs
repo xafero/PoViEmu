@@ -14,6 +14,11 @@ namespace Discover
                     HexMatch.Run(o);
                     return;
                 }
+                if (o.PullIsa)
+                {
+                    IsaPull.Run(o);
+                    return;
+                }
                 if (o.ReadBins)
                 {
                     ReadBins.Run(o);
