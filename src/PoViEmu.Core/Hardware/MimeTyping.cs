@@ -53,7 +53,7 @@ namespace PoViEmu.Core.Hardware
             return null;
         }
 
-        public static object Load(this MimeType kind, byte[] bytes)
+        public static object? Load(this MimeType kind, byte[] bytes)
         {
             return kind switch
             {
@@ -62,10 +62,17 @@ namespace PoViEmu.Core.Hardware
             };
         }
 
-        private static AddInInfo LoadApp(byte[] bytes)
+        private static AddInInfo? LoadApp(byte[] bytes)
         {
-            var addIn = AddInReader.Read(bytes);
-            return addIn;
+            try
+            {
+                var addIn = AddInReader.Read(bytes);
+                return addIn;
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
         }
     }
 }

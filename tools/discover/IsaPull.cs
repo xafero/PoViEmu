@@ -72,7 +72,8 @@ namespace Discover
                         var key = i.Code.ToString();
                         if (!instr.TryGetValue(key, out var subD))
                             instr[key] = subD = new();
-                        var sub = hex;
+
+                        var sub = i.GetOpDebug(fake: true);
                         if (!subD.TryGetValue(sub, out var list))
                             subD[sub] = list = new();
 
@@ -80,7 +81,6 @@ namespace Discover
                         list.Add(line);
                     }
                 }
-                break;
             }
 
             var json = JsonHelper.ToJson(instr);

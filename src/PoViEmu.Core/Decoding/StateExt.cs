@@ -71,23 +71,47 @@ namespace PoViEmu.Core.Decoding
                 _ => throw new InvalidOperationException($"{register}")
             };
         }
-        
+
         public static void Set(this ref MachineState state, R register, ushort value)
         {
             switch (register)
             {
-                case R.AX: state.AX = value; break;
-                case R.BX: state.BX = value; break;
-                case R.CX: state.CX = value; break;
-                case R.DX: state.DX = value; break;
-                case R.SP: state.SP = value; break;
-                case R.BP: state.BP = value; break;
-                case R.SI: state.SI = value; break;
-                case R.DI: state.DI = value; break;
-                case R.ES: state.ES = value; break; 
-                case R.CS: state.CS = value; break;
-                case R.SS: state.SS = value; break;
-                case R.DS: state.DS = value; break;
+                case R.AX:
+                    state.AX = value;
+                    break;
+                case R.BX:
+                    state.BX = value;
+                    break;
+                case R.CX:
+                    state.CX = value;
+                    break;
+                case R.DX:
+                    state.DX = value;
+                    break;
+                case R.SP:
+                    state.SP = value;
+                    break;
+                case R.BP:
+                    state.BP = value;
+                    break;
+                case R.SI:
+                    state.SI = value;
+                    break;
+                case R.DI:
+                    state.DI = value;
+                    break;
+                case R.ES:
+                    state.ES = value;
+                    break;
+                case R.CS:
+                    state.CS = value;
+                    break;
+                case R.SS:
+                    state.SS = value;
+                    break;
+                case R.DS:
+                    state.DS = value;
+                    break;
                 default: throw new InvalidOperationException($"{register}");
             }
         }
@@ -95,7 +119,7 @@ namespace PoViEmu.Core.Decoding
         public static string? ToTxt(this R register)
             => register == default ? null : register.ToString();
 
-        public static string GetOpDebug(this Instruction i)
+        public static string GetOpDebug(this Instruction i, bool fake = false)
             => string.Join(" ; ", Enumerable.Range(0, i.OpCount)
                 .Select(n =>
                 {
@@ -104,17 +128,20 @@ namespace PoViEmu.Core.Decoding
                     switch (kind)
                     {
                         case OK.Register:
-                            val = "R_" + i.GetOpRegister(n);
+                            var rs = i.GetOpRegister(n);
+                            val = $"R_{(fake ? "!" : rs)}";
                             break;
                         case OK.Memory:
                             val = "M";
                             break;
                         case OK.Immediate8:
                         case OK.Immediate8to16:
-                            val = $"{i.GetImmediate(n):x2}";
+                            var i8S = i.GetImmediate(n);
+                            val = $"{(fake ? 0x08 : i8S):x2}";
                             break;
                         case OK.Immediate16:
-                            val = $"{i.GetImmediate(n):x4}";
+                            var i16S = i.GetImmediate(n);
+                            val = $"{(fake ? 0x16 : i16S):x4}";
                             break;
                     }
                     return val;
