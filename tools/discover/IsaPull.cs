@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ByteSizeLib;
@@ -44,15 +43,11 @@ namespace Discover
                     var iconLen = ImageReader.GetByteSize(bytes[offIcon..]);
                     var lIconLen = ImageReader.GetByteSize(bytes[offLIcon..]);
 
-                    Console.WriteLine(ai.OffsetIcon + " " + iconLen);
-                    Console.WriteLine(ai.OffsetLIcon + " " + lIconLen);
-
                     byte empty = 0xFF;
-                    int skip = 0x605;
-                    var copy = bytes[skip..];
-                    copy.Write(offIcon - skip, iconLen, empty);
-                    copy.Write(offLIcon - skip, lIconLen, empty);
-                    File.WriteAllBytes("test.bin", copy);
+                    var copy = bytes[..];
+                    copy.Write(0, 0x100, empty);
+                    copy.Write(offIcon, iconLen, empty);
+                    copy.Write(offLIcon, lIconLen, empty);
 
                     var state = new MachineState
                     {
@@ -60,7 +55,7 @@ namespace Discover
                         {
                             [0] = new()
                             {
-                                [0x100] = new MemList(copy)
+                                [0] = new MemList(copy)
                             }
                         }
                     };
