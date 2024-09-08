@@ -1,6 +1,9 @@
 using System;
 using System.IO;
 using System.Linq;
+using ByteSizeLib;
+using PoViEmu.Core;
+using PoViEmu.Core.Addins;
 using PoViEmu.Core.Hardware;
 
 namespace Discover
@@ -21,9 +24,16 @@ namespace Discover
                 var bytes = File.ReadAllBytes(file);
                 if (bytes.GetMimeType() is not { } mt)
                     continue;
-                Console.WriteLine($" * [{mt}] {file}");
-                
-                
+                var size = bytes.Length;
+                Console.WriteLine($" * [{mt}] {file} ({ByteSize.FromBytes(size)})");
+
+                var obj = mt.Load(bytes);
+                if (obj is AddInInfo ai)
+                {
+                    Console.WriteLine($"    {ai.GetName()} v{ai.Version} (compiled at {ai.Compiled:u} for {ai.Model})");
+                    
+                }
+                break;
             }
         }
 

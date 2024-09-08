@@ -1,4 +1,6 @@
+using System;
 using PoViEmu.Common;
+using PoViEmu.Core.Addins;
 
 namespace PoViEmu.Core.Hardware
 {
@@ -49,6 +51,21 @@ namespace PoViEmu.Core.Hardware
             if (bytes.IsContained(X86PvChip))
                 return MimeType.X86PvChip;
             return null;
+        }
+
+        public static object Load(this MimeType kind, byte[] bytes)
+        {
+            return kind switch
+            {
+                MimeType.X86PvApp => LoadApp(bytes),
+                _ => new InvalidOperationException($"{kind}, {bytes.Length} B ?!")
+            };
+        }
+
+        private static AddInInfo LoadApp(byte[] bytes)
+        {
+            var addIn = AddInReader.Read(bytes);
+            return addIn;
         }
     }
 }
