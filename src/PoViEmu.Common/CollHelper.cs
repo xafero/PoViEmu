@@ -10,6 +10,20 @@ namespace PoViEmu.Common
             return maxCount >= 1 ? items.Take(maxCount) : items;
         }
 
+        public static IEnumerable<(T first, T second)> SplitTwo<T>(this IEnumerable<T> items)
+        {
+            using var it = items.GetEnumerator();
+            while (it.MoveNext())
+            {
+                var first = it.Current;
+                if (it.MoveNext())
+                {
+                    var second = it.Current;
+                    yield return (first, second);
+                }
+            }
+        }
+
         public static IEnumerable<T[]> SplitIt<T>(this IEnumerable<T> items, int count)
         {
             var res = new List<T>();
