@@ -173,5 +173,13 @@ namespace PoViEmu.Common
             0x67, 0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73, 0x74,
             0x75, 0x76, 0x77, 0x78, 0x79, 0x7a, 0x7b, 0x7c, 0x7d, 0x7e
         ];
+
+        public static string ReplaceFirst(this string text, string term, string newTxt)
+        {
+            var index = text.IndexOf(term, StringComparison.Ordinal);
+            return index < 1
+                ? text
+                : text.Remove(index, term.Length).Insert(index, newTxt);
+        }
     }
 }

@@ -53,6 +53,11 @@ namespace Discover
         public ushort BP;
 
         /// <summary>
+        /// Instruction pointer
+        /// </summary>
+        public ushort IP;
+
+        /// <summary>
         /// Source index
         /// </summary>
         public ushort SI;
