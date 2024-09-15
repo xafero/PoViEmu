@@ -149,6 +149,7 @@ namespace PoViEmu.Core.Hardware
                    $"SF={(s.SF ? 1 : 0)}{sep}DF={(s.DF ? 1 : 0)}{sep}" +
                    $"IF={(s.IF ? 1 : 0)}{sep}OF={(s.OF ? 1 : 0)}{sep}" +
                    $"PF={(s.PF ? 1 : 0)}{sep}AF={(s.AF ? 1 : 0)}{sep}" +
+                   $"TF={(s.TF ? 1 : 0)}{sep}" +
                    $"B0={s.Bank0:x4}{sep}B1={s.Bank1:x4}{sep}B2={s.Bank2:x4}{sep}" +
                    $"B3={s.Bank3:x4}{sep}B4={s.Bank4:x4}{sep}B5={s.Bank5:x4}{sep}" +
                    $"B6={s.Bank6:x4}{sep}F0={s.Frame0:x4}{sep}F1={s.Frame1:x4}{sep}" +
