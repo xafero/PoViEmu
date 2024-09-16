@@ -19,9 +19,9 @@ namespace PoViEmu.Common
             return bits;
         }
 
-        public static string ToBinary(this byte[] values)
+        public static string ToBinary(this byte[] values, string sep = "", int skip = 0)
         {
-            var bits = string.Join(" ", values.Select(v => v.ToBinary()));
+            var bits = string.Join(sep, values.Skip(skip).Select(v => v.ToBinary()));
             return bits;
         }
 

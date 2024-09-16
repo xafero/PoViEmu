@@ -25,9 +25,12 @@ namespace PoViEmu.Core.Hardware
         public static uint ToPhysicalAddress(ushort segment, ushort offset)
             => (uint)(segment * 16) + offset;
 
-        public static (ushort s, ushort o) ToLogicalAddress(uint physicalAddress, ushort segment)
-            => (segment, (ushort)(physicalAddress - segment * 16));
-
+        public static uint ToPhysicalAddress(ushort segment, ushort offset, ushort bank)
+            => (uint)(bank * 16 * 16 * 16 * 16 + ToPhysicalAddress(segment, offset));
+        
+        public static (ushort s, ushort o) ToLogicalAddress(uint physical, ushort segment)
+            => (segment, (ushort)(physical - segment * 16));
+        
         public static byte[] AllocateMemory(double megaBytes = 1, byte defaultVal = 0xFF)
         {
             var byteSize = (int)(megaBytes * 1024 * 1024);
