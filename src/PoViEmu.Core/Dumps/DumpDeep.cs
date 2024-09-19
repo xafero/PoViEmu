@@ -1,9 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Collections.Generic;
-using PoViEmu.Core.Addins;
 using PoViEmu.Common;
+using PoViEmu.Core.Addins;
 using static PoViEmu.Common.ErrorHelper;
 
 namespace PoViEmu.Core.Dumps

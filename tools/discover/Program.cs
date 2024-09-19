@@ -19,6 +19,11 @@ namespace Discover
                     IsaPull.Run(o);
                     return;
                 }
+                if (o.GetModels)
+                {
+                    ModPull.Run(o);
+                    return;
+                }
                 if (o.ReadBins)
                 {
                     ReadBins.Run(o);

@@ -4,8 +4,8 @@ using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using PoViEmu.Core.Meta;
 using PoViEmu.UI.Models;
-using R = PoViEmu.Core.Meta.CpuRegister;
 using F = PoViEmu.Core.Meta.CpuFlag;
+using R = PoViEmu.Core.Meta.CpuRegister;
 
 namespace PoViEmu.UI.ViewModels
 {

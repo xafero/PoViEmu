@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
 using Iced.Intel;
-using R = Iced.Intel.Register;
 using OK = Iced.Intel.OpKind;
+using R = Iced.Intel.Register;
 
 #pragma warning disable CS8509
 
