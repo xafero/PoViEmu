@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using IniFile;
 using PoViEmu.Common;
+using PoViEmu.Core.Infos;
 
 namespace Discover
 {
@@ -103,7 +104,7 @@ namespace Discover
                             var xZip = CompressAlgo.Brotli.Compress(xBytes);
                             cItm.File = new FileRef
                             {
-                                Name = xFName, Size = xBytes.Length, Hash = xHash, // Brotli = xZip.B
+                                Name = xFName, Size = xBytes.Length, Hash = xHash, Brotli = xZip.B
                             };
                             cItm.ChipSize = $"{xBytes.Length:X8}";
                         }

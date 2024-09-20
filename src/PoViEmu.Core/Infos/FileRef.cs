@@ -1,6 +1,4 @@
-using PoViEmu.Common;
-
-namespace Discover
+namespace PoViEmu.Core.Infos
 {
     public class FileRef
     {

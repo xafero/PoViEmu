@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Discover
+namespace PoViEmu.Core.Infos
 {
     public class ModelTree
     {

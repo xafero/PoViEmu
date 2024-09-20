@@ -1,6 +1,6 @@
 using System;
 
-namespace Discover
+namespace PoViEmu.Core.Infos
 {
     public record Breakpoint(string Segment, string Offset, string Physical) : IComparable
     {
