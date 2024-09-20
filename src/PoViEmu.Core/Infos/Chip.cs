@@ -2,12 +2,13 @@ namespace Discover
 {
     public class Chip
     {
-        public string Name { get; set; }
-        public byte Bus { get; set; }
-        public string Code { get; set; }
-        public string Offset { get; set; }
-        public string ProgArea { get; set; }
-        public ChipKind Kind { get; set; }
+        public string Caption { get; set; }
+        public string LoadOffset { get; set; }
+        public string ChipSize { get; set; }
+        public ChipKind ChipKind { get; set; }
+        public string ProgChipName { get; set; }
+        public string ProgAreaSize { get; set; }
+        public byte ConnectionBit { get; set; }
         public FileRef File { get; set; }
     }
 }

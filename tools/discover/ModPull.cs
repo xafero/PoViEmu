@@ -73,17 +73,23 @@ namespace Discover
 
                         var cItm = new Chip();
                         if (cDict.TryGetValue("NAME", out var xName))
-                            cItm.Name = xName;
+                            cItm.Caption = xName;
                         if (cDict.TryGetValue("BUS", out var xBus))
-                            cItm.Bus = byte.Parse(xBus);
+                            cItm.ConnectionBit = byte.Parse(xBus);
                         if (cDict.TryGetValue("CODE", out var xCode))
-                            cItm.Code = xCode;
+                            cItm.ProgChipName = xCode;
                         if (cDict.TryGetValue("OFFSET", out var xOffset))
-                            cItm.Offset = xOffset;
+                        {
+                            var xOffsetInt = Convert.ToInt32(xOffset, 16);
+                            cItm.LoadOffset = $"{xOffsetInt:X8}";
+                        }
                         if (cDict.TryGetValue("PROGAREA", out var xProgArea))
-                            cItm.ProgArea = xProgArea;
+                        {
+                            var xProgAreaInt = Convert.ToInt32(xProgArea, 16);
+                            cItm.ProgAreaSize = $"{xProgAreaInt:X8}";
+                        }
                         if (cDict.TryGetValue("KIND", out var xKind))
-                            cItm.Kind = xKind == "0" ? ChipKind.RAM :
+                            cItm.ChipKind = xKind == "0" ? ChipKind.RAM :
                                 xKind == "1" ? ChipKind.ROM :
                                 xKind == "2" ? ChipKind.NorFlash :
                                 xKind == "5" ? ChipKind.MemoryIO :
@@ -97,8 +103,9 @@ namespace Discover
                             var xZip = CompressAlgo.Brotli.Compress(xBytes);
                             cItm.File = new FileRef
                             {
-                                Name = xFName, Size = xBytes.Length, Hash = xHash, Brotli = xZip.B
+                                Name = xFName, Size = xBytes.Length, Hash = xHash, // Brotli = xZip.B
                             };
+                            cItm.ChipSize = $"{xBytes.Length:X8}";
                         }
                         cGroup.Chips[gPos.Key] = cItm;
                     }
