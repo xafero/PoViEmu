@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <NoWarn>CS8618;CS0675;CS0105;CS8625;TA101</NoWarn>
+    <NoWarn>CS8618;CS0675;CS0105;CS8625;CS8767;TA101</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

@@ -94,9 +94,10 @@ namespace Discover
                             var xBytes = File.ReadAllBytes(xFileReal);
                             var xHash = HashHelper.GetSha(xBytes);
                             var xFName = Path.GetFileName(xFileReal);
+                            var xZip = CompressAlgo.Brotli.Compress(xBytes);
                             cItm.File = new FileRef
                             {
-                                Name = xFName, Size = xBytes.Length, Hash = xHash
+                                Name = xFName, Size = xBytes.Length, Hash = xHash, Brotli = xZip.B
                             };
                         }
                         cGroup.Chips[gPos.Key] = cItm;
