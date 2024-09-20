@@ -54,6 +54,18 @@ namespace Discover
                 var sourceDir = general["SourceDir"].ToString();
                 Console.WriteLine($"       # {currentDir}, {sourceDir}");
 
+                var cpuClock = int.Parse(general["CLOCK"]);
+                var lcdClock = int.Parse(general["LCDC_FREQ"]);
+                dict.Clock = new Clock(cpuClock, lcdClock);
+
+                var cSysRam = int.Parse(general["C_SYSRAM"]);
+                dict.CSysRam = cSysRam;
+
+                var tablet = ini["TABLET_DISP"];
+                var width = int.Parse(tablet["DispWidth"]);
+                var height = int.Parse(tablet["DispHeight"]);
+                dict.Display = new Display(width, height);
+
                 var inv = StringComparison.InvariantCultureIgnoreCase;
                 var chips = ini.Where(s => s.Name.StartsWith("CsGroup", inv)
                                            || s.Name.Equals("_Inside", inv)).ToArray();
