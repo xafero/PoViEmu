@@ -4,54 +4,75 @@ using PoViEmu.Common;
 using PoViEmu.Core.Addins;
 using PoViEmu.Core.Dumps;
 
+// ReSharper disable InconsistentNaming
+
 namespace PoViEmu.Core.Hardware
 {
     public static class MimeTyping
     {
-        private static readonly byte[] X86PvApp =
+        private static readonly byte[] V30PvApp =
         [
             0x00, 0xFF, 0x43, 0x41, 0x53, 0x49, 0x4F, 0x03
         ];
 
-        private static readonly byte[] X86PvDump =
+        private static readonly byte[] V30PvDump =
         [
             0x45, 0xBA, 0x43, 0x41, 0x53, 0x49, 0x4F, 0x03
         ];
 
-        private static readonly byte[][] X86PvIcon =
+        private static readonly byte[][] V30PvIcon =
         [
             [0x0C, 0x00, 0x0C, 0x00],
             [0x78, 0x00, 0x78, 0x00]
         ];
 
-        private static readonly byte[] X86PvChip =
+        private static readonly byte[] V30PvChip =
         [
             0xB8, 0x00, 0xF0, 0x8E, 0xD0, 0xBC, 0x00, 0x01, 0xEB, 0x00, 0xB9
+        ];
+
+        private static readonly byte[] SH3PvApp =
+        [
+            0x50, 0x56, 0x41, 0x50, 0x4C, 0x48, 0x45, 0x44, 0x56, 0x32, 0x30
+        ];
+
+        private static readonly byte[][] V30PvData =
+        [
+            [0x53, 0x57, 0xE6, 0xE7, 0xE7, 0xE7],
+            [0x4D, 0x21]
         ];
 
         public enum MimeType
         {
             Unknown = 0,
 
-            X86PvIcon,
+            V30PvIcon,
 
-            X86PvApp,
+            V30PvApp,
 
-            X86PvDump,
+            V30PvDump,
 
-            X86PvChip
+            V30PvChip,
+
+            SH3PvApp,
+
+            V30PvData
         }
 
         public static MimeType? GetMimeType(this byte[] bytes)
         {
-            if (bytes.IsContained(X86PvApp))
-                return MimeType.X86PvApp;
-            if (bytes.IsContained(X86PvDump))
-                return MimeType.X86PvDump;
-            if (bytes.IsContained(X86PvIcon[0]) || bytes.IsContained(X86PvIcon[1]))
-                return MimeType.X86PvIcon;
-            if (bytes.IsContained(X86PvChip))
-                return MimeType.X86PvChip;
+            if (bytes.IsContained(V30PvApp))
+                return MimeType.V30PvApp;
+            if (bytes.IsContained(V30PvDump))
+                return MimeType.V30PvDump;
+            if (bytes.IsContained(V30PvIcon[0]) || bytes.IsContained(V30PvIcon[1]))
+                return MimeType.V30PvIcon;
+            if (bytes.IsContained(V30PvChip))
+                return MimeType.V30PvChip;
+            if (bytes.IsContained(SH3PvApp))
+                return MimeType.SH3PvApp;
+            if (bytes.IsContained(V30PvData[0]) || bytes.IsContained(V30PvData[1]))
+                return MimeType.V30PvData;
             return null;
         }
 
@@ -59,8 +80,8 @@ namespace PoViEmu.Core.Hardware
         {
             return kind switch
             {
-                MimeType.X86PvApp => LoadApp(bytes),
-                MimeType.X86PvDump => LoadDump(bytes),
+                MimeType.V30PvApp => LoadApp(bytes),
+                MimeType.V30PvDump => LoadDump(bytes),
                 _ => new InvalidOperationException($"{kind}, {bytes.Length} B ?!")
             };
         }
