@@ -9,12 +9,15 @@ namespace Discover
         [Option('h', "hex", HelpText = "Find hex matches.")]
         public bool HexMatch { get; set; }
 
+        [Option('l', "line", HelpText = "Find file hex lines.")]
+        public bool HexLine { get; set; }
+
         [Option('r', "rip", HelpText = "Find binary app infos.")]
         public bool ReadBins { get; set; }
 
         [Option('m', "mod", HelpText = "Find device models.")]
         public bool GetModels { get; set; }
-        
+
         [Option('p', "isa", HelpText = "Find ISA in files.")]
         public bool PullIsa { get; set; }
 

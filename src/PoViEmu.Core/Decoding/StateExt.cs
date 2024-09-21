@@ -57,9 +57,17 @@ namespace PoViEmu.Core.Decoding
             return register switch
             {
                 R.AX => state.AX,
+                R.AL => state.AL(),
+                // TODO R.AH => state.AH(),
                 R.BX => state.BX,
+                // TODO R.BL => state.BL(),
+                // TODO R.BH => state.BH(),
                 R.CX => state.CX,
+                // TODO R.CL => state.CL(),
+                // TODO R.CH => state.CH(),
                 R.DX => state.DX,
+                // TODO R.DL => state.DL(),
+                // TODO R.DH => state.DH(),
                 R.SP => state.SP,
                 R.BP => state.BP,
                 R.SI => state.SI,
