@@ -2,9 +2,7 @@ from core_sys import check_ext
 
 
 def is_ignore(file_ext):
-    return (check_ext(file_ext, '.pva')
-            or check_ext(file_ext, '.twf')
-            or check_ext(file_ext, '.prc')
+    return (check_ext(file_ext, '.prc')
             or check_ext(file_ext, '.txt')
             or check_ext(file_ext, '.lzh')
             or check_ext(file_ext, '.adt')
@@ -36,11 +34,46 @@ def is_ignore(file_ext):
             or check_ext(file_ext, '.cpj')
             or check_ext(file_ext, '.lin')
             or check_ext(file_ext, '.map')
+            or check_ext(file_ext, '.bas')
+            or check_ext(file_ext, '.obp')
+            or check_ext(file_ext, '.mo')
+            or check_ext(file_ext, '.lnk')
+            or check_ext(file_ext, '.msg')
+            or check_ext(file_ext, '.inc')
+            or check_ext(file_ext, '.abs')
             or check_ext(file_ext, '.cpp')
+            or check_ext(file_ext, '.hpp')
             or check_ext(file_ext, '.c')
             or check_ext(file_ext, '.h')
+            or check_ext(file_ext, '.fr')
+            or check_ext(file_ext, '.es')
+            or check_ext(file_ext, '.it')
+            or check_ext(file_ext, '.de')
+            or check_ext(file_ext, '.cab')
+            or check_ext(file_ext, '.lst')
+            or check_ext(file_ext, '.lng')
+            or check_ext(file_ext, '.rtf')
+            or check_ext(file_ext, '.cnt')
+            or check_ext(file_ext, '.app')
+            or check_ext(file_ext, '.htm')
+            or check_ext(file_ext, '.bak')
+            or check_ext(file_ext, '.bdsproj')
+            or check_ext(file_ext, '.off')
+            or check_ext(file_ext, '.mak')
+            or check_ext(file_ext, '.mem')
+            or check_ext(file_ext, '.sub')
+            or check_ext(file_ext, '.def')
+            or check_ext(file_ext, '.dlr')
+            or check_ext(file_ext, '.dlw')
+            or check_ext(file_ext, '.dll')
+            or check_ext(file_ext, '.dlp')
+            or check_ext(file_ext, '.dlm')
+            or check_ext(file_ext, '.hlp')
+            or check_ext(file_ext, '.log')
+            or check_ext(file_ext, '.isu')
             or check_ext(file_ext, '.lib')
-            or check_ext(file_ext, '.img'))
+            or check_ext(file_ext, '.img')
+            or len(file_ext) == 0)
 
 
 def is_bin(file_ext):
@@ -59,8 +92,16 @@ def is_dat(file_ext):
     return check_ext(file_ext, '.dat')
 
 
+def is_twf(file_ext):
+    return check_ext(file_ext, '.twf')
+
+
+def is_pva(file_ext):
+    return check_ext(file_ext, '.pva')
+
+
 def is_interesting(file_path):
-    return is_bin(file_path) or is_hex(file_path) or is_diff(file_path) or is_dat(file_path)
+    return is_bin(file_path) or is_hex(file_path) or is_diff(file_path) or is_dat(file_path) or is_pva(file_path) or is_twf(file_path)
 
 
 def is_tgz(file_ext):

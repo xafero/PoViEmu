@@ -58,6 +58,22 @@ def process_one_file(filename, input_dir, output_dir, file_obj=None):
         copy_maybe(filename, dst_file, file_obj)
         print(f" * {v_file_name} --> {dst_file}")
         return
+    if is_pva(v_file_ext):
+        dst_dir = create_dir(join(output_dir, "pvas"))
+        dst_file = join(dst_dir, basename(filename))
+        if exists(dst_file):
+            return
+        copy_maybe(filename, dst_file, file_obj)
+        print(f" * {v_file_name} --> {dst_file}")
+        return
+    if is_twf(v_file_ext):
+        dst_dir = create_dir(join(output_dir, "twfs"))
+        dst_file = join(dst_dir, basename(filename))
+        if exists(dst_file):
+            return
+        copy_maybe(filename, dst_file, file_obj)
+        print(f" * {v_file_name} --> {dst_file}")
+        return
     if is_dat(v_file_ext):
         dst_dir = create_dir(join(output_dir, "dats"))
         dst_file = join(dst_dir, basename(filename))
