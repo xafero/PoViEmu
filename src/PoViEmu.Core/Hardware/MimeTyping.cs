@@ -36,6 +36,11 @@ namespace PoViEmu.Core.Hardware
             0x50, 0x56, 0x41, 0x50, 0x4C, 0x48, 0x45, 0x44, 0x56, 0x32, 0x30
         ];
 
+        private static readonly byte[] SH3PvDump =
+        [
+            0x43, 0x41, 0x53, 0x49, 0x4F, 0x50, 0x56, 0x4F, 0x53, 0x32, 0x30, 0x30, 0x55
+        ];
+
         private static readonly byte[][] V30PvData =
         [
             [0x53, 0x57, 0xE6, 0xE7, 0xE7, 0xE7],
@@ -55,6 +60,8 @@ namespace PoViEmu.Core.Hardware
             V30PvChip,
 
             SH3PvApp,
+            
+            SH3PvDump,
 
             V30PvData
         }
@@ -73,6 +80,8 @@ namespace PoViEmu.Core.Hardware
                 return MimeType.SH3PvApp;
             if (bytes.IsContained(V30PvData[0]) || bytes.IsContained(V30PvData[1]))
                 return MimeType.V30PvData;
+            if (bytes.IsContained(SH3PvDump))
+                return MimeType.SH3PvDump;
             return null;
         }
 
