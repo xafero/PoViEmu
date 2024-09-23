@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -41,6 +42,21 @@ namespace PoViEmu.Common
         {
             var text = ToJson(obj);
             File.WriteAllText(file, text, TextHelper.Utf8);
+        }
+
+        public static bool TrySaveToFile<T>(T obj, string file, out Exception? e)
+        {
+            try
+            {
+                SaveToFile(obj, file);
+                e = null;
+                return true;
+            }
+            catch (JsonSerializationException jse)
+            {
+                e = jse.InnerException ?? jse;
+                return false;
+            }
         }
     }
 }

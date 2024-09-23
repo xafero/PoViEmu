@@ -60,7 +60,7 @@ namespace PoViEmu.Core.Hardware
             V30PvChip,
 
             SH3PvApp,
-            
+
             SH3PvDump,
 
             V30PvData
@@ -89,13 +89,27 @@ namespace PoViEmu.Core.Hardware
         {
             return kind switch
             {
-                MimeType.V30PvApp => LoadApp(bytes),
-                MimeType.V30PvDump => LoadDump(bytes),
+                MimeType.V30PvApp => LoadV30App(bytes),
+                MimeType.V30PvDump => LoadV30Dump(bytes),
+                MimeType.V30PvChip => LoadV30Chip(bytes),
+                MimeType.SH3PvDump => LoadSH3Dump(bytes),
                 _ => new InvalidOperationException($"{kind}, {bytes.Length} B ?!")
             };
         }
 
-        private static DumpInfo? LoadDump(byte[] bytes)
+        private static object LoadSH3Dump(byte[] bytes)
+        {
+            // TODO
+            return new object();
+        }
+
+        private static object LoadV30Chip(byte[] bytes)
+        {
+            // TODO
+            return new object();
+        }
+
+        private static DumpInfo? LoadV30Dump(byte[] bytes)
         {
             try
             {
@@ -110,7 +124,7 @@ namespace PoViEmu.Core.Hardware
             }
         }
 
-        private static AddInInfo? LoadApp(byte[] bytes)
+        private static AddInInfo? LoadV30App(byte[] bytes)
         {
             try
             {

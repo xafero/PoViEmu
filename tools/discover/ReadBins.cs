@@ -163,7 +163,7 @@ namespace Discover
             File.WriteAllText("repo.json", json, Encoding.UTF8);
         }
 
-        private static bool IsIgnoredFile(string ext)
+        internal static bool IsIgnoredFile(string ext)
         {
             return ext == ".json" || ext == ".hex" || ext == ".ttf" || ext == ".png" || ext == ".cs" ||
                    ext == ".axaml" || ext == ".props" || ext == ".cache" || ext == ".targets" ||
@@ -172,7 +172,7 @@ namespace Discover
                    ext == ".ico" || ext == ".dmp" || ext == ".txt" || ext == "";
         }
 
-        private static bool IsIgnoredFolder(string file)
+        internal static bool IsIgnoredFolder(string file)
         {
             return file.Contains("/bin/Debug/") || file.Contains("/obj/Debug/") ||
                    file.Contains("/.git/") || file.Contains("/parent/");

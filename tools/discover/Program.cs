@@ -29,6 +29,11 @@ namespace Discover
                     ModPull.Run(o);
                     return;
                 }
+                if (o.LookBins)
+                {
+                    LookBins.Run(o);
+                    return;
+                }
                 if (o.ReadBins)
                 {
                     ReadBins.Run(o);

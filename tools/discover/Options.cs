@@ -15,6 +15,9 @@ namespace Discover
         [Option('r', "rip", HelpText = "Find binary app infos.")]
         public bool ReadBins { get; set; }
 
+        [Option('n', "look", HelpText = "Find file details infos.")]
+        public bool LookBins { get; set; }
+
         [Option('m', "mod", HelpText = "Find device models.")]
         public bool GetModels { get; set; }
 
