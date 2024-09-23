@@ -4,6 +4,7 @@ using PoViEmu.Common;
 using PoViEmu.Core.Addins;
 using PoViEmu.Core.Dumps;
 using PoViEmu.Core.Hardware;
+using PoViEmu.Core.Modules;
 using MT = PoViEmu.Core.Hardware.MimeTyping.MimeType;
 
 namespace Discover
@@ -50,6 +51,11 @@ namespace Discover
                 if (obj is DumpInfo dii)
                 {
                     JsonHelper.TrySaveToFile(dii, jFile, out _);
+                    continue;
+                }
+                if (obj is PvaInfo pii)
+                {
+                    JsonHelper.TrySaveToFile(pii, jFile, out _);
                     continue;
                 }
                 if (mime is MT.V30PvChip or MT.SH3PvDump)

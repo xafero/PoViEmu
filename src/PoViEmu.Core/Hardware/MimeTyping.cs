@@ -3,6 +3,7 @@ using System.IO;
 using PoViEmu.Common;
 using PoViEmu.Core.Addins;
 using PoViEmu.Core.Dumps;
+using PoViEmu.Core.Modules;
 
 // ReSharper disable InconsistentNaming
 
@@ -91,22 +92,22 @@ namespace PoViEmu.Core.Hardware
             {
                 MimeType.V30PvApp => LoadV30App(bytes),
                 MimeType.V30PvDump => LoadV30Dump(bytes),
-                MimeType.V30PvChip => LoadV30Chip(bytes),
-                MimeType.SH3PvDump => LoadSH3Dump(bytes),
+                MimeType.SH3PvApp => LoadSH3App(bytes),
                 _ => new InvalidOperationException($"{kind}, {bytes.Length} B ?!")
             };
         }
 
-        private static object LoadSH3Dump(byte[] bytes)
+        private static PvaInfo? LoadSH3App(byte[] bytes)
         {
-            // TODO
-            return new object();
-        }
-
-        private static object LoadV30Chip(byte[] bytes)
-        {
-            // TODO
-            return new object();
+            try
+            {
+                var addIn = PvaReader.Read(bytes);
+                return addIn;
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
         }
 
         private static DumpInfo? LoadV30Dump(byte[] bytes)
