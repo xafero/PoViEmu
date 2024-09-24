@@ -22,14 +22,33 @@ namespace Discover
             const SearchOption o = SearchOption.AllDirectories;
             var files = Directory.EnumerateFiles(folder, "*.*", o);
 
+            var bDict = new SortedDictionary<string, SortedDictionary<string, SortedSet<string>>>();
+            var byOutFile = "hexbytes.json";
+
             var items = new SortedSet<HexedLine>();
-            var outFile = "hexlines.json";
+            var hlOutFile = "hexlines.json";
 
             foreach (var file in files)
             {
+                var ext = Path.GetExtension(file).ToLowerInvariant();
+                if (!bDict.TryGetValue(ext, out var exist))
+                    bDict[ext] = exist = new SortedDictionary<string, SortedSet<string>>();
+
                 var label = file.Replace(folder, string.Empty).TrimStart('/');
                 var bytes = File.ReadAllBytes(file);
                 Console.WriteLine($" * {label} with {bytes.Length} bytes");
+
+                var copy = bytes[..512];
+                for (var i = 0; i < copy.Length; i++)
+                {
+                    var bKey = $"{i:X4}";
+                    if (!exist.TryGetValue(bKey, out var sub))
+                        exist[bKey] = sub = new SortedSet<string>();
+                    var bit = copy[i];
+                    var ascii = new[] { bit }.DecodeChars();
+                    var num = (int)bit;
+                    sub.Add($"{bit:X2} ({ascii}) ({num})");
+                }
 
                 var hex = Convert.ToHexString(bytes);
                 items.Add(new HexedLine(label, hex, string.Empty));
@@ -50,7 +69,20 @@ namespace Discover
                 lines.Add($"{JsonHelper.ToJson(copy, true)}{end}");
             }
             lines.Add("]");
-            File.WriteAllLines(outFile, lines, Encoding.UTF8);
+            File.WriteAllLines(hlOutFile, lines, Encoding.UTF8);
+            File.WriteAllText(byOutFile, JsonHelper.ToJson(ToEasy(bDict)), Encoding.UTF8);
+        }
+
+        private static SortedDictionary<string, string[]> ToEasy(
+            IDictionary<string, SortedDictionary<string, SortedSet<string>>> i)
+        {
+            var d = new SortedDictionary<string, string[]>();
+            foreach (var t in i)
+            {
+                d[t.Key] = t.Value.Select(x =>
+                    $"{x.Key} : {string.Join(" | ", x.Value)}").ToArray();
+            }
+            return d;
         }
     }
 }
