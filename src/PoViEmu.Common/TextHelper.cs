@@ -70,6 +70,11 @@ namespace PoViEmu.Common
             return new Version(major, minor);
         }
 
+        public static Version ToHVersion(char[] t)
+            => t.Length == 2
+                ? ToVersion($"{(int)t[0]:D2}{(int)t[1]:D2}")
+                : ToVersion($"{(int)t[0]}{(int)t[1]}{(int)t[2]}{(int)t[3]}");
+
         public static DateTime ToDate(string date, string time)
         {
             var format = time == null ? "yyyyMMdd" : "yyyyMMddHHmm";

@@ -6,101 +6,99 @@ namespace PoViEmu.Core.Modules
     public struct PvaHeader
     {
         /// <summary>
-        /// 0000h PVA signature (e.g. "PVAPLHEDV20")
+        /// 0x0000 PVA signature (e.g. "PVAPLHEDV20")
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 12)]
         public char[] Signature;
 
         /// <summary>
-        /// 000Ch Version (e.g. 00010000h for version 1.0)
+        /// 0x000C Version (e.g. 00 01 00 00 for version 1.0)
         /// </summary>
-        public ushort VersionMajor;
-
-        public ushort VersionMinor;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+        public char[] HeaderVersion;
 
         /// <summary>
-        /// 0010h File type (e.g. 00000000h)
+        /// 0x0010 File type (e.g. 00 00 00 00)
         /// </summary>
         public uint FileType;
 
         /// <summary>
-        /// 0014h Reserved size (e.g. 00000000h)
+        /// 0x0014 Reserved size (e.g. 00 00 00 00)
         /// </summary>
         public uint ReservedSize;
 
         /// <summary>
-        /// 0018h Keycodes (unknown, 32 bytes)
+        /// 0x0018 Keycodes (unknown, 32 bytes)
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
         public byte[] Keycodes;
 
         /// <summary>
-        /// 0038h Segment number (e.g. 00000001h)
+        /// 0x0038 Segment number (e.g. 00 00 00 01)
         /// </summary>
         public uint SegmentNumber;
 
         /// <summary>
-        /// 003Ch Offset to ELF body (e.g. 000001A0h)
+        /// 0x003C Offset to ELF body (e.g. 00 00 01 A0)
         /// </summary>
         public uint ElfOffset;
 
         /// <summary>
-        /// 0040h PVA mode (e.g. 0001h for PV, CP, PV/CP)
+        /// 0x0040 PVA mode (e.g. 00 01 for PV, CP, PV/CP)
         /// </summary>
         public ushort PvaMode;
 
         /// <summary>
-        /// 0042h PVA type (e.g. 0000h for Application)
+        /// 0x0042 PVA type (e.g. 00 00 for Application)
         /// </summary>
         public ushort PvaType;
 
         /// <summary>
-        /// 0044h Offset to Program info header (e.g. 00000048h)
+        /// 0x0044 Offset to Program info header (e.g. 00 00 00 48)
         /// </summary>
         public uint ProgramInfoOffset;
 
         /// <summary>
-        /// 0048h Program name (e.g. "TextViewer")
+        /// 0x0048 Program name (e.g. "TextViewer")
         /// </summary>
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
         public string ProgramName;
 
         /// <summary>
-        /// 0088h Program version (e.g. 0125h)
+        /// 0x0088 Program version (e.g. 01 25)
         /// </summary>
-        public ushort ProgramVersionMajor;
-
-        public ushort ProgramVersionMinor;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
+        public char[] ProgramVersion;
 
         /// <summary>
-        /// 008Ah Library version (e.g. 0100h)
+        /// 0x008A Library version (e.g. 01 00)
         /// </summary>
-        public ushort libraryVersionMajor;
-
-        public ushort libraryVersionMinor;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
+        public char[] LibraryVersion;
 
         /// <summary>
-        /// 008Ch ELF length (e.g. 00014A08h)
+        /// 0x008C ELF length (e.g. 00 01 4A 08)
         /// </summary>
         public uint ElfLength;
 
         /// <summary>
-        /// 0090h Year of creation (e.g. 2002)
+        /// 0x0090 Year of creation (e.g. 20 02)
         /// </summary>
-        public ushort CreationYear;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
+        public byte[] CreationYear;
 
         /// <summary>
-        /// 0092h Month of creation (e.g. 12)
+        /// 0x0092 Month of creation (e.g. 12)
         /// </summary>
         public byte CreationMonth;
 
         /// <summary>
-        /// 0093h Day of creation (e.g. 11)
+        /// 0x0093 Day of creation (e.g. 11)
         /// </summary>
         public byte CreationDay;
 
         /// <summary>
-        /// 0094h Hour of creation (e.g. 15)
+        /// 0x0094 Hour of creation (e.g. 15)
         /// </summary>
         public byte CreationHour;
 
@@ -110,52 +108,56 @@ namespace PoViEmu.Core.Modules
         public byte CreationMinute;
 
         /// <summary>
-        /// 0096h Second of creation (e.g. 02)
+        /// 0x0096 Second of creation (e.g. 02)
         /// </summary>
         public byte CreationSecond;
 
         /// <summary>
-        /// 0097h Dummy byte (e.g. 00)
+        /// 0x0097 Dummy byte (e.g. 00)
         /// </summary>
         public byte Dummy;
 
         /// <summary>
-        /// 0098h Application code (e.g. 0001h)
+        /// 0x0098 Application code (e.g. 00 01)
         /// </summary>
         public ushort ApplicationCode;
 
         /// <summary>
-        /// 009Ah Icon height (e.g. 001Ch for 28)
+        /// 0x009A Icon height (e.g. 00 1C for 28)
         /// </summary>
-        public ushort IconHeight;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
+        public byte[] IconHeight;
 
         /// <summary>
-        /// 009Ch Icon width (e.g. 002Dh for 45)
+        /// 0x009C Icon width (e.g. 00 2D for 45)
         /// </summary>
-        public ushort IconWidth;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
+        public byte[] IconWidth;
 
         /// <summary>
-        /// 009Eh Icon type (e.g. 0000h)
+        /// 0x009E Icon type (e.g. 00 00)
         /// </summary>
         public ushort IconType;
 
         /// <summary>
-        /// 00A0h Small icon height (e.g. 0014h for 20)
+        /// 0x00A0 Small icon height (e.g. 00 14 for 20)
         /// </summary>
-        public ushort SmallIconHeight;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
+        public byte[] SmallIconHeight;
 
         /// <summary>
-        /// 00A2h Small icon width (e.g. 001Bh for 27)
+        /// 0x00A2 Small icon width (e.g. 00 1B for 27)
         /// </summary>
-        public ushort SmallIconWidth;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
+        public byte[] SmallIconWidth;
 
         /// <summary>
-        /// 00A4h Small icon type (e.g. 0000h)
+        /// 0x00A4 Small icon type (e.g. 00 00)
         /// </summary>
         public ushort SmallIconType;
 
         /// <summary>
-        /// 00A6h Unknown field (e.g. 0000h)
+        /// 0x00A6 Unknown field (e.g. 00 00)
         /// </summary>
         public ushort UnknownField;
     }

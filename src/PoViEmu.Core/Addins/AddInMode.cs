@@ -3,7 +3,7 @@ namespace PoViEmu.Core.Addins
     public enum AddInMode
     {
         Unknown = 0,
-
+        
         /// <summary>
         /// IB_MADDIN, IW_MADDIN
         /// </summary>

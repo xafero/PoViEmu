@@ -14,7 +14,7 @@ namespace PoViEmu.Core.Modules
             if (gotSize < HeaderSize)
                 throw new InvalidOperationException($"Got {gotSize} bytes instead of {HeaderSize}!");
             var header = Marshalling.Read<PvaHeader>(bytes);
-            var result = new PvaInfo(header);
+            var result = new PvaInfo(header, (uint)bytes.Length);
             CheckIfValid(result);
             return result;
         }
@@ -23,9 +23,9 @@ namespace PoViEmu.Core.Modules
         {
             try
             {
-                // _ = result.HeaderVersion;
-                // _ = result.LibraryVersion;
-                // _ = result.Version;
+                _ = result.HeaderVersion;
+                _ = result.LibraryVersion;
+                _ = result.Version;
             }
             catch (Exception ex) when (ex is IndexOutOfRangeException or FormatException)
             {
