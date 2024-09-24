@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using PoViEmu.Common;
 using PoViEmu.Core.Addins;
+using PoViEmu.Core.Data;
 using PoViEmu.Core.Dumps;
 using PoViEmu.Core.Hardware;
 using PoViEmu.Core.Modules;
@@ -56,6 +57,15 @@ namespace Discover
                 if (obj is PvaInfo pii)
                 {
                     JsonHelper.TrySaveToFile(pii, jFile, out _);
+                    continue;
+                }
+                if (obj is MemoInfo mii)
+                {
+                    mii.SetFile(file);
+                    JsonHelper.TrySaveToFile(mii, jFile, out _);
+
+                    Console.WriteLine(JsonHelper.ToJson(mii));
+                    
                     continue;
                 }
                 if (mime is MT.V30PvChip or MT.SH3PvDump)

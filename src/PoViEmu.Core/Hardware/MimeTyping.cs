@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using PoViEmu.Common;
 using PoViEmu.Core.Addins;
+using PoViEmu.Core.Data;
 using PoViEmu.Core.Dumps;
 using PoViEmu.Core.Modules;
 
@@ -92,6 +93,7 @@ namespace PoViEmu.Core.Hardware
             {
                 MimeType.V30PvApp => LoadV30App(bytes),
                 MimeType.V30PvDump => LoadV30Dump(bytes),
+                MimeType.V30PvData => LoadV30Data(bytes),
                 MimeType.SH3PvApp => LoadSH3App(bytes),
                 _ => new InvalidOperationException($"{kind}, {bytes.Length} B ?!")
             };
@@ -102,6 +104,19 @@ namespace PoViEmu.Core.Hardware
             try
             {
                 var addIn = PvaReader.Read(bytes);
+                return addIn;
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
+        }
+
+        private static MemoInfo? LoadV30Data(byte[] bytes)
+        {
+            try
+            {
+                var addIn = MemoReader.Read(bytes);
                 return addIn;
             }
             catch (InvalidOperationException)
