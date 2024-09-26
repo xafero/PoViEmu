@@ -12,6 +12,7 @@ namespace PoViEmu.Tests
             using var stream = File.OpenRead(file);
             var addIn = TwfReader.Read(stream);
             addIn.SetFile(file);
+            addIn.Created = null;
 
             var actual = JsonHelper.ToJson(addIn);
             var jFile = Path.Combine(dir, $"{fileName}.json");

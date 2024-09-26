@@ -9,9 +9,9 @@ namespace PoViEmu.Core.Data
         public TwfModel Device { get; set; }
         public string ProgName { get; set; }
         
-        public string FileName { get; set; }
         public long Size { get; set; }
-        public DateTime Created { get; set; }
+        public DateTime? Created { get; set; }
+        public string FileName { get; set; }
 
         public void SetFile(string file)
         {
