@@ -112,11 +112,11 @@ namespace PoViEmu.Core.Hardware
             }
         }
 
-        private static MemoInfo? LoadV30Data(byte[] bytes)
+        private static TwfInfo? LoadV30Data(byte[] bytes)
         {
             try
             {
-                var addIn = MemoReader.Read(bytes);
+                var addIn = TwfReader.Read(bytes);
                 return addIn;
             }
             catch (InvalidOperationException)

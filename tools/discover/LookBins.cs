@@ -59,13 +59,10 @@ namespace Discover
                     JsonHelper.TrySaveToFile(pii, jFile, out _);
                     continue;
                 }
-                if (obj is MemoInfo mii)
+                if (obj is TwfInfo mii)
                 {
                     mii.SetFile(file);
                     JsonHelper.TrySaveToFile(mii, jFile, out _);
-
-                    Console.WriteLine(JsonHelper.ToJson(mii));
-                    
                     continue;
                 }
                 if (mime is MT.V30PvChip or MT.SH3PvDump)
