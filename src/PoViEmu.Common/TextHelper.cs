@@ -76,12 +76,9 @@ namespace PoViEmu.Common
             var text = rawText
                 .Replace('\r', ' ')
                 .Replace('\n', ' ');
-            return SpaceRegex().Replace(text, " ").Trim();
+            return Regex.Replace(text, @"\s+", " ").Trim();
         }
-
-        [GeneratedRegex(@"\s+")]
-        private static partial Regex SpaceRegex();
-
+        
         public static T ToEnum<T>(string text, T defaultVal) where T : struct
         {
             return Enum.TryParse<T>(text, ignoreCase: true, out var result) ? result : defaultVal;
