@@ -20,10 +20,7 @@ namespace Discover
 
         [Option('m', "mod", HelpText = "Find device models.")]
         public bool GetModels { get; set; }
-
-        [Option('p', "isa", HelpText = "Find ISA in files.")]
-        public bool PullIsa { get; set; }
-
+        
         [Option('i', "input", HelpText = "Set input directory.")]
         public string InputDir { get; set; }
     }

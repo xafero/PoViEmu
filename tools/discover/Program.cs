@@ -19,11 +19,6 @@ namespace Discover
                     HexLine.Run(o);
                     return;
                 }
-                if (o.PullIsa)
-                {
-                    IsaPull.Run(o);
-                    return;
-                }
                 if (o.GetModels)
                 {
                     ModPull.Run(o);
