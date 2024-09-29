@@ -17,6 +17,12 @@ namespace PoViEmu.Common
         {
             return string.IsNullOrWhiteSpace(text) ? null : text.Trim();
         }
+        
+        public static string[] SplitOn(string l)
+        {
+            var opt = StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries;
+            return l.Split(' ', 3, opt);
+        }
 
         public static string ReplaceFirst(this string text, string term, string newTxt)
         {
