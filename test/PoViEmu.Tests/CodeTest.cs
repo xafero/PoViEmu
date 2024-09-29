@@ -6,7 +6,7 @@ namespace PoViEmu.Tests
 {
     public class CodeTest
     {
-        [Theory(Skip = "Don't run this at the moment!")]
+        [Theory(Skip = "Don't check for now!")] // TODO
         [InlineData("Ast1")]
         [InlineData("Ast2")]
         public void ShouldRead(string fileName)

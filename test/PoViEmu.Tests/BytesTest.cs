@@ -3,7 +3,7 @@ using Xunit;
 
 namespace PoViEmu.Tests
 {
-    public class BytesTests
+    public class BytesTest
     {
         [Theory]
         [InlineData(0xABCD, 0xCD, 0xAB, 0x3412, 0x12, 0x34)]

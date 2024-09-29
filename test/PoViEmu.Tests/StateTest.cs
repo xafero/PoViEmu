@@ -7,7 +7,7 @@ using static PoViEmu.Tests.TestHelper;
 
 namespace PoViEmu.Tests
 {
-    public class StateTests
+    public class StateTest
     {
         [Fact]
         public void TestStackOperation()
