@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Iced.Intel;
+using PoViEmu.Core.Hardware;
 using OK = Iced.Intel.OpKind;
 using R = Iced.Intel.Register;
 
@@ -12,52 +13,53 @@ namespace PoViEmu.Core.Decoding
     {
         public const int StackSize = 2;
 
-        public static void Push(this ref MachineState state, ushort value)
+        public static void Push(this MachineState state, ushort value)
         {
             state.SP -= StackSize;
 
-            var list = state.Stack.First();
-            list.Value.Insert(0, value);
+            // var list = state.Stack.First();
+            // list.Value.Insert(0, value);
         }
 
-        public static void Pop(this ref MachineState state, out ushort value)
+        public static void Pop(this MachineState state, out ushort value)
         {
-            var list = state.Stack.First();
-            value = list.Value.First();
-            list.Value.RemoveAt(0);
+            // var list = state.Stack.First();
+            // value = list.Value.First();
+            // list.Value.RemoveAt(0);
+            value = default;
 
             state.SP += StackSize;
         }
 
-        public static ushort GetValue(this ref MachineState state, Instruction instr, int opNr)
+        public static ushort GetValue(this MachineState state, Instruction instr, int opNr)
         {
             return opNr switch
             {
                 1 => instr.Op1Kind switch
                 {
                     OK.Immediate16 => instr.Immediate16,
-                    OK.Register => state.Get(instr.Op1Register),
+                    // OK.Register => state.Get(instr.Op1Register),
                 },
                 _ => throw new InvalidOperationException($"{instr} / {opNr}")
             };
         }
 
-        public static byte ReadMem(this ref MachineState state, Instruction i, int size)
+        public static byte ReadMem(this MachineState state, Instruction i, int size)
         {
             throw new InvalidOperationException("?! " + i + " " + size);
         }
 
-        public static byte WriteMem(this ref MachineState state, Instruction i, int size, ushort value)
+        public static byte WriteMem(this MachineState state, Instruction i, int size, ushort value)
         {
             throw new InvalidOperationException("?! " + i + " " + size + " " + value);
         }
 
-        public static ushort Get(this ref MachineState state, R register)
+        public static ushort Get(this MachineState state, R register)
         {
             return register switch
             {
                 R.AX => state.AX,
-                R.AL => state.AL(),
+                // R.AL => state.AL(),
                 // TODO R.AH => state.AH(),
                 R.BX => state.BX,
                 // TODO R.BL => state.BL(),
@@ -80,7 +82,7 @@ namespace PoViEmu.Core.Decoding
             };
         }
 
-        public static void Set(this ref MachineState state, R register, ushort value)
+        public static void Set(this MachineState state, R register, ushort value)
         {
             switch (register)
             {
@@ -156,7 +158,7 @@ namespace PoViEmu.Core.Decoding
                 })
             );
 
-        public static byte AL(this ref MachineState state)
+        public static byte AL(this MachineState state)
         {
             throw new NotImplementedException("?");
         }

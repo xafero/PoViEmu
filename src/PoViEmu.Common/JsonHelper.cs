@@ -1,7 +1,10 @@
-using System;
-using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System;
+using System.Linq;
+using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace PoViEmu.Common
 {
@@ -24,26 +27,20 @@ namespace PoViEmu.Common
             var json = JsonConvert.SerializeObject(obj, config);
             return json;
         }
-
+        
         public static T FromJson<T>(string json, bool format = true)
         {
             var config = GetConfig(format);
             var obj = JsonConvert.DeserializeObject<T>(json, config);
             return obj;
         }
-
-        public static T LoadFromFile<T>(string file)
-        {
-            var text = File.ReadAllText(file, TextHelper.Utf8);
-            return FromJson<T>(text);
-        }
-
+        
         public static void SaveToFile<T>(T obj, string file)
         {
             var text = ToJson(obj);
             File.WriteAllText(file, text, TextHelper.Utf8);
         }
-
+        
         public static bool TrySaveToFile<T>(T obj, string file, out Exception? e)
         {
             try

@@ -1,26 +1,19 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PoViEmu.Common
 {
     public static class CollHelper
     {
-        public static IEnumerable<T> ToMax<T>(this IEnumerable<T> items, int maxCount)
-        {
-            return maxCount >= 1 ? items.Take(maxCount) : items;
-        }
-
         public static IEnumerable<(T first, T second)> SplitTwo<T>(this IEnumerable<T> items)
         {
             using var it = items.GetEnumerator();
             while (it.MoveNext())
             {
                 var first = it.Current;
-                if (it.MoveNext())
-                {
-                    var second = it.Current;
-                    yield return (first, second);
-                }
+                if (!it.MoveNext())
+                    continue;
+                var second = it.Current;
+                yield return (first, second);
             }
         }
 

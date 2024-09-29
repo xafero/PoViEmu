@@ -93,7 +93,7 @@ namespace PoViEmu.Core.Hardware
             }
             return bld.ToString();
         }
-        
+
         public static IEnumerable<(ushort addr, ushort val)> GetStackVals(this MachineState m,
             ushort? segment = null, int count = MachTool.SegmentSize, ushort offset = 0)
             => m.ReadMemory(segment ?? m.SS, offset, count - offset).SplitTwo().Select((t, i) =>

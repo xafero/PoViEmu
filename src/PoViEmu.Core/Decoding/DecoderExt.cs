@@ -6,6 +6,22 @@ namespace PoViEmu.Core.Decoding
 {
     public static class DecoderExt
     {
+        private static readonly NasmFormatter Format = new(new FormatterOptions
+        {
+            UppercaseMnemonics = true
+        });
+
+        public static (string op, string arg) FormatStr(this Instruction instruct)
+        {
+            StringOutput output = new();
+            Format.Format(instruct, output);
+            var text = output.ToStringAndReset();
+            var parts = text.Split(' ', 2);
+            var op = instruct.IsInvalid ? "???" : parts[0];
+            var arg = parts.Length == 2 ? parts[1] : string.Empty;
+            return (op, arg);
+        }
+
         public static Decoder Create16(this CodeReader reader, ushort ip)
         {
             const DecoderOptions options = DecoderOptions.NoInvalidCheck |
@@ -28,23 +44,6 @@ namespace PoViEmu.Core.Decoding
                 var item = new XInstruction(byteStr, instruct);
                 yield return item;
             }
-        }
-
-        private static readonly StringOutput Output = new();
-
-        private static readonly NasmFormatter Format = new(new FormatterOptions
-        {
-            UppercaseMnemonics = true
-        });
-
-        public static (string op, string arg) FormatStr(this Instruction instruct)
-        {
-            Format.Format(instruct, Output);
-            var text = Output.ToStringAndReset();
-            var parts = text.Split(' ', 2);
-            var op = instruct.IsInvalid ? "???" : parts[0];
-            var arg = parts.Length == 2 ? parts[1] : string.Empty;
-            return (op, arg);
         }
     }
 }

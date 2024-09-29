@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using PoViEmu.Core.Hardware;
 
 // ReSharper disable InconsistentNaming
 
@@ -137,17 +138,17 @@ namespace PoViEmu.Core.Decoding
                 items.Add(f10);
             if (IsEqual(first, second, i => i.Frame11, "F11") is { } f11)
                 items.Add(f11);
-            if (IsEqual(first, second, i => i.Stack, "Stack") is { } sta)
-                items.Add(sta);
-            if (IsEqual(first, second, i => i.Memory, "Memory") is { } mem)
-                items.Add(mem);
+            // if (IsEqual(first, second, i => i.Stack, "Stack") is { } sta)
+            // items.Add(sta);
+            // if (IsEqual(first, second, i => i.Memory, "Memory") is { } mem)
+            // items.Add(mem);
             return items;
         }
 
-        public static void Init(this ref MachineState state)
+        public static void Init(this MachineState state)
         {
-            state.Stack = new();
-            state.Memory = new();
+            // state.Stack = new();
+            // state.Memory = new();
         }
     }
 }

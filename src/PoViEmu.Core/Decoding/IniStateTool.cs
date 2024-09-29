@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using PoViEmu.Core.Hardware;
 using Tomlyn;
 
 // ReSharper disable InconsistentNaming
@@ -104,8 +105,8 @@ namespace PoViEmu.Core.Decoding
                 F9 = state.Frame9.AsHex(),
                 F10 = state.Frame10.AsHex(),
                 F11 = state.Frame11.AsHex(),
-                Stack = state.Stack.AsHex(),
-                Memory = state.Memory.AsHex(root)
+                // Stack = state.Stack.AsHex(),
+                // Memory = state.Memory.AsHex(root)
             };
             var text = Toml.FromModel(model, Opt);
             return text;
@@ -156,8 +157,8 @@ namespace PoViEmu.Core.Decoding
                 Frame9 = model.F9.AsUShort(),
                 Frame10 = model.F10.AsUShort(),
                 Frame11 = model.F11.AsUShort(),
-                Stack = model.Stack.AsUShort(),
-                Memory = model.Memory.AsUShort(root)
+                // Stack = model.Stack.AsUShort(),
+                // Memory = model.Memory.AsUShort(root)
             };
             return state;
         }
