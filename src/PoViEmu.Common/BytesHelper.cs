@@ -33,12 +33,29 @@ namespace PoViEmu.Common
             }
             return -1;
         }
-        
+
         public static string ToHex(this byte[] bytes, bool prependSize = true, bool withSpace = false)
         {
             var txt = Convert.ToHexString(bytes);
             var hex = withSpace ? string.Join(' ', txt.SplitEvery(2)) : txt;
             return prependSize ? $"({bytes.Length}) {hex}" : hex;
+        }
+
+        public static IEnumerable<byte[]> SplitEvery(this byte[] text, int count)
+        {
+            var bld = new List<byte>();
+            for (var i = 0; i < text.Length; i += count)
+            {
+                bld.Clear();
+                for (var j = 0; j < count; j++)
+                {
+                    var idx = i + j;
+                    if (idx >= text.Length)
+                        break;
+                    bld.Add(text[idx]);
+                }
+                yield return bld.ToArray();
+            }
         }
     }
 }
