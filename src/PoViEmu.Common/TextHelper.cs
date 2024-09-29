@@ -70,22 +70,7 @@ namespace PoViEmu.Common
             0x67, 0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73, 0x74,
             0x75, 0x76, 0x77, 0x78, 0x79, 0x7a, 0x7b, 0x7c, 0x7d, 0x7e
         ];
-
-        public static string FindCommon(string first, string second)
-        {
-            var size = Math.Min(first.Length, second.Length);
-            var bld = new StringBuilder();
-            for (var i = 0; i < size; i++)
-            {
-                var x = first[i];
-                var y = second[i];
-                if (x != y)
-                    break;
-                bld.Append(y);
-            }
-            return bld.ToString();
-        }
-
+        
         public static string RemoveSpaces(this string rawText)
         {
             var text = rawText

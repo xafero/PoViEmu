@@ -4,7 +4,7 @@ using IniFile;
 
 namespace PoViEmu.Common
 {
-    public class IniTool
+    public static class IniTool
     {
         public static Ini LoadIni(string file)
         {
