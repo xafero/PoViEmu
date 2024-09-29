@@ -1,9 +1,8 @@
 using System;
 using System.IO;
 using PoViEmu.Common;
-using PoViEmu.Core.Addins;
 
-namespace PoViEmu.Core
+namespace PoViEmu.Core.Addins
 {
     public static class AddInReader
     {

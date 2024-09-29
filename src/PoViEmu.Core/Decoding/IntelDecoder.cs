@@ -1,7 +1,7 @@
 using System.IO;
 using Iced.Intel;
 
-namespace PoViEmu.Core
+namespace PoViEmu.Core.Decoding
 {
     public static class IntelDecoder
     {

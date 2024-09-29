@@ -8,7 +8,7 @@ using PoViEmu.Core.Modules;
 
 // ReSharper disable InconsistentNaming
 
-namespace PoViEmu.Core.Hardware
+namespace PoViEmu.Core.Mimes
 {
     public static class MimeTyping
     {

@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using PoViEmu.Common;
-using PoViEmu.Core;
+using PoViEmu.Core.Addins;
 using PoViEmu.Core.Dumps;
 using PoViEmu.Core.Inventory;
 using static PoViEmu.Core.Inventory.StockUtil;

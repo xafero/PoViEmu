@@ -4,9 +4,9 @@ using PoViEmu.Common;
 using PoViEmu.Core.Addins;
 using PoViEmu.Core.Data;
 using PoViEmu.Core.Dumps;
-using PoViEmu.Core.Hardware;
+using PoViEmu.Core.Mimes;
 using PoViEmu.Core.Modules;
-using MT = PoViEmu.Core.Hardware.MimeTyping.MimeType;
+using MT = PoViEmu.Core.Mimes.MimeTyping.MimeType;
 
 namespace Discover
 {

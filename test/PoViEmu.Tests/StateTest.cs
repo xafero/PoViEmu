@@ -1,5 +1,3 @@
-using System.IO;
-using System.Text;
 using PoViEmu.Core.Hardware;
 using Xunit;
 using M = PoViEmu.Common.Diffs.Mode;

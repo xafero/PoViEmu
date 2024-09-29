@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using PoViEmu.Common;
+using PoViEmu.Core.Addins;
 using PoViEmu.Core.Dumps;
 using PoViEmu.Core.Images;
 using SixLabors.ImageSharp;

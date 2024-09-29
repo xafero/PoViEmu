@@ -1,6 +1,5 @@
 using System.IO;
 using PoViEmu.Common;
-using PoViEmu.Core;
 using PoViEmu.Core.Dumps;
 
 namespace PoViEmu.Tests

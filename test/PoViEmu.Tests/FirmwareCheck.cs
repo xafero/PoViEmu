@@ -1,5 +1,5 @@
 using System.IO;
-using PoViEmu.Core;
+using PoViEmu.Core.Binaries;
 
 namespace PoViEmu.Tests
 {
