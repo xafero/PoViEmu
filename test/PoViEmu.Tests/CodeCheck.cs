@@ -12,7 +12,7 @@ namespace PoViEmu.Tests
             var m = new MachineState { SS = 0x1050, SP = 0x0000, CS = 0x1060, IP = 0x0000 };
             m[m.CS, 0x0000] = bytes;
 
-            var res = m.ExecAndCollect(2444);
+            var res = m.ExecAndCollect(2656);
 
             TestHelper.Check(res, [
             ]);

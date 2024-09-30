@@ -63,5 +63,17 @@ namespace PoViEmu.Core.Hardware
             m.SP += 2;
             return value;
         }
+
+        public static (ushort low, ushort high) SplitInt(int mulV)
+        {
+            var low = (ushort)(mulV & 0xFFFF);
+            var high = (ushort)(mulV >> 16);
+            return (low, high);
+        }
+
+        public static int CombineInt(ushort low, ushort high)
+        {
+            return (high << 16) | low;
+        }
     }
 }
