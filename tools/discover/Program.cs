@@ -25,7 +25,7 @@ namespace Discover
             m.Set(B16Register.DS, 0x2499);
             m.Set(B16Register.SS, 0x3811);
             m.Set(B16Register.ES, 0x1389);
-            
+
             m.Set(B8Register.AH, 0x05);
             m.Set(B8Register.AL, 0x06);
             m.Set(B8Register.BH, 0x07);
@@ -34,7 +34,7 @@ namespace Discover
             m.Set(B8Register.CL, 0x10);
             m.Set(B8Register.DH, 0x11);
             m.Set(B8Register.DL, 0x12);
-            
+
             m.Set(EmsRegister.Bank0, 0x10);
             m.Set(EmsRegister.Bank1, 0x20);
             m.Set(EmsRegister.Bank2, 0x30);
@@ -54,7 +54,7 @@ namespace Discover
             m.Set(EmsRegister.Frame9, 0x170);
             m.Set(EmsRegister.Frame10, 0x180);
             m.Set(EmsRegister.Frame11, 0x190);
-            
+
             m.Set(FlagRegister.TF, true);
             m.Set(FlagRegister.DF, true);
             m.Set(FlagRegister.IF, true);
@@ -64,6 +64,20 @@ namespace Discover
             m.Set(FlagRegister.AF, true);
             m.Set(FlagRegister.PF, true);
             m.Set(FlagRegister.CF, true);
+
+            var hello = new
+            {
+                AX = m.Get(B16Register.AX),
+                BX = m.Get(B16Register.BX),
+                CX = m.Get(B16Register.CX),
+                DX = m.Get(B16Register.DX),
+                SP = m.Get(B16Register.SP),
+                BP = m.Get(B16Register.BP),
+                IP = m.Get(B16Register.IP),
+                SI = m.Get(B16Register.SI),
+                DI = m.Get(B16Register.DI)
+            };
+            Console.WriteLine(JsonHelper.ToJson(hello));
 
             Console.WriteLine(JsonHelper.ToJson(m));
         }
