@@ -1,9 +1,7 @@
 // ReSharper disable InconsistentNaming
 
-using System;
 using System.Linq;
 using Iced.Intel;
-using PoViEmu.Common;
 using PoViEmu.Core.Decoding;
 using PoViEmu.Core.Decoding.Ops;
 using PoViEmu.Core.Hardware.Errors;
