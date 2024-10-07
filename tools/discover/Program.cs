@@ -65,21 +65,15 @@ namespace Discover
             m.Set(FlagRegister.PF, true);
             m.Set(FlagRegister.CF, true);
 
-            var hello = new
-            {
-                AX = m.Get(B16Register.AX),
-                BX = m.Get(B16Register.BX),
-                CX = m.Get(B16Register.CX),
-                DX = m.Get(B16Register.DX),
-                SP = m.Get(B16Register.SP),
-                BP = m.Get(B16Register.BP),
-                IP = m.Get(B16Register.IP),
-                SI = m.Get(B16Register.SI),
-                DI = m.Get(B16Register.DI)
-            };
-            Console.WriteLine(JsonHelper.ToJson(hello));
+            var td = m.ToDict();
+            Console.WriteLine(JsonHelper.ToJson(td));
 
-            Console.WriteLine(JsonHelper.ToJson(m));
+            var mc = td.FromDict();
+            // Console.WriteLine(JsonHelper.ToJson(mc));
+
+            // Console.WriteLine(JsonHelper.ToJson(hello));
+
+            // Console.WriteLine(JsonHelper.ToJson(m));
         }
 
         private static void Main2(string[] args)

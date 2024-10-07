@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
+using PoViEmu.Core.Decoding;
 
 namespace PoViEmu.Core.Hardware.AckNow
 {
@@ -164,6 +167,79 @@ namespace PoViEmu.Core.Hardware.AckNow
                 case B16Register.SS: return m.SS;
                 default: throw new InvalidOperationException($"{reg}");
             }
+        }
+
+        public static IDictionary<string, object> ToDict(this MachineState m)
+        {
+            var dict = new Dictionary<string, object>();
+            foreach (var reg in Enum.GetValues<B8Register>())
+            {
+                if (reg == default) continue;
+                dict[$"{reg}"] = m.Get(reg).AsHex();
+            }
+            foreach (var reg in Enum.GetValues<B16Register>())
+            {
+                if (reg == default) continue;
+                dict[$"{reg}"] = m.Get(reg).AsHex();
+            }
+            foreach (var reg in Enum.GetValues<FlagRegister>())
+            {
+                if (reg == default) continue;
+                dict[$"{reg}"] = m.Get(reg).AsInt();
+            }
+            foreach (var reg in Enum.GetValues<EmsRegister>())
+            {
+                if (reg == default) continue;
+                dict[$"{reg}"] = m.Get(reg).AsHex();
+            }
+            return dict;
+        }
+
+        public static MachineState FromDict(this IDictionary<string, object> d)
+        {
+            var state = new MachineState();
+            foreach (var pair in d)
+            {
+                var key = pair.Key;
+                if (Enum.TryParse<B8Register>(key, ignoreCase: true, out var b8))
+                    state.Set(b8, ToByte(pair.Value));
+                else if (Enum.TryParse<B16Register>(key, ignoreCase: true, out var b16))
+                    state.Set(b16, ToUShort(pair.Value));
+                else if (Enum.TryParse<FlagRegister>(key, ignoreCase: true, out var fl))
+                    state.Set(fl, ToBool(pair.Value));
+                else if (Enum.TryParse<EmsRegister>(key, ignoreCase: true, out var em))
+                    state.Set(em, ToUShort(pair.Value));
+                else
+                    throw new InvalidOperationException($"{pair.Key} = {pair.Value}");
+            }
+            return state;
+        }
+
+        private static bool ToBool(object raw)
+        {
+            if (raw is int i)
+            {
+                return i.AsBool();
+            }
+            throw new InvalidOperationException($"{raw} ?!");
+        }
+
+        private static ushort ToUShort(object raw)
+        {
+            if (raw is string txt && txt.StartsWith("0x"))
+            {
+                return (ushort)Convert.ToInt32(txt, 16);
+            }
+            throw new InvalidOperationException($"{raw} ?!");
+        }
+
+        private static byte ToByte(object raw)
+        {
+            if (raw is string txt && txt.StartsWith("0x"))
+            {
+                return (byte)Convert.ToInt32(txt, 16);
+            }
+            throw new InvalidOperationException($"{raw} ?!");
         }
     }
 }
