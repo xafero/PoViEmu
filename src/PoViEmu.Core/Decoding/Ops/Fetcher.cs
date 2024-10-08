@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Iced.Intel;
+using PoViEmu.Core.Decoding.Ops.Consts;
+using PoViEmu.Core.Decoding.Ops.Regs;
 using PoViEmu.Core.Hardware;
 using R = Iced.Intel.Register;
 
@@ -25,12 +27,8 @@ namespace PoViEmu.Core.Decoding.Ops
                 {
                     case OpKind.Register:
                         var reg = instruct.GetOpRegister(i);
-                        if (Is8Bit(reg))
-                            yield return new Reg8Operand(reg);
-                        else if (Is16Bit(reg))
-                            yield return new Reg16Operand(reg);
-                        else
-                            throw new InvalidOperationException($"{reg} ?!");
+                        var rop = reg.ToOperand();
+                        yield return rop;
                         continue;
                     case OpKind.Memory:
                         var memBase = instruct.MemoryBase;
@@ -39,7 +37,7 @@ namespace PoViEmu.Core.Decoding.Ops
                         continue;
                     case OpKind.NearBranch16:
                         var nba = instruct.NearBranch16;
-                        yield return new BrU16Operand(nba);
+                        yield return new U16Operand(nba);
                         continue;
                     case OpKind.Immediate16:
                         var imm = instruct.GetImmediate(i);
@@ -90,49 +88,6 @@ namespace PoViEmu.Core.Decoding.Ops
                     return true;
             }
             return false;
-        }
-
-        private static readonly Dictionary<R, PropHandle> Handles = new()
-        {
-            [R.AX] = new Prop16Handle(m => m.AX, (m, v) => m.AX = v),
-            [R.BX] = new Prop16Handle(m => m.BX, (m, v) => m.BX = v),
-            [R.CX] = new Prop16Handle(m => m.CX, (m, v) => m.CX = v),
-            [R.DX] = new Prop16Handle(m => m.DX, (m, v) => m.DX = v),
-            [R.AL] = new Prop8Handle(m => m.AL, (m, v) => m.AL = v),
-            [R.BL] = new Prop8Handle(m => m.BL, (m, v) => m.BL = v),
-            [R.CL] = new Prop8Handle(m => m.CL, (m, v) => m.CL = v),
-            [R.DL] = new Prop8Handle(m => m.DL, (m, v) => m.DL = v),
-            [R.AH] = new Prop8Handle(m => m.AH, (m, v) => m.AH = v),
-            [R.BH] = new Prop8Handle(m => m.BH, (m, v) => m.BH = v),
-            [R.CH] = new Prop8Handle(m => m.CH, (m, v) => m.CH = v),
-            [R.DH] = new Prop8Handle(m => m.DH, (m, v) => m.DH = v),
-            [R.CS] = new Prop16Handle(m => m.CS, (m, v) => m.CS = v),
-            [R.DS] = new Prop16Handle(m => m.DS, (m, v) => m.DS = v),
-            [R.ES] = new Prop16Handle(m => m.ES, (m, v) => m.ES = v),
-            [R.SS] = new Prop16Handle(m => m.SS, (m, v) => m.SS = v),
-            [R.DI] = new Prop16Handle(m => m.DI, (m, v) => m.DI = v),
-            [R.SI] = new Prop16Handle(m => m.SI, (m, v) => m.SI = v),
-            [R.BP] = new Prop16Handle(m => m.BP, (m, v) => m.BP = v),
-            [R.SP] = new Prop16Handle(m => m.SP, (m, v) => m.SP = v)
-        };
-
-        public static PropHandle GetRef(this R reg)
-        {
-            if (Handles.TryGetValue(reg, out var handle))
-                return handle;
-            throw new InvalidOperationException($"{reg} ?!");
-        }
-
-        public static PropHandle GetRef(this MachineState m, R op)
-        {
-            var current = GetRef(op);
-            current.State = m;
-            return current;
-        }
-
-        public static PropHandle GetRef(this MachineState m, RegOperand op)
-        {
-            return GetRef(m, op.Reg);
         }
 
         public static bool IsInvalidFor16Bit(this Instruction parsed)

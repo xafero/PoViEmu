@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
+using PoViEmu.Core.Decoding.Ops.Regs;
+using PoViEmu.Core.Hardware.AckNow;
 using static PoViEmu.Core.Hardware.MachTool;
 
 namespace PoViEmu.Core.Hardware
@@ -234,6 +237,33 @@ namespace PoViEmu.Core.Hardware
             return this.ToRegisterString(" ");
         }
 
+        #endregion
+        
+        #region Indexers
+        public ushort this[B16Register reg16]
+        {
+            get => this.Get(reg16);
+            set => this.Set(reg16, value);
+        }
+        
+        public ushort this[Reg16Operand reg16]
+        {
+            get => this.Get(reg16);
+            set => this.Set(reg16, value);
+        }
+        
+        public byte this[Reg8Operand reg8]
+        {
+            get => this.Get(reg8);
+            set => this.Set(reg8, value);
+        }
+        
+        [JsonIgnore]
+        public ushort TopOfStack
+        {
+            get => this.Pop();
+            set => this.Push(value);
+        }
         #endregion
     }
 }

@@ -4,6 +4,9 @@ using System.Linq;
 using Iced.Intel;
 using PoViEmu.Core.Decoding;
 using PoViEmu.Core.Decoding.Ops;
+using PoViEmu.Core.Decoding.Ops.Consts;
+using PoViEmu.Core.Decoding.Ops.Regs;
+using PoViEmu.Core.Hardware.AckNow;
 using PoViEmu.Core.Hardware.Errors;
 
 namespace PoViEmu.Core.Hardware
@@ -21,17 +24,30 @@ namespace PoViEmu.Core.Hardware
             switch (parsed.Mnemonic)
             {
                 case Mnemonic.Mov:
-                    if (ops is [RegOperand movR1, U16Operand movI1])
+                    if (ops is [Reg16Operand movR2, Reg16Operand movR3])
                     {
-                        var movT = m.GetRef(movR1);
-                        var movV = movI1.Val;
-                        movT.Set(movV);
+                        var movV = m[movR3];
+                        m[movR2] = movV;
                         SetIp(m, parsed);
                         return;
                     }
-                    if (ops is [RegOperand movR4, MemOperand movM2])
+                    if (ops is [Reg16Operand movR1, U16Operand movI1])
                     {
-                        var movT = m.GetRef(movR4);
+                        var movV = movI1.Val;
+                        m[movR1] = movV;
+                        SetIp(m, parsed);
+                        return;
+                    }
+                    if (ops is [Reg16Operand movR4, MemOperand movM2])
+                    {
+                        var movT = m[movR4];
+                        // TODO Read memory?
+                        SetIp(m, parsed);
+                        return;
+                    }
+                    if (ops is [Reg8Operand movR6, MemOperand movM4])
+                    {
+                        var movT = m[movR6];
                         // TODO Read memory?
                         SetIp(m, parsed);
                         return;
@@ -43,153 +59,161 @@ namespace PoViEmu.Core.Hardware
                         SetIp(m, parsed);
                         return;
                     }
-                    if (ops is [MemOperand movM3, RegOperand movR5])
+                    if (ops is [MemOperand movM3, Reg16Operand movR5])
                     {
-                        var movV = m.GetRef(movR5);
+                        var movV = m[movR5];
                         // TODO Write memory?
-                        SetIp(m, parsed);
-                        return;
-                    }
-                    if (ops is [RegOperand movR2, RegOperand movR3])
-                    {
-                        var movT = m.GetRef(movR2);
-                        var movV = m.GetRef(movR3);
-                        movT.Set(movV.U16());
                         SetIp(m, parsed);
                         return;
                     }
                     break;
                 case Mnemonic.Sub:
-                    if (ops is [RegOperand subR1, I16Operand subI1])
+                    if (ops is [Reg16Operand subR1, I16Operand subI1])
                     {
-                        var subT = m.GetRef(subR1);
+                        var subT = m[subR1];
                         var subV = subI1.Val;
-                        subT.Set(subT.U16() - subV);
+                        m[subR1] = (ushort)(subT - subV);
                         SetIp(m, parsed);
                         return;
                     }
-                    if (ops is [RegOperand subR2, RegOperand subR3])
+                    if (ops is [Reg16Operand subR2, Reg16Operand subR3])
                     {
-                        var subT = m.GetRef(subR2);
-                        var subV = m.GetRef(subR3);
-                        subT.Set(subT.U16() - subV.U16());
+                        var subT = m[subR2];
+                        var subV = m[subR3];
+                        m[subR2] = (ushort)(subT - subV);
                         SetIp(m, parsed);
                         return;
                     }
-                    if (ops is [RegOperand subR4, MemOperand subM1])
+                    if (ops is [Reg16Operand subR4, MemOperand subM1])
                     {
-                        var subT = m.GetRef(subR4);
+                        var subT = m[subR4];
                         // TODO
                         SetIp(m, parsed);
                         return;
                     }
                     break;
                 case Mnemonic.Add:
-                    if (ops is [RegOperand addR1, RegOperand addR2])
+                    if (ops is [Reg16Operand addR1, Reg16Operand addR2])
                     {
-                        var addT = m.GetRef(addR1);
-                        var addV = m.GetRef(addR2);
-                        addT.Set(addT.U16() + addV.U16());
+                        var addT = m[addR1];
+                        var addV = m[addR2];
+                        m[addR1] = (ushort)(addT + addV);
                         SetIp(m, parsed);
                         return;
                     }
-                    if (ops is [RegOperand addR3, U16Operand addU1])
+                    if (ops is [Reg16Operand addR3, U16Operand addU1])
                     {
-                        var addT = m.GetRef(addR3);
+                        var addT = m[addR3];
                         var addV = addU1.Val;
-                        addT.Set(addT.U16() + addV);
+                        m[addR3] = (ushort)(addT + addV);
                         SetIp(m, parsed);
                         return;
                     }
-                    if (ops is [RegOperand addR4, MemOperand addM1])
+                    if (ops is [Reg16Operand addR4, MemOperand addM1])
                     {
-                        var addT = m.GetRef(addR4);
+                        var addT = m[addR4];
                         // TODO
                         SetIp(m, parsed);
                         return;
                     }
                     break;
                 case Mnemonic.Xor:
-                    if (ops is [RegOperand xorR1, RegOperand xorR2])
+                    if (ops is [Reg16Operand xorR1, Reg16Operand xorR2])
                     {
-                        var xorT = m.GetRef(xorR1);
-                        var xorV = m.GetRef(xorR2);
-                        xorT.Set(xorT.U16() ^ xorV.U16());
+                        var xorT = m[xorR1];
+                        var xorV = m[xorR2];
+                        m[xorR1] = (ushort)(xorT ^ xorV);
                         SetIp(m, parsed);
                         return;
                     }
                     break;
                 case Mnemonic.Or:
-                    if (ops is [RegOperand orR1, RegOperand orR2])
+                    if (ops is [Reg16Operand orR1, Reg16Operand orR2])
                     {
-                        var orT = m.GetRef(orR1);
-                        var orV = m.GetRef(orR2);
-                        orT.Set(orT.U16() | orV.U16());
+                        var orT = m[orR1];
+                        var orV = m[orR2];
+                        m[orR1] = (ushort)(orT | orV);
                         SetIp(m, parsed);
                         return;
                     }
                     break;
                 case Mnemonic.And:
-                    if (ops is [RegOperand andR1, RegOperand andR2])
+                    if (ops is [Reg16Operand andR1, Reg16Operand andR2])
                     {
-                        var andT = m.GetRef(andR1);
-                        var andV = m.GetRef(andR2);
-                        andT.Set(andT.U16() & andV.U16());
+                        var andT = m[andR1];
+                        var andV = m[andR2];
+                        m[andR1] = (ushort)(andT & andV);
                         SetIp(m, parsed);
                         return;
                     }
-                    if (ops is [RegOperand andR3, MemOperand andM1])
+                    if (ops is [Reg16Operand andR3, MemOperand andM1])
                     {
-                        var andT = m.GetRef(andR3);
+                        var andT = m[andR3];
                         // TODO
                         SetIp(m, parsed);
                         return;
                     }
                     break;
                 case Mnemonic.Shl:
-                    if (ops is [RegOperand shlR1, RegOperand shlR2])
+                    if (ops is [Reg16Operand shlR1, Reg16Operand shlR2])
                     {
-                        var shlT = m.GetRef(shlR1);
-                        var shlV = m.GetRef(shlR2);
-                        shlT.Set(shlT.U16() << shlV.U16());
+                        var shlT = m[shlR1];
+                        var shlV = m[shlR2];
+                        m[shlR1] = (ushort)(shlT << shlV);
+                        SetIp(m, parsed);
+                        return;
+                    }
+                    if (ops is [Reg16Operand shlR3, Reg8Operand shlR4])
+                    {
+                        var shlT = m[shlR3];
+                        var shlV = m[shlR4];
+                        m[shlR3] = (ushort)(shlT << shlV);
                         SetIp(m, parsed);
                         return;
                     }
                     break;
                 case Mnemonic.Sar:
-                    if (ops is [RegOperand sarR1, RegOperand sarR2])
+                    if (ops is [Reg16Operand sarR1, Reg16Operand sarR2])
                     {
-                        var sarT = m.GetRef(sarR1);
-                        var sarV = m.GetRef(sarR2);
-                        sarT.Set(sarT.U16() >> sarV.U16());
+                        var sarT = m[sarR1];
+                        var sarV = m[sarR2];
+                        m[sarR1] = (ushort)(sarT >> sarV);
+                        SetIp(m, parsed);
+                        return;
+                    }
+                    if (ops is [Reg16Operand sarR3, Reg8Operand sarR4])
+                    {
+                        var sarT = m[sarR3];
+                        var sarV = m[sarR4];
+                        m[sarR3] = (ushort)(sarT >> sarV);
                         SetIp(m, parsed);
                         return;
                     }
                     break;
                 case Mnemonic.Cmp:
-                    if (ops is [RegOperand cmpR1, RegOperand cmpR2])
+                    if (ops is [Reg16Operand cmpR1, Reg16Operand cmpR2])
                     {
-                        var cmpO1 = m.GetRef(cmpR1);
-                        var cmpO2 = m.GetRef(cmpR2);
-                        var cmpR = cmpO1.U16() - cmpO2.U16();
+                        var cmpO1 = m[cmpR1];
+                        var cmpO2 = m[cmpR2];
+                        var cmpR = cmpO1 - cmpO2;
                         m.ZF = cmpR == 0;
                         m.SF = cmpR < 0;
                         SetIp(m, parsed);
                         return;
                     }
-                    if (ops is [RegOperand cmpR3, U16Operand cmpU1])
+                    if (ops is [Reg16Operand cmpR3, U16Operand cmpU1])
                     {
-                        var cmpO1 = m.GetRef(cmpR3);
+                        var cmpO1 = m[cmpR3];
                         var cmpO2 = cmpU1.Val;
-                        var cmpR = cmpO1.U16() - cmpO2;
+                        var cmpR = cmpO1 - cmpO2;
                         m.ZF = cmpR == 0;
                         m.SF = cmpR < 0;
                         SetIp(m, parsed);
                         return;
                     }
-                    if (ops is [RegOperand cmpR4, MemOperand cmpM1])
+                    if (ops is [Reg16Operand cmpR4, MemOperand cmpM1])
                     {
-                        var cmpO1 = m.GetRef(cmpR4);
+                        var cmpO1 = m[cmpR4];
                         // TODO
                         SetIp(m, parsed);
                         return;
@@ -202,11 +226,11 @@ namespace PoViEmu.Core.Hardware
                     }
                     break;
                 case Mnemonic.Test:
-                    if (ops is [RegOperand testR1, RegOperand testR2])
+                    if (ops is [Reg16Operand testR1, Reg16Operand testR2])
                     {
-                        var testO1 = m.GetRef(testR1);
-                        var testO2 = m.GetRef(testR2);
-                        var testR = testO1.U16() & testO2.U16();
+                        var testO1 = m[testR1];
+                        var testO2 = m[testR2];
+                        var testR = testO1 & testO2;
                         m.ZF = testR == 0;
                         m.SF = testR < 0;
                         SetIp(m, parsed);
@@ -214,7 +238,7 @@ namespace PoViEmu.Core.Hardware
                     }
                     break;
                 case Mnemonic.Jne:
-                    if (ops is [BrU16Operand jneU1])
+                    if (ops is [U16Operand jneU1])
                     {
                         if (!m.ZF)
                         {
@@ -226,7 +250,7 @@ namespace PoViEmu.Core.Hardware
                     }
                     break;
                 case Mnemonic.Je:
-                    if (ops is [BrU16Operand jeU1])
+                    if (ops is [U16Operand jeU1])
                     {
                         if (m.ZF)
                         {
@@ -238,7 +262,7 @@ namespace PoViEmu.Core.Hardware
                     }
                     break;
                 case Mnemonic.Jle:
-                    if (ops is [BrU16Operand jleU1])
+                    if (ops is [U16Operand jleU1])
                     {
                         if (m.ZF)
                         {
@@ -250,7 +274,7 @@ namespace PoViEmu.Core.Hardware
                     }
                     break;
                 case Mnemonic.Jge:
-                    if (ops is [BrU16Operand jgeU1])
+                    if (ops is [U16Operand jgeU1])
                     {
                         if (m.ZF)
                         {
@@ -262,7 +286,7 @@ namespace PoViEmu.Core.Hardware
                     }
                     break;
                 case Mnemonic.Jl:
-                    if (ops is [BrU16Operand jlU1])
+                    if (ops is [U16Operand jlU1])
                     {
                         if (m.ZF)
                         {
@@ -274,18 +298,18 @@ namespace PoViEmu.Core.Hardware
                     }
                     break;
                 case Mnemonic.Jmp:
-                    if (ops is [BrU16Operand jmpU1])
+                    if (ops is [U16Operand jmpU1])
                     {
                         SetIp(m, parsed, jmpU1);
                         return;
                     }
                     break;
                 case Mnemonic.Dec:
-                    if (ops is [RegOperand decR1])
+                    if (ops is [Reg16Operand decR1])
                     {
-                        var decT = m.GetRef(decR1);
-                        var decN = decT.U16() - 1;
-                        decT.Set(decN);
+                        var decT = m[decR1];
+                        var decN = decT - 1;
+                        m[decR1] = (ushort)decN;
                         SetIp(m, parsed);
                         return;
                     }
@@ -297,11 +321,11 @@ namespace PoViEmu.Core.Hardware
                     }
                     break;
                 case Mnemonic.Inc:
-                    if (ops is [RegOperand incR1])
+                    if (ops is [Reg16Operand incR1])
                     {
-                        var incT = m.GetRef(incR1);
-                        var incN = incT.U16() + 1;
-                        incT.Set(incN);
+                        var incT = m[incR1];
+                        var incN = incT + 1;
+                        m[incR1] = (ushort)incN;
                         SetIp(m, parsed);
                         return;
                     }
@@ -313,25 +337,24 @@ namespace PoViEmu.Core.Hardware
                     }
                     break;
                 case Mnemonic.Not:
-                    if (ops is [RegOperand notR1])
+                    if (ops is [Reg16Operand notR1])
                     {
-                        var notT = m.GetRef(notR1);
-                        var notN = ~notT.U16();
-                        notT.Set(notN);
+                        var notT = m[notR1];
+                        var notN = ~notT;
+                        m[notR1] = (ushort)notN;
                         SetIp(m, parsed);
                         return;
                     }
                     break;
                 case Mnemonic.Mul:
-                    if (ops is [RegOperand mulR1])
+                    if (ops is [Reg16Operand mulR1])
                     {
-                        var mulAx = m.GetRef(Register.AX);
-                        var mulF = m.GetRef(mulR1);
-                        var mulV = mulAx.U16() * mulF.U16();
-                        var (mulL, mulH) = MachTool.SplitInt(mulV);
-                        var mulDx = m.GetRef(Register.DX);
-                        mulAx.Set(mulL);
-                        mulDx.Set(mulH);
+                        var mulAx = m[B16Register.AX];
+                        var mulF = m[mulR1];
+                        var mulV = mulAx * mulF;
+                        var (mulL, mulH) = mulV.SplitInt();
+                        m[B16Register.AX] = mulL;
+                        m[B16Register.DX] = mulH;
                         SetIp(m, parsed);
                         return;
                     }
@@ -343,14 +366,14 @@ namespace PoViEmu.Core.Hardware
                     }
                     break;
                 case Mnemonic.Idiv:
-                    if (ops is [RegOperand idivR1])
+                    if (ops is [Reg16Operand idivR1])
                     {
-                        var idivDx = m.GetRef(Register.DX);
-                        var idivAx = m.GetRef(Register.AX);
-                        var idivS = MachTool.CombineInt(idivAx.U16(), idivDx.U16());
-                        var idivF = m.GetRef(idivR1);
-                        idivAx.Set(idivS / idivF.U16());
-                        idivDx.Set(idivS % idivF.U16());
+                        var idivDx = m[B16Register.DX];
+                        var idivAx = m[B16Register.AX];
+                        var idivS = (idivAx, idivDx).CombineInt();
+                        var idivF = m[idivR1];
+                        m[B16Register.AX] = (ushort)(idivS / idivF);
+                        m[B16Register.DX] = (ushort)(idivS % idivF);
                         SetIp(m, parsed);
                         return;
                     }
@@ -362,9 +385,8 @@ namespace PoViEmu.Core.Hardware
                     }
                     break;
                 case Mnemonic.Cwd:
-                    var cwdAx = m.GetRef(Register.AX);
-                    var cwdDx = m.GetRef(Register.DX);
-                    cwdDx.Set(cwdAx.I32() >= 0 ? 0x0000 : 0xFFFF);
+                    var cwdAx = (short)m[B16Register.AX];
+                    m[B16Register.DX] = (ushort)(cwdAx >= 0 ? 0x0000 : 0xFFFF);
                     SetIp(m, parsed);
                     return;
                 case Mnemonic.Cbw:
@@ -372,19 +394,19 @@ namespace PoViEmu.Core.Hardware
                     SetIp(m, parsed);
                     return;
                 case Mnemonic.Push:
-                    if (ops is [RegOperand pushR])
+                    if (ops is [Reg16Operand pushR])
                     {
-                        var pushS = m.GetRef(pushR);
-                        m.Push(pushS.U16());
+                        var pushS = m[pushR];
+                        m.TopOfStack = pushS;
                         SetIp(m, parsed);
                         return;
                     }
                     break;
                 case Mnemonic.Pop:
-                    if (ops is [RegOperand popR])
+                    if (ops is [Reg16Operand popR])
                     {
-                        var popT = m.GetRef(popR);
-                        popT.Set(m.Pop());
+                        var popS = m.TopOfStack;
+                        m[popR] = popS;
                         SetIp(m, parsed);
                         return;
                     }
@@ -399,7 +421,7 @@ namespace PoViEmu.Core.Hardware
             m.IP = next;
         }
 
-        private static void SetIp(MachineState m, Instruction instruct, BrU16Operand jump)
+        private static void SetIp(MachineState m, Instruction instruct, U16Operand jump)
         {
             var next = (ushort)instruct.NextIP;
             next = (ushort)(next + jump.Val);

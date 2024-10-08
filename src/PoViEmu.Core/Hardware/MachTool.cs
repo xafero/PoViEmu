@@ -64,16 +64,16 @@ namespace PoViEmu.Core.Hardware
             return value;
         }
 
-        public static (ushort low, ushort high) SplitInt(int mulV)
+        public static (ushort low, ushort high) SplitInt(this int num)
         {
-            var low = (ushort)(mulV & 0xFFFF);
-            var high = (ushort)(mulV >> 16);
+            var low = (ushort)(num & 0xFFFF);
+            var high = (ushort)(num >> 16);
             return (low, high);
         }
 
-        public static int CombineInt(ushort low, ushort high)
+        public static int CombineInt(this (ushort low, ushort high) t)
         {
-            return (high << 16) | low;
+            return (t.high << 16) | t.low;
         }
     }
 }
