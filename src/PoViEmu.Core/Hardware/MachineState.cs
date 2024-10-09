@@ -110,56 +110,92 @@ namespace PoViEmu.Core.Hardware
 
         #endregion
 
-        #region Control flags
-
+        #region Internal flags
+        /// <summary>
+        /// Flag register
+        /// </summary>
+        public Flagged F;
+        
         /// <summary>
         /// Trap flag
         /// </summary>
-        public bool TF;
+        public bool TF
+        {
+            get => Flagged.Trap.Check(ref F);
+            set => Flagged.Trap.Apply(ref F, value);
+        }
 
         /// <summary>
         /// Direction flag
         /// </summary>
-        public bool DF;
+        public bool DF
+        {
+            get => Flagged.Direction.Check(ref F);
+            set => Flagged.Direction.Apply(ref F, value);
+        }
 
         /// <summary>
         /// Interrupt enable flag
         /// </summary>
-        public bool IF;
-
-        #endregion
-
-        #region Status flags
+        public bool IF
+        {
+            get => Flagged.Interrupt.Check(ref F);
+            set => Flagged.Interrupt.Apply(ref F, value);
+        }
 
         /// <summary>
         /// Overflow flag
         /// </summary>
-        public bool OF;
+        public bool OF
+        {
+            get => Flagged.Overflow.Check(ref F);
+            set => Flagged.Overflow.Apply(ref F, value);
+        }
 
         /// <summary>
         /// Sign flag
         /// </summary>
-        public bool SF;
+        public bool SF
+        {
+            get => Flagged.Sign.Check(ref F);
+            set => Flagged.Sign.Apply(ref F, value);
+        }
 
         /// <summary>
         /// Zero flag
         /// </summary>
-        public bool ZF;
+        public bool ZF
+        {
+            get => Flagged.Zero.Check(ref F);
+            set => Flagged.Zero.Apply(ref F, value);
+        }
 
         /// <summary>
         /// Auxiliary carry flag
         /// </summary>
-        public bool AF;
+        public bool AF
+        {
+            get => Flagged.Auxiliary.Check(ref F);
+            set => Flagged.Auxiliary.Apply(ref F, value);
+        }
 
         /// <summary>
         /// Parity flag
         /// </summary>
-        public bool PF;
+        public bool PF
+        {
+            get => Flagged.Parity.Check(ref F);
+            set => Flagged.Parity.Apply(ref F, value);
+        }
 
         /// <summary>
         /// Carry flag
         /// </summary>
-        public bool CF;
+        public bool CF
+        {
+            get => Flagged.Carry.Check(ref F);
+            set => Flagged.Carry.Apply(ref F, value);
+        }
 
         #endregion
 

@@ -33,7 +33,20 @@ namespace PoViEmu.Core.Hardware
 
         public static void SetHigh(ref ushort value, byte high)
             => value = (ushort)((value & 0x00FF) | (high << 8));
-
+        
+        public static bool Check(this Flagged flag, ref Flagged value)
+        {
+            return (value & flag) == flag;
+        }
+        
+        public static void Apply(this Flagged flag, ref Flagged value, bool on)
+        {
+            if (on)
+                value |= flag;
+            else
+                value &= ~flag;
+        }
+        
         public static void Write(byte[] mem, ushort segment, ushort offset, IEnumerable<byte> bytes)
         {
             var physicalAddr = ToPhysicalAddress(segment, offset);
