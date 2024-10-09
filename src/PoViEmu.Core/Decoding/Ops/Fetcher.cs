@@ -30,6 +30,9 @@ namespace PoViEmu.Core.Decoding.Ops
                         var rop = reg.ToOperand();
                         yield return rop;
                         continue;
+                    // TODO
+                    case OpKind.MemorySegSI:
+                    case OpKind.MemoryESDI:
                     case OpKind.Memory:
                         var memBase = instruct.MemoryBase;
                         var memDspl = (short)instruct.MemoryDisplacement32;
@@ -38,6 +41,10 @@ namespace PoViEmu.Core.Decoding.Ops
                     case OpKind.NearBranch16:
                         var nba = instruct.NearBranch16;
                         yield return new U16Operand(nba);
+                        continue;
+                    case OpKind.Immediate8:
+                        var imb = instruct.GetImmediate(i);
+                        yield return new U8Operand((byte)imb);
                         continue;
                     case OpKind.Immediate16:
                         var imm = instruct.GetImmediate(i);
