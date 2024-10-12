@@ -47,6 +47,19 @@ namespace PoViEmu.Core.Hardware
                 value &= ~flag;
         }
         
+        private static bool GetBit(this ref ushort flag, Flagged value)
+        {
+            return (flag & (ushort)value) == (ushort)value;
+        }
+
+        private static void SetBit(this ref ushort flag, Flagged value, bool on)
+        {
+            if (on)
+                flag = (ushort)(flag | (ushort)value);
+            else
+                flag = (ushort)(flag & ~(ushort)value);
+        }
+        
         public static void Write(byte[] mem, ushort segment, ushort offset, IEnumerable<byte> bytes)
         {
             var physicalAddr = ToPhysicalAddress(segment, offset);

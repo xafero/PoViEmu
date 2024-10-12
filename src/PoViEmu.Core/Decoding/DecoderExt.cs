@@ -24,9 +24,7 @@ namespace PoViEmu.Core.Decoding
 
         public static Decoder Create16(this CodeReader reader, ushort ip)
         {
-            const DecoderOptions options = DecoderOptions.NoInvalidCheck |
-                                           DecoderOptions.OldFpu |
-                                           DecoderOptions.Loadall286;
+            const DecoderOptions options = DecoderOptions.NoInvalidCheck;
             var decoder = Decoder.Create(16, reader, ip, options);
             return decoder;
         }

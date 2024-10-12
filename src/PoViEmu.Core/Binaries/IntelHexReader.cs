@@ -34,7 +34,7 @@ namespace PoViEmu.Core.Binaries
                             throw new InvalidOperationException($"Double overwrite at {key}?!");
                 });
 
-            var totalSize = (maxAddr + 1) - minAddr;
+            var totalSize = maxAddr + 1 - minAddr;
             var isProLonged = false;
             if (dupList.Count == 2 && !IsPowerOfTwo(totalSize))
             {

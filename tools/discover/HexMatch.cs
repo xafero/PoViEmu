@@ -33,7 +33,7 @@ namespace Discover
                 foreach (var item in it)
                 {
                     var idx = item.Value.IndexOf(hex, StringComparison.InvariantCultureIgnoreCase);
-                    var end = idx + (hex.Length / 2);
+                    var end = idx + hex.Length / 2;
                     Console.WriteLine($"   # {item.Key}, at {idx} until {end}");
                 }
             }

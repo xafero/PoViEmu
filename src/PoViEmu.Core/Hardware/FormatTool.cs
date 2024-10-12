@@ -100,7 +100,7 @@ namespace PoViEmu.Core.Hardware
             foreach (var t in vals)
             {
                 var l = t.addr == (sp ?? s.SP) ? "*" : " ";
-                var text = $"SS:{(add + t.addr):X4}{l}  {t.val:x4}";
+                var text = $"SS:{add + t.addr:X4}{l}  {t.val:x4}";
                 bld.Append(text);
                 bld.Append(sep);
             }
@@ -125,7 +125,7 @@ namespace PoViEmu.Core.Hardware
             {
                 var rawByteStr = string.Join(" ", line.Select(b => $"{b:X2}"));
                 var text =
-                    $"{mSegment:X4}:{offset + (i * step):X4}   {rawByteStr.AddSpaceTo(47)}   {line.DecodeChars()}";
+                    $"{mSegment:X4}:{offset + i * step:X4}   {rawByteStr.AddSpaceTo(47)}   {line.DecodeChars()}";
                 bld.Append(text);
                 bld.Append(sep);
                 i++;

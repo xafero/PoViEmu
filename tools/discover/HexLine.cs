@@ -65,7 +65,7 @@ namespace Discover
                 {
                     Hex = capped, Text = Convert.FromHexString(capped).DecodeChars()
                 };
-                var end = i == (items.Count - 1) ? "" : ",";
+                var end = i == items.Count - 1 ? "" : ",";
                 lines.Add($"{JsonHelper.ToJson(copy, true)}{end}");
             }
             lines.Add("]");
