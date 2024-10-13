@@ -408,3 +408,4 @@ dist/
 /coverage
 /tools/codegen/out/
 /src/PoViEmu.UI.Desktop/Stuff/*
+cache/
