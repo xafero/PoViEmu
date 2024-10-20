@@ -22,6 +22,7 @@ namespace PoViEmu.Core.Hardware
         public static (ushort seg, ushort off) ToLogicalAddress(uint physical, ushort segment)
             => (segment, (ushort)(physical - segment * 16));
 
+        /*
         public static byte GetLow(ref ushort value)
             => (byte)(value & 0xFF);
 
@@ -33,6 +34,19 @@ namespace PoViEmu.Core.Hardware
 
         public static void SetHigh(ref ushort value, byte high)
             => value = (ushort)((value & 0x00FF) | (high << 8));
+        */
+        
+        public static byte GetLow(ushort value)
+            => (byte)(value & 0xFF);
+        
+        public static byte GetHigh(ushort value)
+            => (byte)((value >> 8) & 0xFF);
+        
+        public static ushort SetLow(ushort value, byte low) 
+            => (ushort)((value & 0xFF00) | low);
+        
+        public static ushort SetHigh(ushort value, byte high)
+            => (ushort)((value & 0x00FF) | (high << 8));
         
         public static bool Check(this Flagged flag, ref Flagged value)
         {
