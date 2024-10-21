@@ -12,11 +12,11 @@ namespace PoViEmu.Tests
         [InlineData(0x3741, 0x41, 0x37, 0x3A65, 0x65, 0x3A)]
         public void ShouldOverwrite(ushort r1, byte l1, byte h1, ushort r2, byte l2, byte h2)
         {
-            TestHelper.EqualHex(MachTool.GetLow(ref r1), l1, 2);
-            TestHelper.EqualHex(MachTool.GetHigh(ref r1), h1, 2);
+            TestHelper.EqualHex(MachTool.GetLow(r1), l1, 2);
+            TestHelper.EqualHex(MachTool.GetHigh(r1), h1, 2);
 
-            MachTool.SetLow(ref r1, l2);
-            MachTool.SetHigh(ref r1, h2);
+            r1 = MachTool.SetLow(r1, l2);
+            r1 = MachTool.SetHigh(r1, h2);
 
             TestHelper.EqualHex(r2, r1, 4);
         }
