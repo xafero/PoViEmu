@@ -35,24 +35,24 @@ namespace PoViEmu.Core.Hardware
         public static void SetHigh(ref ushort value, byte high)
             => value = (ushort)((value & 0x00FF) | (high << 8));
         */
-        
+
         public static byte GetLow(ushort value)
             => (byte)(value & 0xFF);
-        
+
         public static byte GetHigh(ushort value)
             => (byte)((value >> 8) & 0xFF);
-        
-        public static ushort SetLow(ushort value, byte low) 
+
+        public static ushort SetLow(ushort value, byte low)
             => (ushort)((value & 0xFF00) | low);
-        
+
         public static ushort SetHigh(ushort value, byte high)
             => (ushort)((value & 0x00FF) | (high << 8));
-        
+
         public static bool Check(this Flagged flag, ref Flagged value)
         {
             return (value & flag) == flag;
         }
-        
+
         public static void Apply(this Flagged flag, ref Flagged value, bool on)
         {
             if (on)
@@ -60,7 +60,7 @@ namespace PoViEmu.Core.Hardware
             else
                 value &= ~flag;
         }
-        
+
         public static Flagged Add(this Flagged flag, Flagged value, bool on)
         {
             return on ? value | flag : value & ~flag;
@@ -91,7 +91,7 @@ namespace PoViEmu.Core.Hardware
             else
                 flag = (ushort)(flag & ~(ushort)value);
         }
-        
+
         public static void Write(byte[] mem, ushort segment, ushort offset, IEnumerable<byte> bytes)
         {
             var physicalAddr = ToPhysicalAddress(segment, offset);
@@ -132,6 +132,26 @@ namespace PoViEmu.Core.Hardware
         public static int CombineInt(this (ushort low, ushort high) t)
         {
             return (t.high << 16) | t.low;
+        }
+
+        public static string GetSrc<T>(ushort seg, ushort off)
+        {
+            var name = typeof(T).Name;
+            switch (name)
+            {
+                case "Byte": return $"U8|{seg:X4}:{off:X4}";
+                case "UInt16": return $"U16|{seg:X4}:{off:X4}";
+            }
+            throw new InvalidOperationException($"{name} {seg} {off}");
+        }
+
+        public static void ParseSrc(string? addr, out ushort seg, out ushort off)
+        {
+            var parts = addr?.Split(':', 2);
+            if (parts?.Length != 2)
+                throw new InvalidOperationException(addr);
+            seg = Convert.ToUInt16(parts[0], 16);
+            off = Convert.ToUInt16(parts[1], 16);
         }
     }
 }

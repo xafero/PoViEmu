@@ -14,7 +14,8 @@ using Fl = PoViEmu.Core.Hardware.Flagged;
 namespace PoViEmu.Core.Hardware
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public sealed class MachineState : INotifyPropertyChanging, INotifyPropertyChanged
+    public sealed class MachineState : INotifyPropertyChanging, INotifyPropertyChanged,
+        IMemAccess<byte>, IMemAccess<ushort>
     {
         #region Data group
 
@@ -475,6 +476,12 @@ namespace PoViEmu.Core.Hardware
 
         private readonly byte[] _memory = AllocateMemory();
 
+        public MachineState()
+        {
+            U8 = new MemAccess<byte>(this);
+            U16 = new MemAccess<ushort>(this);
+        }
+
         public IEnumerable<byte> ReadMemory(ushort segment, ushort offset, int count)
             => Read(_memory, segment, offset, count);
 
@@ -529,7 +536,9 @@ namespace PoViEmu.Core.Hardware
         {
             get
             {
-                return name switch
+                var parts = name?.Split('|') ?? [];
+                var key = parts.FirstOrDefault();
+                return key switch
                 {
                     nameof(AX) => AX,
                     nameof(BX) => BX,
@@ -581,6 +590,8 @@ namespace PoViEmu.Core.Hardware
                     nameof(Fr9) => Fr9,
                     nameof(Fr10) => Fr10,
                     nameof(Fr11) => Fr11,
+                    nameof(U8) => GetU8(parts.Skip(1).FirstOrDefault()),
+                    nameof(U16) => GetU16(parts.Skip(1).FirstOrDefault()),
                     _ => throw new InvalidOperationException(name)
                 };
             }
@@ -619,6 +630,74 @@ namespace PoViEmu.Core.Hardware
             OnPropertyChanging(name);
             field = newValue;
             OnPropertyChanged(name);
+        }
+
+        [DebuggerNonUserCode]
+        [ExcludeFromCodeCoverage]
+        private void SetProperty<T>(Func<T> getter, Action<T> setter, T newValue,
+            [CallerMemberName] string? name = null, IEqualityComparer<T>? comparer = null)
+        {
+            if ((comparer ?? EqualityComparer<T>.Default).Equals(getter(), newValue))
+                return;
+            OnPropertyChanging(name);
+            setter(newValue);
+            OnPropertyChanged(name);
+        }
+
+        #endregion
+
+        #region Memory access
+
+        public MemAccess<byte> U8 { get; }
+        public MemAccess<ushort> U16 { get; }
+
+        byte IMemAccess<byte>.Get(ushort seg, ushort off)
+        {
+            var addr = ToPhysicalAddress(seg, off);
+            var value = _memory[addr];
+            return value;
+        }
+
+        void IMemAccess<byte>.Set(ushort seg, ushort off, byte value)
+        {
+            SetProperty(() => ((IMemAccess<byte>)this).Get(seg, off),
+                v =>
+                {
+                    var addr = ToPhysicalAddress(seg, off);
+                    _memory[addr] = v;
+                }, value, GetSrc<byte>(seg, off));
+        }
+
+        ushort IMemAccess<ushort>.Get(ushort seg, ushort off)
+        {
+            var addr = ToPhysicalAddress(seg, off);
+            var bytes = new[] { _memory[addr], _memory[addr + 1] };
+            var value = BitConverter.ToUInt16(bytes, 0);
+            return value;
+        }
+
+        void IMemAccess<ushort>.Set(ushort seg, ushort off, ushort value)
+        {
+            SetProperty(() => ((IMemAccess<ushort>)this).Get(seg, off),
+                v =>
+                {
+                    var addr = ToPhysicalAddress(seg, off);
+                    var bytes = BitConverter.GetBytes(v);
+                    _memory[addr] = bytes[0];
+                    _memory[addr + 1] = bytes[1];
+                }, value, GetSrc<ushort>(seg, off));
+        }
+
+        private byte GetU8(string? addr)
+        {
+            ParseSrc(addr, out var seg, out var off);
+            return ((IMemAccess<byte>)this).Get(seg, off);
+        }
+
+        private ushort GetU16(string? addr)
+        {
+            ParseSrc(addr, out var seg, out var off);
+            return ((IMemAccess<ushort>)this).Get(seg, off);
         }
 
         #endregion
