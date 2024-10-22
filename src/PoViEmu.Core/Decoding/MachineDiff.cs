@@ -100,43 +100,43 @@ namespace PoViEmu.Core.Decoding
                 items.Add(pf);
             if (IsEqual(first, second, i => i.AF, "AF") is { } af)
                 items.Add(af);
-            if (IsEqual(first, second, i => i.Bank0, "B0") is { } b0)
+            if (IsEqual(first, second, i => i.Bk0, "B0") is { } b0)
                 items.Add(b0);
-            if (IsEqual(first, second, i => i.Bank1, "B1") is { } b1)
+            if (IsEqual(first, second, i => i.Bk1, "B1") is { } b1)
                 items.Add(b1);
-            if (IsEqual(first, second, i => i.Bank2, "B2") is { } b2)
+            if (IsEqual(first, second, i => i.Bk2, "B2") is { } b2)
                 items.Add(b2);
-            if (IsEqual(first, second, i => i.Bank3, "B3") is { } b3)
+            if (IsEqual(first, second, i => i.Bk3, "B3") is { } b3)
                 items.Add(b3);
-            if (IsEqual(first, second, i => i.Bank4, "B4") is { } b4)
+            if (IsEqual(first, second, i => i.Bk4, "B4") is { } b4)
                 items.Add(b4);
-            if (IsEqual(first, second, i => i.Bank5, "B5") is { } b5)
+            if (IsEqual(first, second, i => i.Bk5, "B5") is { } b5)
                 items.Add(b5);
-            if (IsEqual(first, second, i => i.Bank6, "B6") is { } b6)
+            if (IsEqual(first, second, i => i.Bk6, "B6") is { } b6)
                 items.Add(b6);
-            if (IsEqual(first, second, i => i.Frame0, "F0") is { } f0)
+            if (IsEqual(first, second, i => i.Fr0, "F0") is { } f0)
                 items.Add(f0);
-            if (IsEqual(first, second, i => i.Frame1, "F1") is { } f1)
+            if (IsEqual(first, second, i => i.Fr1, "F1") is { } f1)
                 items.Add(f1);
-            if (IsEqual(first, second, i => i.Frame2, "F2") is { } f2)
+            if (IsEqual(first, second, i => i.Fr2, "F2") is { } f2)
                 items.Add(f2);
-            if (IsEqual(first, second, i => i.Frame3, "F3") is { } f3)
+            if (IsEqual(first, second, i => i.Fr3, "F3") is { } f3)
                 items.Add(f3);
-            if (IsEqual(first, second, i => i.Frame4, "F4") is { } f4)
+            if (IsEqual(first, second, i => i.Fr4, "F4") is { } f4)
                 items.Add(f4);
-            if (IsEqual(first, second, i => i.Frame5, "F5") is { } f5)
+            if (IsEqual(first, second, i => i.Fr5, "F5") is { } f5)
                 items.Add(f5);
-            if (IsEqual(first, second, i => i.Frame6, "F6") is { } f6)
+            if (IsEqual(first, second, i => i.Fr6, "F6") is { } f6)
                 items.Add(f6);
-            if (IsEqual(first, second, i => i.Frame7, "F7") is { } f7)
+            if (IsEqual(first, second, i => i.Fr7, "F7") is { } f7)
                 items.Add(f7);
-            if (IsEqual(first, second, i => i.Frame8, "F8") is { } f8)
+            if (IsEqual(first, second, i => i.Fr8, "F8") is { } f8)
                 items.Add(f8);
-            if (IsEqual(first, second, i => i.Frame9, "F9") is { } f9)
+            if (IsEqual(first, second, i => i.Fr9, "F9") is { } f9)
                 items.Add(f9);
-            if (IsEqual(first, second, i => i.Frame10, "F10") is { } f10)
+            if (IsEqual(first, second, i => i.Fr10, "F10") is { } f10)
                 items.Add(f10);
-            if (IsEqual(first, second, i => i.Frame11, "F11") is { } f11)
+            if (IsEqual(first, second, i => i.Fr11, "F11") is { } f11)
                 items.Add(f11);
             // if (IsEqual(first, second, i => i.Stack, "Stack") is { } sta)
             // items.Add(sta);

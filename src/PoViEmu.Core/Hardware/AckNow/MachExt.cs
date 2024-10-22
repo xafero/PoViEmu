@@ -10,25 +10,25 @@ namespace PoViEmu.Core.Hardware.AckNow
         {
             switch (reg)
             {
-                case EmsRegister.Bank0: m.Bank0 = val; break;
-                case EmsRegister.Bank1: m.Bank1 = val; break;
-                case EmsRegister.Bank2: m.Bank2 = val; break;
-                case EmsRegister.Bank3: m.Bank3 = val; break;
-                case EmsRegister.Bank4: m.Bank4 = val; break;
-                case EmsRegister.Bank5: m.Bank5 = val; break;
-                case EmsRegister.Bank6: m.Bank6 = val; break;
-                case EmsRegister.Frame0: m.Frame0 = val; break;
-                case EmsRegister.Frame1: m.Frame1 = val; break;
-                case EmsRegister.Frame2: m.Frame2 = val; break;
-                case EmsRegister.Frame3: m.Frame3 = val; break;
-                case EmsRegister.Frame4: m.Frame4 = val; break;
-                case EmsRegister.Frame5: m.Frame5 = val; break;
-                case EmsRegister.Frame6: m.Frame6 = val; break;
-                case EmsRegister.Frame7: m.Frame7 = val; break;
-                case EmsRegister.Frame8: m.Frame8 = val; break;
-                case EmsRegister.Frame9: m.Frame9 = val; break;
-                case EmsRegister.Frame10: m.Frame10 = val; break;
-                case EmsRegister.Frame11: m.Frame11 = val; break;
+                case EmsRegister.Bank0: m.Bk0 = val; break;
+                case EmsRegister.Bank1: m.Bk1 = val; break;
+                case EmsRegister.Bank2: m.Bk2 = val; break;
+                case EmsRegister.Bank3: m.Bk3 = val; break;
+                case EmsRegister.Bank4: m.Bk4 = val; break;
+                case EmsRegister.Bank5: m.Bk5 = val; break;
+                case EmsRegister.Bank6: m.Bk6 = val; break;
+                case EmsRegister.Frame0: m.Fr0 = val; break;
+                case EmsRegister.Frame1: m.Fr1 = val; break;
+                case EmsRegister.Frame2: m.Fr2 = val; break;
+                case EmsRegister.Frame3: m.Fr3 = val; break;
+                case EmsRegister.Frame4: m.Fr4 = val; break;
+                case EmsRegister.Frame5: m.Fr5 = val; break;
+                case EmsRegister.Frame6: m.Fr6 = val; break;
+                case EmsRegister.Frame7: m.Fr7 = val; break;
+                case EmsRegister.Frame8: m.Fr8 = val; break;
+                case EmsRegister.Frame9: m.Fr9 = val; break;
+                case EmsRegister.Frame10: m.Fr10 = val; break;
+                case EmsRegister.Frame11: m.Fr11 = val; break;
                 default: throw new InvalidOperationException($"{reg} = {val:X4}");
             }
         }
@@ -91,25 +91,25 @@ namespace PoViEmu.Core.Hardware.AckNow
         {
             switch (reg)
             {
-                case EmsRegister.Bank0: return m.Bank0;
-                case EmsRegister.Bank1: return m.Bank1;
-                case EmsRegister.Bank2: return m.Bank2;
-                case EmsRegister.Bank3: return m.Bank3;
-                case EmsRegister.Bank4: return m.Bank4;
-                case EmsRegister.Bank5: return m.Bank5;
-                case EmsRegister.Bank6: return m.Bank6;
-                case EmsRegister.Frame0: return m.Frame0;
-                case EmsRegister.Frame1: return m.Frame1;
-                case EmsRegister.Frame2: return m.Frame2;
-                case EmsRegister.Frame3: return m.Frame3;
-                case EmsRegister.Frame4: return m.Frame4;
-                case EmsRegister.Frame5: return m.Frame5;
-                case EmsRegister.Frame6: return m.Frame6;
-                case EmsRegister.Frame7: return m.Frame7;
-                case EmsRegister.Frame8: return m.Frame8;
-                case EmsRegister.Frame9: return m.Frame9;
-                case EmsRegister.Frame10: return m.Frame10;
-                case EmsRegister.Frame11: return m.Frame11;
+                case EmsRegister.Bank0: return m.Bk0;
+                case EmsRegister.Bank1: return m.Bk1;
+                case EmsRegister.Bank2: return m.Bk2;
+                case EmsRegister.Bank3: return m.Bk3;
+                case EmsRegister.Bank4: return m.Bk4;
+                case EmsRegister.Bank5: return m.Bk5;
+                case EmsRegister.Bank6: return m.Bk6;
+                case EmsRegister.Frame0: return m.Fr0;
+                case EmsRegister.Frame1: return m.Fr1;
+                case EmsRegister.Frame2: return m.Fr2;
+                case EmsRegister.Frame3: return m.Fr3;
+                case EmsRegister.Frame4: return m.Fr4;
+                case EmsRegister.Frame5: return m.Fr5;
+                case EmsRegister.Frame6: return m.Fr6;
+                case EmsRegister.Frame7: return m.Fr7;
+                case EmsRegister.Frame8: return m.Fr8;
+                case EmsRegister.Frame9: return m.Fr9;
+                case EmsRegister.Frame10: return m.Fr10;
+                case EmsRegister.Frame11: return m.Fr11;
                 default: throw new InvalidOperationException($"{reg}");
             }
         }

@@ -61,6 +61,24 @@ namespace PoViEmu.Core.Hardware
                 value &= ~flag;
         }
         
+        public static Flagged Add(this Flagged flag, Flagged value, bool on)
+        {
+            return on ? value | flag : value & ~flag;
+        }
+
+        public static void SetFlags(this MachineState m, Flagged value)
+        {
+            m.CF = value.HasFlag(Flagged.Carry);
+            m.PF = value.HasFlag(Flagged.Parity);
+            m.AF = value.HasFlag(Flagged.Auxiliary);
+            m.ZF = value.HasFlag(Flagged.Zero);
+            m.SF = value.HasFlag(Flagged.Sign);
+            m.TF = value.HasFlag(Flagged.Trap);
+            m.IF = value.HasFlag(Flagged.Interrupt);
+            m.DF = value.HasFlag(Flagged.Direction);
+            m.OF = value.HasFlag(Flagged.Overflow);
+        }
+
         private static bool GetBit(this ref ushort flag, Flagged value)
         {
             return (flag & (ushort)value) == (ushort)value;

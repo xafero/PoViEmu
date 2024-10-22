@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using PoViEmu.Core.Decoding.Ops.Regs;
 using PoViEmu.Core.Hardware.AckNow;
 using static PoViEmu.Core.Hardware.MachTool;
+using Fl = PoViEmu.Core.Hardware.Flagged;
 
 namespace PoViEmu.Core.Hardware
 {
@@ -175,15 +176,21 @@ namespace PoViEmu.Core.Hardware
         /// <summary>
         /// Flag register
         /// </summary>
-        public Flagged F;
+        private Fl _f;
+
+        public Fl F
+        {
+            get => _f;
+            set => this.SetFlags(value);
+        }
 
         /// <summary>
         /// Trap flag
         /// </summary>
         public bool TF
         {
-            get => Flagged.Trap.Check(ref F);
-            set => Flagged.Trap.Apply(ref F, value);
+            get => Fl.Trap.Check(ref _f);
+            set => SetProperty(ref _f, Fl.Trap.Add(F, value));
         }
 
         /// <summary>
@@ -191,8 +198,8 @@ namespace PoViEmu.Core.Hardware
         /// </summary>
         public bool DF
         {
-            get => Flagged.Direction.Check(ref F);
-            set => Flagged.Direction.Apply(ref F, value);
+            get => Fl.Direction.Check(ref _f);
+            set => SetProperty(ref _f, Fl.Direction.Add(F, value));
         }
 
         /// <summary>
@@ -200,8 +207,8 @@ namespace PoViEmu.Core.Hardware
         /// </summary>
         public bool IF
         {
-            get => Flagged.Interrupt.Check(ref F);
-            set => Flagged.Interrupt.Apply(ref F, value);
+            get => Fl.Interrupt.Check(ref _f);
+            set => SetProperty(ref _f, Fl.Interrupt.Add(F, value));
         }
 
         /// <summary>
@@ -209,8 +216,8 @@ namespace PoViEmu.Core.Hardware
         /// </summary>
         public bool OF
         {
-            get => Flagged.Overflow.Check(ref F);
-            set => Flagged.Overflow.Apply(ref F, value);
+            get => Fl.Overflow.Check(ref _f);
+            set => SetProperty(ref _f, Fl.Overflow.Add(F, value));
         }
 
         /// <summary>
@@ -218,8 +225,8 @@ namespace PoViEmu.Core.Hardware
         /// </summary>
         public bool SF
         {
-            get => Flagged.Sign.Check(ref F);
-            set => Flagged.Sign.Apply(ref F, value);
+            get => Fl.Sign.Check(ref _f);
+            set => SetProperty(ref _f, Fl.Sign.Add(F, value));
         }
 
         /// <summary>
@@ -227,8 +234,8 @@ namespace PoViEmu.Core.Hardware
         /// </summary>
         public bool ZF
         {
-            get => Flagged.Zero.Check(ref F);
-            set => Flagged.Zero.Apply(ref F, value);
+            get => Fl.Zero.Check(ref _f);
+            set => SetProperty(ref _f, Fl.Zero.Add(F, value));
         }
 
         /// <summary>
@@ -236,8 +243,8 @@ namespace PoViEmu.Core.Hardware
         /// </summary>
         public bool AF
         {
-            get => Flagged.Auxiliary.Check(ref F);
-            set => Flagged.Auxiliary.Apply(ref F, value);
+            get => Fl.Auxiliary.Check(ref _f);
+            set => SetProperty(ref _f, Fl.Auxiliary.Add(F, value));
         }
 
         /// <summary>
@@ -245,8 +252,8 @@ namespace PoViEmu.Core.Hardware
         /// </summary>
         public bool PF
         {
-            get => Flagged.Parity.Check(ref F);
-            set => Flagged.Parity.Apply(ref F, value);
+            get => Fl.Parity.Check(ref _f);
+            set => SetProperty(ref _f, Fl.Parity.Add(F, value));
         }
 
         /// <summary>
@@ -254,8 +261,8 @@ namespace PoViEmu.Core.Hardware
         /// </summary>
         public bool CF
         {
-            get => Flagged.Carry.Check(ref F);
-            set => Flagged.Carry.Apply(ref F, value);
+            get => Fl.Carry.Check(ref _f);
+            set => SetProperty(ref _f, Fl.Carry.Add(F, value));
         }
 
         #endregion
@@ -310,26 +317,157 @@ namespace PoViEmu.Core.Hardware
 
         #region Expanded Memory Specification
 
-        public ushort Bank0;
-        public ushort Bank1;
-        public ushort Bank2;
-        public ushort Bank3;
-        public ushort Bank4;
-        public ushort Bank5;
-        public ushort Bank6;
+        private ushort _bank0;
 
-        public ushort Frame0;
-        public ushort Frame1;
-        public ushort Frame2;
-        public ushort Frame3;
-        public ushort Frame4;
-        public ushort Frame5;
-        public ushort Frame6;
-        public ushort Frame7;
-        public ushort Frame8;
-        public ushort Frame9;
-        public ushort Frame10;
-        public ushort Frame11;
+        public ushort Bk0
+        {
+            get => _bank0;
+            set => SetProperty(ref _bank0, value);
+        }
+
+        private ushort _bank1;
+
+        public ushort Bk1
+        {
+            get => _bank1;
+            set => SetProperty(ref _bank1, value);
+        }
+
+        private ushort _bank2;
+
+        public ushort Bk2
+        {
+            get => _bank2;
+            set => SetProperty(ref _bank2, value);
+        }
+
+        private ushort _bank3;
+
+        public ushort Bk3
+        {
+            get => _bank3;
+            set => SetProperty(ref _bank3, value);
+        }
+
+        private ushort _bank4;
+
+        public ushort Bk4
+        {
+            get => _bank4;
+            set => SetProperty(ref _bank4, value);
+        }
+
+        private ushort _bank5;
+
+        public ushort Bk5
+        {
+            get => _bank5;
+            set => SetProperty(ref _bank5, value);
+        }
+
+        private ushort _bank6;
+
+        public ushort Bk6
+        {
+            get => _bank6;
+            set => SetProperty(ref _bank6, value);
+        }
+
+        private ushort _frame0;
+
+        public ushort Fr0
+        {
+            get => _frame0;
+            set => SetProperty(ref _frame0, value);
+        }
+
+        private ushort _frame1;
+
+        public ushort Fr1
+        {
+            get => _frame1;
+            set => SetProperty(ref _frame1, value);
+        }
+
+        private ushort _frame2;
+
+        public ushort Fr2
+        {
+            get => _frame2;
+            set => SetProperty(ref _frame2, value);
+        }
+
+        private ushort _frame3;
+
+        public ushort Fr3
+        {
+            get => _frame3;
+            set => SetProperty(ref _frame3, value);
+        }
+
+        private ushort _frame4;
+
+        public ushort Fr4
+        {
+            get => _frame4;
+            set => SetProperty(ref _frame4, value);
+        }
+
+        private ushort _frame5;
+
+        public ushort Fr5
+        {
+            get => _frame5;
+            set => SetProperty(ref _frame5, value);
+        }
+
+        private ushort _frame6;
+
+        public ushort Fr6
+        {
+            get => _frame6;
+            set => SetProperty(ref _frame6, value);
+        }
+
+        private ushort _frame7;
+
+        public ushort Fr7
+        {
+            get => _frame7;
+            set => SetProperty(ref _frame7, value);
+        }
+
+        private ushort _frame8;
+
+        public ushort Fr8
+        {
+            get => _frame8;
+            set => SetProperty(ref _frame8, value);
+        }
+
+        private ushort _frame9;
+
+        public ushort Fr9
+        {
+            get => _frame9;
+            set => SetProperty(ref _frame9, value);
+        }
+
+        private ushort _frame10;
+
+        public ushort Fr10
+        {
+            get => _frame10;
+            set => SetProperty(ref _frame10, value);
+        }
+
+        private ushort _frame11;
+
+        public ushort Fr11
+        {
+            get => _frame11;
+            set => SetProperty(ref _frame11, value);
+        }
 
         #endregion
 
@@ -406,6 +544,35 @@ namespace PoViEmu.Core.Hardware
                     nameof(BP) => BP,
                     nameof(CS) => CS,
                     nameof(IP) => IP,
+                    nameof(F) => F,
+                    nameof(TF) => TF,
+                    nameof(DF) => DF,
+                    nameof(IF) => IF,
+                    nameof(OF) => OF,
+                    nameof(SF) => SF,
+                    nameof(ZF) => ZF,
+                    nameof(AF) => AF,
+                    nameof(PF) => PF,
+                    nameof(CF) => CF,
+                    nameof(Bk0) => Bk0,
+                    nameof(Bk1) => Bk1,
+                    nameof(Bk2) => Bk2,
+                    nameof(Bk3) => Bk3,
+                    nameof(Bk4) => Bk4,
+                    nameof(Bk5) => Bk5,
+                    nameof(Bk6) => Bk6,
+                    nameof(Fr0) => Fr0,
+                    nameof(Fr1) => Fr1,
+                    nameof(Fr2) => Fr2,
+                    nameof(Fr3) => Fr3,
+                    nameof(Fr4) => Fr4,
+                    nameof(Fr5) => Fr5,
+                    nameof(Fr6) => Fr6,
+                    nameof(Fr7) => Fr7,
+                    nameof(Fr8) => Fr8,
+                    nameof(Fr9) => Fr9,
+                    nameof(Fr10) => Fr10,
+                    nameof(Fr11) => Fr11,
                     _ => throw new InvalidOperationException(name)
                 };
             }

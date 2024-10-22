@@ -81,13 +81,13 @@ namespace PoViEmu.Core.Hardware
                    $"IF={(s.IF ? 1 : 0)}{sep}OF={(s.OF ? 1 : 0)}{sep}" +
                    $"PF={(s.PF ? 1 : 0)}{sep}AF={(s.AF ? 1 : 0)}{sep}" +
                    $"TF={(s.TF ? 1 : 0)}{sep}" +
-                   $"B0={s.Bank0:x4}{sep}B1={s.Bank1:x4}{sep}B2={s.Bank2:x4}{sep}" +
-                   $"B3={s.Bank3:x4}{sep}B4={s.Bank4:x4}{sep}B5={s.Bank5:x4}{sep}" +
-                   $"B6={s.Bank6:x4}{sep}F0={s.Frame0:x4}{sep}F1={s.Frame1:x4}{sep}" +
-                   $"F2={s.Frame2:x4}{sep}F3={s.Frame3:x4}{sep}F4={s.Frame4:x4}{sep}" +
-                   $"F5={s.Frame5:x4}{sep}F6={s.Frame6:x4}{sep}F7={s.Frame7:x4}{sep}" +
-                   $"F8={s.Frame8:x4}{sep}F9={s.Frame9:x4}{sep}F10={s.Frame10:x4}{sep}" +
-                   $"F11={s.Frame11:x4}{sep}";
+                   $"B0={s.Bk0:x4}{sep}B1={s.Bk1:x4}{sep}B2={s.Bk2:x4}{sep}" +
+                   $"B3={s.Bk3:x4}{sep}B4={s.Bk4:x4}{sep}B5={s.Bk5:x4}{sep}" +
+                   $"B6={s.Bk6:x4}{sep}F0={s.Fr0:x4}{sep}F1={s.Fr1:x4}{sep}" +
+                   $"F2={s.Fr2:x4}{sep}F3={s.Fr3:x4}{sep}F4={s.Fr4:x4}{sep}" +
+                   $"F5={s.Fr5:x4}{sep}F6={s.Fr6:x4}{sep}F7={s.Fr7:x4}{sep}" +
+                   $"F8={s.Fr8:x4}{sep}F9={s.Fr9:x4}{sep}F10={s.Fr10:x4}{sep}" +
+                   $"F11={s.Fr11:x4}{sep}";
         }
         
         public static string ToStackString(this MachineState s, string? rawSep = null,
