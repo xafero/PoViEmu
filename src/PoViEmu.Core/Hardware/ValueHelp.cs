@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Text;
-using PoViEmu.Core.Hardware;
 
-namespace Hallo
+namespace PoViEmu.Core.Hardware
 {
     public static class ValueHelp
     {
@@ -10,9 +9,10 @@ namespace Hallo
         {
             return obj switch
             {
-                bool b => b ? "1" : "0",
-                ushort us => $"0x{us:X4}",
-                Flagged fl => ToStr(fl),
+                bool l => l ? "1" : "0",
+                byte b => $"0x{b:X2}",
+                ushort u => $"0x{u:X4}",
+                Flagged f => ToStr(f),
                 _ => throw new InvalidOperationException($"[{obj.GetType()}] {obj}")
             };
         }
