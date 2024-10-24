@@ -15,7 +15,7 @@ namespace PoViEmu.Core.Hardware
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public sealed class MachineState : INotifyPropertyChanging, INotifyPropertyChanged,
-        IMemAccess<byte>, IMemAccess<ushort>
+        IMemAccess<byte>, IMemAccess<ushort>, IMemAccess<byte[]>, IMemAccess<ushort[]>
     {
         #region Data group
 
@@ -649,13 +649,27 @@ namespace PoViEmu.Core.Hardware
         #region Memory access
 
         public MemAccess<byte> U8 { get; }
+        public MemAccess<byte[]> U8A { get; }
         public MemAccess<ushort> U16 { get; }
+        public MemAccess<ushort[]> U16A { get; }
 
         byte IMemAccess<byte>.Get(ushort seg, ushort off)
         {
             var addr = ToPhysicalAddress(seg, off);
             var value = _memory[addr];
             return value;
+        }
+
+        byte[] IMemAccess<byte[]>.Get(ushort seg, ushort off)
+        {
+            var addr = ToPhysicalAddress(seg, off);
+            var count = ushort.MaxValue - off;
+            var values = new byte[count];
+            for (var i=0; i<count; i++){
+                var value = _memory[addr + i];
+                values[i]=value;
+            }
+            return values;
         }
 
         void IMemAccess<byte>.Set(ushort seg, ushort off, byte value)
@@ -668,12 +682,38 @@ namespace PoViEmu.Core.Hardware
                 }, value, GetSrc<byte>(seg, off));
         }
 
+        void IMemAccess<byte[]>.Set(ushort seg, ushort off, byte[] values)
+        {
+            SetProperty(() => ((IMemAccess<byte[]>)this).Get(seg, off),
+                v =>
+                {
+                    var addr = ToPhysicalAddress(seg, off);
+                    for (var i=0; i< v.Length; i++){
+                        var value = v[i];
+                        _memory[addr+i] = value;
+                    }
+                }, values, GetSrc<byte[]>(seg, off));
+        }
+
         ushort IMemAccess<ushort>.Get(ushort seg, ushort off)
         {
             var addr = ToPhysicalAddress(seg, off);
             var bytes = new[] { _memory[addr], _memory[addr + 1] };
             var value = BitConverter.ToUInt16(bytes, 0);
             return value;
+        }
+
+        ushort[] IMemAccess<ushort[]>.Get(ushort seg, ushort off)
+        {
+            var addr = ToPhysicalAddress(seg, off);
+            var count = (ushort.MaxValue - off) / 2;
+            var values = new ushort[count];
+            for (int i=0, j=0; i<count; i++, j+=2){
+                var bytes = new[] { _memory[addr+j], _memory[addr+j+ 1] };
+                var value = BitConverter.ToUInt16(bytes, 0);
+                values[i]=value;
+            }
+            return values;
         }
 
         void IMemAccess<ushort>.Set(ushort seg, ushort off, ushort value)
@@ -686,6 +726,22 @@ namespace PoViEmu.Core.Hardware
                     _memory[addr] = bytes[0];
                     _memory[addr + 1] = bytes[1];
                 }, value, GetSrc<ushort>(seg, off));
+        }
+
+        void IMemAccess<ushort[]>.Set(ushort seg, ushort off, ushort[] values)
+        {
+            SetProperty(() => ((IMemAccess<ushort[]>)this).Get(seg, off),
+                v =>
+                {
+                    var addr = ToPhysicalAddress(seg, off);
+                    for (int i=0, j=0; i< v.Length; i++, j+=2)
+                    {
+                        var value = v[i];
+                        var bytes = BitConverter.GetBytes(value);
+                        _memory[addr+j] =   bytes[0];
+                        _memory[addr+j+1] = bytes[1];
+                    }
+                }, values, GetSrc<ushort[]>(seg, off));
         }
 
         private byte GetU8(string? addr)
