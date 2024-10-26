@@ -5,13 +5,13 @@ namespace PoViEmu.Core.Hardware
 {
     public static class ValueHelp
     {
-        public static string Format(this object obj)
+        public static string Format(this object obj, bool withPrefix = true)
         {
             return obj switch
             {
                 bool l => l ? "1" : "0",
-                byte b => $"0x{b:X2}",
-                ushort u => $"0x{u:X4}",
+                byte b => $"0x{b:X2}"[(withPrefix ? 0 : 2)..],
+                ushort u => $"0x{u:X4}"[(withPrefix ? 0 : 2)..],
                 Flagged f => ToStr(f),
                 _ => throw new InvalidOperationException($"[{obj.GetType()}] {obj}")
             };

@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using ConsoleServer;
 using Spectre.Console;
 
 namespace PoViEmu.Telnet
 {
-    internal static class TelnetHelper
+    public static class TelnetUtil
     {
         public static string GetSessionKey(this TelnetSession s)
         {
@@ -20,6 +21,12 @@ namespace PoViEmu.Telnet
             s.AnsiConsole.Markup(text);
             if (newLine)
                 s.AnsiConsole.WriteLine();
+        }
+
+        public static void WriteLines(this TelnetSession s, IEnumerable<string> lines)
+        {
+            foreach (var line in lines)
+                WriteOneLine(s, line);
         }
     }
 }

@@ -11,12 +11,12 @@ using Spectre.Console;
 
 namespace PoViEmu.Telnet
 {
-    public sealed class TelnetDebugger<T> where T : struct, Enum
+    public sealed class TelnetRepl<T> where T : struct, Enum
     {
         private readonly IDictionary<string, ManualResetEvent> _wait;
         public readonly IDictionary<T, CommandDlgt> Handlers;
 
-        public TelnetDebugger()
+        public TelnetRepl()
         {
             _wait = new ConcurrentDictionary<string, ManualResetEvent>();
             Enum.TryParse<T>("quit", ignoreCase: true, out var quit);
@@ -59,7 +59,7 @@ namespace PoViEmu.Telnet
 
         public string Prompt { get; set; } = ">";
 
-        public string HelloMessage { get; set; }
+        public string? HelloMessage { get; set; }
             = "[underline blue]Welcome to the server![/]";
 
         private void OnNewSession(TelnetSession session)
@@ -68,7 +68,8 @@ namespace PoViEmu.Telnet
             _wait[key] = new ManualResetEvent(false);
 
             session.LogLevel = LogEventLevel.Debug;
-            session.WriteOneLine(HelloMessage);
+            if (!string.IsNullOrWhiteSpace(HelloMessage))
+                session.WriteOneLine(HelloMessage);
 
             var bld = new StringBuilder();
             session.WritePrompt(Prompt);
@@ -94,7 +95,6 @@ namespace PoViEmu.Telnet
                 if (!string.IsNullOrWhiteSpace(line))
                     try
                     {
-                        Console.WriteLine($"<< '{line}'");
                         if (!ExecuteCommand(session, line))
                             return;
                     }
@@ -113,8 +113,11 @@ namespace PoViEmu.Telnet
 
         private bool ExecuteCommand(TelnetSession session, string line)
         {
-            var parts = line.Split(' ', 2);
+            var parts = line.Trim().Split(' ', 2);
             var cmd = parts[0].Trim();
+
+            if (cmd == "?")
+                cmd = "help";
 
             if (!Enum.TryParse<T>(cmd, ignoreCase: true, out var kind))
                 throw new InvalidOperationException($"Unknown command '{cmd}'!");

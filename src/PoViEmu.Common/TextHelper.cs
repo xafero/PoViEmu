@@ -13,7 +13,7 @@ namespace PoViEmu.Common
         
         public const StringComparison Ignore = StringComparison.InvariantCultureIgnoreCase;
         
-        public static string? TrimNull(this string text)
+        public static string? TrimNull(this string? text)
         {
             return string.IsNullOrWhiteSpace(text) ? null : text.Trim();
         }

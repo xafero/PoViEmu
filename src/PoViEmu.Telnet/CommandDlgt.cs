@@ -3,6 +3,6 @@ using ConsoleServer;
 namespace PoViEmu.Telnet
 {
     public delegate bool CommandDlgt(
-        TelnetSession session, string cmd, string arg
+        TelnetSession session, string cmd, string? arg
     );
 }
