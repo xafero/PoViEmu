@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Threading;
 using ConsoleServer;
@@ -10,17 +11,18 @@ using Spectre.Console;
 
 namespace PoViEmu.Telnet
 {
-    internal sealed class TelnetDebugger
+    public sealed class TelnetDebugger<T> where T : struct, Enum
     {
         private readonly IDictionary<string, ManualResetEvent> _wait;
-        public readonly IDictionary<CommandName, CommandDlgt> Handlers;
+        public readonly IDictionary<T, CommandDlgt> Handlers;
 
         public TelnetDebugger()
         {
             _wait = new ConcurrentDictionary<string, ManualResetEvent>();
-            Handlers = new ConcurrentDictionary<CommandName, CommandDlgt>
+            Enum.TryParse<T>("quit", ignoreCase: true, out var quit);
+            Handlers = new ConcurrentDictionary<T, CommandDlgt>
             {
-                [CommandName.Quit] = QuitSession
+                [quit] = QuitSession
             };
         }
 
@@ -38,6 +40,8 @@ namespace PoViEmu.Telnet
             _server.StartListen(OnNewSession);
         }
 
+        public IPEndPoint? EndPoint => _server?.LocalEndPoint;
+
         public void Stop()
         {
             _server?.Dispose();
@@ -45,7 +49,7 @@ namespace PoViEmu.Telnet
             _wait.Clear();
         }
 
-        private bool QuitSession(TelnetSession session, string _ = null, string __ = null)
+        private bool QuitSession(TelnetSession session, string? _ = null, string? __ = null)
         {
             var key = session.GetSessionKey();
             _wait[key].Set();
@@ -112,7 +116,7 @@ namespace PoViEmu.Telnet
             var parts = line.Split(' ', 2);
             var cmd = parts[0].Trim();
 
-            if (!Enum.TryParse<CommandName>(cmd, ignoreCase: true, out var kind))
+            if (!Enum.TryParse<T>(cmd, ignoreCase: true, out var kind))
                 throw new InvalidOperationException($"Unknown command '{cmd}'!");
 
             if (!Handlers.TryGetValue(kind, out var dlgt))
