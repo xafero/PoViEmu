@@ -5,7 +5,7 @@ namespace PoViEmu.Core.Hardware
 {
     public static class ValueHelp
     {
-        public static string Format(this object obj, bool withPrefix = true)
+        public static string Format(this object? obj, bool withPrefix = true)
         {
             return obj switch
             {
@@ -13,7 +13,7 @@ namespace PoViEmu.Core.Hardware
                 byte b => $"0x{b:X2}"[(withPrefix ? 0 : 2)..],
                 ushort u => $"0x{u:X4}"[(withPrefix ? 0 : 2)..],
                 Flagged f => ToStr(f),
-                _ => throw new InvalidOperationException($"[{obj.GetType()}] {obj}")
+                _ => throw new InvalidOperationException($"[{obj?.GetType()}] {obj}")
             };
         }
 

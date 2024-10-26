@@ -247,6 +247,9 @@ namespace PoViEmu.Core.Hardware
                 case nameof(UInt16):
                     res = Convert.ToUInt16($"{value}", 16);
                     break;
+                case nameof(Byte):
+                    res = Convert.ToByte($"{value}", 16);
+                    break;
                 case nameof(Boolean):
                     res = Convert.ToByte($"{value}") == 1;
                     break;
@@ -254,6 +257,12 @@ namespace PoViEmu.Core.Hardware
                     throw new InvalidOperationException($"{type} | {value}");
             }
             return (T)res;
+        }
+
+        public static ChangeList Collect(this MachineState m)
+        {
+            var list = new ChangeList(m);
+            return list;
         }
     }
 }

@@ -534,8 +534,8 @@ namespace PoViEmu.Core.Hardware
 
         public object this[string? name]
         {
-            get => MachParser.GetByString(this, name);
-            set => MachParser.SetByString(this, name, value);
+            get => this.GetByString(name);
+            set => this.SetByString(name, value);
         }
 
         #endregion
