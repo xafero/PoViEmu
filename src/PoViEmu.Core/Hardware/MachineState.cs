@@ -534,67 +534,8 @@ namespace PoViEmu.Core.Hardware
 
         public object this[string? name]
         {
-            get
-            {
-                var parts = name?.Split('|') ?? [];
-                var key = parts.FirstOrDefault();
-                return key switch
-                {
-                    nameof(AX) => AX,
-                    nameof(BX) => BX,
-                    nameof(CX) => CX,
-                    nameof(DX) => DX,
-                    nameof(AH) => AH,
-                    nameof(BH) => BH,
-                    nameof(CH) => CH,
-                    nameof(DH) => DH,
-                    nameof(AL) => AL,
-                    nameof(BL) => BL,
-                    nameof(CL) => CL,
-                    nameof(DL) => DL,
-                    nameof(SI) => SI,
-                    nameof(DI) => DI,
-                    nameof(DS) => DS,
-                    nameof(ES) => ES,
-                    nameof(SS) => SS,
-                    nameof(SP) => SP,
-                    nameof(BP) => BP,
-                    nameof(CS) => CS,
-                    nameof(IP) => IP,
-                    nameof(F) => F,
-                    nameof(TF) => TF,
-                    nameof(DF) => DF,
-                    nameof(IF) => IF,
-                    nameof(OF) => OF,
-                    nameof(SF) => SF,
-                    nameof(ZF) => ZF,
-                    nameof(AF) => AF,
-                    nameof(PF) => PF,
-                    nameof(CF) => CF,
-                    nameof(Bk0) => Bk0,
-                    nameof(Bk1) => Bk1,
-                    nameof(Bk2) => Bk2,
-                    nameof(Bk3) => Bk3,
-                    nameof(Bk4) => Bk4,
-                    nameof(Bk5) => Bk5,
-                    nameof(Bk6) => Bk6,
-                    nameof(Fr0) => Fr0,
-                    nameof(Fr1) => Fr1,
-                    nameof(Fr2) => Fr2,
-                    nameof(Fr3) => Fr3,
-                    nameof(Fr4) => Fr4,
-                    nameof(Fr5) => Fr5,
-                    nameof(Fr6) => Fr6,
-                    nameof(Fr7) => Fr7,
-                    nameof(Fr8) => Fr8,
-                    nameof(Fr9) => Fr9,
-                    nameof(Fr10) => Fr10,
-                    nameof(Fr11) => Fr11,
-                    nameof(U8) => GetU8(parts.Skip(1).FirstOrDefault()),
-                    nameof(U16) => GetU16(parts.Skip(1).FirstOrDefault()),
-                    _ => throw new InvalidOperationException(name)
-                };
-            }
+            get => MachParser.GetByString(this, name);
+            set => MachParser.SetByString(this, name, value);
         }
 
         #endregion
@@ -665,9 +606,10 @@ namespace PoViEmu.Core.Hardware
             var addr = ToPhysicalAddress(seg, off);
             var count = ushort.MaxValue - off;
             var values = new byte[count];
-            for (var i=0; i<count; i++){
+            for (var i = 0; i < count; i++)
+            {
                 var value = _memory[addr + i];
-                values[i]=value;
+                values[i] = value;
             }
             return values;
         }
@@ -688,9 +630,10 @@ namespace PoViEmu.Core.Hardware
                 v =>
                 {
                     var addr = ToPhysicalAddress(seg, off);
-                    for (var i=0; i< v.Length; i++){
+                    for (var i = 0; i < v.Length; i++)
+                    {
                         var value = v[i];
-                        _memory[addr+i] = value;
+                        _memory[addr + i] = value;
                     }
                 }, values, GetSrc<byte[]>(seg, off));
         }
@@ -708,10 +651,11 @@ namespace PoViEmu.Core.Hardware
             var addr = ToPhysicalAddress(seg, off);
             var count = (ushort.MaxValue - off) / 2;
             var values = new ushort[count];
-            for (int i=0, j=0; i<count; i++, j+=2){
-                var bytes = new[] { _memory[addr+j], _memory[addr+j+ 1] };
+            for (int i = 0, j = 0; i < count; i++, j += 2)
+            {
+                var bytes = new[] { _memory[addr + j], _memory[addr + j + 1] };
                 var value = BitConverter.ToUInt16(bytes, 0);
-                values[i]=value;
+                values[i] = value;
             }
             return values;
         }
@@ -734,23 +678,23 @@ namespace PoViEmu.Core.Hardware
                 v =>
                 {
                     var addr = ToPhysicalAddress(seg, off);
-                    for (int i=0, j=0; i< v.Length; i++, j+=2)
+                    for (int i = 0, j = 0; i < v.Length; i++, j += 2)
                     {
                         var value = v[i];
                         var bytes = BitConverter.GetBytes(value);
-                        _memory[addr+j] =   bytes[0];
-                        _memory[addr+j+1] = bytes[1];
+                        _memory[addr + j] = bytes[0];
+                        _memory[addr + j + 1] = bytes[1];
                     }
                 }, values, GetSrc<ushort[]>(seg, off));
         }
 
-        private byte GetU8(string? addr)
+        internal byte GetU8(string? addr)
         {
             ParseSrc(addr, out var seg, out var off);
             return ((IMemAccess<byte>)this).Get(seg, off);
         }
 
-        private ushort GetU16(string? addr)
+        internal ushort GetU16(string? addr)
         {
             ParseSrc(addr, out var seg, out var off);
             return ((IMemAccess<ushort>)this).Get(seg, off);
