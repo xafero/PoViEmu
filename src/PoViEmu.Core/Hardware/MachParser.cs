@@ -244,14 +244,22 @@ namespace PoViEmu.Core.Hardware
             object res;
             switch (type)
             {
+                case nameof(Flagged):
+                    res = value switch
+                    {
+                        Flagged f => f,
+                        ushort fu => fu,
+                        _ => Convert.ToUInt16($"{value}", 16)
+                    };
+                    break;
                 case nameof(UInt16):
-                    res = Convert.ToUInt16($"{value}", 16);
+                    res = value is ushort u ? u : Convert.ToUInt16($"{value}", 16);
                     break;
                 case nameof(Byte):
-                    res = Convert.ToByte($"{value}", 16);
+                    res = value is byte y ? y : Convert.ToByte($"{value}", 16);
                     break;
                 case nameof(Boolean):
-                    res = Convert.ToByte($"{value}") == 1;
+                    res = value is bool b ? b : Convert.ToByte($"{value}") == 1;
                     break;
                 default:
                     throw new InvalidOperationException($"{type} | {value}");
