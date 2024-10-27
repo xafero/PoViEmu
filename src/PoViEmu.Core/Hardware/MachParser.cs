@@ -69,7 +69,9 @@ namespace PoViEmu.Core.Hardware
                 nameof(MachineState.Fr10) => m.Fr10,
                 nameof(MachineState.Fr11) => m.Fr11,
                 nameof(MachineState.U8) => m.GetU8(arg),
+                nameof(MachineState.U8A) => m.GetU8A(arg),
                 nameof(MachineState.U16) => m.GetU16(arg),
+                nameof(MachineState.U16A) => m.GetU16A(arg),
                 _ => throw new InvalidOperationException(name)
             };
         }

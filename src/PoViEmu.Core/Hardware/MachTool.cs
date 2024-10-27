@@ -140,7 +140,9 @@ namespace PoViEmu.Core.Hardware
             switch (name)
             {
                 case "Byte": return $"U8|{seg:X4}:{off:X4}";
+                case "Byte[]": return $"U8A|{seg:X4}:{off:X4}";
                 case "UInt16": return $"U16|{seg:X4}:{off:X4}";
+                case "UInt16[]": return $"U16A|{seg:X4}:{off:X4}";
             }
             throw new InvalidOperationException($"{name} {seg} {off}");
         }

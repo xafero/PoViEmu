@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace PoViEmu.Core.Hardware
@@ -16,7 +18,7 @@ namespace PoViEmu.Core.Hardware
                 _ => throw new InvalidOperationException($"[{obj?.GetType()}] {obj} ({to})")
             };
         }
-        
+
         public static string Format(this object? obj, bool withPrefix = true)
         {
             return obj switch
@@ -25,8 +27,31 @@ namespace PoViEmu.Core.Hardware
                 byte b => $"0x{b:X2}"[(withPrefix ? 0 : 2)..],
                 ushort u => $"0x{u:X4}"[(withPrefix ? 0 : 2)..],
                 Flagged f => ToFlagStr(f),
+                byte[] ba => FormatRle(ba.Select(u => Format(u, withPrefix))),
+                ushort[] ua => FormatRle(ua.Select(u => Format(u, withPrefix))),
                 _ => throw new InvalidOperationException($"[{obj?.GetType()}] {obj}")
             };
+        }
+
+        private static string FormatRle(IEnumerable<string> texts)
+        {
+            var count = 1;
+            var last = string.Empty;
+            return string.Join("", texts.Concat([string.Empty]).Select(text =>
+            {
+                var res = string.Empty;
+                if (text.Equals(last))
+                {
+                    count++;
+                }
+                else if (last.Length != 0)
+                {
+                    res = $"{count}°{last.Replace("0x", "")} ";
+                    count = 1;
+                }
+                last = text;
+                return res;
+            })).Trim();
         }
 
         private static string ToFlagStr(Flagged fl)

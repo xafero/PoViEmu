@@ -479,7 +479,9 @@ namespace PoViEmu.Core.Hardware
         public MachineState()
         {
             U8 = new MemAccess<byte>(this);
+            U8A = new MemAccess<byte[]>(this);
             U16 = new MemAccess<ushort>(this);
+            U16A = new MemAccess<ushort[]>(this);
         }
 
         public IEnumerable<byte> ReadMemory(ushort segment, ushort offset, int count)
@@ -694,10 +696,22 @@ namespace PoViEmu.Core.Hardware
             return ((IMemAccess<byte>)this).Get(seg, off);
         }
 
+        internal byte[] GetU8A(string? addr)
+        {
+            ParseSrc(addr, out var seg, out var off);
+            return ((IMemAccess<byte[]>)this).Get(seg, off);
+        }
+
         internal ushort GetU16(string? addr)
         {
             ParseSrc(addr, out var seg, out var off);
             return ((IMemAccess<ushort>)this).Get(seg, off);
+        }
+
+        internal ushort[] GetU16A(string? addr)
+        {
+            ParseSrc(addr, out var seg, out var off);
+            return ((IMemAccess<ushort[]>)this).Get(seg, off);
         }
 
         #endregion

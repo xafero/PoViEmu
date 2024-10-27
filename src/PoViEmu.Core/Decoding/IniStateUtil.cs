@@ -62,14 +62,49 @@ namespace PoViEmu.Core.Decoding
             var table = Toml.ToModel(text);
 
             table.TryGetValue(nameof(Register), out var sec);
-            var section = (TomlTable)sec;
+            var rSection = (TomlTable)sec;
 
             foreach (var prop in StateProps.Value)
             {
                 var propName = prop.PropName;
-                if (!section.TryGetValue(propName, out var propVal))
+                if (!rSection.TryGetValue(propName, out var propVal))
                     continue;
                 m[propName] = propVal.Parse(prop.PropType);
+            }
+
+            table.TryGetValue("Memory", out var mec);
+            var mSection = (TomlTable)mec;
+
+            mSection.TryGetValue(nameof(MachineState.U8), out var u8);
+            var u8Section = (TomlTable)u8;
+            GoIntoMemorySection<byte>(u8Section, (s, o, a) => m.U8A[s, o] = a);
+
+            mSection.TryGetValue(nameof(MachineState.U16), out var u16);
+            var u16Section = (TomlTable)u16;
+            GoIntoMemorySection<ushort>(u16Section, (s, o, a) => m.U16A[s, o] = a);
+        }
+
+        private static void GoIntoMemorySection<T>(TomlTable section,
+            Action<ushort, ushort, T[]> onDone)
+        {
+            foreach (var prop in section)
+            {
+                var seg = (ushort)prop.Key.Parse(typeof(ushort));
+                if (prop.Value is TomlTable content)
+                {
+                    foreach (var subProp in content)
+                    {
+                        var off = (ushort)subProp.Key.Parse(typeof(ushort));
+                        if (subProp.Value is TomlArray array)
+                        {
+                            var texts = array.Cast<string>().ToArray();
+                            var res = new T[texts.Length];
+                            for (var i = 0; i < res.Length; i++)
+                                res[i] = (T)texts[i].Parse(typeof(T));
+                            onDone(seg, off, res);
+                        }
+                    }
+                }
             }
         }
     }
