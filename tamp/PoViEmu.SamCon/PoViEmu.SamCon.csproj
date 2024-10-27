@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\PoViEmu.Core\PoViEmu.Core.csproj" />
+    <ProjectReference Include="..\..\src\PoViEmu.Telnet\PoViEmu.Telnet.csproj" />
+  </ItemGroup>
+
+</Project>
