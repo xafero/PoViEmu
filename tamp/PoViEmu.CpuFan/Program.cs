@@ -21,6 +21,7 @@ namespace PoViEmu.CpuFan
                 var name = Path.GetFileName(file);
                 Console.WriteLine($" * {name} --> {bytes.Length} bytes");
 
+                var c = new NC3022c();
                 var m = new MachineState();
                 m.InitForCom();
                 m.WriteMemory(m.CS, m.IP, bytes);
@@ -30,14 +31,10 @@ namespace PoViEmu.CpuFan
                 while (true)
                 {
                     var current = reader.NextInstruction();
-                    if (current.Parsed.IsInvalid)
-                    {
-                        Console.Write(" Invalid ?! ");
-                    }
                     Console.WriteLine(current);
 
-                    if ((count++) >= 50)
-                        break;
+                    c.Execute(current, m);
+                    if (count++ >= 50) break;
                 }
 
                 break;
