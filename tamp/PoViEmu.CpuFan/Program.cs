@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using Iced.Intel;
 using PoViEmu.Core.Hardware;
 using static PoViEmu.Common.FileHelper;
 

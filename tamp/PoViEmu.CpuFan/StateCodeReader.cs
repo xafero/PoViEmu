@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Iced.Intel;
-using PoViEmu.Common;
 using PoViEmu.Core.Decoding;
 using PoViEmu.Core.Hardware;
 
@@ -65,6 +64,7 @@ namespace PoViEmu.CpuFan
                 using (iter)
                 {
                     _enumerator = null;
+                    _parent.IP += (ushort)_bytes.Count;
                     return ReadByte();
                 }
 
