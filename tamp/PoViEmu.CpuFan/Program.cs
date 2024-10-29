@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using PoViEmu.Core.Decoding;
 using PoViEmu.Core.Hardware;
 using static PoViEmu.Common.FileHelper;
 
@@ -17,17 +16,16 @@ namespace PoViEmu.CpuFan
             Console.WriteLine($"Root = {folder}");
 
             foreach (var (file, bytes) in FindLoadFiles(folder, ".com")
-                         .OrderBy(j => j.Item2.Length))
+                         .OrderBy(j => j.bytes.Length))
             {
                 var name = Path.GetFileName(file);
                 Console.WriteLine($" * {name} --> {bytes.Length} bytes");
 
                 var m = new MachineState();
                 m.InitForCom();
+                m.WriteMemory(m.CS, m.IP, bytes);
 
                 var c = new StateCodeReader(m);
-
-                // m.WriteMemory();
             }
         }
     }

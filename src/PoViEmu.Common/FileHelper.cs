@@ -8,7 +8,7 @@ namespace PoViEmu.Common
     {
         private const StringComparison Inv = StringComparison.InvariantCultureIgnoreCase;
 
-        public static IEnumerable<(string, byte[])> FindLoadFiles(string root, string end)
+        public static IEnumerable<(string file, byte[] bytes)> FindLoadFiles(string root, string end)
         {
             const SearchOption o = SearchOption.AllDirectories;
             foreach (var file in Directory.EnumerateFiles(root, "*.*", o))
