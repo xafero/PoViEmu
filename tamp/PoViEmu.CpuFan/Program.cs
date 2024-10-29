@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using Iced.Intel;
 using PoViEmu.Core.Hardware;
 using static PoViEmu.Common.FileHelper;
 
@@ -25,7 +26,19 @@ namespace PoViEmu.CpuFan
                 m.InitForCom();
                 m.WriteMemory(m.CS, m.IP, bytes);
 
-                var c = new StateCodeReader(m);
+                var reader = new StateCodeReader(m);
+                while (true)
+                {
+                    var current = reader.NextInstruction();
+                    if (current.Parsed.IsInvalid)
+                    {
+                        Console.Write(" Invalid ?! ");
+                        break;
+                    }
+                    Console.WriteLine(current);
+                }
+
+                break;
             }
         }
     }
