@@ -63,7 +63,10 @@ namespace PoViEmu.CpuFan
             var iter = GetEnumerator();
             if (!iter.MoveNext())
                 using (iter)
-                    return -1;
+                {
+                    _enumerator = null;
+                    return ReadByte();
+                }
 
             var value = iter.Current;
             _bytes.Add(value);
@@ -74,9 +77,10 @@ namespace PoViEmu.CpuFan
         {
             var tool = GetDecoder();
             tool.Decode(out _instruction);
+            _parent.IP = _instruction.NextIP16;
             var copy = _bytes.ToArray();
             _bytes.Clear();
-            var hex = Convert.ToHexString(copy).ToLower();
+            var hex = Convert.ToHexString(copy);
             return new XInstruction(hex, _instruction);
         }
     }

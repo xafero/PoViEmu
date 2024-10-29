@@ -27,15 +27,18 @@ namespace PoViEmu.CpuFan
                 m.WriteMemory(m.CS, m.IP, bytes);
 
                 var reader = new StateCodeReader(m);
+                var count = 0;
                 while (true)
                 {
                     var current = reader.NextInstruction();
                     if (current.Parsed.IsInvalid)
                     {
                         Console.Write(" Invalid ?! ");
-                        break;
                     }
                     Console.WriteLine(current);
+
+                    if ((count++) >= 50)
+                        break;
                 }
 
                 break;
