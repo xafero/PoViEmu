@@ -19,7 +19,7 @@ namespace PoViEmu.CpuFan
             foreach (var (file, bytes) in FindLoadFiles(folder, ".com")
                          .OrderBy(j => j.bytes.Length)
                          .Where(j => j.file
-                             .Contains("check3", StringComparison.InvariantCultureIgnoreCase)))
+                             .Contains("check2", StringComparison.InvariantCultureIgnoreCase)))
             {
                 var name = Path.GetFileName(file);
                 Console.WriteLine($" * {name} --> {bytes.Length} bytes");
