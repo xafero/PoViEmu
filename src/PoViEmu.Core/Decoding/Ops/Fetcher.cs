@@ -27,28 +27,31 @@ namespace PoViEmu.Core.Decoding.Ops
                 var kind = instruct.GetOpKind(i);
                 switch (kind)
                 {
-                    case OpKind.Memory:
-                        var seg = (B16Register)instruct.MemorySegment.AsMine()!;
-                        var off = instruct.NearBranch16;
-                        var size = instruct.MemorySize;
-                        if (size == MemorySize.UInt16)
-                        {
-                            yield return new Mu16Operand(seg, off);
-                            continue;
-                        }
-                        break;
-
-                    // TODO
-                    /*
                     case OpKind.MemorySegSI:
                     case OpKind.MemoryESDI:
                     case OpKind.Memory:
-                        var memBase = instruct.MemoryBase;
-                        var memDspl = (short)instruct.MemoryDisplacement32;
-                        yield return new MemOperand(memBase, memDspl);
+                        var seg = (B16Register)instruct.MemorySegment.AsMine()!;
+                        ushort? off = instruct.NearBranch16;
+                        B16Register? idx = null;
+                        var size = instruct.MemorySize;
+                        if (kind == OpKind.MemoryESDI)
+                        {
+                            seg = B16Register.ES;
+                            off = null;
+                            idx = B16Register.DI;
+                        }
+                        else if (kind == OpKind.MemorySegSI)
+                        {
+                            off = null;
+                            idx = B16Register.SI;
+                        }
+                        if (size == MemorySize.UInt8)
+                            yield return new Mu8Operand(seg, off, idx);
+                        else if (size == MemorySize.UInt16)
+                            yield return new Mu16Operand(seg, off, idx);
+                        else
+                            break;
                         continue;
-                    */
-
                     case OpKind.Register:
                         var reg = instruct.GetOpRegister(i);
                         var rop = reg.ToOperand();

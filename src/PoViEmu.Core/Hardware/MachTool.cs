@@ -122,6 +122,33 @@ namespace PoViEmu.Core.Hardware
             return value;
         }
 
+        public static void PushAll(this MachineState m)
+        {
+            var tmp = m.SP;
+            m.Push(m.AX);
+            m.Push(m.CX);
+            m.Push(m.DX);
+            m.Push(m.BX);
+            m.Push(tmp);
+            m.Push(m.BP);
+            m.Push(m.SI);
+            m.Push(m.DI);
+        }
+
+        public static void IncOrDec(this MachineState m, byte val, bool useSi, bool useDi)
+        {
+            if (m.DF == false)
+            {
+                if (useSi) m.SI += val;
+                if (useDi) m.DI += val;
+            }
+            else
+            {
+                if (useSi) m.SI -= val;
+                if (useDi) m.DI -= val;
+            }
+        }
+
         public static (ushort low, ushort high) SplitInt(this int num)
         {
             var low = (ushort)(num & 0xFFFF);
