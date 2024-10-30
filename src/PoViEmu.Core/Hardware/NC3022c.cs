@@ -17,6 +17,8 @@ using R8 = PoViEmu.Core.Decoding.Ops.Regs.Reg8Operand;
 using R16 = PoViEmu.Core.Decoding.Ops.Regs.Reg16Operand;
 using MO = PoViEmu.Core.Decoding.Ops.MemOperand;
 using MU16 = PoViEmu.Core.Decoding.Ops.Mu16Operand;
+using System.ComponentModel;
+using System.Diagnostics.Metrics;
 
 namespace PoViEmu.Core.Hardware
 {
@@ -59,6 +61,11 @@ namespace PoViEmu.Core.Hardware
                     return;
                 case Mnemonic.Mov when ops is [MU16 mem, R16 r]:
                     mem[m] = m[r];
+                    return;
+                case Mnemonic.Pushf:
+                    var pushE = m.F;
+                    var pushT = (ushort)pushE;
+                    m.Push(pushT);
                     return;
                 case Mnemonic.Add when ops is [R16 r, U16 u]:
                     var addE = m[r] + u.Val;
