@@ -2,11 +2,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using Iced.Intel;
 using PoViEmu.Core.Decoding;
 using PoViEmu.Core.Decoding.Ops;
 using PoViEmu.Core.Hardware.Errors;
+using static PoViEmu.Common.JsonHelper;
 using U8 = PoViEmu.Core.Decoding.Ops.Consts.U8Operand;
 using U16 = PoViEmu.Core.Decoding.Ops.Consts.U16Operand;
 using I16 = PoViEmu.Core.Decoding.Ops.Consts.I16Operand;
@@ -53,6 +56,8 @@ namespace PoViEmu.Core.Hardware
                         Halted = true;
                     return;
             }
+
+            File.WriteAllText("op.json", ToJson(parsed, noDefaults: true), Encoding.UTF8);
             throw new UnhandledOpcodeException(parsed, ops);
         }
 

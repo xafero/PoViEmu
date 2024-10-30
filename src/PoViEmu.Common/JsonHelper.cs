@@ -7,7 +7,7 @@ namespace PoViEmu.Common
 {
     public static class JsonHelper
     {
-        private static JsonSerializerSettings GetConfig(bool format)
+        private static JsonSerializerSettings GetConfig(bool format, bool noDefaults)
         {
             var config = new JsonSerializerSettings
             {
@@ -15,19 +15,21 @@ namespace PoViEmu.Common
                 NullValueHandling = NullValueHandling.Ignore,
                 Formatting = format ? Formatting.Indented : Formatting.None
             };
+            if (noDefaults)
+                config.DefaultValueHandling = DefaultValueHandling.Ignore;
             return config;
         }
 
-        public static string ToJson(object obj, bool format = true)
+        public static string ToJson(object obj, bool format = true, bool noDefaults = false)
         {
-            var config = GetConfig(format);
+            var config = GetConfig(format, noDefaults);
             var json = JsonConvert.SerializeObject(obj, config);
             return json;
         }
 
-        public static T FromJson<T>(string json, bool format = true)
+        public static T FromJson<T>(string json, bool format = true, bool noDefaults = false)
         {
-            var config = GetConfig(format);
+            var config = GetConfig(format, noDefaults);
             var obj = JsonConvert.DeserializeObject<T>(json, config);
             return obj;
         }

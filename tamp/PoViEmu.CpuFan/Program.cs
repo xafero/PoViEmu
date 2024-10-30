@@ -11,12 +11,15 @@ namespace PoViEmu.CpuFan
         private static void Main(string[] args)
         {
             var root = Environment.CurrentDirectory;
+            root = root.Replace(Path.Combine("bin", "Debug", "net8.0"), "");
             var folder = Path.GetFullPath(Path.Combine(root,
                 "..", "..", "..", "SimuHacks", "Projs", "Raw"));
             Console.WriteLine($"Root = {folder}");
 
             foreach (var (file, bytes) in FindLoadFiles(folder, ".com")
-                         .OrderBy(j => j.bytes.Length))
+                         .OrderBy(j => j.bytes.Length)
+                         .Where(j => j.file
+                             .Contains("check3", StringComparison.InvariantCultureIgnoreCase)))
             {
                 var name = Path.GetFileName(file);
                 Console.WriteLine($" * {name} --> {bytes.Length} bytes");
