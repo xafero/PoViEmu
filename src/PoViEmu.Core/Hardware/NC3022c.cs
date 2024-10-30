@@ -16,6 +16,7 @@ using I16 = PoViEmu.Core.Decoding.Ops.Consts.I16Operand;
 using R8 = PoViEmu.Core.Decoding.Ops.Regs.Reg8Operand;
 using R16 = PoViEmu.Core.Decoding.Ops.Regs.Reg16Operand;
 using MO = PoViEmu.Core.Decoding.Ops.MemOperand;
+using MU16 = PoViEmu.Core.Decoding.Ops.Mu16Operand;
 
 namespace PoViEmu.Core.Hardware
 {
@@ -47,8 +48,27 @@ namespace PoViEmu.Core.Hardware
                 case Mnemonic.Mov when ops is [R8 r, U8 u]:
                     m[r] = u.Val;
                     return;
+                case Mnemonic.Mov when ops is [R8 r, R8 q]:
+                    m[r] = m[q];
+                    return;
                 case Mnemonic.Mov when ops is [R16 r, U16 u]:
                     m[r] = u.Val;
+                    return;
+                case Mnemonic.Mov when ops is [R16 r, MU16 mem]:
+                    m[r] = mem[m];
+                    return;
+                case Mnemonic.Mov when ops is [MU16 mem, R16 r]:
+                    mem[m] = m[r];
+                    return;
+                case Mnemonic.Add when ops is [R16 r, U16 u]:
+                    var addE = m[r] + u.Val;
+                    var addT = (ushort)addE;
+                    m[r] = addT;
+                    return;
+                case Mnemonic.Sub when ops is [R16 r, MU16 mem]:
+                    var subE = m[r] - mem[m];
+                    var subT = (ushort)subE;
+                    m[r] = subT;
                     return;
                 case Mnemonic.Int when ops is [U8 u]:
                     ExecuteInterrupt(u.Val, m);

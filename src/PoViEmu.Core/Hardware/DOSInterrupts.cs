@@ -36,6 +36,13 @@ namespace PoViEmu.Core.Hardware
                             m.AL = 0x24;
                             return;
 
+                        // Write character to standard output
+                        case 0x02:
+                            var oneChar = m.DL;
+                            txt = Encoding.ASCII.GetString(new[] { oneChar });
+                            StdOut.Write(txt);
+                            return;
+
                         // Terminate with return code
                         case 0x4C:
                             ReturnCode = m.AL;

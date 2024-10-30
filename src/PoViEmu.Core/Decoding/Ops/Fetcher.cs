@@ -4,6 +4,8 @@ using Iced.Intel;
 using PoViEmu.Core.Decoding.Ops.Consts;
 using PoViEmu.Core.Decoding.Ops.Regs;
 using PoViEmu.Core.Hardware;
+using PoViEmu.Core.Hardware.AckNow;
+using PoViEmu.Core.Meta;
 using R = Iced.Intel.Register;
 
 namespace PoViEmu.Core.Decoding.Ops
@@ -25,18 +27,32 @@ namespace PoViEmu.Core.Decoding.Ops
                 var kind = instruct.GetOpKind(i);
                 switch (kind)
                 {
-                    case OpKind.Register:
-                        var reg = instruct.GetOpRegister(i);
-                        var rop = reg.ToOperand();
-                        yield return rop;
-                        continue;
+                    case OpKind.Memory:
+                        var seg = (B16Register)instruct.MemorySegment.AsMine()!;
+                        var off = instruct.NearBranch16;
+                        var size = instruct.MemorySize;
+                        if (size == MemorySize.UInt16)
+                        {
+                            yield return new Mu16Operand(seg, off);
+                            continue;
+                        }
+                        break;
+
                     // TODO
+                    /*
                     case OpKind.MemorySegSI:
                     case OpKind.MemoryESDI:
                     case OpKind.Memory:
                         var memBase = instruct.MemoryBase;
                         var memDspl = (short)instruct.MemoryDisplacement32;
                         yield return new MemOperand(memBase, memDspl);
+                        continue;
+                    */
+
+                    case OpKind.Register:
+                        var reg = instruct.GetOpRegister(i);
+                        var rop = reg.ToOperand();
+                        yield return rop;
                         continue;
                     case OpKind.NearBranch16:
                         var nba = instruct.NearBranch16;
