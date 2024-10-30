@@ -28,7 +28,7 @@ namespace PoViEmu.CpuFan
 
                 var reader = new StateCodeReader(m);
                 var count = 0;
-                while (true)
+                while (!c.Halted)
                 {
                     var current = reader.NextInstruction();
                     Console.WriteLine(current);
@@ -36,6 +36,9 @@ namespace PoViEmu.CpuFan
                     c.Execute(current, m);
                     if (count++ >= 50) break;
                 }
+
+                var dos = (DOSInterrupts)c.InterruptTable[0x21];
+                Console.WriteLine($" '{dos.StdOut}' => {dos.ReturnCode}");
 
                 break;
             }

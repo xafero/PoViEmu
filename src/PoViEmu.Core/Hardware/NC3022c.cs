@@ -1,6 +1,7 @@
 // ReSharper disable InconsistentNaming
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Iced.Intel;
 using PoViEmu.Core.Decoding;
@@ -17,6 +18,18 @@ namespace PoViEmu.Core.Hardware
 {
     public sealed class NC3022c
     {
+        public bool Halted { get; set; }
+        public IDictionary<byte, IInterruptHandler> InterruptTable { get; }
+
+        public NC3022c()
+        {
+            var dos = new DOSInterrupts();
+            InterruptTable = new SortedDictionary<byte, IInterruptHandler>
+            {
+                [0x21] = dos
+            };
+        }
+
         public void Execute(XInstruction instruct, MachineState m)
         {
             var parsed = instruct.Parsed;
@@ -34,8 +47,20 @@ namespace PoViEmu.Core.Hardware
                 case Mnemonic.Mov when ops is [R16 r, U16 u]:
                     m[r] = u.Val;
                     return;
+                case Mnemonic.Int when ops is [U8 u]:
+                    ExecuteInterrupt(u.Val, m);
+                    if ((InterruptTable[0x21] as DOSInterrupts)?.ReturnCode is not null)
+                        Halted = true;
+                    return;
             }
             throw new UnhandledOpcodeException(parsed, ops);
+        }
+
+        private void ExecuteInterrupt(byte key, MachineState m)
+        {
+            if (!InterruptTable.TryGetValue(key, out var handler))
+                throw new InvalidOperationException($"Missing interrupt 0x{key:X2}!");
+            handler.Handle(key, m);
         }
     }
 }
