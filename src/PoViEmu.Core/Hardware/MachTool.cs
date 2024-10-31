@@ -182,5 +182,40 @@ namespace PoViEmu.Core.Hardware
             seg = Convert.ToUInt16(parts[0], 16);
             off = Convert.ToUInt16(parts[1], 16);
         }
+
+        public static ushort ShiftLeft(ushort value, byte shift, byte bits = 16)
+        {
+            var result = (ushort)((value << shift) | (value >> (bits - shift)));
+            return result;
+        }
+    }
+
+    public static class MagicTool
+    {
+        public static void DoDecimalAdjust(this MachineState m)
+        {
+            var (al, af, cf) = DoDecimalAdjust(m.AL, m.AF, m.CF);
+            m.AL = al;
+            m.AF = af;
+            m.CF = cf;
+        }
+
+        private static (byte al, bool af, bool cf) DoDecimalAdjust(byte al,bool af, bool cf )
+        {
+            var oldAl = al;
+            if ((al & 0x0F) > 9 || af)
+            {
+                al += 0x06;
+                af = true;
+            }
+            al &= 0xFF;
+            if (oldAl > 0x99 || cf)
+            {
+                al += 0x60;
+                cf = true;
+            }
+            al &= 0xFF;
+            return (al, af, cf);
+        }
     }
 }

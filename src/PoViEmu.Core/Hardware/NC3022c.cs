@@ -79,19 +79,55 @@ namespace PoViEmu.Core.Hardware
                     var popE = m.Pop();
                     m[r] = popE;
                     return;
+                case Mnemonic.Add when ops is [R8 r, U8 u]:
+                    var add8E = m[r] + u.Val;
+                    var add8T = (byte)add8E;
+                    m[r] = add8T;
+                    return;
                 case Mnemonic.Add when ops is [R16 r, U16 u]:
                     var addE = m[r] + u.Val;
                     var addT = (ushort)addE;
                     m[r] = addT;
+                    return;
+                case Mnemonic.Adc when ops is [R8 r, U8 u]:
+                    var adc8E = m[r] + u.Val;
+                    var adc8T = (byte)adc8E;
+                    m[r] = adc8T;
                     return;
                 case Mnemonic.Sub when ops is [R16 r, MU16 mem]:
                     var subE = m[r] - mem[m];
                     var subT = (ushort)subE;
                     m[r] = subT;
                     return;
+                case Mnemonic.And when ops is [R8 r, U8 u]:
+                    var andE = m[r] & u.Val;
+                    var andT = (byte)andE;
+                    m[r] = andT;
+                    return;
+                case Mnemonic.Rol when ops is [R16 r, U8 u]:
+                    m[r] = MachTool.ShiftLeft(m[r], u.Val);
+                    return;
+                case Mnemonic.Dec when ops is [R16 r]:
+                    var decE = m[r] - 1;
+                    var decT = (ushort)decE;
+                    m[r] = decT;
+                    return;
+                case Mnemonic.Jne when ops is [U16 u]:
+                    // TODO ignore jump? if m.zf not set
+                    return;
+                case Mnemonic.Loop when ops is [U16 u]:
+                    // TODO ignore jump? dec CX and repeat until CX is zero
+                    return;
+                case Mnemonic.Daa:
+                    m.DoDecimalAdjust();
+                    return;
                 case Mnemonic.Stosb when ops is [MU8 mem, R8 r]:
                     mem[m] = m[r];
                     m.IncOrDec(1, useSi: false, useDi: true);
+                    return;
+                case Mnemonic.Stosw when ops is [MU16 mem, R16 r]:
+                    mem[m] = m[r];
+                    m.IncOrDec(2, useSi: false, useDi: true);
                     return;
                 case Mnemonic.Movsw when ops is [MU16 nT, MU16 nS]:
                     nT[m] = nS[m];
