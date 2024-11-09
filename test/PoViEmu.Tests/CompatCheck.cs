@@ -2,6 +2,7 @@ using System.IO;
 using PoViEmu.Common;
 using System.Text;
 using PoViEmu.Core.Compat;
+using Xunit;
 using static PoViEmu.Core.Compat.StateTool;
 
 namespace PoViEmu.Tests
@@ -18,15 +19,17 @@ namespace PoViEmu.Tests
 
             var (@out, ret, diff) = Execute(comBytes);
             var actual = @out.ToLines();
+            var changes = diff.ToChangeLines(ignoreIP: true);
 
             // TODO
             var obj = JsonHelper.ToJson(new
             {
-                Return = ret, Diff = diff, Out = actual, Txt = diff.ToChangeLines()
+                Return = ret, Out = actual, Txt = changes
             });
             File.WriteAllText($"{fileName}.json", obj, Encoding.UTF8);
 
             // TODO TestTool.Equal(expected, actual);
+            // TODO Assert.Equal("0", $"{ret}");
         }
     }
 }

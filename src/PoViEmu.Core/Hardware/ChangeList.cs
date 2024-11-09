@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using Newtonsoft.Json;
 using PoViEmu.Common;
 
@@ -11,11 +11,13 @@ namespace PoViEmu.Core.Hardware
     {
         private readonly MachineState _m;
         private readonly ConcurrentDictionary<string, object> _v;
+        private readonly List<PropertyEventArgs> _h;
 
         public ChangeList(MachineState m)
         {
             _m = m;
             _v = new ConcurrentDictionary<string, object>();
+            _h = [];
             _m.PropertyChanging += OnPropertyChanging;
             _m.PropertyChanged += OnPropertyChanged;
         }
@@ -40,20 +42,19 @@ namespace PoViEmu.Core.Hardware
             _v.TryGetValue(key, out var oldVal);
             var evt = new PropertyEventArgs(key, (oldVal, newVal));
             PropertyChanged?.Invoke(this, evt);
+            _h.Add(evt);
             _v[key] = evt;
         }
 
         public event PropertyEventHandler? PropertyChanged;
 
-        public PropertyEventArgs[] Changes
-            => _v.Select(i => i.Value)
-                .OfType<PropertyEventArgs>().ToArray();
+        public PropertyEventArgs[] Changes => _h.ToArray();
 
-        [JsonIgnore]
-        public MachineState State => _m;
+        [JsonIgnore] public MachineState State => _m;
 
         public void Dispose()
         {
+            _h.Clear();
             _v.Clear();
             _m.PropertyChanging -= OnPropertyChanging;
             _m.PropertyChanged -= OnPropertyChanged;
