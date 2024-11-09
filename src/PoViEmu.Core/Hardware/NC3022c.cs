@@ -12,6 +12,7 @@ using PoViEmu.Core.Hardware.Errors;
 using static PoViEmu.Common.JsonHelper;
 using U8 = PoViEmu.Core.Decoding.Ops.Consts.U8Operand;
 using U16 = PoViEmu.Core.Decoding.Ops.Consts.U16Operand;
+using I16 = PoViEmu.Core.Decoding.Ops.Consts.I16Operand;
 using R8 = PoViEmu.Core.Decoding.Ops.Regs.Reg8Operand;
 using R16 = PoViEmu.Core.Decoding.Ops.Regs.Reg16Operand;
 using MU8 = PoViEmu.Core.Decoding.Ops.Mu8Operand;
@@ -67,6 +68,10 @@ namespace PoViEmu.Core.Hardware
                 case Mnemonic.Pusha:
                     m.PushAll();
                     return;
+                case Mnemonic.Push when ops is [I16 v]:
+                    var pushV = v.Val;
+                    m.Push((ushort)pushV);
+                    return;
                 case Mnemonic.Push when ops is [R16 r]:
                     var pushE = m[r];
                     m.Push(pushE);
@@ -94,6 +99,11 @@ namespace PoViEmu.Core.Hardware
                     var subE = m[r] - mem[m];
                     var subT = (ushort)subE;
                     m[r] = subT;
+                    return;
+                case Mnemonic.Sub when ops is [R8 r, U8 u]:
+                    var subE2 = m[r] - u.Val;
+                    var subT2 = (byte)subE2;
+                    m[r] = subT2;
                     return;
                 case Mnemonic.And when ops is [R8 r, U8 u]:
                     var andE = m[r] & u.Val;
