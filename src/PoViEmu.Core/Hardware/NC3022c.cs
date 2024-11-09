@@ -10,6 +10,7 @@ using PoViEmu.Core.Decoding;
 using PoViEmu.Core.Decoding.Ops;
 using PoViEmu.Core.Hardware.Errors;
 using static PoViEmu.Common.JsonHelper;
+using Fl = PoViEmu.Core.Hardware.Flagged;
 using U8 = PoViEmu.Core.Decoding.Ops.Consts.U8Operand;
 using U16 = PoViEmu.Core.Decoding.Ops.Consts.U16Operand;
 using I16 = PoViEmu.Core.Decoding.Ops.Consts.I16Operand;
@@ -64,6 +65,10 @@ namespace PoViEmu.Core.Hardware
                     var pushFE = m.F;
                     var pushT = (ushort)pushFE;
                     m.Push(pushT);
+                    return;
+                case Mnemonic.Popf:
+                    var popEF = m.Pop();
+                    m.F = (Fl)popEF;
                     return;
                 case Mnemonic.Pusha:
                     m.PushAll();
@@ -120,6 +125,12 @@ namespace PoViEmu.Core.Hardware
                     return;
                 case Mnemonic.Jne when ops is [U16 u]:
                     // TODO ignore jump? if m.zf not set
+                    return;
+                case Mnemonic.Je when ops is [U16 u]:
+                    // TODO ignore jump?
+                    return;
+                case Mnemonic.Jmp when ops is [U16 u]:
+                    // TODO ignore jump?
                     return;
                 case Mnemonic.Loop when ops is [U16 u]:
                     // TODO ignore jump? dec CX and repeat until CX is zero
