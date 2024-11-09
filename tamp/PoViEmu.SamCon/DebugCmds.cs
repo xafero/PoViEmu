@@ -2,6 +2,7 @@ using ConsoleServer;
 using PoViEmu.Common;
 using PoViEmu.Core.Hardware;
 using PoViEmu.Telnet;
+using static PoViEmu.Common.CollHelper;
 
 namespace PoViEmu.SamCon
 {
@@ -21,7 +22,7 @@ namespace PoViEmu.SamCon
         {
             if (arg.TrimNull() is { } regArg)
             {
-                foreach (var (key, val) in ParseTool.Parse(regArg))
+                foreach (var (key, val) in ParseKeyValue(regArg))
                     State[key] = val;
                 return true;
             }

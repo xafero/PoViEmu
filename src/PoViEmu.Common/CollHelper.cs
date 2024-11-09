@@ -47,5 +47,26 @@ namespace PoViEmu.Common
             }
             return true;
         }
+
+        public static IEnumerable<(string key, string val)> ParseKeyValue(string text)
+        {
+            foreach (var item in text.Trim().Split(' '))
+            {
+                var parts = item.Split('=', 2);
+                var key = parts[0].Trim();
+                var val = parts[1].Trim();
+                yield return (key, val);
+            }
+        }
+
+        public static IDictionary<string, string> ParseDict(string text)
+        {
+            var dict = new SortedDictionary<string, string>();
+            foreach (var (key, val) in ParseKeyValue(text))
+            {
+                dict[key] = val;
+            }
+            return dict;
+        }
     }
 }

@@ -37,5 +37,13 @@ namespace PoViEmu.Tests
         {
             Assert.Equal(expected.ToHex(), actual.ToHex());
         }
+
+        public static void Equal(string[] expected, string[] actual)
+        {
+            var nl = Environment.NewLine;
+            var expectedTxt = string.Join(nl, expected);
+            var actualTxt = string.Join(nl, actual);
+            Equal(expectedTxt, actualTxt);
+        }
     }
 }

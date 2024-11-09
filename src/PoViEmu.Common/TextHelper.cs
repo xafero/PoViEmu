@@ -161,5 +161,20 @@ namespace PoViEmu.Common
                 .Replace((char)64, ' ')
                 .Trim();
         }
+
+        public static string[] ReadUtf8Lines(string file,
+            bool noEmpty = true, bool noSpaces = true)
+        {
+            var lines = File.ReadLines(file, Utf8);
+            if (noEmpty)
+            {
+                lines = lines.Where(l => !string.IsNullOrWhiteSpace(l));
+            }
+            if (noSpaces)
+            {
+                lines = lines.Select(l => l.Trim());
+            }
+            return lines.ToArray();
+        }
     }
 }
