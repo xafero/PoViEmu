@@ -40,7 +40,7 @@ namespace PoViEmu.CpuFan
                     if (count++ >= 50) break;
                 }
 
-                var dos = (DOSInterrupts)c.InterruptTable[0x21];
+                var dos = c.GetDOS();
                 Console.WriteLine($" '{dos.StdOut}' => {dos.ReturnCode}");
             }
         }

@@ -1,7 +1,18 @@
 using PoViEmu.Core.Hardware;
 
+// ReSharper disable InconsistentNaming
+
 namespace PoViEmu.CpuFan
 {
+    public static class StateTool
+    {
+        public static DOSInterrupts GetDOS(this NC3022c c)
+        {
+            var handler = c.InterruptTable[0x21];
+            return (DOSInterrupts)handler;
+        }
+    }
+
     public static class StateReset
     {
         public static void InitForCom(this MachineState m, ushort loadSeg = 0x0665, ushort cxInit = 0x001C)
