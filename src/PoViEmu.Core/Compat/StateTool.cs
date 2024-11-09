@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using PoViEmu.Core.Hardware;
 
+// ReSharper disable InconsistentNaming
+
 namespace PoViEmu.Core.Compat
 {
     public static class StateTool
@@ -37,13 +39,11 @@ namespace PoViEmu.Core.Compat
         public static string[] ToChangeLines(this ChangeList list)
         {
             var bld = new List<string>();
-            list.PropertyChanged += (s, e) =>
+            foreach (var e in list.Changes)
             {
-                var txt = $" | {e.PropertyName} " +
-                          $"| {e.Old.Format()} " +
-                          $"| {e.New.Format()}";
-                bld.Add(txt);
-            };
+                var t = $"{e.PropertyName} = {e.Old.Format()} --> {e.New.Format()}";
+                bld.Add(t);
+            }
             return bld.ToArray();
         }
     }

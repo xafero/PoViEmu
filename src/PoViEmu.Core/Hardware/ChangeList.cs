@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Linq;
+using Newtonsoft.Json;
 using PoViEmu.Common;
 
 namespace PoViEmu.Core.Hardware
@@ -48,6 +49,7 @@ namespace PoViEmu.Core.Hardware
             => _v.Select(i => i.Value)
                 .OfType<PropertyEventArgs>().ToArray();
 
+        [JsonIgnore]
         public MachineState State => _m;
 
         public void Dispose()
