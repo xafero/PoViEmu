@@ -1,6 +1,7 @@
 using System.IO;
 using PoViEmu.Common;
 using System.Text;
+using PoViEmu.Core.Compat;
 using static PoViEmu.Core.Compat.StateTool;
 
 namespace PoViEmu.Tests
@@ -21,6 +22,8 @@ namespace PoViEmu.Tests
             // TODO
             var obj = JsonHelper.ToJson(new { Return = ret, Diff = diff });
             File.WriteAllText($"{fileName}.json", obj, Encoding.UTF8);
+            var cnt = diff.ToChangeLines();
+            File.WriteAllLines($"{fileName}.d.txt", cnt, Encoding.UTF8);
 
             TestTool.Equal(expected, actual);
         }

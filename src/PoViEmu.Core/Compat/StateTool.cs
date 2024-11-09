@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using PoViEmu.Core.Hardware;
 
 namespace PoViEmu.Core.Compat
@@ -31,6 +32,19 @@ namespace PoViEmu.Core.Compat
 
             var dos = c.GetDOS();
             return (dos.StdOut.ToString(), dos.ReturnCode, l);
+        }
+
+        public static string[] ToChangeLines(this ChangeList list)
+        {
+            var bld = new List<string>();
+            list.PropertyChanged += (s, e) =>
+            {
+                var txt = $" | {e.PropertyName} " +
+                          $"| {e.Old.Format()} " +
+                          $"| {e.New.Format()}";
+                bld.Add(txt);
+            };
+            return bld.ToArray();
         }
     }
 }
