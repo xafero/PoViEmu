@@ -22,14 +22,11 @@ namespace PoViEmu.Tests
             var changes = diff.ToChangeLines(ignoreIP: true);
 
             // TODO
-            var obj = JsonHelper.ToJson(new
-            {
-                Return = ret, Out = actual, Txt = changes
-            });
-            File.WriteAllText($"{fileName}.json", obj, Encoding.UTF8);
+            var obj = JsonHelper.ToJson(new { Out = actual, Log = changes });
+            File.WriteAllText($"{fileName}.d.json", obj, Encoding.UTF8);
 
-            // TODO TestTool.Equal(expected, actual);
-            // TODO Assert.Equal("0", $"{ret}");
+            TestTool.Equal(expected, actual);
+            Assert.Equal("0", $"{ret}");
         }
     }
 }
