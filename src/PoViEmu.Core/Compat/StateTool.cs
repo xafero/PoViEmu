@@ -40,14 +40,15 @@ namespace PoViEmu.Core.Compat
         public static string[] ToChangeLines(this ChangeList list, bool ignoreIP = false)
         {
             var bld = new List<string>();
-            foreach (var e in list.Changes)
-            {
-                var k = e.PropertyName;
-                if (ignoreIP && k == "IP")
-                    continue;
-                var t = $"{k} = {e.Old.Format()} --> {e.New.Format()}";
-                bld.Add(t);
-            }
+            using (list)
+                foreach (var e in list.Changes)
+                {
+                    var k = e.PropertyName;
+                    if (ignoreIP && k == "IP")
+                        continue;
+                    var t = $"{k} = {e.Old.Format()} --> {e.New.Format()}";
+                    bld.Add(t);
+                }
             return bld.ToArray();
         }
     }
