@@ -7,7 +7,7 @@ namespace PoViEmu.Tests
     public class CodeTest
     {
         // TODO
-        [Theory(Skip = "Some invalid parser stuff?!")]
+        // [Theory(Skip = "Some invalid parser stuff?!")]
         [InlineData("Ast1")]
         [InlineData("Ast2")]
         public void ShouldRead(string fileName)
