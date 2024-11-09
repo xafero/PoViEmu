@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using PoViEmu.Core.Compat;
 using PoViEmu.Core.Hardware;
 using static PoViEmu.Common.FileHelper;
 

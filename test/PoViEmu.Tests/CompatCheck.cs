@@ -1,21 +1,7 @@
-using System;
-using System.IO;
-using System.Linq;
-using PoViEmu.Common;
-using PoViEmu.Core.Hardware;
-using System;
 using System.IO;
 using PoViEmu.Common;
-using PoViEmu.Core.Hardware;
 using System.Text;
-using PoViEmu.Common;
-using PoViEmu.Core.Hardware.Errors;
-using System;
-using System.IO;
-using System.Linq;
-using PoViEmu.Core.Hardware;
-using static PoViEmu.Common.FileHelper;
-using static PoViEmu.CpuFan.StateTool;
+using static PoViEmu.Core.Compat.StateTool;
 
 namespace PoViEmu.Tests
 {

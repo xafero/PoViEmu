@@ -12,14 +12,10 @@ using PoViEmu.Core.Hardware.Errors;
 using static PoViEmu.Common.JsonHelper;
 using U8 = PoViEmu.Core.Decoding.Ops.Consts.U8Operand;
 using U16 = PoViEmu.Core.Decoding.Ops.Consts.U16Operand;
-using I16 = PoViEmu.Core.Decoding.Ops.Consts.I16Operand;
 using R8 = PoViEmu.Core.Decoding.Ops.Regs.Reg8Operand;
 using R16 = PoViEmu.Core.Decoding.Ops.Regs.Reg16Operand;
-using MO = PoViEmu.Core.Decoding.Ops.MemOperand;
 using MU8 = PoViEmu.Core.Decoding.Ops.Mu8Operand;
 using MU16 = PoViEmu.Core.Decoding.Ops.Mu16Operand;
-using System.ComponentModel;
-using System.Diagnostics.Metrics;
 
 namespace PoViEmu.Core.Hardware
 {

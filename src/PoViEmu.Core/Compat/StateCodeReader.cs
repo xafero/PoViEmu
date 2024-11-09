@@ -6,7 +6,7 @@ using PoViEmu.Core.Hardware;
 
 // ReSharper disable PossibleMultipleEnumeration
 
-namespace PoViEmu.CpuFan
+namespace PoViEmu.Core.Compat
 {
     public sealed class StateCodeReader : CodeReader
     {
