@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using PoViEmu.Core.Hardware;
 
@@ -14,12 +15,15 @@ namespace PoViEmu.Core.Compat
         }
 
         public static (string Output, byte? Return, ChangeList Changes)
-            Execute(byte[] bytes, int maxLimit = 1151)
+            Execute(byte[] bytes, int maxLimit = 1151, Action<MachineState>? act = null)
         {
             var c = new NC3022c();
             var m = new MachineState();
             m.InitForCom();
-            m.WriteMemory(m.CS, m.IP, bytes);
+            if (act == null)
+                m.WriteMemory(m.CS, m.IP, bytes);
+            else
+                act(m);
 
             var l = m.Collect();
             var reader = new StateCodeReader(m);

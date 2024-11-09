@@ -364,6 +364,9 @@ namespace PoViEmu.Core.Hardware
                     if ((InterruptTable[0x21] as DOSInterrupts)?.ReturnCode is not null)
                         Halted = true;
                     return;
+                case Mnemonic.Hlt:
+                    Halted = true;
+                    return;
             }
 
             File.WriteAllText("op.json", ToJson(parsed, noDefaults: true), Encoding.UTF8);
