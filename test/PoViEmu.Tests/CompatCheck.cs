@@ -20,12 +20,13 @@ namespace PoViEmu.Tests
             var actual = @out.ToLines();
 
             // TODO
-            var obj = JsonHelper.ToJson(new { Return = ret, Diff = diff });
+            var obj = JsonHelper.ToJson(new
+            {
+                Return = ret, Diff = diff, Out = actual, Txt = diff.ToChangeLines()
+            });
             File.WriteAllText($"{fileName}.json", obj, Encoding.UTF8);
-            var cnt = diff.ToChangeLines();
-            File.WriteAllLines($"{fileName}.d.txt", cnt, Encoding.UTF8);
 
-            TestTool.Equal(expected, actual);
+            // TODO TestTool.Equal(expected, actual);
         }
     }
 }

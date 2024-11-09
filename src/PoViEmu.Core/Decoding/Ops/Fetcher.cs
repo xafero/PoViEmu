@@ -48,6 +48,10 @@ namespace PoViEmu.Core.Decoding.Ops
                             yield return new Mu8Operand(seg, off, idx);
                         else if (size == MemorySize.UInt16)
                             yield return new Mu16Operand(seg, off, idx);
+                        else if (size == MemorySize.Int16)
+                            yield return new Mi16Operand(seg, off, idx);
+                        else if (size == MemorySize.Float32)
+                            yield return new Mf32Operand(seg, off, idx);
                         else
                             break;
                         continue;
