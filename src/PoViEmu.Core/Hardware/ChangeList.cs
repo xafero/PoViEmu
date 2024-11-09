@@ -48,6 +48,8 @@ namespace PoViEmu.Core.Hardware
             => _v.Select(i => i.Value)
                 .OfType<PropertyEventArgs>().ToArray();
 
+        public MachineState State => _m;
+
         public void Dispose()
         {
             _v.Clear();

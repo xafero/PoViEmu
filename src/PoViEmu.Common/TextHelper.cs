@@ -166,6 +166,12 @@ namespace PoViEmu.Common
             bool noEmpty = true, bool noSpaces = true)
         {
             var lines = File.ReadLines(file, Utf8);
+            return FilterLines(lines, noEmpty, noSpaces).ToArray();
+        }
+
+        private static IEnumerable<string> FilterLines(this IEnumerable<string> lines,
+            bool noEmpty, bool noSpaces)
+        {
             if (noEmpty)
             {
                 lines = lines.Where(l => !string.IsNullOrWhiteSpace(l));
@@ -174,7 +180,14 @@ namespace PoViEmu.Common
             {
                 lines = lines.Select(l => l.Trim());
             }
-            return lines.ToArray();
+            return lines;
+        }
+
+        public static string[] ToLines(this string text,
+            bool noEmpty = true, bool noSpaces = true)
+        {
+            var lines = text.Split('\n');
+            return FilterLines(lines, noEmpty, noSpaces).ToArray();
         }
     }
 }

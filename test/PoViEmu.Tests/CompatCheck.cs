@@ -10,6 +10,12 @@ using PoViEmu.Core.Hardware;
 using System.Text;
 using PoViEmu.Common;
 using PoViEmu.Core.Hardware.Errors;
+using System;
+using System.IO;
+using System.Linq;
+using PoViEmu.Core.Hardware;
+using static PoViEmu.Common.FileHelper;
+using static PoViEmu.CpuFan.StateTool;
 
 namespace PoViEmu.Tests
 {
@@ -23,24 +29,14 @@ namespace PoViEmu.Tests
             var comBytes = File.ReadAllBytes(comFile);
             var expected = TextHelper.ReadUtf8Lines(txtFile);
 
-            string[] actual = ["?"];
+            var (@out, ret, diff) = Execute(comBytes);
+            var actual = @out.ToLines();
+
+            // TODO
+            var obj = JsonHelper.ToJson(new { Return = ret, Diff = diff });
+            File.WriteAllText($"{fileName}.json", obj, Encoding.UTF8);
 
             TestTool.Equal(expected, actual);
-        }
-
-        private static void Execute()
-        {
-            var state = new MachineState();
-            var l = state.Collect();
-            l.PropertyChanged += (s, e) =>
-            {
-                var txt = $" | {e.PropertyName} " +
-                          $"| {e.Old.Format()} " +
-                          $"| {e.New.Format()}";
-                throw new InvalidOperationException(txt);
-            };
-            
-            
         }
     }
 }
