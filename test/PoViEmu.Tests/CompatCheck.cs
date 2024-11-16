@@ -19,7 +19,7 @@ namespace PoViEmu.Tests
 
             var (@out, ret, diff) = Execute(comBytes);
             var actual = @out.ToLines();
-            var changes = diff.ToChangeLines(ignoreIP: true);
+            var changes = diff.ToChangeLines(ignoreIP: false);
 
             var obj = JsonHelper.ToJson(new { Out = actual, Log = changes });
             var ojf = Path.Combine(dir, $"{fileName}.d.json");

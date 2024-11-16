@@ -40,6 +40,13 @@ namespace PoViEmu.Core.Hardware
 
         public void Execute(XInstruction instruct, MachineState m)
         {
+            var nextIP = instruct.Parsed.NextIP16;
+            Execute(instruct, m, ref nextIP);
+            m.IP = nextIP;
+        }
+
+        private void Execute(XInstruction instruct, MachineState m, ref ushort nextIP)
+        {
             var parsed = instruct.Parsed;
             if (parsed.IsInvalidFor16Bit())
             {
@@ -348,15 +355,8 @@ namespace PoViEmu.Core.Hardware
                     if (m.CX != 0)
                     {
                         m.CX--;
-                        var jmpTgt = m.IP + u.Val;
-                        
-                        
-                        
-                        
-                        // TODO jump back?
-                        // MachTool.GetJump();
-
-                        throw new InvalidOperationException($"{jmpTgt} | {m.CX}");
+                        var loopDst = nextIP + u.Val;
+                        nextIP = (ushort)loopDst;
                     }
                     return;
                 case Mnemonic.Daa:

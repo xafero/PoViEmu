@@ -39,15 +39,15 @@ namespace PoViEmu.Tests
             var actual = diff.ToChangeLines(ignoreIP: false);
 
             TestTool.Equal([
-                "IP = 0x0004 --> 0x0007",
                 "AX = 0x0000 --> 0x1234",
-                "IP = 0x0007 --> 0x0008",
+                "IP = 0x0004 --> 0x0007",
                 "SP = 0x0008 --> 0x0006",
-                "IP = 0x0008 --> 0x0009",
+                "IP = 0x0007 --> 0x0008",
                 "SP = 0x0006 --> 0x0008",
-                "IP = 0x0009 --> 0x000A",
+                "IP = 0x0008 --> 0x0009",
                 "SP = 0x0008 --> 0x000A",
                 "BX = 0x0000 --> 0xBBAA",
+                "IP = 0x0009 --> 0x000A",
                 "IP = 0x000A --> 0x000B"
             ], actual);
 
