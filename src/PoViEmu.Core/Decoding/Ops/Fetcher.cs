@@ -62,7 +62,9 @@ namespace PoViEmu.Core.Decoding.Ops
                         continue;
                     case OpKind.NearBranch16:
                         var nba = instruct.NearBranch16;
-                        yield return new U16Operand(nba);
+                        var nbt = instruct.IP16 + instruct.Length;
+                        var nbj = (sbyte)(nba - nbt);
+                        yield return new I8Operand(nbj);
                         continue;
                     case OpKind.Immediate8:
                         var imb = instruct.GetImmediate(i);

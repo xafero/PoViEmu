@@ -12,6 +12,7 @@ using PoViEmu.Core.Hardware.Errors;
 using static PoViEmu.Common.JsonHelper;
 using Fl = PoViEmu.Core.Hardware.Flagged;
 using U8 = PoViEmu.Core.Decoding.Ops.Consts.U8Operand;
+using I8 = PoViEmu.Core.Decoding.Ops.Consts.I8Operand;
 using U16 = PoViEmu.Core.Decoding.Ops.Consts.U16Operand;
 using I16 = PoViEmu.Core.Decoding.Ops.Consts.I16Operand;
 using R8 = PoViEmu.Core.Decoding.Ops.Regs.Reg8Operand;
@@ -343,8 +344,17 @@ namespace PoViEmu.Core.Hardware
                 case Mnemonic.Jmp when ops is [U16 u]:
                     // TODO ignore jump?
                     return;
-                case Mnemonic.Loop when ops is [U16 u]:
-                    // TODO ignore jump? dec CX and repeat until CX is zero
+                case Mnemonic.Loop when ops is [I8 u]:
+                    if (m.CX != 0)
+                    {
+                        m.CX--;
+                        var jmpTgt = m.IP + u.Val;
+                        
+                        // TODO jump back?
+                        // MachTool.GetJump();
+
+                        throw new InvalidOperationException($"{jmpTgt} | {m.CX}");
+                    }
                     return;
                 case Mnemonic.Daa:
                     m.DoDecimalAdjust();
