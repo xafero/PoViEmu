@@ -21,9 +21,9 @@ namespace PoViEmu.Tests
             var actual = @out.ToLines();
             var changes = diff.ToChangeLines(ignoreIP: true);
 
-            // TODO
             var obj = JsonHelper.ToJson(new { Out = actual, Log = changes });
-            File.WriteAllText($"{fileName}.d.json", obj, Encoding.UTF8);
+            var ojf = Path.Combine(dir, $"{fileName}.d.json");
+            File.WriteAllText(ojf, obj, Encoding.UTF8);
 
             TestTool.Equal(expected, actual);
             Assert.Equal("0", $"{ret}");

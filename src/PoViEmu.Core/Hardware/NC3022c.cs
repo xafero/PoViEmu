@@ -160,6 +160,11 @@ namespace PoViEmu.Core.Hardware
                     var adc8T = (byte)adc8E;
                     m[r] = adc8T;
                     return;
+                case Mnemonic.Add when ops is [R16 r, R16 t]:
+                    var add16E2 = m[r] + m[t];
+                    var add16T2 = (ushort)add16E2;
+                    m[r] = add16T2;
+                    return;
                 case Mnemonic.Adc when ops is [R16 r, MU16 mem]:
                     var adc16E = m[r] + mem[m];
                     var adc16T = (ushort)adc16E;
@@ -333,9 +338,6 @@ namespace PoViEmu.Core.Hardware
                     // TODO ignore?
                     return;
                 case Mnemonic.Sahf:
-                    // TODO ignore?
-                    return;
-                case Mnemonic.Add when ops is [R16 r, R16 t]:
                     // TODO ignore?
                     return;
                 case Mnemonic.Jmp when ops is [U16 u]:

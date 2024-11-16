@@ -91,7 +91,7 @@ namespace PoViEmu.Tests
         // [InlineData("Op_js")]
         // [InlineData("Op_lahf")]
         [InlineData("Op_lea")]
-        // [InlineData("Op_loop")]
+        [InlineData("Op_loop")]
         // [InlineData("Op_loope")]
         // [InlineData("Op_loopz")]
         // [InlineData("Op_lopne")]
