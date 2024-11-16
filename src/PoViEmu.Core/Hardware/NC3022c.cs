@@ -350,6 +350,9 @@ namespace PoViEmu.Core.Hardware
                         m.CX--;
                         var jmpTgt = m.IP + u.Val;
                         
+                        
+                        
+                        
                         // TODO jump back?
                         // MachTool.GetJump();
 

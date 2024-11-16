@@ -26,23 +26,24 @@ namespace PoViEmu.Core.Compat
             return Decoder.Create(bits, reader, ip, opt);
         }
 
-        private static IEnumerable<byte> ReadBlock(MachineState m)
+        private static IEnumerable<byte> ReadBlock(MachineState m, ushort? oIp)
         {
             var cs = m.CS;
-            var ip = m.IP;
+            var ip = oIp ?? m.IP;
             return m.ReadMemory(cs, ip, MaxLength);
         }
 
         private Decoder? _decoder;
         private IEnumerator<byte>? _enumerator;
         private Instruction _instruction;
+        private ushort? _ipPtr;
 
         private Decoder GetDecoder()
         {
             if (_decoder != null)
                 return _decoder;
 
-            var tool = CreateDecoder(this, _parent.IP);
+            var tool = CreateDecoder(this, _ipPtr ?? _parent.IP);
             _decoder = tool;
             return tool;
         }
@@ -52,7 +53,7 @@ namespace PoViEmu.Core.Compat
             if (_enumerator != null)
                 return _enumerator;
 
-            var block = ReadBlock(_parent);
+            var block = ReadBlock(_parent, _ipPtr);
             _enumerator = block.GetEnumerator();
             return _enumerator;
         }
@@ -64,7 +65,7 @@ namespace PoViEmu.Core.Compat
                 using (iter)
                 {
                     _enumerator = null;
-                    _parent.IP += (ushort)_bytes.Count;
+                    _ipPtr += (ushort)_bytes.Count;
                     return ReadByte();
                 }
 
@@ -77,7 +78,7 @@ namespace PoViEmu.Core.Compat
         {
             var tool = GetDecoder();
             tool.Decode(out _instruction);
-            _parent.IP = _instruction.NextIP16;
+            _ipPtr = _instruction.NextIP16;
             var copy = _bytes.ToArray();
             _bytes.Clear();
             var hex = Convert.ToHexString(copy);
