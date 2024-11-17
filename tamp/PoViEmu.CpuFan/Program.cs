@@ -14,13 +14,13 @@ namespace PoViEmu.CpuFan
             var root = Environment.CurrentDirectory;
             root = root.Replace(Path.Combine("bin", "Debug", "net8.0"), "");
             var folder = Path.GetFullPath(Path.Combine(root,
-                "..", "..", "..", "SimuHacks", "Projs", "Raw"));
+                "..", "..", "test", "PoViEmu.Tests", "Resources", "Compat"));
             Console.WriteLine($"Root = {folder}");
 
+            const StringComparison ic = StringComparison.InvariantCultureIgnoreCase;
             foreach (var (file, bytes) in FindLoadFiles(folder, ".com")
                          .OrderBy(j => j.bytes.Length)
-                         .Where(j => !j.file
-                             .Contains("check4", StringComparison.InvariantCultureIgnoreCase)))
+                         .Where(j => j.file.Contains("_loop.", ic)))
             {
                 var name = Path.GetFileName(file);
                 Console.WriteLine($" * {name} --> {bytes.Length} bytes");
@@ -38,7 +38,7 @@ namespace PoViEmu.CpuFan
                     Console.WriteLine(current);
 
                     c.Execute(current, m);
-                    if (count++ >= 50) break;
+                    if (count++ >= 150) break;
                 }
 
                 var dos = c.GetDOS();

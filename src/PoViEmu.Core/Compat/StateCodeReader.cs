@@ -5,6 +5,7 @@ using PoViEmu.Core.Decoding;
 using PoViEmu.Core.Hardware;
 
 // ReSharper disable PossibleMultipleEnumeration
+#pragma warning disable CS8619
 
 namespace PoViEmu.Core.Compat
 {
