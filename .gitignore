@@ -409,3 +409,4 @@ dist/
 /tools/codegen/out/
 /src/PoViEmu.UI.Desktop/Stuff/*
 cache/
+/tamp/PoViEmu.CpuFan/op.json
