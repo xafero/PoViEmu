@@ -116,7 +116,9 @@ namespace PoViEmu.Core.Hardware
                 case Mnemonic.Cmpsb: return;
                 case Mnemonic.Cmpsw: return;
                 case Mnemonic.Cwd: return;
-                case Mnemonic.Daa: return;
+                case Mnemonic.Daa:
+                    m.DoDecimalAdjust();
+                    return;
                 case Mnemonic.Das: return;
                 case Mnemonic.Dec when ops is [MU16 mem]:
                     var decE2 = mem[m] - 1;
@@ -205,7 +207,10 @@ namespace PoViEmu.Core.Hardware
                     m[r] = m[q];
                     return;
                 case Mnemonic.Movsb: return;
-                case Mnemonic.Movsw: return;
+                case Mnemonic.Movsw when ops is [MU16 nT, MU16 nS]:
+                    nT[m] = nS[m];
+                    m.IncOrDec(2, useSi: true, useDi: true);
+                    return;
                 case Mnemonic.Mul: return;
                 case Mnemonic.Neg: return;
                 case Mnemonic.Nop: return;
@@ -218,7 +223,9 @@ namespace PoViEmu.Core.Hardware
                     var popE = m.Pop();
                     m[r] = popE;
                     return;
-                case Mnemonic.Popa: return;
+                case Mnemonic.Popa:
+                    m.PopAll();
+                    return;
                 case Mnemonic.Popf:
                     var popEF = m.Pop();
                     m.F = (Fl)popEF;
@@ -242,7 +249,9 @@ namespace PoViEmu.Core.Hardware
                 case Mnemonic.Rcl: return;
                 case Mnemonic.Rcr: return;
                 case Mnemonic.Ret: return;
-                case Mnemonic.Rol: return;
+                case Mnemonic.Rol when ops is [R16 r, U8 u]:
+                    m[r] = MachTool.ShiftLeft(m[r], u.Val);
+                    return;
                 case Mnemonic.Ror: return;
                 case Mnemonic.Sahf: return;
                 case Mnemonic.Sar: return;
@@ -254,8 +263,14 @@ namespace PoViEmu.Core.Hardware
                 case Mnemonic.Stc: return;
                 case Mnemonic.Std: return;
                 case Mnemonic.Sti: return;
-                case Mnemonic.Stosb: return;
-                case Mnemonic.Stosw: return;
+                case Mnemonic.Stosb when ops is [MU8 mem, R8 r]:
+                    mem[m] = m[r];
+                    m.IncOrDec(1, useSi: false, useDi: true);
+                    return;
+                case Mnemonic.Stosw when ops is [MU16 mem, R16 r]:
+                    mem[m] = m[r];
+                    m.IncOrDec(2, useSi: false, useDi: true);
+                    return;
                 case Mnemonic.Sub when ops is [R16 r, MU16 mem]:
                     var subE = m[r] - mem[m];
                     var subT = (ushort)subE;
