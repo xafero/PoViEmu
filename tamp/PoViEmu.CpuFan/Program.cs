@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using PoViEmu.Core.Compat;
 using PoViEmu.Core.Hardware;
 using static PoViEmu.Common.FileHelper;
@@ -20,10 +21,13 @@ namespace PoViEmu.CpuFan
             const StringComparison ic = StringComparison.InvariantCultureIgnoreCase;
             foreach (var (file, bytes) in FindLoadFiles(folder, ".com")
                          .OrderBy(j => j.bytes.Length)
-                         .Where(j => j.file.Contains("_loop.", ic)))
+                         .Where(j => j.file.Contains("_mul.", ic)))
             {
                 var name = Path.GetFileName(file);
                 Console.WriteLine($" * {name} --> {bytes.Length} bytes");
+
+                var fileTxt = file.Replace(".com", ".txt");
+                var comEx = File.ReadAllText(fileTxt, Encoding.UTF8);
 
                 var c = new NC3022c();
                 var m = new MachineState();
@@ -42,7 +46,7 @@ namespace PoViEmu.CpuFan
                 }
 
                 var dos = c.GetDOS();
-                Console.WriteLine($" '{dos.StdOut}' => {dos.ReturnCode}");
+                Console.WriteLine($" '{dos.StdOut}' => {dos.ReturnCode} --> '{comEx}'");
             }
         }
     }
