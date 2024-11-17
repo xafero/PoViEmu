@@ -106,6 +106,11 @@ namespace PoViEmu.Core.Hardware
                     var andT = (byte)andE;
                     m[r] = andT;
                     return;
+                case Mnemonic.And when ops is [R16 r, MU16 mem]:
+                    var andE2 = m[r] & mem[m];
+                    var andT2 = (byte)andE2;
+                    m[r] = andT2;
+                    return;
                 case Mnemonic.Call: return;
                 case Mnemonic.Cbw: return;
                 case Mnemonic.Clc: return;
@@ -142,6 +147,11 @@ namespace PoViEmu.Core.Hardware
                     var incE2 = mem[m] + 1;
                     var incT2 = (ushort)incE2;
                     mem[m] = incT2;
+                    return;
+                case Mnemonic.Inc when ops is [R16 r]:
+                    var incE1 = m[r] + 1;
+                    var incT1 = (ushort)incE1;
+                    m[r] = incT1;
                     return;
                 case Mnemonic.Insb: return;
                 case Mnemonic.Insw: return;
