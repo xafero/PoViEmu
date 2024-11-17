@@ -41,18 +41,19 @@ namespace PoViEmu.Core.Hardware
         public void Execute(XInstruction instruct, MachineState m)
         {
             var nextIP = instruct.Parsed.NextIP16;
-            Execute(instruct, m, ref nextIP);
+            Execute(instruct, m, ref nextIP, true);
             m.IP = nextIP;
         }
 
-        private void Execute(XInstruction instruct, MachineState m, ref ushort nextIP)
+        private void Execute(XInstruction instruct, MachineState m, ref ushort nextIP, bool ignoreUc)
         {
             var parsed = instruct.Parsed;
             if (parsed.IsInvalidFor16Bit())
             {
-                // TODO throw new InvalidOpcodeException(instruct);
-                return;
+                if (ignoreUc) return;
+                throw new InvalidOpcodeException(instruct);
             }
+            
             var ops = parsed.GetOps().ToArray();
             switch (parsed.Mnemonic)
             {
