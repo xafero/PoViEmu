@@ -352,11 +352,14 @@ namespace PoViEmu.Core.Hardware
                     // TODO ignore jump?
                     return;
                 case Mnemonic.Loop when ops is [I8 u]:
-                    if (m.CX != 0)
+                    if (m.CX >= 1)
                     {
                         m.CX--;
-                        var loopDst = nextIP + u.Val;
-                        nextIP = (ushort)loopDst;
+                        if (m.CX != 0)
+                        {
+                            var loopDst = nextIP + u.Val;
+                            nextIP = (ushort)loopDst;
+                        }
                     }
                     return;
                 case Mnemonic.Daa:

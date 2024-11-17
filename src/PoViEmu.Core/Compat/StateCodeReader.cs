@@ -62,20 +62,40 @@ namespace PoViEmu.Core.Compat
         {
             var iter = GetEnumerator();
             if (!iter.MoveNext())
-                using (iter)
-                {
-                    _enumerator = null;
-                    _ipPtr += (ushort)_bytes.Count;
-                    return ReadByte();
-                }
+            {
+                ResetIter(iter);
+                _ipPtr += (ushort)_bytes.Count;
+                return ReadByte();
+            }
 
             var value = iter.Current;
             _bytes.Add(value);
             return value;
         }
 
+        private void ResetIter(IEnumerator<byte> iter)
+        {
+            using (iter)
+                _enumerator = null;
+        }
+
+        private void ResetIfJumped()
+        {
+            if (_ipPtr == null)
+                return;
+            var actualTgt = _parent.IP;
+            var expectTgt = _instruction.IP16 + _instruction.Length;
+            if (actualTgt == expectTgt)
+                return;
+            ResetIter(_enumerator);
+            if (_decoder != null)
+                _decoder.IP = actualTgt;
+            _ipPtr = null;
+        }
+
         public XInstruction NextInstruction()
         {
+            ResetIfJumped();
             var tool = GetDecoder();
             tool.Decode(out _instruction);
             _ipPtr = _instruction.NextIP16;
