@@ -29,7 +29,7 @@ namespace PoViEmu.Core.Decoding.Ops
                     case OpKind.MemorySegSI:
                     case OpKind.MemoryESDI:
                     case OpKind.Memory:
-                        var seg = (B16Register)instruct.MemorySegment.AsMine()!;
+                        var seg = (B16Register)instruct.MemorySegment.AsMine();
                         ushort? off = instruct.NearBranch16;
                         B16Register? idx = null;
                         var size = instruct.MemorySize;
@@ -66,7 +66,12 @@ namespace PoViEmu.Core.Decoding.Ops
                         var nbj = (sbyte)(nba - nbt);
                         yield return new I8Operand(nbj);
                         continue;
+                    case OpKind.FarBranch16:
+                        // TODO Handle far branch?!
+                        yield return new I16Operand(default);
+                        continue;
                     case OpKind.Immediate8:
+                    case OpKind.Immediate8_2nd:
                         var imb = instruct.GetImmediate(i);
                         yield return new U8Operand((byte)imb);
                         continue;

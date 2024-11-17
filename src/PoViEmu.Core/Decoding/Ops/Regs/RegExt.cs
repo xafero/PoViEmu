@@ -21,7 +21,7 @@ namespace PoViEmu.Core.Decoding.Ops.Regs
             throw new InvalidOperationException($"{reg} ?!");
         }
 
-        public static object? AsMine(this Register register)
+        public static object AsMine(this Register register)
         {
             switch (register)
             {
@@ -67,8 +67,9 @@ namespace PoViEmu.Core.Decoding.Ops.Regs
                 case Register.DS: return B16Register.DS;
                 case Register.ES: return B16Register.ES;
                 case Register.SS: return B16Register.SS;
+                case Register.FS: case Register.GS: return B16Register.None;
             }
-            return null;
+            throw new InvalidOperationException($"{register} ?!");
         }
 
         public static ushort Get(this MachineState m, Reg16Operand reg)
