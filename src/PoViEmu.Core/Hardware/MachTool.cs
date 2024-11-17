@@ -135,6 +135,18 @@ namespace PoViEmu.Core.Hardware
             m.Push(m.DI);
         }
 
+        public static void PopAll(this MachineState m)
+        {
+            m.DI = m.Pop();
+            m.SI = m.Pop();
+            m.BP = m.Pop();
+            m.SP = m.Pop();
+            m.BX = m.Pop();
+            m.DX = m.Pop();
+            m.CX = m.Pop();
+            m.AX = m.Pop();
+        }
+
         public static void IncOrDec(this MachineState m, byte val, bool useSi, bool useDi)
         {
             if (m.DF == false)
