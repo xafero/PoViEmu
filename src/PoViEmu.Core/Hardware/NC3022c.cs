@@ -34,7 +34,7 @@ namespace PoViEmu.Core.Hardware
             var dos = new DOSInterrupts();
             InterruptTable = new SortedDictionary<byte, IInterruptHandler>
             {
-                [0x21] = dos
+                [DOSInterrupts.MainIntNo] = dos
             };
         }
 

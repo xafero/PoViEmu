@@ -9,6 +9,8 @@ namespace PoViEmu.Core.Hardware
 {
     public sealed class DOSInterrupts : IInterruptHandler
     {
+        public const byte MainIntNo = 0x21;
+        
         /// <summary>
         /// Standard output
         /// </summary>
@@ -23,7 +25,7 @@ namespace PoViEmu.Core.Hardware
         {
             switch (num)
             {
-                case 0x21:
+                case MainIntNo:
                     switch (m.AH)
                     {
                         // Write string to standard output
