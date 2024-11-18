@@ -38,7 +38,7 @@ namespace PoViEmu.CpuFan
                 var fileTxt = file.Replace(".com", ".txt");
                 var comEx = File.ReadAllText(fileTxt, Encoding.UTF8);
 
-                var c = new NC3022c();
+                var c = new NC3022();
                 var m = new MachineState();
                 m.InitForCom();
                 m.WriteMemory(m.CS, m.IP, bytes);
@@ -67,7 +67,7 @@ namespace PoViEmu.CpuFan
         }
 
         private static void PrintOut(string name, byte[] bytes,
-            List<string> lines, string comEx, NC3022c c)
+            List<string> lines, string comEx, NC3022 c)
         {
             var dos = c.GetDOS();
             var stdOut = $"{dos.StdOut}";

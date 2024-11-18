@@ -8,7 +8,7 @@ namespace PoViEmu.Core.Compat
 {
     public static class StateTool
     {
-        public static DOSInterrupts GetDOS(this NC3022c c)
+        public static DOSInterrupts GetDOS(this NC3022 c)
         {
             var handler = c.InterruptTable[0x21];
             return (DOSInterrupts)handler;
@@ -17,7 +17,7 @@ namespace PoViEmu.Core.Compat
         public static (string Output, byte? Return, ChangeList Changes)
             Execute(byte[] bytes, int maxLimit = 1151, Action<MachineState>? act = null)
         {
-            var c = new NC3022c();
+            var c = new NC3022();
             var m = new MachineState();
             m.InitForCom();
             if (act == null)
