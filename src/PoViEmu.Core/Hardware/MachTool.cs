@@ -200,5 +200,25 @@ namespace PoViEmu.Core.Hardware
             var result = (ushort)((value << shift) | (value >> (bits - shift)));
             return result;
         }
+
+        public static void SetTestFlags(this MachineState m, int result)
+        {
+            var mask = (1 << 2) - 1;
+            result &= mask;
+            m.ZF = (result == 0);
+            m.SF = ((result >> (2 - 1)) & 1) == 1;
+            m.PF = (CountSetBits(result) % 2 == 0);
+        }
+        
+        public static int CountSetBits(int value)
+        {
+            var count = 0;
+            while (value != 0)
+            {
+                count += value & 1;
+                value >>= 1;
+            }
+            return count;
+        }
     }
 }

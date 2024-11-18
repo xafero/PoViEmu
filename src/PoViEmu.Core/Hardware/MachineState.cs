@@ -514,7 +514,13 @@ namespace PoViEmu.Core.Hardware
             get => this.Get(reg16);
             set => this.Set(reg16, value);
         }
-
+        
+        public byte this[B8Register reg8]
+        {
+            get => this.Get(reg8);
+            set => this.Set(reg8, value);
+        }
+        
         public ushort this[Reg16Operand reg16]
         {
             get => this.Get(reg16);

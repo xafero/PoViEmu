@@ -23,10 +23,14 @@ using MI16 = PoViEmu.Core.Decoding.Ops.Mi16Operand;
 using MU16 = PoViEmu.Core.Decoding.Ops.Mu16Operand;
 using MF32 = PoViEmu.Core.Decoding.Ops.Mf32Operand;
 using Reg = PoViEmu.Core.Hardware.AckNow.B16Register;
+using Rsg = PoViEmu.Core.Hardware.AckNow.B8Register;
 
 namespace PoViEmu.Core.Hardware
 {
-    public sealed class NC3022c
+    /// <summary>
+    /// The NC3022 is a custom 16bit CPU developed by CASIO based on NEC’s V30MZ
+    /// </summary>
+    public sealed class NC3022
     {
         public bool Halted { get; set; }
         public IDictionary<byte, IInterruptHandler> InterruptTable { get; }
@@ -137,13 +141,25 @@ namespace PoViEmu.Core.Hardware
                     var decT = (ushort)decE;
                     m[r] = decT;
                     return;
-                // case Mnemonic.Div: return;
+                case Mnemonic.Div when ops is [MI16 mem]:
+                    var divE = m[Reg.AX] / mem[m];
+                    var divT = (ushort)divE;
+                    m[Reg.AX] = divT;
+                    return;
                 // case Mnemonic.Enter: return;
                 case Mnemonic.Hlt:
                     Halted = true;
                     return;
-                // case Mnemonic.Idiv: return;
-                // case Mnemonic.Imul: return;
+                case Mnemonic.Idiv when ops is [MI16 mem]:
+                    var idivE = m[Reg.AX] / mem[m];
+                    var idivT = (ushort)idivE;
+                    m[Reg.AX] = idivT;
+                    return;
+                case Mnemonic.Imul when ops is [MI16 mem]:
+                    var imulE = m[Reg.AX] * mem[m];
+                    var imulT = (ushort)imulE;
+                    m[Reg.AX] = imulT;
+                    return;
                 // case Mnemonic.In: return;
                 case Mnemonic.Inc when ops is [MU16 mem]:
                     var incE2 = mem[m] + 1;
@@ -229,9 +245,14 @@ namespace PoViEmu.Core.Hardware
                     m[Reg.AX] = mulT;
                     return;
                 // case Mnemonic.Neg: return;
-                // case Mnemonic.Nop: return;
+                case Mnemonic.Nop:
+                    return;
                 // case Mnemonic.Not: return;
-                // case Mnemonic.Or: return;
+                case Mnemonic.Or when ops is [R16 r, MU16 mem]:
+                    var orE = m[r] | mem[m];
+                    var orT = (ushort)orE;
+                    m[r] = orT;
+                    return;
                 // case Mnemonic.Out: return;
                 // case Mnemonic.Outsb: return;
                 // case Mnemonic.Outsw: return;
@@ -274,8 +295,16 @@ namespace PoViEmu.Core.Hardware
                 // case Mnemonic.Sbb: return;
                 // case Mnemonic.Scasb: return;
                 // case Mnemonic.Scasw: return;
-                // case Mnemonic.Shl: return;
-                // case Mnemonic.Shr: return;
+                case Mnemonic.Shl when ops is [R16 r, U8 u]:
+                    var shlE = m[r] << u.Val;
+                    var shlT = (ushort)shlE;
+                    m[r] = shlT;
+                    return;
+                case Mnemonic.Shr when ops is [R16 r, U8 u]:
+                    var shrE = m[r] >> u.Val;
+                    var shrT = (ushort)shrE;
+                    m[r] = shrT;
+                    return;
                 // case Mnemonic.Stc: return;
                 // case Mnemonic.Std: return;
                 // case Mnemonic.Sti: return;
@@ -302,11 +331,27 @@ namespace PoViEmu.Core.Hardware
                     var subT2 = (byte)subE2;
                     m[r] = subT2;
                     return;
-                // case Mnemonic.Test: return;
-                // case Mnemonic.Wait: return;
-                // case Mnemonic.Xchg: return;
-                // case Mnemonic.Xlatb: return;
-                // case Mnemonic.Xor: return;
+                case Mnemonic.Test when ops is [R16 r, U16 u]:
+                    var testR = m[r] & u.Val;
+                    m.SetTestFlags(testR);
+                    return;
+                case Mnemonic.Wait:
+                    return;
+                case Mnemonic.Xchg when ops is [R16 r, R16 t]:
+                    var xchgA = m[t];
+                    var xchgB = m[r];
+                    m[r] = xchgA;
+                    m[t] = xchgB;
+                    return;
+                case Mnemonic.Xlatb:
+                    var xlatAddr = (ushort)(m[Reg.BX] + m[Rsg.AL]);
+                    m[Rsg.AL] = m.U8[m.DS, xlatAddr];
+                    return;
+                case Mnemonic.Xor when ops is [R16 r, MU16 mem]:
+                    var xorE = m[r] ^ mem[m];
+                    var xorT = (ushort)xorE;
+                    m[r] = xorT;
+                    return;
             }
 
             File.WriteAllText("op.json", ToJson(parsed, noDefaults: true), Encoding.UTF8);
