@@ -200,7 +200,13 @@ namespace PoViEmu.Core.Hardware
             var result = (ushort)((value << shift) | (value >> (bits - shift)));
             return result;
         }
-
+        
+        public static ushort ShiftRight(ushort value, byte shift, byte bits = 16)
+        {
+            var result = (ushort)((value >> shift) | (value << (bits - shift)));
+            return result;
+        }
+        
         public static void SetTestFlags(this MachineState m, int result)
         {
             var mask = (1 << 2) - 1;

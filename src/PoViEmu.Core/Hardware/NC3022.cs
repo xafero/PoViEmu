@@ -132,9 +132,15 @@ namespace PoViEmu.Core.Hardware
                     return;
                 // case Mnemonic.Call: return;
                 // case Mnemonic.Cbw: return;
-                // case Mnemonic.Clc: return;
-                // case Mnemonic.Cld: return;
-                // case Mnemonic.Cli: return;
+                case Mnemonic.Clc:
+                    m.CF = false;
+                    return;
+                case Mnemonic.Cld:
+                    m.DF = false;
+                    return;
+                case Mnemonic.Cli:
+                    m.IF = false;
+                    return;
                 // case Mnemonic.Cmc: return;
                 case Mnemonic.Cmp when ops is [R16 r, R16 t]:
                     var cmpO1a = m[r];
@@ -185,6 +191,11 @@ namespace PoViEmu.Core.Hardware
                     var divT = (ushort)divE;
                     m[Reg.AX] = divT;
                     return;
+                case Mnemonic.Div when ops is [R16 r]:
+                    var divE2 = m[Reg.AX] / m[r];
+                    var divT2 = (ushort)divE2;
+                    m[Reg.AX] = divT2;
+                    return;
                 // case Mnemonic.Enter: return;
                 case Mnemonic.Hlt:
                     Halted = true;
@@ -227,41 +238,77 @@ namespace PoViEmu.Core.Hardware
                     return;
                 // case Mnemonic.Into: return;
                 // case Mnemonic.Iret: return;
-                // case Mnemonic.Ja: return;
-                // case Mnemonic.Jae: return;
-                // case Mnemonic.Jb: return;
-                // case Mnemonic.Jbe: return;
-                // case Mnemonic.Jcxz: return;
-                case Mnemonic.Je when ops is [U16 u]:
+                case Mnemonic.Ja when ops is [I8 u]:
                     if (m.ZF)
-                        nextIP = u.Val;
+                        nextIP = (ushort)u.Val;
                     return;
-                // case Mnemonic.Jg: return;
-                case Mnemonic.Jge when ops is [U16 u]:
+                case Mnemonic.Jae when ops is [I8 u]:
                     if (m.ZF)
-                        nextIP = u.Val;
+                        nextIP = (ushort)u.Val;
                     return;
-                case Mnemonic.Jl when ops is [U16 u]:
+                case Mnemonic.Jb when ops is [I8 u]:
                     if (m.ZF)
-                        nextIP = u.Val;
+                        nextIP = (ushort)u.Val;
                     return;
-                case Mnemonic.Jle when ops is [U16 u]:
+                case Mnemonic.Jbe when ops is [I8 u]:
                     if (m.ZF)
-                        nextIP = u.Val;
+                        nextIP = (ushort)u.Val;
+                    return;
+                case Mnemonic.Jcxz when ops is [I8 u]:
+                    if (m.ZF)
+                        nextIP = (ushort)u.Val;
+                    return;
+                case Mnemonic.Je when ops is [I8 u]:
+                    if (m.ZF)
+                        nextIP = (ushort)u.Val;
+                    return;
+                case Mnemonic.Jg when ops is [I8 u]:
+                    if (m.ZF)
+                        nextIP = (ushort)u.Val;
+                    return;
+                case Mnemonic.Jge when ops is [I8 u]:
+                    if (m.ZF)
+                        nextIP = (ushort)u.Val;
+                    return;
+                case Mnemonic.Jl when ops is [I8 u]:
+                    if (m.ZF)
+                        nextIP = (ushort)u.Val;
+                    return;
+                case Mnemonic.Jle when ops is [I8 u]:
+                    if (m.ZF)
+                        nextIP = (ushort)u.Val;
                     return;
                 case Mnemonic.Jmp when ops is [U16 u]:
                     nextIP = u.Val;
                     return;
-                case Mnemonic.Jne when ops is [U16 u]:
+                case Mnemonic.Jne when ops is [I8 u]:
                     if (!m.ZF)
-                        nextIP = u.Val;
+                        nextIP = (ushort)u.Val;
                     return;
-                // case Mnemonic.Jno: return;
-                // case Mnemonic.Jnp: return;
-                // case Mnemonic.Jns: return;
-                // case Mnemonic.Jo: return;
-                // case Mnemonic.Jp: return;
-                // case Mnemonic.Js: return;
+                case Mnemonic.Jno when ops is [I8 u]:
+                    if (!m.ZF)
+                        nextIP = (ushort)u.Val;
+                    return;
+                case Mnemonic.Jnp when ops is [I8 u]:
+                    if (!m.ZF)
+                        nextIP = (ushort)u.Val;
+                    return;
+                case Mnemonic.Jns when ops is [I8 u]:
+                    if (!m.ZF)
+                        nextIP = (ushort)u.Val;
+                    return;
+                case Mnemonic.Jo when ops is [I8 u]:
+                    if (!m.ZF)
+                        nextIP = (ushort)u.Val;
+                    return;
+                case Mnemonic.Jp when ops is [I8 u]:
+                    if (!m.ZF)
+                        nextIP = (ushort)u.Val;
+                    return;
+                case Mnemonic.Js when ops is [I8 u]:
+                    if (!m.ZF)
+                        nextIP = (ushort)u.Val;
+                    return;
                 // case Mnemonic.Lahf: return;
                 // case Mnemonic.Leave: return;
                 // case Mnemonic.Lodsb: return;
@@ -275,8 +322,24 @@ namespace PoViEmu.Core.Hardware
                     var loopDst = nextIP + u.Val;
                     nextIP = (ushort)loopDst;
                     return;
-                // case Mnemonic.Loope: return;
-                // case Mnemonic.Loopne: return;
+                case Mnemonic.Loope when ops is [I8 u]:
+                    if (m.CX < 1)
+                        return;
+                    m.CX--;
+                    if (m.CX == 0 || !m.ZF)
+                        return;
+                    var loopeDst = nextIP + u.Val;
+                    nextIP = (ushort)loopeDst;
+                    return;
+                case Mnemonic.Loopne when ops is [I8 u]:
+                    if (m.CX < 1)
+                        return;
+                    m.CX--;
+                    if (m.CX == 0 || m.ZF)
+                        return;
+                    var loopneDst = nextIP + u.Val;
+                    nextIP = (ushort)loopneDst;
+                    return;
                 case Mnemonic.Mov when ops is [R8 r, MU8 mem]:
                     m[r] = mem[m];
                     return;
@@ -314,6 +377,11 @@ namespace PoViEmu.Core.Hardware
                     var mulT = (ushort)mulE;
                     m[Reg.AX] = mulT;
                     return;
+                case Mnemonic.Mul when ops is [R8 r]:
+                    var mulE2 = m[Reg.AX] * m[r];
+                    var mulT2 = (ushort)mulE2;
+                    m[Reg.AX] = mulT2;
+                    return;
                 case Mnemonic.Mul when ops is [R16 r]:
                     var mulAx = m[Reg.AX];
                     var mulF = m[r];
@@ -322,7 +390,11 @@ namespace PoViEmu.Core.Hardware
                     m[Reg.AX] = mulL;
                     m[Reg.DX] = mulH;
                     return;
-                // case Mnemonic.Neg: return;
+                case Mnemonic.Neg when ops is [R16 r]:
+                    var negT = m[r];
+                    m.CF = negT != 0;
+                    m[r] = (ushort)-negT;
+                    return;
                 case Mnemonic.Nop:
                     return;
                 case Mnemonic.Not when ops is [R16 r]:
@@ -370,13 +442,19 @@ namespace PoViEmu.Core.Hardware
                     var pushT = (ushort)pushFE;
                     m.Push(pushT);
                     return;
-                // case Mnemonic.Rcl: return;
-                // case Mnemonic.Rcr: return;
+                case Mnemonic.Rcl when ops is [R16 r, U8 u]:
+                    m[r] = MachTool.ShiftLeft(m[r], u.Val);
+                    return;
+                case Mnemonic.Rcr when ops is [R16 r, U8 u]:
+                    m[r] = MachTool.ShiftRight(m[r], u.Val);
+                    return;
                 // case Mnemonic.Ret: return;
                 case Mnemonic.Rol when ops is [R16 r, U8 u]:
                     m[r] = MachTool.ShiftLeft(m[r], u.Val);
                     return;
-                // case Mnemonic.Ror: return;
+                case Mnemonic.Ror when ops is [R16 r, U8 u]:
+                    m[r] = MachTool.ShiftRight(m[r], u.Val);
+                    return;
                 // case Mnemonic.Sahf: return;
                 case Mnemonic.Sar when ops is [R16 r, R16 t]:
                     var sarT = m[r];
@@ -388,7 +466,16 @@ namespace PoViEmu.Core.Hardware
                     var sarV2 = m[t];
                     m[r] = (ushort)(sarT2 >> sarV2);
                     return;
-                // case Mnemonic.Sbb: return;
+                case Mnemonic.Sar when ops is [R16 r, U8 t]:
+                    var sarT3 = m[r];
+                    var sarV3 = t.Val;
+                    m[r] = (ushort)(sarT3 >> sarV3);
+                    return;
+                case Mnemonic.Sbb when ops is [R16 r, U16 u]:
+                    var sbbT1 = m[r];
+                    var sbbV1 = u.Val;
+                    m[r] = (ushort)(sbbT1 - sbbV1);
+                    return;
                 // case Mnemonic.Scasb: return;
                 // case Mnemonic.Scasw: return;
                 case Mnemonic.Shl when ops is [R16 r, U8 u]:
@@ -411,9 +498,15 @@ namespace PoViEmu.Core.Hardware
                     var shrT = (ushort)shrE;
                     m[r] = shrT;
                     return;
-                // case Mnemonic.Stc: return;
-                // case Mnemonic.Std: return;
-                // case Mnemonic.Sti: return;
+                case Mnemonic.Stc:
+                    m.CF = true;
+                    return;
+                case Mnemonic.Std:
+                    m.DF = true;
+                    return;
+                case Mnemonic.Sti:
+                    m.IF = true;
+                    return;
                 case Mnemonic.Stosb when ops is [MU8 mem, R8 r]:
                     mem[m] = m[r];
                     m.IncOrDec(1, useSi: false, useDi: true);
@@ -456,6 +549,12 @@ namespace PoViEmu.Core.Hardware
                     var testO2 = m[t];
                     var testRx = testO1 & testO2;
                     m.SetZeroSign(testRx);
+                    return;
+                case Mnemonic.Test when ops is [MU16 mem, R16 t]:
+                    var testO1b = mem[m];
+                    var testO2b = m[t];
+                    var testRxb = testO1b & testO2b;
+                    m.SetZeroSign(testRxb);
                     return;
                 case Mnemonic.Wait:
                     return;
