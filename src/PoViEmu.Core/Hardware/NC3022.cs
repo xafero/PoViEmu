@@ -196,7 +196,14 @@ namespace PoViEmu.Core.Hardware
                     var divT2 = (ushort)divE2;
                     m[Reg.AX] = divT2;
                     return;
-                // case Mnemonic.Enter: return;
+                case Mnemonic.Enter when ops is [U16 n, U8 l]:
+                    if (l.Val == 0)
+                    {
+                        m.Push(m.BP);
+                        m.BP = m.SP;
+                        m.SP -= n.Val;
+                    }
+                    return;
                 case Mnemonic.Hlt:
                     Halted = true;
                     return;
@@ -310,7 +317,10 @@ namespace PoViEmu.Core.Hardware
                         nextIP = (ushort)u.Val;
                     return;
                 // case Mnemonic.Lahf: return;
-                // case Mnemonic.Leave: return;
+                case Mnemonic.Leave:
+                    m.SP = m.BP;
+                    m.BP = m.Pop();
+                    return;
                 // case Mnemonic.Lodsb: return;
                 // case Mnemonic.Lodsw: return;
                 case Mnemonic.Loop when ops is [I8 u]:
