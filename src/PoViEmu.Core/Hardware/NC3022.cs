@@ -164,6 +164,7 @@ namespace PoViEmu.Core.Hardware
                     m[r] = (ushort)(andT5 & andV5);
                     return;
                 case Mnemonic.Call when ops is [I8 u]:
+                    // TODO if FAR CALL PUSH CS CS=dest_seg
                     m.Push(nextIP);
                     var callDst = nextIP + u.Val;
                     nextIP = (ushort)callDst;
@@ -311,9 +312,17 @@ namespace PoViEmu.Core.Hardware
                         Halted = true;
                     return;
                 case Mnemonic.Into:
-                    // TODO
+                    if (m.OF)
+                    {
+                        m.Push((ushort)m.F);
+                        m.TF = false;
+                        m.IF = false;
+                        ExecuteInterrupt(0x04, m);
+                    }
                     return;
-                // case Mnemonic.Iret: return;
+                case Mnemonic.Iret:
+                    m.F = (Fl)m.Pop();
+                    return;
                 case Mnemonic.Ja when ops is [I8 u]:
                     if (m.ZF)
                         nextIP = (ushort)u.Val;
@@ -375,8 +384,8 @@ namespace PoViEmu.Core.Hardware
                         nextIP = (ushort)u.Val;
                     return;
                 case Mnemonic.Jo when ops is [I8 u]:
-                    if (!m.ZF)
-                        nextIP = (ushort)u.Val;
+                    if (m.OF)
+                        nextIP = (ushort)(nextIP + u.Val);
                     return;
                 case Mnemonic.Jp when ops is [I8 u]:
                     if (!m.ZF)
@@ -548,6 +557,7 @@ namespace PoViEmu.Core.Hardware
                     m[r] = MachTool.ShiftRight(m[r], u.Val);
                     return;
                 case Mnemonic.Ret:
+                    // TODO if FAR CALL CS=pop()
                     var retAdr = m.Pop();
                     nextIP = retAdr;
                     return;
