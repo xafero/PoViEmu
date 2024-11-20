@@ -23,7 +23,7 @@ namespace PoViEmu.CpuFan
             foreach (var (file, bytes) in FindLoadFiles(folder, ".com")
                          .OrderBy(j => j.bytes.Length))
             {
-                if (new[]
+                /*if (new[]
                     {
                         "Op_outsb", "Op_scasb", "Op_outsw", "Op_scasw", "Op_pushf",
                         "Op_pusha", "Op_cbw", "Op_cmc", "Op_das", "Op_aaa", "Op_std",
@@ -32,6 +32,8 @@ namespace PoViEmu.CpuFan
                         "Op_sti", "Op_aam", "Op_cwd", "Op_into"
                     }
                     .Contains(Path.GetFileNameWithoutExtension(file), ic))
+                    continue;*/
+                if (!file.EndsWith("C_add2.com"))
                     continue;
 
                 var name = Path.GetFileName(file);
@@ -40,7 +42,7 @@ namespace PoViEmu.CpuFan
 
                 var c = new NC3022();
                 var m = new MachineState();
-                m.InitForCom();
+                m.InitForCom(loadSeg: 0x0750, cxInit: 0x002C, axInit: 0xFFFF);
                 m.WriteMemory(m.CS, m.IP, bytes);
 
                 var lines = new List<string>();
@@ -49,7 +51,9 @@ namespace PoViEmu.CpuFan
                 while (!c.Halted)
                 {
                     var current = reader.NextInstruction();
-                    lines.Add($"{current}");
+                    lines.Add("");
+                    lines.AddRange(m.ToRegDebugLin());
+                    lines.Add($"{m.CS:X4}:{current}");
                     try
                     {
                         c.Execute(current, m);
@@ -76,7 +80,7 @@ namespace PoViEmu.CpuFan
             Console.WriteLine($" * {name} --> {bytes.Length} bytes");
             foreach (var line in lines)
                 Console.WriteLine(line);
-            Console.WriteLine($" '{stdOut}' => {dos.ReturnCode} --> '{comEx}'");
+            Console.WriteLine($" '{stdOut}' => {dos.ReturnCode:X4} --> '{comEx}'");
         }
     }
 }
