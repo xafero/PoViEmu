@@ -1,5 +1,6 @@
 using System.IO;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace PoViEmu.Common
@@ -51,6 +52,12 @@ namespace PoViEmu.Common
                 }
                 yield return bld.ToArray();
             }
+        }
+
+        public static byte[] ToArray(int value, int skip = 1)
+        {
+            var array = BitConverter.GetBytes(value);
+            return array.Reverse().Skip(skip).ToArray();
         }
     }
 }
