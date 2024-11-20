@@ -15,7 +15,8 @@ namespace PoViEmu.Core.Decoding.Ops
         {
             if (op.Off is { } offI)
             {
-                return offI;
+                var offV = (ushort)offI;
+                return offV;
             }
 
             if (op.Idx is { } offR)

@@ -3,7 +3,7 @@ using PoViEmu.Core.Hardware.AckNow;
 
 namespace PoViEmu.Core.Decoding.Ops
 {
-    public record Mf32Operand(B16Register Seg, ushort? Off, B16Register? Idx)
+    public record Mf32Operand(B16Register Seg, short? Off, B16Register? Idx)
         : MemOperand<float>(Seg, Off, Idx)
     {
         public override float this[MachineState m]
