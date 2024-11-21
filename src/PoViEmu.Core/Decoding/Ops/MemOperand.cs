@@ -13,12 +13,18 @@ namespace PoViEmu.Core.Decoding.Ops
     {
         public abstract T this[MachineState m] { get; set; }
 
-        public override string ToString()
+        public sealed override string ToString()
         {
-            var off = Idx != null ? $"{Idx}" : $"{Off:X4}";
-            var type = GetType().Name;
-            return $"{type} [{Seg}:{off}]";
+            var type = typeof(T).Name;
+            var oSign = Off < 0 ? "" : "+";
+            var oIdx = HasIdx ? $"+{Idx}" : "";
+            var bse = HasBase ? $"{Base}" : "";
+            var of = HasBase ? $"{Off}" : $"{Off:x4}";
+            return $"{type} [{Seg}:{bse}{oIdx}{oSign}{of}]";
         }
+
+        public bool HasIdx => Idx != B16Register.None;
+        public bool HasBase => Base != B16Register.None;
     }
 
     public abstract record MemOperand(
