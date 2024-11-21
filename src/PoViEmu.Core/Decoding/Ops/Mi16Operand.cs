@@ -3,8 +3,13 @@ using PoViEmu.Core.Hardware.AckNow;
 
 namespace PoViEmu.Core.Decoding.Ops
 {
-    public record Mi16Operand(B16Register Seg, short? Off, B16Register? Idx)
-        : MemOperand<short>(Seg, Off, Idx)
+    public record Mi16Operand(
+        B16Register Seg,
+        B16Register? Base,
+        B16Register? Idx,
+        short? Off
+    )
+        : MemOperand<short>(Seg, Base, Idx, Off)
     {
         public override short this[MachineState m]
         {

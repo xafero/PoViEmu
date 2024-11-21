@@ -3,8 +3,13 @@ using PoViEmu.Core.Hardware.AckNow;
 
 namespace PoViEmu.Core.Decoding.Ops
 {
-    public record Mu16Operand(B16Register Seg, short? Off, B16Register? Idx)
-        : MemOperand<ushort>(Seg, Off, Idx)
+    public record Mu16Operand(
+        B16Register Seg,
+        B16Register? Base,
+        B16Register? Idx,
+        short? Off
+    )
+        : MemOperand<ushort>(Seg, Base, Idx, Off)
     {
         public override ushort this[MachineState m]
         {
@@ -14,7 +19,11 @@ namespace PoViEmu.Core.Decoding.Ops
 
         public override string ToString()
         {
-            return $"U16 [{Seg} {Idx} {Off}]";
+            var oSign = Off < 0 ? "" : "+";
+            var oIdx = HasIdx ? "" : $"+{Idx}";
+            return $"U16 [{Seg}:{Base}{oIdx}{oSign}{Off}]";
         }
+
+        public bool HasIdx => Idx == B16Register.None;
     }
 }

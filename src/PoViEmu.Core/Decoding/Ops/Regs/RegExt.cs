@@ -67,7 +67,7 @@ namespace PoViEmu.Core.Decoding.Ops.Regs
                 case Register.DS: return B16Register.DS;
                 case Register.ES: return B16Register.ES;
                 case Register.SS: return B16Register.SS;
-                case Register.FS: case Register.GS: return B16Register.None;
+                case Register.FS: case Register.GS: case Register.None: return B16Register.None;
             }
             throw new InvalidOperationException($"{register} ?!");
         }

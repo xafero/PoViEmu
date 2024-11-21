@@ -46,12 +46,12 @@ namespace PoViEmu.Core.Decoding
 
         public static byte ReadMem(this MachineState state, Instruction i, int size)
         {
-            throw new InvalidOperationException("?! " + i + " " + size);
+            throw new InvalidOperationException($"?! {i} {size}");
         }
 
         public static byte WriteMem(this MachineState state, Instruction i, int size, ushort value)
         {
-            throw new InvalidOperationException("?! " + i + " " + size + " " + value);
+            throw new InvalidOperationException($"?! {i} {size} {value}");
         }
 
         public static ushort Get66(this MachineState state, R register)
