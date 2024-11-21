@@ -12,8 +12,8 @@ namespace PoViEmu.Tests
     {
         [Theory]
         // #4
-        [InlineData("?", "?", 0xA318E8)]
-        [InlineData("?", "?", 0x26A36AF8)]
+        [InlineData("mov ds:[0E818h],ax", "U16 [DS:e818]", 0xA318E8)]
+        [InlineData("mov es:[0F86Ah],ax", "U16 [ES:f86a]", 0x26A36AF8)]
         // #3
         [InlineData("mov [di+3FDDh],bx", "U16 [DS:DI+16349]", 0x899DDD3F)]
         [InlineData("add bh,[bx-2Eh]", "U16 [DS:BX-46]", 0x027FD2)]

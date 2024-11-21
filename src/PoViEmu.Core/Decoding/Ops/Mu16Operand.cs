@@ -20,10 +20,13 @@ namespace PoViEmu.Core.Decoding.Ops
         public override string ToString()
         {
             var oSign = Off < 0 ? "" : "+";
-            var oIdx = HasIdx ? "" : $"+{Idx}";
-            return $"U16 [{Seg}:{Base}{oIdx}{oSign}{Off}]";
+            var oIdx = HasIdx ? $"+{Idx}" : "";
+            var bse = HasBase ? $"{Base}" : "";
+            var of = HasBase ? $"{Off}" : $"{Off:x4}";
+            return $"U16 [{Seg}:{bse}{oIdx}{oSign}{of}]";
         }
 
-        public bool HasIdx => Idx == B16Register.None;
+        public bool HasIdx => Idx != B16Register.None;
+        public bool HasBase => Base != B16Register.None;
     }
 }
