@@ -54,10 +54,15 @@ namespace PoViEmu.Common
             }
         }
 
-        public static byte[] ToArray(int value, int skip = 1)
+        public static byte[] ToArray(long value, int skip = 0, bool noZero = true)
         {
             var array = BitConverter.GetBytes(value);
-            return array.Reverse().Skip(skip).ToArray();
+            var items = array.Reverse();
+            if (noZero)
+                items = items.SkipWhile(b => b == 0);
+            if (skip >= 1)
+                items = items.Skip(skip);
+            return items.ToArray();
         }
     }
 }
