@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Iced.Intel;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Iced.Intel;
@@ -13,7 +16,7 @@ using OK = Iced.Intel.OpKind;
 using B8 = PoViEmu.Core.Hardware.AckNow.B8Register;
 using B16 = PoViEmu.Core.Hardware.AckNow.B16Register;
 
-namespace PoViEmu.SamCon
+namespace PoViEmu.Core.Alledge
 {
     public static class OpFetcher
     {
@@ -131,7 +134,7 @@ namespace PoViEmu.SamCon
             throw new InvalidOperationException($"{size} ?!");
         }
 
-        public static IEnumerable<BaseOperand> GetOps(Instruction ins)
+        public static IEnumerable<BaseOperand> GetOps(this Instruction ins)
         {
             for (var i = 0; i < ins.OpCount; i++)
             {
