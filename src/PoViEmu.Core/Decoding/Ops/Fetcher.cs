@@ -19,7 +19,7 @@ namespace PoViEmu.Core.Decoding.Ops
             }
         }
 
-        public static IEnumerable<BaseOperand> GetOps(this Instruction instruct)
+        public static IEnumerable<BaseOperand> GetOps3(this Instruction instruct)
         {
             for (var i = 0; i < instruct.OpCount; i++)
             {
@@ -44,6 +44,9 @@ namespace PoViEmu.Core.Decoding.Ops
                             off = null;
                             idx = B16Register.SI;
                         }
+                        /*
+                         // TODO
+                         
                         if (size == MemorySize.UInt8)
                             yield return new Mu8Operand(seg, off, idx);
                         else if (size == MemorySize.UInt16)
@@ -54,6 +57,7 @@ namespace PoViEmu.Core.Decoding.Ops
                             yield return new Mf32Operand(seg, off, idx);
                         else
                             break;
+                        */
                         continue;
                     case OpKind.Register:
                         var reg = instruct.GetOpRegister(i);
