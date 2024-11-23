@@ -9,7 +9,7 @@ namespace PoViEmu.Core.Inventory
         private AppConst()
         {
             DataRoot = PathHelper.CurrentDir;
-            BaseUrl = ThisAssembly.Constants.Defaults.Repo.Base;
+            // BaseUrl = ThisAssembly.Constants.Defaults.Repo.Base;
         }
 
         public string DataRoot { get; }

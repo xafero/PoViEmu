@@ -69,16 +69,16 @@ namespace PoViEmu.Core.Hardware
             switch (parsed.Mnemonic)
             {
                 case Mnemonic.Aaa:
-                    // TODO
+                    m.AsciiAdjustAfterAdd();
                     return;
                 case Mnemonic.Aad when ops is [U8 u]:
-                    // TODO
+                    m.AsciiAdjustBeforeDiv(u.Val);
                     return;
                 case Mnemonic.Aam when ops is [U8 u]:
-                    // TODO
+                    m.AsciiAdjustAfterMul(u.Val);
                     return;
                 case Mnemonic.Aas:
-                    // TODO
+                    m.AsciiAdjustAfterSub();
                     return;
                 case Mnemonic.Adc when ops is [R8 r, U8 u]:
                     var adc8E = m[r] + u.Val;
