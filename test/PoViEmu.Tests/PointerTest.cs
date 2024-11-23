@@ -4,6 +4,7 @@ using Iced.Intel;
 using PoViEmu.Common;
 using PoViEmu.Core.Decoding;
 using PoViEmu.Core.Decoding.Ops;
+using PoViEmu.Core.Decoding.Ops.Mems;
 using Xunit;
 
 namespace PoViEmu.Tests

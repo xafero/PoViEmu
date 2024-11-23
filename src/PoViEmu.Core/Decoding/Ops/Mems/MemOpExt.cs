@@ -1,7 +1,7 @@
 using System;
 using PoViEmu.Core.Hardware;
 
-namespace PoViEmu.Core.Decoding.Ops
+namespace PoViEmu.Core.Decoding.Ops.Mems
 {
     public static class MemOpExt
     {
