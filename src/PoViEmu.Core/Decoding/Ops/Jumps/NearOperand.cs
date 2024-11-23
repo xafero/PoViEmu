@@ -1,6 +1,6 @@
 namespace PoViEmu.Core.Decoding.Ops.Jumps
 {
-    public record NearOperand(ushort Dst) : JumpOperand
+    public record NearOperand(ushort Val) : JumpOperand
     {
     }
 }

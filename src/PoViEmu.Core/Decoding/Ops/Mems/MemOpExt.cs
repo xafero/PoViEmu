@@ -13,7 +13,7 @@ namespace PoViEmu.Core.Decoding.Ops.Mems
 
         public static ushort OffA(this MemOperand op, MachineState m)
         {
-            if (op.Off is { } offI)
+            if (op.Disp is { } offI)
             {
                 var offV = (ushort)offI;
                 return offV;

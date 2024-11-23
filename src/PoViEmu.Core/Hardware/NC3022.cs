@@ -30,6 +30,7 @@ using MU8 = PoViEmu.Core.Decoding.Ops.Mems.Mu8Operand;
 using MI16 = PoViEmu.Core.Decoding.Ops.Mems.Mi16Operand;
 using MU16 = PoViEmu.Core.Decoding.Ops.Mems.Mu16Operand;
 using MF32 = PoViEmu.Core.Decoding.Ops.Mems.Mf32Operand;
+using NJ = PoViEmu.Core.Decoding.Ops.Jumps.NearOperand;
 using Reg = PoViEmu.Core.Hardware.AckNow.B16Register;
 using Rsg = PoViEmu.Core.Hardware.AckNow.B8Register;
 
@@ -163,7 +164,7 @@ namespace PoViEmu.Core.Hardware
                     var andV5 = u.Val;
                     m[r] = (ushort)(andT5 & andV5);
                     return;
-                case Mnemonic.Call when ops is [I8 u]:
+                case Mnemonic.Call when ops is [NJ u]:
                     // TODO if FAR CALL PUSH CS CS=dest_seg
                     m.Push(nextIP);
                     var callDst = nextIP + u.Val;
@@ -363,11 +364,11 @@ namespace PoViEmu.Core.Hardware
                     if (m.ZF)
                         nextIP = (ushort)u.Val;
                     return;
-                case Mnemonic.Jmp when ops is [I8 u]:
+                case Mnemonic.Jmp when ops is [NJ u]:
                     var jmpDst = nextIP + u.Val;
                     nextIP = (ushort)jmpDst;
                     return;
-                case Mnemonic.Jne when ops is [I8 u]:
+                case Mnemonic.Jne when ops is [NJ u]:
                     if (!m.ZF)
                         nextIP = (ushort)u.Val;
                     return;
@@ -383,15 +384,15 @@ namespace PoViEmu.Core.Hardware
                     if (!m.ZF)
                         nextIP = (ushort)u.Val;
                     return;
-                case Mnemonic.Jo when ops is [I8 u]:
+                case Mnemonic.Jo when ops is [NJ u]:
                     if (m.OF)
                         nextIP = (ushort)(nextIP + u.Val);
                     return;
-                case Mnemonic.Jp when ops is [I8 u]:
+                case Mnemonic.Jp when ops is [NJ u]:
                     if (!m.ZF)
                         nextIP = (ushort)u.Val;
                     return;
-                case Mnemonic.Js when ops is [I8 u]:
+                case Mnemonic.Js when ops is [NJ u]:
                     if (!m.ZF)
                         nextIP = (ushort)u.Val;
                     return;
@@ -408,7 +409,7 @@ namespace PoViEmu.Core.Hardware
                 case Mnemonic.Lodsw when ops is [R16 r, MU16 mem]:
                     // TODO
                     return;
-                case Mnemonic.Loop when ops is [I8 u]:
+                case Mnemonic.Loop when ops is [NJ u]:
                     if (m.CX < 1)
                         return;
                     m.CX--;
