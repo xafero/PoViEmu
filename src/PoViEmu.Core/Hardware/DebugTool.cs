@@ -1,8 +1,5 @@
 using System.Text;
-using PoViEmu.Core.Decoding;
 using System.Collections.Generic;
-using System.Text;
-using PoViEmu.Core.Hardware;
 
 namespace PoViEmu.Core.Hardware
 {

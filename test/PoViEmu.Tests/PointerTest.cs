@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Iced.Intel;
 using PoViEmu.Common;

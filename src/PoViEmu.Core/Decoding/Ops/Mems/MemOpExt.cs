@@ -1,5 +1,3 @@
-using System;
-using PoViEmu.Core.Hardware;
 using MS = PoViEmu.Core.Hardware.MachineState;
 
 namespace PoViEmu.Core.Decoding.Ops.Mems
