@@ -8,6 +8,7 @@ using System.Text;
 using Iced.Intel;
 using System.Linq;
 using Iced.Intel;
+using PoViEmu.Core.Alledge;
 using PoViEmu.Core.Decoding;
 using PoViEmu.Core.Decoding.Ops;
 using PoViEmu.Core.Decoding.Ops.Consts;
