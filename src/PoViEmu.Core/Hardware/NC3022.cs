@@ -426,6 +426,9 @@ namespace PoViEmu.Core.Hardware
                 case Mnemonic.Mov when ops is [R8 r, MU8 mem]:
                     m[r] = mem[m];
                     return;
+                case Mnemonic.Mov when ops is [MU8 mem, R8 r]:
+                    mem[m] = m[r];
+                    return;
                 case Mnemonic.Mov when ops is [MU16 mem, R16 r]:
                     mem[m] = m[r];
                     return;
