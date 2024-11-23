@@ -8,6 +8,8 @@ using System.Text;
 using Iced.Intel;
 using PoViEmu.Core.Decoding;
 using PoViEmu.Core.Decoding.Ops;
+using PoViEmu.Core.Decoding.Ops.Jumps;
+using PoViEmu.Core.Decoding.Ops.Mems;
 using PoViEmu.Core.Hardware.Errors;
 using static PoViEmu.Common.JsonHelper;
 using Fl = PoViEmu.Core.Hardware.Flagged;
@@ -157,8 +159,7 @@ namespace PoViEmu.Core.Hardware
                 case Mnemonic.Call when ops is [NJ u]:
                     // TODO if FAR CALL PUSH CS CS=dest_seg
                     m.Push(nextIP);
-                    var callDst = nextIP + u.Val;
-                    nextIP = (ushort)callDst;
+                    u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Cbw:
                     // TODO
@@ -314,77 +315,76 @@ namespace PoViEmu.Core.Hardware
                 case Mnemonic.Iret:
                     m.F = (Fl)m.Pop();
                     return;
-                case Mnemonic.Ja when ops is [I8 u]:
+                case Mnemonic.Ja when ops is [NJ u]:
                     if (m.ZF)
-                        nextIP = (ushort)u.Val;
+                        u.Jump(ref nextIP);
                     return;
-                case Mnemonic.Jae when ops is [I8 u]:
+                case Mnemonic.Jae when ops is [NJ u]:
                     if (m.ZF)
-                        nextIP = (ushort)u.Val;
+                        u.Jump(ref nextIP);
                     return;
-                case Mnemonic.Jb when ops is [I8 u]:
+                case Mnemonic.Jb when ops is [NJ u]:
                     if (m.ZF)
-                        nextIP = (ushort)u.Val;
+                        u.Jump(ref nextIP);
                     return;
-                case Mnemonic.Jbe when ops is [I8 u]:
+                case Mnemonic.Jbe when ops is [NJ u]:
                     if (m.ZF)
-                        nextIP = (ushort)u.Val;
+                        u.Jump(ref nextIP);
                     return;
-                case Mnemonic.Jcxz when ops is [I8 u]:
+                case Mnemonic.Jcxz when ops is [NJ u]:
                     if (m.ZF)
-                        nextIP = (ushort)u.Val;
+                        u.Jump(ref nextIP);
                     return;
-                case Mnemonic.Je when ops is [I8 u]:
+                case Mnemonic.Je when ops is [NJ u]:
                     if (m.ZF)
-                        nextIP = (ushort)u.Val;
+                        u.Jump(ref nextIP);
                     return;
-                case Mnemonic.Jg when ops is [I8 u]:
+                case Mnemonic.Jg when ops is [NJ u]:
                     if (m.ZF)
-                        nextIP = (ushort)u.Val;
+                        u.Jump(ref nextIP);
                     return;
-                case Mnemonic.Jge when ops is [I8 u]:
+                case Mnemonic.Jge when ops is [NJ u]:
                     if (m.ZF)
-                        nextIP = (ushort)u.Val;
+                        u.Jump(ref nextIP);
                     return;
-                case Mnemonic.Jl when ops is [I8 u]:
+                case Mnemonic.Jl when ops is [NJ u]:
                     if (m.ZF)
-                        nextIP = (ushort)u.Val;
+                        u.Jump(ref nextIP);
                     return;
-                case Mnemonic.Jle when ops is [I8 u]:
+                case Mnemonic.Jle when ops is [NJ u]:
                     if (m.ZF)
-                        nextIP = (ushort)u.Val;
+                        u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jmp when ops is [NJ u]:
-                    var jmpDst = nextIP + u.Val;
-                    nextIP = (ushort)jmpDst;
+                    u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jne when ops is [NJ u]:
                     if (!m.ZF)
-                        nextIP = (ushort)u.Val;
+                        u.Jump(ref nextIP);
                     return;
-                case Mnemonic.Jno when ops is [I8 u]:
+                case Mnemonic.Jno when ops is [NJ u]:
                     if (!m.ZF)
-                        nextIP = (ushort)u.Val;
+                        u.Jump(ref nextIP);
                     return;
-                case Mnemonic.Jnp when ops is [I8 u]:
+                case Mnemonic.Jnp when ops is [NJ u]:
                     if (!m.ZF)
-                        nextIP = (ushort)u.Val;
+                        u.Jump(ref nextIP);
                     return;
-                case Mnemonic.Jns when ops is [I8 u]:
+                case Mnemonic.Jns when ops is [NJ u]:
                     if (!m.ZF)
-                        nextIP = (ushort)u.Val;
+                        u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jo when ops is [NJ u]:
                     if (m.OF)
-                        nextIP = (ushort)(nextIP + u.Val);
+                        u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jp when ops is [NJ u]:
                     if (!m.ZF)
-                        nextIP = (ushort)u.Val;
+                        u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Js when ops is [NJ u]:
                     if (!m.ZF)
-                        nextIP = (ushort)u.Val;
+                        u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Lahf:
                     // TODO
@@ -405,26 +405,23 @@ namespace PoViEmu.Core.Hardware
                     m.CX--;
                     if (m.CX == 0)
                         return;
-                    var loopDst = nextIP + u.Val;
-                    nextIP = (ushort)loopDst;
+                    u.Jump(ref nextIP);
                     return;
-                case Mnemonic.Loope when ops is [I8 u]:
+                case Mnemonic.Loope when ops is [NJ u]:
                     if (m.CX < 1)
                         return;
                     m.CX--;
                     if (m.CX == 0 || !m.ZF)
                         return;
-                    var loopeDst = nextIP + u.Val;
-                    nextIP = (ushort)loopeDst;
+                    u.Jump(ref nextIP);
                     return;
-                case Mnemonic.Loopne when ops is [I8 u]:
+                case Mnemonic.Loopne when ops is [NJ u]:
                     if (m.CX < 1)
                         return;
                     m.CX--;
                     if (m.CX == 0 || m.ZF)
                         return;
-                    var loopneDst = nextIP + u.Val;
-                    nextIP = (ushort)loopneDst;
+                    u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Mov when ops is [R8 r, MU8 mem]:
                     m[r] = mem[m];

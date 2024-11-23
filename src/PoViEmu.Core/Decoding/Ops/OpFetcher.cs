@@ -33,9 +33,11 @@ namespace PoViEmu.Core.Decoding.Ops
             return new U8Operand(value);
         }
 
-        private static NearOperand ToNearOp(ushort dest)
+        private static NearOperand ToNearOp(ushort dst, ushort ip, int len)
         {
-            return new NearOperand(dest);
+            var nbt = ip + len;
+            var nbj = dst - nbt;
+            return new NearOperand(nbj);
         }
 
         private static FarOperand ToFarOp(ushort sel, ushort dest)
@@ -160,7 +162,7 @@ namespace PoViEmu.Core.Decoding.Ops
                         yield return ToU16Op(ins.GetImmediate(i));
                         continue;
                     case OK.NearBranch16:
-                        yield return ToNearOp(ins.NearBranch16);
+                        yield return ToNearOp(ins.NearBranch16, ins.IP16, ins.Length);
                         continue;
                     case OK.FarBranch16:
                         yield return ToFarOp(ins.FarBranchSelector, ins.FarBranch16);
