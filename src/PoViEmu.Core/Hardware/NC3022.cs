@@ -23,6 +23,7 @@ using MU8 = PoViEmu.Core.Decoding.Ops.Mems.Mu8Operand;
 using MI16 = PoViEmu.Core.Decoding.Ops.Mems.Mi16Operand;
 using MU16 = PoViEmu.Core.Decoding.Ops.Mems.Mu16Operand;
 using NJ = PoViEmu.Core.Decoding.Ops.Jumps.NearOperand;
+using FJ = PoViEmu.Core.Decoding.Ops.Jumps.FarOperand;
 using Reg = PoViEmu.Core.Hardware.AckNow.B16Register;
 using Rsg = PoViEmu.Core.Hardware.AckNow.B8Register;
 
@@ -47,12 +48,15 @@ namespace PoViEmu.Core.Hardware
 
         public void Execute(XInstruction instruct, MachineState m)
         {
+            var nextCS = m.CS;
             var nextIP = instruct.Parsed.NextIP16;
-            Execute(instruct, m, ref nextIP, true);
+            Execute(instruct, m, true, ref nextCS, ref nextIP);
+            m.CS = nextCS;
             m.IP = nextIP;
         }
 
-        private void Execute(XInstruction instruct, MachineState m, ref ushort nextIP, bool ignoreUc)
+        private void Execute(XInstruction instruct, MachineState m, bool ignoreUc,
+            ref ushort nextCS, ref ushort nextIP)
         {
             var parsed = instruct.Parsed;
             if (parsed.IsInvalidFor16Bit())
@@ -156,8 +160,12 @@ namespace PoViEmu.Core.Hardware
                     var andV5 = u.Val;
                     m[r] = (ushort)(andT5 & andV5);
                     return;
+                case Mnemonic.Call when ops is [FJ u]:
+                    m.Push(nextCS);
+                    m.Push(nextIP);
+                    u.Jump(ref nextCS, ref nextIP);
+                    return;
                 case Mnemonic.Call when ops is [NJ u]:
-                    // TODO if FAR CALL PUSH CS CS=dest_seg
                     m.Push(nextIP);
                     u.Jump(ref nextIP);
                     return;
@@ -547,10 +555,15 @@ namespace PoViEmu.Core.Hardware
                 case Mnemonic.Rcr when ops is [R16 r, U8 u]:
                     m[r] = MachTool.ShiftRight(m[r], u.Val);
                     return;
+                case Mnemonic.Retf:
+                    var retFar = m.Pop();
+                    var retSeg = m.Pop();
+                    nextCS = retSeg;
+                    nextIP = retFar;
+                    return;
                 case Mnemonic.Ret:
-                    // TODO if FAR CALL CS=pop()
-                    var retAdr = m.Pop();
-                    nextIP = retAdr;
+                    var retNear = m.Pop();
+                    nextIP = retNear;
                     return;
                 case Mnemonic.Rol when ops is [R16 r, U8 u]:
                     m[r] = MachTool.ShiftLeft(m[r], u.Val);

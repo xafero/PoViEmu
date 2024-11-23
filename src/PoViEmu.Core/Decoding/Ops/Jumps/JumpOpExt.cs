@@ -22,5 +22,17 @@ namespace PoViEmu.Core.Decoding.Ops.Jumps
             }
             throw new InvalidOperationException($"{op} ?!");
         }
+
+        public static void Jump(this JumpOperand op, ref ushort nextSeg, ref ushort nextIP)
+        {
+            switch (op)
+            {
+                case FarOperand fo:
+                    nextSeg = fo.Seg;
+                    nextIP = fo.Off;
+                    return;
+            }
+            throw new InvalidOperationException($"{op} ?!");
+        }
     }
 }
