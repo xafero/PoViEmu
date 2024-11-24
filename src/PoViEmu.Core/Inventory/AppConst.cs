@@ -1,3 +1,4 @@
+using Cscg.AutoGen;
 using PoViEmu.Common;
 
 namespace PoViEmu.Core.Inventory
@@ -9,7 +10,7 @@ namespace PoViEmu.Core.Inventory
         private AppConst()
         {
             DataRoot = PathHelper.CurrentDir;
-            BaseUrl = ThisAssembly.Constants.Defaults.Repo.Base;
+            BaseUrl = ConstStrings.DefaultRepoBase;
         }
 
         public string DataRoot { get; }
