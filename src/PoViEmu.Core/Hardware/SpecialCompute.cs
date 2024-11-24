@@ -4,7 +4,7 @@ namespace PoViEmu.Core.Hardware
 {
     internal static class Compute
     {
-        private static int ToNum(this bool value) => value ? 1 : 0;
+        public static int ToNum(this bool value) => value ? 1 : 0;
 
         public static byte AddWithCarry(byte dest, byte src, bool cf)
         {
@@ -39,6 +39,18 @@ namespace PoViEmu.Core.Hardware
         public static ushort Decrement(ushort dest)
         {
             var res = dest - 1;
+            return (ushort)res;
+        }
+
+        public static ushort Increment(ushort dest)
+        {
+            var res = dest + 1;
+            return (ushort)res;
+        }
+
+        public static ushort LogicalInclOr(ushort dest, ushort src)
+        {
+            var res = dest | src;
             return (ushort)res;
         }
 
@@ -222,6 +234,90 @@ namespace PoViEmu.Core.Hardware
                 m.OF = true;
             }
         }
+
+        public static void UnsignedMul(this MachineState m, ushort src)
+        {
+            var result = (uint)(m.AX * src);
+            m.DX = (ushort)(result >> 16);
+            m.AX = (ushort)(result & 0xFFFF);
+        }
+        
+        public static void UnsignedMul(this MachineState m, byte src)
+        {
+            m.AX = (ushort)(m.AL * src);
+        }
+
+        public static ushort TwoComplNeg(this MachineState m, ushort src)
+        {
+            m.CF = src != 0;
+            var res = -src;
+            return (ushort)res;
+        }
+
+        public static ushort OneComplNeg(this MachineState _, ushort src)
+        {
+            var res = ~src;
+            return (ushort)res;
+        }
+    }
+
+    public interface IPorts
+    {
+        byte this[byte nr] { get; }
+        byte this[ushort nr] { get; }
+    }
+
+    internal static class OutsideCompute
+    {
+        public static void WriteByteToPort(IPorts ports, byte nr, byte val)
+        {
+        }
+        
+        public static void WriteWordToPort(IPorts ports, byte src)
+        {
+        }
+        
+        public static byte ReadByteFromPort(IPorts ports, byte src)
+        {
+            var dest = ports[src];
+            return dest;
+        }
+
+        public static byte ReadByteFromPort(IPorts ports, ushort src)
+        {
+            var dest = ports[src];
+            return dest;
+        }
+
+        public static byte ReadByteFromPortToStr(MachineState m, ushort src)
+        {
+            var dest = src;
+            if (m.DF == false)
+                m.DI++;
+            else
+                m.DI--;
+            return (byte)dest;
+        }
+
+        public static ushort ReadWordFromPortToStr(MachineState m, ushort src)
+        {
+            var dest = src;
+            if (m.DF == false)
+                m.DI += 2;
+            else
+                m.DI -= 2;
+            return dest;
+        }
+
+        public static void WriteByteToPortStr(this MachineState m, ushort nr, byte val)
+        {
+            // TODO
+        }
+
+        public static void WriteWordToPortStr(this MachineState m, ushort nr, ushort val)
+        {
+            // TODO
+        }
     }
 
     internal static class SpecialCompute
@@ -350,6 +446,46 @@ namespace PoViEmu.Core.Hardware
                 m.AL = (byte)(m.AL - 0x60);
                 m.CF = true;
             }
+        }
+
+        public static byte LoadStatusFlags(this MachineState m)
+        {
+            var res = (m.SF.ToNum() << 7) |
+                      (m.ZF.ToNum() << 6) | 0 |
+                      (m.AF.ToNum() << 4) | 0 |
+                      (m.PF.ToNum() << 2) | (1 << 1) |
+                      m.CF.ToNum();
+            return (byte)res;
+        }
+
+        public static byte LoadByteStr(this MachineState m, byte src)
+        {
+            var res = src;
+            if (m.DF == false)
+                m.SI++;
+            else
+                m.SI--;
+            return res;
+        }
+
+        public static ushort LoadWordStr(this MachineState m, ushort src)
+        {
+            var res = src;
+            if (m.DF == false)
+                m.SI += 2;
+            else
+                m.SI -= 2;
+            return res;
+        }
+
+        public static void MoveByteStr(this MachineState m)
+        {
+            // DS:SI to ES:DI
+        }
+
+        public static void MoveWordStr(this MachineState m)
+        {
+            // DS:SI to ES:DI
         }
     }
 }

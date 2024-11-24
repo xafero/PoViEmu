@@ -9,12 +9,10 @@ using Iced.Intel;
 using PoViEmu.Core.Decoding;
 using PoViEmu.Core.Decoding.Ops;
 using PoViEmu.Core.Decoding.Ops.Jumps;
-using PoViEmu.Core.Decoding.Ops.Mems;
 using PoViEmu.Core.Hardware.Errors;
 using static PoViEmu.Common.JsonHelper;
 using Fl = PoViEmu.Core.Hardware.Flagged;
 using U8 = PoViEmu.Core.Decoding.Ops.Consts.U8Operand;
-using I8 = PoViEmu.Core.Decoding.Ops.Consts.I8Operand;
 using U16 = PoViEmu.Core.Decoding.Ops.Consts.U16Operand;
 using I16 = PoViEmu.Core.Decoding.Ops.Consts.I16Operand;
 using R8 = PoViEmu.Core.Decoding.Ops.Regs.Reg8Operand;
@@ -219,26 +217,22 @@ namespace PoViEmu.Core.Hardware
                     m.MulSigned(m[r]);
                     return;
                 case Mnemonic.In when ops is [R8 r, U8 u]:
-                    // TODO
+                    m[r] = OutsideCompute.ReadByteFromPort(null, u.Val);
                     return;
                 case Mnemonic.In when ops is [R8 r, R16 t]:
-                    // TODO
+                    m[r] = OutsideCompute.ReadByteFromPort(null, m[t]);
                     return;
                 case Mnemonic.Inc when ops is [MU16 mem]:
-                    var incE2 = mem[m] + 1;
-                    var incT2 = (ushort)incE2;
-                    mem[m] = incT2;
+                    mem[m] = C.Increment(mem[m]);
                     return;
                 case Mnemonic.Inc when ops is [R16 r]:
-                    var incE1 = m[r] + 1;
-                    var incT1 = (ushort)incE1;
-                    m[r] = incT1;
+                    m[r] = C.Increment(m[r]);
                     return;
                 case Mnemonic.Insb when ops is [MU8 mem, R16 r]:
-                    // TODO
+                    mem[m] = OutsideCompute.ReadByteFromPortToStr(m, m[r]);
                     return;
                 case Mnemonic.Insw when ops is [MU16 mem, R16 r]:
-                    // TODO
+                    mem[m] = OutsideCompute.ReadWordFromPortToStr(m, m[r]);
                     return;
                 case Mnemonic.Int when ops is [U8 u]:
                     ExecuteInterrupt(u.Val, m);
@@ -258,23 +252,23 @@ namespace PoViEmu.Core.Hardware
                     m.F = (Fl)m.Pop();
                     return;
                 case Mnemonic.Ja when ops is [NJ u]:
-                    if (m.ZF)
+                    if (m is { CF: false, ZF: false })
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jae when ops is [NJ u]:
-                    if (m.ZF)
+                    if (m.CF == false)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jb when ops is [NJ u]:
-                    if (m.ZF)
+                    if (m.CF)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jbe when ops is [NJ u]:
-                    if (m.ZF)
+                    if (m.CF || m.ZF)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jcxz when ops is [NJ u]:
-                    if (m.ZF)
+                    if (m[Reg.CX] == 0)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Je when ops is [NJ u]:
@@ -282,38 +276,38 @@ namespace PoViEmu.Core.Hardware
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jg when ops is [NJ u]:
-                    if (m.ZF)
+                    if (m.ZF == false && m.SF == m.OF)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jge when ops is [NJ u]:
-                    if (m.ZF)
+                    if (m.SF == m.OF)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jl when ops is [NJ u]:
-                    if (m.ZF)
+                    if (m.SF != m.OF)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jle when ops is [NJ u]:
-                    if (m.ZF)
+                    if (m.ZF || m.SF != m.OF)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jmp when ops is [NJ u]:
                     u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jne when ops is [NJ u]:
-                    if (!m.ZF)
+                    if (m.ZF == false)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jno when ops is [NJ u]:
-                    if (!m.ZF)
+                    if (m.OF == false)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jnp when ops is [NJ u]:
-                    if (!m.ZF)
+                    if (m.PF == false)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jns when ops is [NJ u]:
-                    if (!m.ZF)
+                    if (m.SF == false)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jo when ops is [NJ u]:
@@ -321,49 +315,46 @@ namespace PoViEmu.Core.Hardware
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jp when ops is [NJ u]:
-                    if (!m.ZF)
+                    if (m.PF)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Js when ops is [NJ u]:
-                    if (!m.ZF)
+                    if (m.SF)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Lahf:
-                    // TODO
+                    m.AH = m.LoadStatusFlags();
                     return;
                 case Mnemonic.Leave:
                     m.SP = m.BP;
                     m.BP = m.Pop();
                     return;
                 case Mnemonic.Lodsb when ops is [R8 r, MU8 mem]:
-                    // TODO                     
+                    m[r] = m.LoadByteStr(mem[m]);
                     return;
                 case Mnemonic.Lodsw when ops is [R16 r, MU16 mem]:
-                    // TODO
+                    m[r] = m.LoadWordStr(mem[m]);
                     return;
                 case Mnemonic.Loop when ops is [NJ u]:
                     if (m.CX < 1)
                         return;
                     m.CX--;
-                    if (m.CX == 0)
-                        return;
-                    u.Jump(ref nextIP);
+                    if (m.CX != 0)
+                        u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Loope when ops is [NJ u]:
                     if (m.CX < 1)
                         return;
                     m.CX--;
-                    if (m.CX == 0 || !m.ZF)
-                        return;
-                    u.Jump(ref nextIP);
+                    if (m.CX != 0 && m.ZF)
+                        u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Loopne when ops is [NJ u]:
                     if (m.CX < 1)
                         return;
                     m.CX--;
-                    if (m.CX == 0 || m.ZF)
-                        return;
-                    u.Jump(ref nextIP);
+                    if (m.CX != 0 && m.ZF == false)
+                        u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Mov when ops is [R8 r, MU8 mem]:
                     m[r] = mem[m];
@@ -395,66 +386,48 @@ namespace PoViEmu.Core.Hardware
                 case Mnemonic.Mov when ops is [R16 r, U16 t]:
                     m[r] = t.Val;
                     return;
-                case Mnemonic.Movsb when ops is [MU8 mem, MU8 src]:
-                    // TODO
+                case Mnemonic.Movsb when ops is [MU8 nT, MU8 nS]:
+                    nT[m] = nS[m];
+                    m.IncOrDec(1, useSi: true, useDi: true);
                     return;
                 case Mnemonic.Movsw when ops is [MU16 nT, MU16 nS]:
                     nT[m] = nS[m];
                     m.IncOrDec(2, useSi: true, useDi: true);
                     return;
                 case Mnemonic.Mul when ops is [MU16 mem]:
-                    var mulE = m[Reg.AX] * mem[m];
-                    var mulT = (ushort)mulE;
-                    m[Reg.AX] = mulT;
+                    m.UnsignedMul(mem[m]);
                     return;
                 case Mnemonic.Mul when ops is [R8 r]:
-                    var mulE2 = m[Reg.AX] * m[r];
-                    var mulT2 = (ushort)mulE2;
-                    m[Reg.AX] = mulT2;
+                    m.UnsignedMul(m[r]);
                     return;
                 case Mnemonic.Mul when ops is [R16 r]:
-                    var mulAx = m[Reg.AX];
-                    var mulF = m[r];
-                    var mulV = mulAx * mulF;
-                    var (mulL, mulH) = mulV.SplitInt();
-                    m[Reg.AX] = mulL;
-                    m[Reg.DX] = mulH;
+                    m.UnsignedMul(m[r]);
                     return;
                 case Mnemonic.Neg when ops is [R16 r]:
-                    var negT = m[r];
-                    m.CF = negT != 0;
-                    m[r] = (ushort)-negT;
+                    m[r] = m.TwoComplNeg(m[r]);
                     return;
                 case Mnemonic.Nop:
                     return;
                 case Mnemonic.Not when ops is [R16 r]:
-                    var notT = m[r];
-                    var notN = ~notT;
-                    m[r] = (ushort)notN;
+                    m[r] = m.OneComplNeg(m[r]);
                     return;
                 case Mnemonic.Or when ops is [R16 r, MU16 mem]:
-                    var orE = m[r] | mem[m];
-                    var orT = (ushort)orE;
-                    m[r] = orT;
+                    m[r] = C.LogicalInclOr(m[r], mem[m]);
                     return;
                 case Mnemonic.Or when ops is [R16 r, R16 t]:
-                    var orT2 = m[r];
-                    var orV2 = m[t];
-                    m[r] = (ushort)(orT2 | orV2);
+                    m[r] = C.LogicalInclOr(m[r], m[t]);
                     return;
                 case Mnemonic.Or when ops is [R16 r, U16 u]:
-                    var orT3 = m[r];
-                    var orV3 = u.Val;
-                    m[r] = (ushort)(orT3 | orV3);
+                    m[r] = C.LogicalInclOr(m[r], u.Val);
                     return;
                 case Mnemonic.Out when ops is [U8 u, R8 r]:
-                    // TODO
+                    OutsideCompute.WriteByteToPort(null, u.Val, m[r]);
                     return;
                 case Mnemonic.Outsb when ops is [R16 r, MU8 mem]:
-                    // TODO
+                    m.WriteByteToPortStr(m[r], mem[m]);
                     return;
                 case Mnemonic.Outsw when ops is [R16 r, MU16 mem]:
-                    // TODO
+                    m.WriteWordToPortStr(m[r], mem[m]);
                     return;
                 case Mnemonic.Pop when ops is [R16 r]:
                     var popE = m.Pop();
