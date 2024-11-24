@@ -226,11 +226,5 @@ namespace PoViEmu.Core.Hardware
             }
             return count;
         }
-
-        public static void SetZeroSign(this MachineState m, int cmpR)
-        {
-            m.ZF = cmpR == 0;
-            m.SF = cmpR < 0;
-        }
     }
 }
