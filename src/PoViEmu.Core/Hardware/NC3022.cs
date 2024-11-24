@@ -26,6 +26,7 @@ using NJ = PoViEmu.Core.Decoding.Ops.Jumps.NearOperand;
 using FJ = PoViEmu.Core.Decoding.Ops.Jumps.FarOperand;
 using Reg = PoViEmu.Core.Hardware.AckNow.B16Register;
 using Rsg = PoViEmu.Core.Hardware.AckNow.B8Register;
+using C = PoViEmu.Core.Hardware.Compute;
 
 namespace PoViEmu.Core.Hardware
 {
@@ -81,84 +82,52 @@ namespace PoViEmu.Core.Hardware
                     m.AsciiAdjustAfterSub();
                     return;
                 case Mnemonic.Adc when ops is [R8 r, U8 u]:
-                    var adc8E = m[r] + u.Val;
-                    var adc8T = (byte)adc8E;
-                    m[r] = adc8T;
+                    m[r] = C.AddWithCarry(m[r], u.Val, m.CF);
                     return;
                 case Mnemonic.Adc when ops is [R16 r, MU16 mem]:
-                    var adc16E = m[r] + mem[m];
-                    var adc16T = (ushort)adc16E;
-                    m[r] = adc16T;
+                    m[r] = C.AddWithCarry(m[r], mem[m], m.CF);
                     return;
                 case Mnemonic.Add when ops is [R16 r, MU16 mem]:
-                    var add16E = m[r] + mem[m];
-                    var add16T = (ushort)add16E;
-                    m[r] = add16T;
+                    m[r] = C.Add(m[r], mem[m]);
                     return;
                 case Mnemonic.Add when ops is [MU16 mem, R16 r]:
-                    var add16tE = mem[m] + m[r];
-                    var add16tT = (ushort)add16tE;
-                    mem[m] = add16tT;
+                    mem[m] = C.Add(mem[m], m[r]);
                     return;
                 case Mnemonic.Add when ops is [MU8 mem, R8 r]:
-                    var add8tE = mem[m] + m[r];
-                    var add8tT = (byte)add8tE;
-                    mem[m] = add8tT;
+                    mem[m] = C.Add(mem[m], m[r]);
                     return;
                 case Mnemonic.Add when ops is [R8 r, U8 u]:
-                    var add8E = m[r] + u.Val;
-                    var add8T = (byte)add8E;
-                    m[r] = add8T;
+                    m[r] = C.Add(m[r], u.Val);
                     return;
                 case Mnemonic.Add when ops is [R16 r, U16 u]:
-                    var addE = m[r] + u.Val;
-                    var addT = (ushort)addE;
-                    m[r] = addT;
+                    m[r] = C.Add(m[r], u.Val);
                     return;
                 case Mnemonic.Add when ops is [R16 r, R16 t]:
-                    var add16E2 = m[r] + m[t];
-                    var add16T2 = (ushort)add16E2;
-                    m[r] = add16T2;
+                    m[r] = C.Add(m[r], m[t]);
                     return;
                 case Mnemonic.Add when ops is [R8 r, R8 t]:
-                    var add8E2 = m[r] + m[t];
-                    var add8T2 = (byte)add8E2;
-                    m[r] = add8T2;
+                    m[r] = C.Add(m[r], m[t]);
                     return;
                 case Mnemonic.Add when ops is [R16 r, I16 u]:
-                    var addE2 = m[r] + u.Val;
-                    var addT2 = (ushort)addE2;
-                    m[r] = addT2;
+                    m[r] = C.Add(m[r], u.Val);
                     return;
                 case Mnemonic.And when ops is [R8 r, U8 u]:
-                    var andE = m[r] & u.Val;
-                    var andT = (byte)andE;
-                    m[r] = andT;
+                    m[r] = C.LogicalAnd(m[r], u.Val);
                     return;
                 case Mnemonic.And when ops is [R16 r, MU16 mem]:
-                    var andE2 = m[r] & mem[m];
-                    var andT2 = (byte)andE2;
-                    m[r] = andT2;
+                    m[r] = C.LogicalAnd(m[r], mem[m]);
                     return;
                 case Mnemonic.And when ops is [R16 r, R16 t]:
-                    var andT3 = m[r];
-                    var andV3 = m[t];
-                    m[r] = (ushort)(andT3 & andV3);
+                    m[r] = C.LogicalAnd(m[r], m[t]);
                     return;
                 case Mnemonic.And when ops is [MU16 mem, R16 t]:
-                    var andT6 = mem[m];
-                    var andV6 = m[t];
-                    mem[m] = (ushort)(andT6 & andV6);
+                    mem[m] = C.LogicalAnd(mem[m], m[t]);
                     return;
                 case Mnemonic.And when ops is [R16 r, U16 u]:
-                    var andT4 = m[r];
-                    var andV4 = u.Val;
-                    m[r] = (ushort)(andT4 & andV4);
+                    m[r] = C.LogicalAnd(m[r], u.Val);
                     return;
                 case Mnemonic.And when ops is [R16 r, I16 u]:
-                    var andT5 = m[r];
-                    var andV5 = u.Val;
-                    m[r] = (ushort)(andT5 & andV5);
+                    m[r] = C.LogicalAnd(m[r], u.Val);
                     return;
                 case Mnemonic.Call when ops is [FJ u]:
                     m.Push(nextCS);
@@ -170,19 +139,19 @@ namespace PoViEmu.Core.Hardware
                     u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Cbw:
-                    // TODO
+                    m.ConvertByteToWord();
                     return;
                 case Mnemonic.Clc:
-                    m.CF = false;
+                    m.ClearCarryFlag();
                     return;
                 case Mnemonic.Cld:
-                    m.DF = false;
+                    m.ClearDirectionFlag();
                     return;
                 case Mnemonic.Cli:
-                    m.IF = false;
+                    m.ClearInterruptFlag();
                     return;
                 case Mnemonic.Cmc:
-                    // TODO
+                    m.ComplementCarryFlag();
                     return;
                 case Mnemonic.Cmp when ops is [R16 r, R16 t]:
                     var cmpO1a = m[r];
