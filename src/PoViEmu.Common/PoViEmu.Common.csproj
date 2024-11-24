@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <NoWarn>CS8625;CS8618;CS8603;CS8600;CS8604</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
