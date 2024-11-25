@@ -6,6 +6,12 @@ namespace PoViEmu.Core.Hardware
     {
         public static int ToNum(this bool value) => value ? 1 : 0;
 
+        public static ushort SubWithBorrow(ushort dest, ushort src, bool cf)
+        {
+            var res = dest - (src + cf.ToNum());
+            return (ushort)res;
+        }
+
         public static byte AddWithCarry(byte dest, byte src, bool cf)
         {
             var res = dest + src + cf.ToNum();
@@ -18,6 +24,24 @@ namespace PoViEmu.Core.Hardware
             return (ushort)res;
         }
 
+        public static ushort Sub(ushort dest, ushort src)
+        {
+            var res = dest - src;
+            return (ushort)res;
+        }
+        
+        public static ushort Sub(ushort dest, short src)
+        {
+            var res = dest - src;
+            return (ushort)res;
+        }
+        
+        public static byte Sub(byte dest, byte src)
+        {
+            var res = dest - src;
+            return (byte)res;
+        }
+        
         public static byte Add(byte dest, byte src)
         {
             var res = dest + src;
@@ -54,6 +78,12 @@ namespace PoViEmu.Core.Hardware
             return (ushort)res;
         }
 
+        public static ushort LogicalExclOr(ushort dest, ushort src)
+        {
+            var res = dest ^ src;
+            return (ushort)res;
+        }
+
         public static byte LogicalAnd(byte dest, byte src)
         {
             var res = dest & src;
@@ -72,14 +102,29 @@ namespace PoViEmu.Core.Hardware
             return (ushort)res;
         }
 
+        public static void SetCarryFlag(this MachineState m)
+        {
+            m.CF = true;
+        }
+
         public static void ClearCarryFlag(this MachineState m)
         {
             m.CF = false;
         }
 
+        public static void SetDirectionFlag(this MachineState m)
+        {
+            m.DF = true;
+        }
+
         public static void ClearDirectionFlag(this MachineState m)
         {
             m.DF = false;
+        }
+
+        public static void SetInterruptFlag(this MachineState m)
+        {
+            m.IF = true;
         }
 
         public static void ClearInterruptFlag(this MachineState m)
@@ -257,6 +302,18 @@ namespace PoViEmu.Core.Hardware
         public static ushort OneComplNeg(this MachineState _, ushort src)
         {
             var res = ~src;
+            return (ushort)res;
+        }
+
+        public static ushort ShiftRight(ushort sarT, ushort sarV)
+        {
+            var res = sarT >> sarV;
+            return (ushort)res;
+        }
+
+        public static ushort ShiftLeft(ushort a, ushort b)
+        {
+            var res = a << b;
             return (ushort)res;
         }
     }
@@ -458,6 +515,15 @@ namespace PoViEmu.Core.Hardware
             return (byte)res;
         }
 
+        public static void StoreStatusFlags(this MachineState m, byte res)
+        {
+            m.SF = (res & 0x80) != 0;
+            m.ZF = (res & 0x40) != 0;
+            m.AF = (res & 0x10) != 0;
+            m.PF = (res & 0x04) != 0;
+            m.CF = (res & 0x01) != 0;
+        }
+
         public static byte LoadByteStr(this MachineState m, byte src)
         {
             var res = src;
@@ -467,7 +533,7 @@ namespace PoViEmu.Core.Hardware
                 m.SI--;
             return res;
         }
-
+        
         public static ushort LoadWordStr(this MachineState m, ushort src)
         {
             var res = src;
@@ -476,6 +542,28 @@ namespace PoViEmu.Core.Hardware
             else
                 m.SI -= 2;
             return res;
+        }
+        
+        public static byte ScanByteStr(this MachineState m, byte src)
+        {
+            var res = m.AL - src;
+            // TODO SetStatusFlags(temp);
+            if (!m.DF)
+                m.DI += 1;
+            else
+                m.DI -= 1;
+            return (byte)res;
+        }
+        
+        public static ushort ScanWordStr(this MachineState m, ushort src)
+        {
+            var res = m.AX - src;
+            // TODO SetStatusFlags(temp);
+            if (!m.DF)
+                m.DI += 2;
+            else
+                m.DI -= 2;
+            return (ushort)res;
         }
 
         public static void MoveByteStr(this MachineState m)

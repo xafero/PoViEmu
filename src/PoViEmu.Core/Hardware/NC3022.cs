@@ -479,72 +479,52 @@ namespace PoViEmu.Core.Hardware
                     m[r] = MachTool.ShiftRight(m[r], u.Val);
                     return;
                 case Mnemonic.Sahf:
-                    // TODO
+                    m.StoreStatusFlags(m.AH);
                     return;
                 case Mnemonic.Sar when ops is [R16 r, R16 t]:
-                    var sarT = m[r];
-                    var sarV = m[t];
-                    m[r] = (ushort)(sarT >> sarV);
+                    m[r] = C.ShiftRight(m[r], m[t]);
                     return;
                 case Mnemonic.Sar when ops is [R16 r, R8 t]:
-                    var sarT2 = m[r];
-                    var sarV2 = m[t];
-                    m[r] = (ushort)(sarT2 >> sarV2);
+                    m[r] = C.ShiftRight(m[r], m[t]);
                     return;
                 case Mnemonic.Sar when ops is [R16 r, U8 t]:
-                    var sarT3 = m[r];
-                    var sarV3 = t.Val;
-                    m[r] = (ushort)(sarT3 >> sarV3);
+                    m[r] = C.ShiftRight(m[r], t.Val);
                     return;
                 case Mnemonic.Sbb when ops is [R16 r, U16 u]:
-                    var sbbT1 = m[r];
-                    var sbbV1 = u.Val;
-                    m[r] = (ushort)(sbbT1 - sbbV1);
+                    m[r] = C.SubWithBorrow(m[r], u.Val, m.CF);
                     return;
                 case Mnemonic.Sbb when ops is [R16 r, R16 t]:
-                    var sbbT2 = m[r];
-                    var sbbV2 = m[t];
-                    m[r] = (ushort)(sbbT2 - sbbV2);
+                    m[r] = C.SubWithBorrow(m[r], m[t], m.CF);
                     return;
                 case Mnemonic.Scasb when ops is [R8 r, MU8 mem]:
-                    // TODO
+                    m[r] = m.ScanByteStr(mem[m]);
                     return;
                 case Mnemonic.Scasw when ops is [R16 r, MU16 mem]:
-                    // TODO
+                    m[r] = m.ScanWordStr(mem[m]);
                     return;
                 case Mnemonic.Shl when ops is [R16 r, U8 u]:
-                    var shlE = m[r] << u.Val;
-                    var shlT = (ushort)shlE;
-                    m[r] = shlT;
+                    m[r] = C.ShiftLeft(m[r], u.Val);
                     return;
                 case Mnemonic.Shl when ops is [R16 r, R16 t]:
-                    var shlT2 = m[r];
-                    var shlV2 = m[t];
-                    m[r] = (ushort)(shlT2 << shlV2);
+                    m[r] = C.ShiftLeft(m[r], m[t]);
                     return;
                 case Mnemonic.Shl when ops is [R16 r, R8 t]:
-                    var shlT3 = m[r];
-                    var shlV3 = m[t];
-                    m[r] = (ushort)(shlT3 << shlV3);
+                    m[r] = C.ShiftLeft(m[r], m[t]);
                     return;
                 case Mnemonic.Shr when ops is [R16 r, U8 u]:
-                    var shrE = m[r] >> u.Val;
-                    var shrT = (ushort)shrE;
-                    m[r] = shrT;
+                    m[r] = C.ShiftRight(m[r], u.Val);
                     return;
                 case Mnemonic.Shr when ops is [R16 r, R8 t]:
-                    var shrE2 = m[r] >> m[t];
-                    var shrT2 = (ushort)shrE2;
-                    m[r] = shrT2;
+                    m[r] = C.ShiftRight(m[r], m[t]);
                     return;
                 case Mnemonic.Stc:
-                    m.CF = true;
+                    m.SetCarryFlag();
                     return;
                 case Mnemonic.Std:
-                    m.DF = true;
+                    m.SetDirectionFlag();
                     return;
                 case Mnemonic.Sti:
-                    m.IF = true;
+                    m.SetInterruptFlag();
                     return;
                 case Mnemonic.Stosb when ops is [MU8 mem, R8 r]:
                     mem[m] = m[r];
@@ -555,38 +535,25 @@ namespace PoViEmu.Core.Hardware
                     m.IncOrDec(2, useSi: false, useDi: true);
                     return;
                 case Mnemonic.Sub when ops is [R16 r, MU16 mem]:
-                    var subE = m[r] - mem[m];
-                    var subT = (ushort)subE;
-                    m[r] = subT;
+                    m[r] = C.Sub(m[r], mem[m]);
                     return;
                 case Mnemonic.Sub when ops is [MU16 mem, I16 u]:
-                    var subE3 = mem[m] - u.Val;
-                    var subT3 = (ushort)subE3;
-                    mem[m] = subT3;
+                    mem[m] = C.Sub(mem[m], u.Val);
                     return;
                 case Mnemonic.Sub when ops is [R8 r, U8 u]:
-                    var subE2 = m[r] - u.Val;
-                    var subT2 = (byte)subE2;
-                    m[r] = subT2;
+                    m[r] = C.Sub(m[r], u.Val);
                     return;
                 case Mnemonic.Sub when ops is [R16 r, I16 u]:
-                    var subT4 = m[r];
-                    var subV4 = u.Val;
-                    m[r] = (ushort)(subT4 - subV4);
+                    m[r] = C.Sub(m[r], u.Val);
                     return;
                 case Mnemonic.Sub when ops is [R16 r, U16 u]:
-                    var subT6 = m[r];
-                    var subV6 = u.Val;
-                    m[r] = (ushort)(subT6 - subV6);
+                    m[r] = C.Sub(m[r], u.Val);
                     return;
                 case Mnemonic.Sub when ops is [R16 r, R16 t]:
-                    var subT5 = m[r];
-                    var subV5 = m[t];
-                    m[r] = (ushort)(subT5 - subV5);
+                    m[r] = C.Sub(m[r], m[t]);
                     return;
                 case Mnemonic.Test when ops is [R16 r, U16 u]:
-                    var testR = m[r] & u.Val;
-                    m.SetTestFlags(testR);
+                    m.Test(m[r], u.Val);
                     return;
                 case Mnemonic.Test when ops is [R16 r, R16 t]:
                     m.Test(m[r], m[t]);
@@ -607,19 +574,13 @@ namespace PoViEmu.Core.Hardware
                     m[Rsg.AL] = m.U8[m.DS, xlatAddr];
                     return;
                 case Mnemonic.Xor when ops is [R16 r, MU16 mem]:
-                    var xorE = m[r] ^ mem[m];
-                    var xorT = (ushort)xorE;
-                    m[r] = xorT;
+                    m[r] = C.LogicalExclOr(m[r], mem[m]);
                     return;
                 case Mnemonic.Xor when ops is [R16 r, R16 t]:
-                    var xorT2 = m[r];
-                    var xorV2 = m[t];
-                    m[r] = (ushort)(xorT2 ^ xorV2);
+                    m[r] = C.LogicalExclOr(m[r], m[t]);
                     return;
                 case Mnemonic.Xor when ops is [R16 r, U16 u]:
-                    var xorT3 = m[r];
-                    var xorV3 = u.Val;
-                    m[r] = (ushort)(xorT3 ^ xorV3);
+                    m[r] = C.LogicalExclOr(m[r], u.Val);
                     return;
             }
 
