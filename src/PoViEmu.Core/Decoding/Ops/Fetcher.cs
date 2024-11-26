@@ -1,10 +1,6 @@
-using System;
 using System.Collections.Generic;
 using Iced.Intel;
-using PoViEmu.Core.Decoding.Ops.Consts;
-using PoViEmu.Core.Decoding.Ops.Regs;
 using PoViEmu.Core.Hardware;
-using PoViEmu.Core.Hardware.AckNow;
 using R = Iced.Intel.Register;
 
 namespace PoViEmu.Core.Decoding.Ops
