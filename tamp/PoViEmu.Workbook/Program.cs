@@ -45,37 +45,41 @@ namespace PoViEmu.Workbook
 
                 var thead = (XElement)table.FirstNode!;
                 thead.Add(new XElement("tr",
-                    HtmlHelper.Repeat("th", "Product", "Quantity", "Price", "Total"))
+                    HtmlHelper.Repeat("th", "Seg:Off", "Hex", "Instruction", "Changes"))
                 );
 
-                var tbody = (XElement)table.LastNode!;
-                tbody.Add(new XElement("tr",
-                    HtmlHelper.Repeat("td", "item1", "item2", "item3", "item4"))
-                );
-
-                var body = (XElement)doc.Root!.LastNode!;
-                body.Add(table);
-
-                var xml = HtmlHelper.AsBytes(doc);
-                var xFile = Path.Combine(outDir, $"{key}.html");
-                File.WriteAllBytes(xFile, xml);
-
-                /*
                 var c = new NC3022();
                 var m = new MachineState();
                 m.InitForCom(loadSeg: 0x0750, cxInit: 0x002C, axInit: 0xFFFF);
                 m.WriteMemory(m.CS, m.IP, bytes);
 
+                var changes = new List<string>();
+                m.PropertyChanged += (_, eventArgs) =>
+                {
+                    var propName = eventArgs.PropertyName;
+                    var propValue = m[propName];
+                    changes.Add($" {propName}={propValue.Format()}");
+                };
+
                 var reader = new StateCodeReader(m);
-                var lines = new List<string>();
                 var count = 0;
 
+                var tbody = (XElement)table.LastNode!;
                 while (!c.Halted)
                 {
+                    changes.Clear();
                     var current = reader.NextInstruction();
-                    lines.Add("");
-                    lines.AddRange(m.ToRegDebugLin());
-                    lines.Add($"{m.CS:X4}:{current}");
+
+                    // TODO var it4 = string.Join(" ", m.ToRegDebugLin());
+
+                    
+
+                    var pre = $"{m.CS:X4}:{current}";
+                    var o = StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries;
+                    var tmp = pre.Split("   ", 3, o);
+                    var it1 = tmp[0];
+                    var it2 = tmp[1];
+                    var it3 = tmp[2];
                     try
                     {
                         c.Execute(current, m);
@@ -85,9 +89,20 @@ namespace PoViEmu.Workbook
                         Console.Error.WriteLine($" {ex.GetType().Name}: {ex.Message}");
                         c.Halted = true;
                     }
-                    if (count++ >= 150) break;
+                    
+                    var it4 = string.Join(" | ", changes);
+                    tbody.Add(new XElement("tr",
+                        HtmlHelper.Repeat("td", it1, it2, it3, it4))
+                    );
+                    if (count++ >= 250) break;
                 }
-                */
+
+                var body = (XElement)doc.Root!.LastNode!;
+                body.Add(table);
+
+                var xml = HtmlHelper.AsBytes(doc);
+                var xFile = Path.Combine(outDir, $"{key}.html");
+                File.WriteAllBytes(xFile, xml);
             }
 
             Console.WriteLine("Done.");
