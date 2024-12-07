@@ -7,6 +7,20 @@ namespace PoViEmu.Common
 {
     public static class DirHelper
     {
+        public static string GetCurrentDirectory()
+        {
+            var root = Environment.CurrentDirectory;
+            root = root.Replace(Path.Combine("bin", "Debug", "net8.0"), "");
+            return root;
+        }
+
+        public static string GetFullPath(string root, params string[] subs)
+        {
+            var args = new[] { root }.Concat(subs).ToArray();
+            var dir = Path.Combine(args);
+            return Path.GetFullPath(dir);
+        }
+
         public static IEnumerable<string> FindFiles(this string path, string extension)
         {
             var inv = StringComparison.InvariantCultureIgnoreCase;
