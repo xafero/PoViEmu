@@ -110,14 +110,20 @@ namespace PoViEmu.Core.Hardware
         public static void Push(this MachineState m, ushort value)
         {
             m.SP -= 2;
+            /*
             var bytes = BitConverter.GetBytes(value);
             m.WriteMemory(m.SS, m.SP, bytes);
+            */
+            m.U16[m.SS, m.SP] = value;
         }
 
         public static ushort Pop(this MachineState m)
         {
+            var value = m.U16[m.SS, m.SP];
+            /*
             var bytes = m.ReadMemory(m.SS, m.SP, 2).ToArray();
             var value = BitConverter.ToUInt16(bytes, 0);
+            */
             m.SP += 2;
             return value;
         }
