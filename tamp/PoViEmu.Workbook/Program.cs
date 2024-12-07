@@ -28,7 +28,8 @@ namespace PoViEmu.Workbook
                 .ToImmutableSortedDictionary(k => Path.GetFileNameWithoutExtension(k.file), v => v);
             foreach (var (key, (name, bytes)) in files)
             {
-                Console.WriteLine(" ? " + key + " " + name + " " + bytes.Length);
+                var label = Path.GetFileNameWithoutExtension(name);
+                Console.WriteLine($" * Executing {label} with {bytes.Length} bytes...");
 
                 var title = $"Report ({DateTime.Now:u})";
                 var doc = HtmlHelper.CreateDoc(title);
@@ -41,24 +42,24 @@ namespace PoViEmu.Workbook
                     "th { background-color: #f4f4f4; }")));
 
                 var table = HtmlHelper.CreateTable();
-                
+
                 var thead = (XElement)table.FirstNode!;
                 thead.Add(new XElement("tr",
                     HtmlHelper.Repeat("th", "Product", "Quantity", "Price", "Total"))
                 );
-                
+
                 var tbody = (XElement)table.LastNode!;
                 tbody.Add(new XElement("tr",
                     HtmlHelper.Repeat("td", "item1", "item2", "item3", "item4"))
                 );
-                
+
                 var body = (XElement)doc.Root!.LastNode!;
                 body.Add(table);
-                
+
                 var xml = HtmlHelper.AsBytes(doc);
                 var xFile = Path.Combine(outDir, $"{key}.html");
                 File.WriteAllBytes(xFile, xml);
-                
+
                 /*
                 var c = new NC3022();
                 var m = new MachineState();
@@ -88,6 +89,8 @@ namespace PoViEmu.Workbook
                 }
                 */
             }
+
+            Console.WriteLine("Done.");
         }
 
         private static void PrintOut(string name, byte[] bytes,

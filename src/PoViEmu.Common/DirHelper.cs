@@ -31,7 +31,7 @@ namespace PoViEmu.Common
 
         public static string GetOrCreateDir(this string root, params string[] dirs)
         {
-            var target = Path.Combine(root, Path.Combine(dirs));
+            var target = Path.GetFullPath(Path.Combine(root, Path.Combine(dirs)));
             if (!Directory.Exists(target))
                 Directory.CreateDirectory(target);
             return target;
