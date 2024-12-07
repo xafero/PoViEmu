@@ -49,5 +49,10 @@ namespace PoViEmu.Common
         {
             return texts.Select(txt => new XElement(tag, new XText(txt.Trim()))).ToArray();
         }
+
+        public static XElement ColSpan(int span, string txt)
+        {
+            return new XElement("td", new XAttribute("colspan", span), new XText(txt));
+        }
     }
 }

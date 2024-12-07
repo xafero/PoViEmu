@@ -61,18 +61,17 @@ namespace PoViEmu.Workbook
                     changes.Add($" {propName}={propValue.Format()}");
                 };
 
+                var tbody = (XElement)table.LastNode!;
                 var reader = new StateCodeReader(m);
                 var count = 0;
 
-                var tbody = (XElement)table.LastNode!;
+                var stateBeg = m.ToString();
+                tbody.Add(new XElement("tr", HtmlHelper.ColSpan(4, stateBeg)));
+
                 while (!c.Halted)
                 {
                     changes.Clear();
                     var current = reader.NextInstruction();
-
-                    // TODO var it4 = string.Join(" ", m.ToRegDebugLin());
-
-                    
 
                     var pre = $"{m.CS:X4}:{current}";
                     var o = StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries;
@@ -89,13 +88,16 @@ namespace PoViEmu.Workbook
                         Console.Error.WriteLine($" {ex.GetType().Name}: {ex.Message}");
                         c.Halted = true;
                     }
-                    
-                    var it4 = string.Join(" | ", changes);
+
+                    var it4 = string.Join(" ", changes);
                     tbody.Add(new XElement("tr",
                         HtmlHelper.Repeat("td", it1, it2, it3, it4))
                     );
                     if (count++ >= 250) break;
                 }
+
+                var stateEnd = m.ToString();
+                tbody.Add(new XElement("tr", HtmlHelper.ColSpan(4, stateEnd)));
 
                 var body = (XElement)doc.Root!.LastNode!;
                 body.Add(table);
