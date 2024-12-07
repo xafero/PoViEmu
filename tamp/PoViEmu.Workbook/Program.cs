@@ -82,6 +82,12 @@ namespace PoViEmu.Workbook
                     try
                     {
                         c.Execute(current, m);
+
+                        if (GetDosOut(c, out var stdOut, out var retNum))
+                        {
+                            if (stdOut != null) changes.Add($"--> '{stdOut}'");
+                            if (retNum != null) changes.Add($"--> {retNum}");
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -110,17 +116,22 @@ namespace PoViEmu.Workbook
             Console.WriteLine("Done.");
         }
 
-        private static void PrintOut(string name, byte[] bytes,
-            List<string> lines, string comEx, NC3022 c)
+        private static bool GetDosOut(NC3022 c, out string stdTxt, out string retNum)
         {
+            stdTxt = retNum = null;
             var dos = c.GetDOS();
-            var stdOut = $"{dos.StdOut}";
-            if (stdOut == comEx)
-                return;
-            Console.WriteLine($" * {name} --> {bytes.Length} bytes");
-            foreach (var line in lines)
-                Console.WriteLine(line);
-            Console.WriteLine($" '{stdOut}' => {dos.ReturnCode:X4} --> '{comEx}'");
+            var stdOut = dos.StdOut;
+            var stdBld = stdOut.GetStringBuilder();
+            if (stdBld.Length >= 1)
+            {
+                stdTxt = $"{stdOut}";
+                stdBld.Clear();
+            }
+            if (dos.ReturnCode is { } retCode)
+            {
+                retNum = $"{retCode:X4}";
+            }
+            return stdTxt != null || retNum != null;
         }
     }
 }
