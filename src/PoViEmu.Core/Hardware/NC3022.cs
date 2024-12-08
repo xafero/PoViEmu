@@ -266,7 +266,7 @@ namespace PoViEmu.Core.Hardware
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jae when ops is [NJ u]:
-                    if (m.CF == false)
+                    if (!m.CF)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jb when ops is [NJ u]:
@@ -278,7 +278,7 @@ namespace PoViEmu.Core.Hardware
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jcxz when ops is [NJ u]:
-                    if (m[Reg.CX] == 0)
+                    if (m.CX == 0)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Je when ops is [NJ u]:
@@ -286,15 +286,15 @@ namespace PoViEmu.Core.Hardware
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jg when ops is [NJ u]:
-                    if (m.ZF == false && m.SF == m.OF)
+                    if (!m.ZF && m.SF == m.OF)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jge when ops is [NJ u]:
-                    if (m.SF == m.OF)
+                    if (m.ZF || m.SF == m.OF)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jl when ops is [NJ u]:
-                    if (m.SF != m.OF)
+                    if (!m.ZF && m.SF != m.OF)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jle when ops is [NJ u]:
@@ -305,19 +305,19 @@ namespace PoViEmu.Core.Hardware
                     u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jne when ops is [NJ u]:
-                    if (m.ZF == false)
+                    if (!m.ZF)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jno when ops is [NJ u]:
-                    if (m.OF == false)
+                    if (!m.OF)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jnp when ops is [NJ u]:
-                    if (m.PF == false)
+                    if (!m.PF)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jns when ops is [NJ u]:
-                    if (m.SF == false)
+                    if (!m.SF)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Jo when ops is [NJ u]:
@@ -363,7 +363,7 @@ namespace PoViEmu.Core.Hardware
                     if (m.CX < 1)
                         return;
                     m.CX--;
-                    if (m.CX != 0 && m.ZF == false)
+                    if (m.CX != 0 && !m.ZF)
                         u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Mov when ops is [R8 r, MU8 mem]:

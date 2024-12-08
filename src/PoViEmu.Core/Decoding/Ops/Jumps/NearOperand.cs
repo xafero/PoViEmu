@@ -1,5 +1,3 @@
-
-
 // ReSharper disable InconsistentNaming
 
 namespace PoViEmu.Core.Decoding.Ops.Jumps
