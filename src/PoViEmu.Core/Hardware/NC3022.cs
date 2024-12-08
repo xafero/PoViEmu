@@ -1,27 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using Iced.Intel;
-using PoViEmu.Core.Decoding;
-using PoViEmu.Core.Decoding.Ops;
-using PoViEmu.Core.Decoding.Ops.Jumps;
-using PoViEmu.Core.Decoding.Ops.Mems;
-using PoViEmu.Core.Decoding.Ops.Regs;
-using PoViEmu.Core.Hardware.Errors;
-using static PoViEmu.Common.JsonHelper;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using Iced.Intel;
 using PoViEmu.Core.Decoding;
 using PoViEmu.Core.Decoding.Ops;
 using PoViEmu.Core.Decoding.Ops.Jumps;
 using PoViEmu.Core.Hardware.Errors;
-using static PoViEmu.Common.JsonHelper;
 using Fl = PoViEmu.Core.Hardware.Flagged;
 using U8 = PoViEmu.Core.Decoding.Ops.Consts.U8Operand;
 using U16 = PoViEmu.Core.Decoding.Ops.Consts.U16Operand;
@@ -35,8 +19,6 @@ using MF32 = PoViEmu.Core.Decoding.Ops.Mems.Mf32Operand;
 using NJ = PoViEmu.Core.Decoding.Ops.Jumps.NearOperand;
 using FJ = PoViEmu.Core.Decoding.Ops.Jumps.FarOperand;
 using Reg = PoViEmu.Core.Hardware.AckNow.B16Register;
-using Rsg = PoViEmu.Core.Hardware.AckNow.B8Register;
-using C = PoViEmu.Core.Hardware.Compute;
 
 // ReSharper disable InconsistentNaming
 
