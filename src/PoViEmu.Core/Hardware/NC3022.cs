@@ -1,5 +1,3 @@
-// ReSharper disable InconsistentNaming
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +7,8 @@ using Iced.Intel;
 using PoViEmu.Core.Decoding;
 using PoViEmu.Core.Decoding.Ops;
 using PoViEmu.Core.Decoding.Ops.Jumps;
+using PoViEmu.Core.Decoding.Ops.Mems;
+using PoViEmu.Core.Decoding.Ops.Regs;
 using PoViEmu.Core.Hardware.Errors;
 using static PoViEmu.Common.JsonHelper;
 using Fl = PoViEmu.Core.Hardware.Flagged;
@@ -20,11 +20,14 @@ using R16 = PoViEmu.Core.Decoding.Ops.Regs.Reg16Operand;
 using MU8 = PoViEmu.Core.Decoding.Ops.Mems.Mu8Operand;
 using MI16 = PoViEmu.Core.Decoding.Ops.Mems.Mi16Operand;
 using MU16 = PoViEmu.Core.Decoding.Ops.Mems.Mu16Operand;
+using MF32 = PoViEmu.Core.Decoding.Ops.Mems.Mf32Operand;
 using NJ = PoViEmu.Core.Decoding.Ops.Jumps.NearOperand;
 using FJ = PoViEmu.Core.Decoding.Ops.Jumps.FarOperand;
 using Reg = PoViEmu.Core.Hardware.AckNow.B16Register;
 using Rsg = PoViEmu.Core.Hardware.AckNow.B8Register;
 using C = PoViEmu.Core.Hardware.Compute;
+
+// ReSharper disable InconsistentNaming
 
 namespace PoViEmu.Core.Hardware
 {
@@ -39,9 +42,11 @@ namespace PoViEmu.Core.Hardware
         public NC3022()
         {
             var dos = new DOSInterrupts();
+            var math = new MathInterrupts();
             InterruptTable = new SortedDictionary<byte, IInterruptHandler>
             {
-                [DOSInterrupts.MainIntNo] = dos
+                [DOSInterrupts.MainIntNo] = dos,
+                [MathInterrupts.OverflowNo] = math
             };
         }
 

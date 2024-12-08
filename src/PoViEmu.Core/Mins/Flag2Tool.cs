@@ -154,7 +154,7 @@
              m.OF = !signed && ((a ^ result) & 0x8000) != 0;
          }
 
-         private static bool CalculateParity(int result)
+         internal static bool CalculateParity(int result)
          {
              var bitsSet = 0;
              while (result != 0)
