@@ -12,7 +12,7 @@ namespace PoViEmu.Core.Hardware
         
         public static byte ReadByteFromPort(IPorts ports, byte src)
         {
-            var dest = ports[src];
+            byte dest = 0x42; // TODO ports[src];
             return dest;
         }
 
