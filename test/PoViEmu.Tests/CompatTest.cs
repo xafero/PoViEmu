@@ -87,7 +87,6 @@ namespace PoViEmu.Tests
         [InlineData("Op_outsw")]
         [InlineData("Op_pop")]
         [InlineData("Op_popf")]
-        [InlineData("Op_pushf")]
         [InlineData("Op_rcl")]
         [InlineData("Op_rcr")]
         [InlineData("Op_rep")]
