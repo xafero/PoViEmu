@@ -43,6 +43,7 @@ namespace PoViEmu.Core.Hardware
                             var oneChar = m.DL;
                             txt = Encoding.ASCII.GetString(new[] { oneChar });
                             StdOut.Write(txt);
+                            m.AL = (byte)txt.FirstOrDefault();
                             return;
 
                         // Terminate with return code
