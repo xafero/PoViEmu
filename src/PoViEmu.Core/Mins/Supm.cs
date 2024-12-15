@@ -17,32 +17,6 @@ namespace PoViEmu.Core.Mins
             return (byte)result;
         }
         
-        public static byte Xor8(this MachineState m, byte a, byte b)
-        {
-            var result = a ^ b;
-
-            m.ClearCarry();
-            m.SetParity8(result);
-            m.SetZero8(result);
-            m.SetSign8(result);
-            m.ClearOverflow();
-
-            return (byte)result;
-        }
-        
-        public static byte Inc8(this MachineState m, byte a)
-        {
-            var result = a + 1;
-
-            m.SetParity8(result);
-            m.SetAuxiliary16(result, a, b: 1);
-            m.SetZero8(result);
-            m.SetSign8(result);
-            m.SetOverflow8Add(result, a, b: 1);
-
-            return (byte)result;
-        }
-        
         public static byte Dec8(this MachineState m, byte a)
         {
             var result = a - 1;

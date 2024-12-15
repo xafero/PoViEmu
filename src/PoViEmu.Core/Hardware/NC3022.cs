@@ -141,6 +141,9 @@ namespace PoViEmu.Core.Hardware
                 case Mnemonic.Cmc:
                     CpuIntern.Cmc(m);
                     return;
+                case Mnemonic.Cmp when ops is [R8 r, U8 u]:
+                    _ = CpuIntern.Sub8(m, withBorrow: false, m[r], u.Val);
+                    return;
                 case Mnemonic.Cmp when ops is [R16 r, MU16 mem]:
                     _ = CpuIntern.Sub16(m, withBorrow: false, m[r], mem[m]);
                     return;
@@ -231,6 +234,9 @@ namespace PoViEmu.Core.Hardware
                     return;
                 case Mnemonic.In when ops is [R8 r, R16 t]:
                     m[r] = OutsideCompute.ReadByteFromPort(null, m[t]);
+                    return;
+                case Mnemonic.Inc when ops is [R8 r]:
+                    m[r] = CpuIntern.Inc8(m, m[r]);
                     return;
                 case Mnemonic.Inc when ops is [R16 r]:
                     m[r] = CpuIntern.Inc16(m, m[r]);
@@ -562,6 +568,9 @@ namespace PoViEmu.Core.Hardware
                     return;
                 case Mnemonic.Xchg when ops is [R16 r, R16 t]:
                     (m[t], m[r]) = (m[r], m[t]);
+                    return;
+                case Mnemonic.Xor when ops is [R8 r, R8 t]:
+                    m[r] = CpuIntern.Xor8(m, m[r], m[t]);
                     return;
                 case Mnemonic.Xor when ops is [R16 r, R16 t]:
                     m[r] = CpuIntern.Xor16(m, m[r], m[t]);
