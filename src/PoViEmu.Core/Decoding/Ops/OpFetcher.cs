@@ -128,6 +128,8 @@ namespace PoViEmu.Core.Decoding.Ops
                 case MS.Int8: return new Mi8Operand(xSeg, xBse, xIdx, xDisp);
                 case MS.Int16: return new Mi16Operand(xSeg, xBse, xIdx, xDisp);
                 case MS.Float32: return new Mf32Operand(xSeg, xBse, xIdx, xDisp);
+                case MS.Bound16_WordWord: return new Mu16BOperand(xSeg, xBse, xIdx, xDisp);
+                case MS.Unknown: return new Mu16Operand(xSeg, xBse, xIdx, xDisp);
             }
             throw new InvalidOperationException($"{size} ?!");
         }

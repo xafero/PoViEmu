@@ -5,6 +5,7 @@ using Iced.Intel;
 using PoViEmu.Core.Decoding;
 using PoViEmu.Core.Decoding.Ops;
 using PoViEmu.Core.Decoding.Ops.Jumps;
+using PoViEmu.Core.Decoding.Ops.Mems;
 using PoViEmu.Core.Hardware.Errors;
 using Fl = PoViEmu.Core.Hardware.Flagged;
 using U8 = PoViEmu.Core.Decoding.Ops.Consts.U8Operand;
@@ -15,6 +16,7 @@ using R16 = PoViEmu.Core.Decoding.Ops.Regs.Reg16Operand;
 using MU8 = PoViEmu.Core.Decoding.Ops.Mems.Mu8Operand;
 using MI16 = PoViEmu.Core.Decoding.Ops.Mems.Mi16Operand;
 using MU16 = PoViEmu.Core.Decoding.Ops.Mems.Mu16Operand;
+using MU16b = PoViEmu.Core.Decoding.Ops.Mems.Mu16BOperand;
 using MF32 = PoViEmu.Core.Decoding.Ops.Mems.Mf32Operand;
 using NJ = PoViEmu.Core.Decoding.Ops.Jumps.NearOperand;
 using FJ = PoViEmu.Core.Decoding.Ops.Jumps.FarOperand;
@@ -116,6 +118,9 @@ namespace PoViEmu.Core.Hardware
                     return;
                 case Mnemonic.And when ops is [R16 r, MU16 mem]:
                     m[r] = CpuIntern.And16(m, m[r], mem[m]);
+                    return;
+                case Mnemonic.Bound when ops is [R16 r, MU16b mem]:
+                    // TODO bound ?!
                     return;
                 case Mnemonic.Call when ops is [FJ u]:
                     m.Push(nextCS);
@@ -340,6 +345,9 @@ namespace PoViEmu.Core.Hardware
                     return;
                 case Mnemonic.Lahf:
                     m.AH = m.LoadStatusFlags();
+                    return;
+                case Mnemonic.Lea when ops is [R16 r, MU16 mem]:
+                    m[r] = mem.OffA(m);
                     return;
                 case Mnemonic.Leave:
                     m.SP = m.BP;
