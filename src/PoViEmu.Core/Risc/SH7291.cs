@@ -32,7 +32,7 @@ using Reg = PoViEmu.Core.Hardware.AckNow.B16Register;
 namespace PoViEmu.Core.Risc
 {
     /// <summary>
-    /// The SH7291 is a custom 32bit CPU developed by CASIO based on Hitachi’s SH3
+    /// The SH7291 is a custom 32bit CPU developed by CASIO based on Hitachiï¿½s SH3
     /// </summary>
     public sealed class SH7291
     {
@@ -73,14 +73,13 @@ namespace PoViEmu.Core.Risc
             }
 
             var ops = parsed.GetOps().ToArray();
-            switch (parsed.Mnemonic)
+            switch ((Mnemonic)parsed.Mnemonic)
             {
-                case Mnemonic.Aas:
-                    CpuIntern.Aaa(m, isSubtract: true);
-                    return;
-                case Mnemonic.Adc when ops is [R8 r, U8 u]:
+                // TODO
+                /* case Mnemonic.Addc when ops is [R8 r, U8 u]:
                     m[r] = CpuIntern.Add8(m, withCarry: true, m[r], u.Val);
                     return;
+                    */
             }
 
             throw new UnhandledOpcodeException(parsed, ops);

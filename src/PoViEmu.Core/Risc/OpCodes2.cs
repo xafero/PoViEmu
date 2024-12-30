@@ -3,10 +3,10 @@
 
 namespace PoViEmu.Core.Risc
 {
-    public enum OpCodes
+    public enum OpCodes2
     {
-        Unknown = 0,
-
+        Invalid = 0,
+        
         /// <summary>
         /// Add Binary (Arithmetic Instruction) [8.2.1]
         /// </summary>
@@ -29,9 +29,13 @@ namespace PoViEmu.Core.Risc
 
         /// <summary>
         /// Branch if False (Branch Instruction) [8.2.5]
-        /// Branch if False with Delay Slot (Branch Instruction) [8.2.6]
         /// </summary>
         BF,
+        
+        /// <summary>
+        /// Branch if False with Delay Slot (Branch Instruction) [8.2.6]
+        /// </summary>
+        BFS,
 
         /// <summary>
         /// Branch (Branch Instruction) [8.2.7]
@@ -55,9 +59,13 @@ namespace PoViEmu.Core.Risc
 
         /// <summary>
         /// Branch if True (Branch Instruction) [8.2.11]
-        /// Branch if True with Delay Slot (Branch Instruction) [8.2.12]
         /// </summary>
         BT,
+        
+        /// <summary>
+        /// Branch if True with Delay Slot (Branch Instruction) [8.2.12]
+        /// </summary>
+        BTS,
 
         /// <summary>
         /// Clear MAC Register (System Control Instruction) [8.2.13]
@@ -76,6 +84,8 @@ namespace PoViEmu.Core.Risc
 
         /// <summary>
         /// Compare Conditionally (Arithmetic Instruction) [8.2.16]
+        ///
+        /// TODO: CMPEQ,CMPGE,CMPGT,CMPHI,CMPHS,CMPPL,CMPPZ,CMPSTR
         /// </summary>
         CMP,
 
@@ -97,12 +107,12 @@ namespace PoViEmu.Core.Risc
         /// <summary>
         /// Double-Length Multiply as Signed (Arithmetic Instruction) [8.2.20]
         /// </summary>
-        DMULS,
+        DMULS_L,
 
         /// <summary>
         /// Double-Length Multiply as Unsigned (Arithmetic Instruction) [8.2.21]
         /// </summary>
-        DMULU,
+        DMULU_L,
 
         /// <summary>
         /// Decrement and Test (Arithmetic Instruction) [8.2.22]
@@ -143,18 +153,24 @@ namespace PoViEmu.Core.Risc
         /// Load PTEH/PTEL to TLB (System Control Instruction) [8.2.31]
         /// </summary>
         LDTLB,
-
+        
         /// <summary>
         /// Multiply and Accumulate Long (Arithmetic Instruction) [8.2.32]
+        /// </summary>
+        MACL,
+        
+        /// <summary>
         /// Multiply and Accumulate (Arithmetic Instruction) [8.2.33]
         /// </summary>
-        MAC,
+        MACW,
 
         /// <summary>
         /// Move Data (Data Transfer Instruction) [8.2.34]
         /// Move Immediate Data (Data Transfer Instruction) [8.2.35]
         /// Move Peripheral Data (Data Transfer Instruction) [8.2.36]
         /// Move Structure Data (Data Transfer Instruction) [8.2.37]
+        ///
+        /// TODO:     MOVB,MOVW,MOVL,MOVCAL
         /// </summary>
         MOV,
 
@@ -171,17 +187,17 @@ namespace PoViEmu.Core.Risc
         /// <summary>
         /// Multiply Long (Arithmetic Instruction) [8.2.40]
         /// </summary>
-        MUL,
+        MUL_L,
 
         /// <summary>
         /// Multiply as Signed Word (Arithmetic Instruction) [8.2.41]
         /// </summary>
-        MULS,
+        MULS_W,
 
         /// <summary>
         /// Multiply as Unsigned Word (Arithmetic Instruction) [8.2.42]
         /// </summary>
-        MULU,
+        MULU_W,
 
         /// <summary>
         /// Negate (Arithmetic Instruction) [8.2.43]
@@ -199,7 +215,7 @@ namespace PoViEmu.Core.Risc
         NOP,
 
         /// <summary>
-        /// NOTLogical Complement (Logic Operation Instruction) [8.2.46]
+        /// NOT Logical Complement (Logic Operation Instruction) [8.2.46]
         /// </summary>
         NOT,
 
@@ -280,15 +296,23 @@ namespace PoViEmu.Core.Risc
 
         /// <summary>
         /// Shift Logical Left (Shift Instruction) [8.2.62]
-        /// Shift Logical Left n Bits (Shift Instruction) [8.2.63]
         /// </summary>
         SHLL,
 
         /// <summary>
+        /// Shift Logical Left n Bits (Shift Instruction) [8.2.63]
+        /// </summary>
+        SHLLn,
+
+        /// <summary>
         /// Shift Logical Right (Shift Instruction) [8.2.64]
-        /// Shift Logical Right n Bits (Shift Instruction) [8.2.65]
         /// </summary>
         SHLR,
+
+        /// <summary>
+        /// Shift Logical Right n Bits (Shift Instruction) [8.2.65]
+        /// </summary>
+        SHLRn,
 
         /// <summary>
         /// Sleep (System Control Instruction) [8.2.66]

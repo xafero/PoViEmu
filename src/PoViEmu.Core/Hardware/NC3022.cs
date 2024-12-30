@@ -75,49 +75,49 @@ namespace PoViEmu.Core.Hardware
             switch (parsed.Mnemonic)
             {
                 case Mnemonic.Aaa:
-                    CpuIntern.Aaa(m, isSubtract: false);
+                    m.Aaa(isSubtract: false);
                     return;
                 case Mnemonic.Aad when ops is [U8 u]:
-                    CpuIntern.Aad(m, u.Val);
+                    m.Aad(u.Val);
                     return;
                 case Mnemonic.Aam when ops is [U8 u]:
-                    CpuIntern.Aam(m, u.Val, ExecuteInterrupt);
+                    m.Aam(u.Val, ExecuteInterrupt);
                     return;
                 case Mnemonic.Aas:
-                    CpuIntern.Aaa(m, isSubtract: true);
+                    m.Aaa(isSubtract: true);
                     return;
                 case Mnemonic.Adc when ops is [R8 r, U8 u]:
-                    m[r] = CpuIntern.Add8(m, withCarry: true, m[r], u.Val);
+                    m[r] = m.Add8(withCarry: true, m[r], u.Val);
                     return;
                 case Mnemonic.Adc when ops is [R16 r, MU16 mem]:
-                    m[r] = CpuIntern.Add16(m, withCarry: true, m[r], mem[m]);
+                    m[r] = m.Add16(withCarry: true, m[r], mem[m]);
                     return;
                 case Mnemonic.Add when ops is [R8 r, U8 u]:
-                    m[r] = CpuIntern.Add8(m, withCarry: false, m[r], u.Val);
+                    m[r] = m.Add8(withCarry: false, m[r], u.Val);
                     return;
                 case Mnemonic.Add when ops is [R16 r, R16 t]:
-                    m[r] = CpuIntern.Add16(m, withCarry: false, m[r], m[t]);
+                    m[r] = m.Add16(withCarry: false, m[r], m[t]);
                     return;
                 case Mnemonic.Add when ops is [R16 r, U16 u]:
-                    m[r] = CpuIntern.Add16(m, withCarry: false, m[r], u.Val);
+                    m[r] = m.Add16(withCarry: false, m[r], u.Val);
                     return;
                 case Mnemonic.Add when ops is [R16 r, MU16 mem]:
-                    m[r] = CpuIntern.Add16(m, withCarry: false, m[r], mem[m]);
+                    m[r] = m.Add16(withCarry: false, m[r], mem[m]);
                     return;
                 case Mnemonic.Add when ops is [R16 r, I16 u]:
-                    m[r] = CpuIntern.Add16(m, withCarry: false, m[r], (ushort)u.Val);
+                    m[r] = m.Add16(withCarry: false, m[r], (ushort)u.Val);
                     return;
                 case Mnemonic.And when ops is [R8 r, U8 u]:
-                    m[r] = CpuIntern.And8(m, m[r], u.Val);
+                    m[r] = m.And8(m[r], u.Val);
                     return;
                 case Mnemonic.And when ops is [R16 r, U16 u]:
-                    m[r] = CpuIntern.And16(m, m[r], u.Val);
+                    m[r] = m.And16(m[r], u.Val);
                     return;
                 case Mnemonic.And when ops is [R16 r, I16 u]:
-                    m[r] = CpuIntern.And16(m, m[r], (ushort)u.Val);
+                    m[r] = m.And16(m[r], (ushort)u.Val);
                     return;
                 case Mnemonic.And when ops is [R16 r, MU16 mem]:
-                    m[r] = CpuIntern.And16(m, m[r], mem[m]);
+                    m[r] = m.And16(m[r], mem[m]);
                     return;
                 case Mnemonic.Bound when ops is [R16 r, MU16b mem]:
                     // TODO bound ?!
@@ -132,34 +132,34 @@ namespace PoViEmu.Core.Hardware
                     u.Jump(ref nextIP);
                     return;
                 case Mnemonic.Cbw:
-                    CpuIntern.Cbw(m);
+                    m.Cbw();
                     return;
                 case Mnemonic.Clc:
-                    CpuIntern.Clc(m);
+                    m.Clc();
                     return;
                 case Mnemonic.Cld:
-                    CpuIntern.Cld(m);
+                    m.Cld();
                     return;
                 case Mnemonic.Cli:
-                    CpuIntern.Cli(m);
+                    m.Cli();
                     return;
                 case Mnemonic.Cmc:
-                    CpuIntern.Cmc(m);
+                    m.Cmc();
                     return;
                 case Mnemonic.Cmp when ops is [R8 r, U8 u]:
-                    _ = CpuIntern.Sub8(m, withBorrow: false, m[r], u.Val);
+                    _ = m.Sub8(withBorrow: false, m[r], u.Val);
                     return;
                 case Mnemonic.Cmp when ops is [R16 r, MU16 mem]:
-                    _ = CpuIntern.Sub16(m, withBorrow: false, m[r], mem[m]);
+                    _ = m.Sub16(withBorrow: false, m[r], mem[m]);
                     return;
                 case Mnemonic.Cmp when ops is [R16 r, U16 u]:
-                    _ = CpuIntern.Sub16(m, withBorrow: false, m[r], u.Val);
+                    _ = m.Sub16(withBorrow: false, m[r], u.Val);
                     return;
                 case Mnemonic.Cmp when ops is [MU16 mem, I16 u]:
-                    _ = CpuIntern.Sub16(m, withBorrow: false, mem[m], (ushort)u.Val);
+                    _ = m.Sub16(withBorrow: false, mem[m], (ushort)u.Val);
                     return;
                 case Mnemonic.Cmp when ops is [R16 r, I16 u]:
-                    _ = CpuIntern.Sub16(m, withBorrow: false, m[r], (ushort)u.Val);
+                    _ = m.Sub16(withBorrow: false, m[r], (ushort)u.Val);
                     return;
                 case Mnemonic.Cmpsb when ops is [MU8 mem, MU8 src]:
                     m.CompareByte(mem[m], src[m]);
@@ -168,23 +168,23 @@ namespace PoViEmu.Core.Hardware
                     m.CompareWord(mem[m], src[m]);
                     return;
                 case Mnemonic.Cwd:
-                    CpuIntern.Cwd(m);
+                    m.Cwd();
                     return;
                 case Mnemonic.Daa:
-                    CpuIntern.Daa(m, isSubtract: false);
+                    m.Daa(isSubtract: false);
                     return;
                 case Mnemonic.Das:
-                    CpuIntern.Daa(m, isSubtract: true);
+                    m.Daa(isSubtract: true);
                     return;
                 case Mnemonic.Dec when ops is [R16 r]:
-                    m[r] = CpuIntern.Dec16(m, m[r]);
+                    m[r] = m.Dec16(m[r]);
                     return;
                 case Mnemonic.Dec when ops is [MU16 mem]:
-                    mem[m] = CpuIntern.Dec16(m, mem[m]);
+                    mem[m] = m.Dec16(mem[m]);
                     return;
                 case Mnemonic.Div when ops is [R16 r]:
-                    var dividend = CpuIntern.GetDivi(m);
-                    (m.AX, m.DX) = CpuIntern.Split(CpuIntern.Div16(m, signed: false, dividend, m[r], ExecuteInterrupt));
+                    var dividend = m.GetDivi();
+                    (m.AX, m.DX) = m.Div16(signed: false, dividend, m[r], ExecuteInterrupt).Split();
                     return;
                 case Mnemonic.Enter when ops is [U16 n, U8 l]:
                     if (l.Val == 0)
@@ -219,20 +219,20 @@ namespace PoViEmu.Core.Hardware
                     Halted = true;
                     return;
                 case Mnemonic.Idiv when ops is [R16 r]:
-                    var iDivi1 = CpuIntern.GetDivi(m);
-                    (m.AX, m.DX) = CpuIntern.Split(CpuIntern.Div16(m, signed: true, iDivi1, m[r],
-                        ExecuteInterrupt));
+                    var iDivi1 = m.GetDivi();
+                    (m.AX, m.DX) = m.Div16(signed: true, iDivi1, m[r],
+                        ExecuteInterrupt).Split();
                     return;
                 case Mnemonic.Idiv when ops is [MI16 mem]:
-                    var iDivi2 = CpuIntern.GetDivi(m);
-                    (m.AX, m.DX) = CpuIntern.Split(CpuIntern.Div16(m, signed: true, iDivi2, (ushort)mem[m],
-                        ExecuteInterrupt));
+                    var iDivi2 = m.GetDivi();
+                    (m.AX, m.DX) = m.Div16(signed: true, iDivi2, (ushort)mem[m],
+                        ExecuteInterrupt).Split();
                     return;
                 case Mnemonic.Imul when ops is [R16 r]:
-                    (m.AX, m.DX) = CpuIntern.Split(CpuIntern.Mul16(m, signed: true, m.AX, m[r]));
+                    (m.AX, m.DX) = m.Mul16(signed: true, m.AX, m[r]).Split();
                     return;
                 case Mnemonic.Imul when ops is [MI16 mem]:
-                    (m.AX, m.DX) = CpuIntern.Split(CpuIntern.Mul16(m, signed: true, m.AX, (ushort)mem[m]));
+                    (m.AX, m.DX) = m.Mul16(signed: true, m.AX, (ushort)mem[m]).Split();
                     return;
                 case Mnemonic.In when ops is [R8 r, U8 u]:
                     m[r] = OutsideCompute.ReadByteFromPort(null, u.Val);
@@ -241,13 +241,13 @@ namespace PoViEmu.Core.Hardware
                     m[r] = OutsideCompute.ReadByteFromPort(null, m[t]);
                     return;
                 case Mnemonic.Inc when ops is [R8 r]:
-                    m[r] = CpuIntern.Inc8(m, m[r]);
+                    m[r] = m.Inc8(m[r]);
                     return;
                 case Mnemonic.Inc when ops is [R16 r]:
-                    m[r] = CpuIntern.Inc16(m, m[r]);
+                    m[r] = m.Inc16(m[r]);
                     return;
                 case Mnemonic.Inc when ops is [MU16 mem]:
-                    mem[m] = CpuIntern.Inc16(m, mem[m]);
+                    mem[m] = m.Inc16(mem[m]);
                     return;
                 case Mnemonic.Insb when ops is [MU8 mem, R16 r]:
                     mem[m] = OutsideCompute.ReadByteFromPortToStr(m, m[r]);
@@ -419,27 +419,27 @@ namespace PoViEmu.Core.Hardware
                     m.IncOrDec(2, useSi: true, useDi: true);
                     return;
                 case Mnemonic.Mul when ops is [R8 r]:
-                    m.AX = CpuIntern.Mul8(m, signed: false, m.AL, m[r]);
+                    m.AX = m.Mul8(signed: false, m.AL, m[r]);
                     return;
                 case Mnemonic.Mul when ops is [MU16 mem]:
-                    (m.AX, m.DX) = CpuIntern.Split(CpuIntern.Mul16(m, signed: false, m.AX, mem[m]));
+                    (m.AX, m.DX) = m.Mul16(signed: false, m.AX, mem[m]).Split();
                     return;
                 case Mnemonic.Neg when ops is [R16 r]:
-                    m[r] = CpuIntern.Neg16(m, m[r]);
+                    m[r] = m.Neg16(m[r]);
                     return;
                 case Mnemonic.Nop:
                     return;
                 case Mnemonic.Not when ops is [R16 r]:
-                    m[r] = CpuIntern.Not16(m, m[r]);
+                    m[r] = m.Not16(m[r]);
                     return;
                 case Mnemonic.Or when ops is [R16 r, U16 u]:
-                    m[r] = CpuIntern.Or16(m, m[r], u.Val);
+                    m[r] = m.Or16(m[r], u.Val);
                     return;
                 case Mnemonic.Or when ops is [R16 r, R16 t]:
-                    m[r] = CpuIntern.Or16(m, m[r], m[t]);
+                    m[r] = m.Or16(m[r], m[t]);
                     return;
                 case Mnemonic.Or when ops is [R16 r, MU16 mem]:
-                    m[r] = CpuIntern.Or16(m, m[r], mem[m]);
+                    m[r] = m.Or16(m[r], mem[m]);
                     return;
                 case Mnemonic.Out when ops is [U8 u, R8 r]:
                     OutsideCompute.WriteByteToPort(null, u.Val, m[r]);
@@ -477,10 +477,10 @@ namespace PoViEmu.Core.Hardware
                     m.Push(pushT);
                     return;
                 case Mnemonic.Rcl when ops is [R16 r, U8 u]:
-                    m[r] = CpuIntern.Rol16(m, withCarry: true, m[r], u.Val);
+                    m[r] = m.Rol16(withCarry: true, m[r], u.Val);
                     return;
                 case Mnemonic.Rcr when ops is [R16 r, U8 u]:
-                    m[r] = CpuIntern.Ror16(m, withCarry: true, m[r], u.Val);
+                    m[r] = m.Ror16(withCarry: true, m[r], u.Val);
                     return;
                 case Mnemonic.Retf:
                     var retFar = m.Pop();
@@ -493,25 +493,25 @@ namespace PoViEmu.Core.Hardware
                     nextIP = retNear;
                     return;
                 case Mnemonic.Rol when ops is [R16 r, U8 u]:
-                    m[r] = CpuIntern.Rol16(m, withCarry: false, m[r], u.Val);
+                    m[r] = m.Rol16(withCarry: false, m[r], u.Val);
                     return;
                 case Mnemonic.Ror when ops is [R16 r, U8 u]:
-                    m[r] = CpuIntern.Ror16(m, withCarry: false, m[r], u.Val);
+                    m[r] = m.Ror16(withCarry: false, m[r], u.Val);
                     return;
                 case Mnemonic.Sahf:
                     m.StoreStatusFlags(m.AH);
                     return;
                 case Mnemonic.Sar when ops is [R16 r, R8 t]:
-                    m[r] = CpuIntern.Shr16(m, signed: true, m[r], m[t]);
+                    m[r] = m.Shr16(signed: true, m[r], m[t]);
                     return;
                 case Mnemonic.Sar when ops is [R16 r, U8 u]:
-                    m[r] = CpuIntern.Shr16(m, signed: true, m[r], u.Val);
+                    m[r] = m.Shr16(signed: true, m[r], u.Val);
                     return;
                 case Mnemonic.Sbb when ops is [R16 r, R16 t]:
-                    m[r] = CpuIntern.Sub16(m, withBorrow: true, m[r], m[t]);
+                    m[r] = m.Sub16(withBorrow: true, m[r], m[t]);
                     return;
                 case Mnemonic.Sbb when ops is [R16 r, U16 u]:
-                    m[r] = CpuIntern.Sub16(m, withBorrow: true, m[r], u.Val);
+                    m[r] = m.Sub16(withBorrow: true, m[r], u.Val);
                     return;
                 case Mnemonic.Scasb when ops is [R8 r, MU8 mem]:
                     // TODO m[r] = m.ScanByteStr(mem[m]);
@@ -520,25 +520,25 @@ namespace PoViEmu.Core.Hardware
                     // TODO m[r] = m.ScanWordStr(mem[m]);
                     return;
                 case Mnemonic.Shl when ops is [R16 r, R8 t]:
-                    m[r] = CpuIntern.Shl16(m, m[r], m[t]);
+                    m[r] = m.Shl16(m[r], m[t]);
                     return;
                 case Mnemonic.Shl when ops is [R16 r, U8 u]:
-                    m[r] = CpuIntern.Shl16(m, m[r], u.Val);
+                    m[r] = m.Shl16(m[r], u.Val);
                     return;
                 case Mnemonic.Shr when ops is [R16 r, R8 t]:
-                    m[r] = CpuIntern.Shr16(m, signed: false, m[r], m[t]);
+                    m[r] = m.Shr16(signed: false, m[r], m[t]);
                     return;
                 case Mnemonic.Shr when ops is [R16 r, U8 u]:
-                    m[r] = CpuIntern.Shr16(m, signed: false, m[r], u.Val);
+                    m[r] = m.Shr16(signed: false, m[r], u.Val);
                     return;
                 case Mnemonic.Stc:
-                    CpuIntern.Stc(m);
+                    m.Stc();
                     return;
                 case Mnemonic.Std:
-                    CpuIntern.Std(m);
+                    m.Std();
                     return;
                 case Mnemonic.Sti:
-                    CpuIntern.Sti(m);
+                    m.Sti();
                     return;
                 case Mnemonic.Stosb when ops is [MU8 mem, R8 r]:
                     mem[m] = m[r];
@@ -549,45 +549,45 @@ namespace PoViEmu.Core.Hardware
                     m.IncOrDec(2, useSi: false, useDi: true);
                     return;
                 case Mnemonic.Sub when ops is [R8 r, U8 u]:
-                    m[r] = CpuIntern.Sub8(m, withBorrow: false, m[r], u.Val);
+                    m[r] = m.Sub8(withBorrow: false, m[r], u.Val);
                     return;
                 case Mnemonic.Sub when ops is [R16 r, I16 u]:
-                    m[r] = CpuIntern.Sub16(m, withBorrow: false, m[r], (ushort)u.Val);
+                    m[r] = m.Sub16(withBorrow: false, m[r], (ushort)u.Val);
                     return;
                 case Mnemonic.Sub when ops is [R16 r, U16 u]:
-                    m[r] = CpuIntern.Sub16(m, withBorrow: false, m[r], u.Val);
+                    m[r] = m.Sub16(withBorrow: false, m[r], u.Val);
                     return;
                 case Mnemonic.Sub when ops is [R16 r, R16 t]:
-                    m[r] = CpuIntern.Sub16(m, withBorrow: false, m[r], m[t]);
+                    m[r] = m.Sub16(withBorrow: false, m[r], m[t]);
                     return;
                 case Mnemonic.Sub when ops is [R16 r, MU16 mem]:
-                    m[r] = CpuIntern.Sub16(m, withBorrow: false, m[r], mem[m]);
+                    m[r] = m.Sub16(withBorrow: false, m[r], mem[m]);
                     return;
                 case Mnemonic.Test when ops is [MU16 mem, R16 r]:
-                    _ = CpuIntern.And16(m, mem[m], m[r]);
+                    _ = m.And16(mem[m], m[r]);
                     return;
                 case Mnemonic.Test when ops is [R16 r, R16 t]:
-                    _ = CpuIntern.And16(m, m[r], m[t]);
+                    _ = m.And16(m[r], m[t]);
                     return;
                 case Mnemonic.Wait:
                     return;
                 case Mnemonic.Xlatb when ops is [MU8 mem]:
-                    CpuIntern.Xlat8(m, mem.Seg, mem.Base!.Value);
+                    m.Xlat8(mem.Seg, mem.Base!.Value);
                     return;
                 case Mnemonic.Xchg when ops is [R16 r, R16 t]:
                     (m[t], m[r]) = (m[r], m[t]);
                     return;
                 case Mnemonic.Xor when ops is [R8 r, R8 t]:
-                    m[r] = CpuIntern.Xor8(m, m[r], m[t]);
+                    m[r] = m.Xor8(m[r], m[t]);
                     return;
                 case Mnemonic.Xor when ops is [R16 r, R16 t]:
-                    m[r] = CpuIntern.Xor16(m, m[r], m[t]);
+                    m[r] = m.Xor16(m[r], m[t]);
                     return;
                 case Mnemonic.Xor when ops is [R16 r, U16 u]:
-                    m[r] = CpuIntern.Xor16(m, m[r], u.Val);
+                    m[r] = m.Xor16(m[r], u.Val);
                     return;
                 case Mnemonic.Xor when ops is [R16 r, MU16 mem]:
-                    m[r] = CpuIntern.Xor16(m, m[r], mem[m]);
+                    m[r] = m.Xor16(m[r], mem[m]);
                     return;
             }
 
