@@ -3,10 +3,10 @@
     public static class InstTool
     {
         public static Instruction Create(byte first, byte second, OpCodes code,
-            byte? i = null, ushort? d = null, byte? n = null)
+            byte? i = null, ushort? d = null, byte? n = null, byte? m = null)
         {
             byte[] bytes = [first, second];
-            return new Instruction(bytes, code, i, d, n);
+            return new Instruction(bytes, code, imm: i, dis: d, dst: n, src: m);
         }
 
         public static (byte high, byte low) SplitByte(byte val)
