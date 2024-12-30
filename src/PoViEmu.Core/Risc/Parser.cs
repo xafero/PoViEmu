@@ -5,7 +5,7 @@ namespace PoViEmu.Core.Risc
 {
     public sealed class Parser
     {
-        public static object Parse(IReader reader)
+        public static Instruction? Parse(IReader reader)
         {
             var first = reader.ReadNextByte();
             byte second;
@@ -21,7 +21,7 @@ namespace PoViEmu.Core.Risc
                     switch (second)
                     {
                         case 0b00000000:
-                            return "???";
+                            return null;
                         
                         case 0b00001000:
                             // Clear T Bit
@@ -820,7 +820,7 @@ namespace PoViEmu.Core.Risc
                     return T.Create(first, second, O.MOV, n: dst, i: imm);
             }
 
-            return "???";
+            return null;
         }
     }
 }
