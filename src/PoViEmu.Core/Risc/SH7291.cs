@@ -75,11 +75,9 @@ namespace PoViEmu.Core.Risc
             var ops = parsed.GetOps().ToArray();
             switch ((Mnemonic)parsed.Mnemonic)
             {
-                // TODO
-                /* case Mnemonic.Addc when ops is [R8 r, U8 u]:
+                case Mnemonic.Addc when ops is [R8 r, U8 u]:
                     m[r] = CpuIntern.Add8(m, withCarry: true, m[r], u.Val);
                     return;
-                    */
             }
 
             throw new UnhandledOpcodeException(parsed, ops);
