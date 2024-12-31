@@ -111,7 +111,7 @@ namespace PoViEmu.Core.Risc
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dis = second;
-                    return T.Create(first, second, O.MovB, a: [T.N(0), T.M(dis, R.GBR)]);
+                    return T.Create(first, second, O.MovB, a: [T.N(0), T.M(R.GBR, dis)]);
                 case 0b11000001:
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
