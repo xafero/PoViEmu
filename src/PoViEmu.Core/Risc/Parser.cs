@@ -69,11 +69,6 @@ namespace PoViEmu.Core.Risc
                     second = reader.ReadNextByte();
                     var (movN2, movD2) = T.SplitByte(second);
                     return T.Create(first, second, O.xxx012, n: movN2, d: movD2);
-                case 0b10000010:
-                    // Set Repeat Count to RC
-                    second = reader.ReadNextByte();
-                    imm = second;
-                    return T.Create(first, second, O.xxx013, i: imm);
                 case 0b10000100:
                     // Move data
                     second = reader.ReadNextByte();
@@ -435,9 +430,6 @@ namespace PoViEmu.Core.Risc
                         case 0b00001110:
                             // Load to Control Register
                             return T.Create(first, second, O.Ldc, m: low, a: T.Sr);
-                        case 0b00010100:
-                            // Set Repeat Count to RC
-                            return T.Create(first, second, O.xxx107, m: low);
                         case 0b00010110:
                             // Load to System Register
                             return T.Create(first, second, O.LdsL, m: low, a: T.Macl, mIsRefP: true);

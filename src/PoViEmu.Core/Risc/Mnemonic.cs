@@ -490,7 +490,6 @@ namespace PoViEmu.Core.Risc
         
         
         xxx012,
-        xxx013,
         xxx022,
         xxx023,
         xxx027,
@@ -510,7 +509,6 @@ namespace PoViEmu.Core.Risc
         xxx076,
         xxx078,
         xxx079,
-        xxx107,
         xxx122,
         xxx124,
         xxx126,
