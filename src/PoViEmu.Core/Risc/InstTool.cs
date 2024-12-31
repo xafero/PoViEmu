@@ -71,10 +71,16 @@ namespace PoViEmu.Core.Risc
             return ((byte)high, (byte)low);
         }
 
-        public static ushort CombineBytes(byte first, byte second)
+        public static int CombineBytes(byte first, byte second)
         {
-            var res = (first << 8) | second;
-            return (ushort)res;
+            var tmp = (first << 8) | second;
+            if (tmp >= 0x800)
+            {
+                var signed12 = tmp - 0x1000;
+                return signed12;
+            }
+            var unsigned12 = tmp;
+            return unsigned12;
         }
 
         public static BaseOperand R0Gbr

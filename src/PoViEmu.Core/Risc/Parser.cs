@@ -778,14 +778,14 @@ namespace PoViEmu.Core.Risc
                 case 0b1010:
                     // Branch
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    dsp = T.CombineBytes(low, second);
-                    var braDis = (uint)((short)dsp * 2 + 4);
+                    var bDsp = T.CombineBytes(low, second);
+                    var braDis = (uint)(bDsp * 2 + 4);
                     return T.Create(first, second, O.Bra, a: [T.D(braDis)]);
                 case 0b1011:
                     // Branch to Subroutine
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    dsp = T.CombineBytes(low, second);
-                    var brasDis = (uint)((short)dsp * 2 + 4);
+                    var bsDsp = T.CombineBytes(low, second);
+                    var brasDis = (uint)(bsDsp * 2 + 4);
                     return T.Create(first, second, O.Bsr, a: [T.D(brasDis)]);
                 case 0b1101:
                     // Move Immediate Data
