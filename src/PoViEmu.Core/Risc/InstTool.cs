@@ -102,7 +102,12 @@ namespace PoViEmu.Core.Risc
 
         public static BaseOperand N(byte low) => new DestReg(GetReg(low));
         public static BaseOperand M(byte low) => new SourceReg(GetReg(low));
-
+        public static BaseOperand I(byte low) => new ImmedUOperand(low);
+        public static BaseOperand D(ushort low) => new DisplOperand(low);
+        
         public static BaseOperand Nm(byte low) => new MemoryOperand(GetReg(low), IsMinus: true);
+        public static BaseOperand M(byte low, ushort dis) => new MemoryOperand(GetReg(low), Dis: dis);
+        public static BaseOperand M(ShRegister low, ushort dis) => new MemoryOperand(low, Dis: dis);
+        public static BaseOperand M(byte low, ShRegister off) => new MemoryOperand(off, GetReg(low));
     }
 }

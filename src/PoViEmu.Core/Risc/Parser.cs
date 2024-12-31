@@ -1,5 +1,5 @@
-﻿// using O = PoViEmu.Core.Risc.OpCodes;
-using O = PoViEmu.Core.Risc.Mnemonic;
+﻿using O = PoViEmu.Core.Risc.Mnemonic;
+using R = PoViEmu.Core.Risc.ShRegister;
 using T = PoViEmu.Core.Risc.InstTool;
 
 namespace PoViEmu.Core.Risc
@@ -64,22 +64,24 @@ namespace PoViEmu.Core.Risc
                     // Move data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     var (movN1, movD1) = T.SplitByte(second);
-                    return T.Create(first, second, O.MovB, n: movN1, d: movD1);
+                    return T.Create(first, second, O.MovB, a: [T.N(0), T.M(movN1, movD1)]);
                 case 0b10000001:
                     // Move data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     var (movN2, movD2) = T.SplitByte(second);
-                    return T.Create(first, second, O.xxx012, n: movN2, d: movD2);
+                    var movD2d = (ushort)(movD2 * 2);
+                    return T.Create(first, second, O.MovW, a: [T.N(0), T.M(movN2, movD2d)]);
                 case 0b10000100:
                     // Move data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     var (movM1, movD3) = T.SplitByte(second);
-                    return T.Create(first, second, O.MovB, m: movM1, d: movD3);
+                    return T.Create(first, second, O.MovB, a: [T.M(movM1, movD3), T.N(0)]);
                 case 0b10000101:
                     // Move data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     var (movM2, movD4) = T.SplitByte(second);
-                    return T.Create(first, second, O.MovW, m: movM2, d: movD4);
+                    var movD4d = (ushort)(movD4 * 2);
+                    return T.Create(first, second, O.MovW, a: [T.M(movM2, movD4d), T.N(0)]);
                 case 0b10001000:
                     // Compare Conditionally
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
@@ -109,17 +111,17 @@ namespace PoViEmu.Core.Risc
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dis = second;
-                    return T.Create(first, second, O.MovB, d: dis);
+                    return T.Create(first, second, O.MovB, a: [T.N(0), T.M(dis, R.GBR)]);
                 case 0b11000001:
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    dis = second;
-                    return T.Create(first, second, O.xxx022, d: dis);
+                    var psDis = (ushort)(second * 2);
+                    return T.Create(first, second, O.MovW, a: [T.R0, T.M(R.GBR, psDis)]);
                 case 0b11000010:
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    dis = second;
-                    return T.Create(first, second, O.xxx023, d: dis);
+                    var ppDis = (ushort)(second * 4);
+                    return T.Create(first, second, O.MovL, a: [T.R0, T.M(R.GBR, ppDis)]);
                 case 0b11000011:
                     // Trap Always
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
@@ -128,23 +130,22 @@ namespace PoViEmu.Core.Risc
                 case 0b11000100:
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    dis = second;
-                    return T.Create(first, second, O.MovB, a: [T.R0Gbr, T.R0]);
+                    return T.Create(first, second, O.MovB, a: [T.M(R.GBR, second), T.R0]);
                 case 0b11000101:
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    dis = second;
-                    return T.Create(first, second, O.MovW, d: dis);
+                    var mDis = (ushort)(second * 2);
+                    return T.Create(first, second, O.MovW, a: [T.M(R.GBR, mDis), T.R0]);
                 case 0b11000110:
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    dis = second;
-                    return T.Create(first, second, O.xxx027, d: dis);
+                    var pDis = (ushort)(second * 4);
+                    return T.Create(first, second, O.MovL, a: [T.M(R.GBR, pDis), T.N(0)]);
                 case 0b11000111:
                     // Move Effective Address
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    dis = second;
-                    return T.Create(first, second, O.Mova, d: dis);
+                    var maDis = (ushort)(second * 4 + 4);
+                    return T.Create(first, second, O.Mova, a: [T.D(maDis), T.N(0)]);
                 case 0b11001000:
                     // Test Logical
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
@@ -288,25 +289,25 @@ namespace PoViEmu.Core.Risc
                     {
                         case 0b0100:
                             // Move Data
-                            return T.Create(first, second, O.xxx065, n: low, m: secH);
+                            return T.Create(first, second, O.MovB, a: [T.N(secH), T.M(low, R.R0)]);
                         case 0b0101:
                             // Move Data
-                            return T.Create(first, second, O.xxx066, n: low, m: secH);
+                            return T.Create(first, second, O.MovW, a: [T.N(secH), T.M(low, R.R0)]);
                         case 0b0110:
                             // Move Data
-                            return T.Create(first, second, O.xxx067, n: low, m: secH);
+                            return T.Create(first, second, O.MovL, a: [T.N(secH), T.M(low, R.R0)]);
                         case 0b0111:
                             // Multiply Long
                             return T.Create(first, second, O.MulL, n: low, m: secH);
                         case 0b1100:
                             // Move Data
-                            return T.Create(first, second, O.MovB, n: low, m: secH);
+                            return T.Create(first, second, O.MovB, a: [T.M(secH, R.R0), T.M(low)]);
                         case 0b1101:
                             // Move Data
-                            return T.Create(first, second, O.xxx070, n: low, m: secH);
+                            return T.Create(first, second, O.MovW, a: [T.M(secH, R.R0), T.M(low)]);
                         case 0b1110:
                             // Move Data
-                            return T.Create(first, second, O.xxx071, n: low, m: secH);
+                            return T.Create(first, second, O.MovL, a: [T.M(secH, R.R0), T.M(low)]);
                         case 0b1111:
                             // Multiply and Accumulate Long
                             return T.Create(first, second, O.MacL, n: low, m: secH, nIsRefP: true, mIsRefP: true);
@@ -315,8 +316,9 @@ namespace PoViEmu.Core.Risc
                 case 0b0001:
                     // Move Structure Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    (src, dis) = T.SplitByte(first);
-                    return T.Create(first, second, O.MovL, n: low, m: src, d: dis);
+                    (src, dis) = T.SplitByte(second);
+                    var msDis = (ushort)(dis * 4);
+                    return T.Create(first, second, O.MovL, a: [T.N(src), T.M(low, msDis)]);
                 case 0b0010:
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
 
@@ -325,22 +327,22 @@ namespace PoViEmu.Core.Risc
                     {
                         case 0b0000:
                             // Move Data
-                            return T.Create(first, second, O.xxx074, n: low, m: secH2);
+                            return T.Create(first, second, O.MovB, m: secH2, n: low, nIsRef: true);
                         case 0b0001:
                             // Move Data
-                            return T.Create(first, second, O.xxx075, n: low, m: secH2);
+                            return T.Create(first, second, O.MovW, n: low, m: secH2, nIsRef: true);
                         case 0b0010:
                             // Move Data
-                            return T.Create(first, second, O.xxx076, n: low, m: secH2);
+                            return T.Create(first, second, O.MovL, n: low, m: secH2, nIsRef: true);
                         case 0b0100:
                             // Move Data
-                            return T.Create(first, second, O.MovB, n: low, m: secH2);
+                            return T.Create(first, second, O.MovB, a: [T.N(secH2), T.Nm(low)]);
                         case 0b0101:
                             // Move Data
-                            return T.Create(first, second, O.xxx078, n: low, m: secH2);
+                            return T.Create(first, second, O.MovW, a: [T.N(secH2), T.Nm(low)]);
                         case 0b0110:
                             // Move Data
-                            return T.Create(first, second, O.xxx079, n: low, m: secH2);
+                            return T.Create(first, second, O.MovL, a: [T.N(secH2), T.Nm(low)]);
                         case 0b0111:
                             // Divide Step 0 as Signed
                             return T.Create(first, second, O.Div0s, n: low, m: secH2);
@@ -726,7 +728,8 @@ namespace PoViEmu.Core.Risc
                     // Move Structure Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     var (secH5, secL5) = T.SplitByte(second);
-                    return T.Create(first, second, O.MovL, n: low, m: secH5, d: secL5);
+                    var secL5d = (ushort)(secL5 * 4);
+                    return T.Create(first, second, O.MovL, a: [T.M(secH5, secL5d), T.N(low)]);
                 case 0b0110:
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
 
@@ -741,7 +744,7 @@ namespace PoViEmu.Core.Risc
                             return T.Create(first, second, O.MovW, n: low, m: secH6, mIsRef: true);
                         case 0b0010:
                             // Move Data
-                            return T.Create(first, second, O.xxx204, n: low, m: secH6);
+                            return T.Create(first, second, O.MovL, n: low, m: secH6, mIsRef: true);
                         case 0b0011:
                             // Move Data
                             return T.Create(first, second, O.Mov, n: low, m: secH6);
@@ -753,7 +756,7 @@ namespace PoViEmu.Core.Risc
                             return T.Create(first, second, O.MovW, n: low, m: secH6, mIsRefP: true);
                         case 0b0110:
                             // Move Data
-                            return T.Create(first, second, O.xxx208, n: low, m: secH6);
+                            return T.Create(first, second, O.MovL, n: low, m: secH6, mIsRefP: true);
                         case 0b0111:
                             // NOT Logical Complement
                             return T.Create(first, second, O.Not, n: low, m: secH6);
@@ -793,8 +796,8 @@ namespace PoViEmu.Core.Risc
                     // Move Immediate Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dst = low;
-                    dis = second;
-                    return T.Create(first, second, O.MovW, n: dst, d: dis);
+                    var bDis = (ushort)(second * 2 + 4);
+                    return T.Create(first, second, O.MovW, a: [T.D(bDis), T.N(dst)]);
                 case 0b1010:
                     // Branch
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
@@ -809,8 +812,8 @@ namespace PoViEmu.Core.Risc
                     // Move Immediate Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dst = low;
-                    dis = second;
-                    return T.Create(first, second, O.MovL, n: dst, d: dis);
+                    var mDis = (ushort)(second * 4 + 4);
+                    return T.Create(first, second, O.MovL, a: [T.D(mDis), T.N(dst)]);
                 case 0b1110:
                     // Move Immediate Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
