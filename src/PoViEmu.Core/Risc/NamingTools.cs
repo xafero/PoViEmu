@@ -6,7 +6,7 @@ namespace PoViEmu.Core.Risc
     {
         public static string Name(this Mnemonic val)
         {
-            if (val == Mnemonic.INVALID)
+            if (val == Mnemonic.Invalid)
                 return "???";
             var txt = val.ToString();
             if (txt.EndsWith('L'))

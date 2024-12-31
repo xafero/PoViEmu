@@ -1,3 +1,5 @@
+// ReSharper disable InconsistentNaming
+
 namespace PoViEmu.Core.Risc
 {
     public enum ShRegister
