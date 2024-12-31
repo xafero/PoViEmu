@@ -90,23 +90,23 @@ namespace PoViEmu.Core.Risc
                 case 0b10001001:
                     // Branch if True
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    dis = second;
-                    return T.Create(first, second, O.Bt, d: dis);
+                    var btDis = (uint)((sbyte)second * 2 + 4);
+                    return T.Create(first, second, O.Bt, a: [T.D(btDis)]);
                 case 0b10001011:
                     // Branch if False
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    dis = second;
-                    return T.Create(first, second, O.Bf, d: dis);
+                    var bfDis = (uint)((sbyte)second * 2 + 4);
+                    return T.Create(first, second, O.Bf, a: [T.D(bfDis)]);
                 case 0b10001101:
                     // Branch if True with Delay Slot
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    dis = second;
-                    return T.Create(first, second, O.BtS, d: dis);
+                    var btsDis = (uint)((sbyte)second * 2 + 4);
+                    return T.Create(first, second, O.BtS, a: [T.D(btsDis)]);
                 case 0b10001111:
                     // Branch if False with Delay Slot
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    dis = second;
-                    return T.Create(first, second, O.BfS, d: dis);
+                    var bfsDis = (uint)((sbyte)second * 2 + 4);
+                    return T.Create(first, second, O.BfS, a: [T.D(bfsDis)]);
                 case 0b11000000:
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
@@ -802,12 +802,14 @@ namespace PoViEmu.Core.Risc
                     // Branch
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dsp = T.CombineBytes(low, second);
-                    return T.Create(first, second, O.Bra, d: dsp);
+                    var braDis = (uint)((short)dsp * 2 + 4);
+                    return T.Create(first, second, O.Bra, a: [T.D(braDis)]);
                 case 0b1011:
                     // Branch to Subroutine
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dsp = T.CombineBytes(low, second);
-                    return T.Create(first, second, O.Bsr, d: dsp);
+                    var brasDis = (uint)((short)dsp * 2 + 4);
+                    return T.Create(first, second, O.Bsr, a: [T.D(brasDis)]);
                 case 0b1101:
                     // Move Immediate Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);

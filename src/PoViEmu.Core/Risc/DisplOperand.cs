@@ -3,7 +3,7 @@ namespace PoViEmu.Core.Risc
     /// <summary>
     /// dddd: Displacement
     /// </summary>
-    public sealed record DisplOperand(ushort Val) : BaseOperand
+    public sealed record DisplOperand(uint Val) : BaseOperand
     {
         public override string ToString()
         {
