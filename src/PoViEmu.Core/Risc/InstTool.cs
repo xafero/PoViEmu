@@ -6,9 +6,10 @@ namespace PoViEmu.Core.Risc
     public static class InstTool
     {
         public static Instruction Create(byte first, byte second, Mnemonic code,
-            byte? i = null, ushort? d = null, byte? n = null, byte? m = null,
-            byte? ui = null, bool nIsRef = false, bool nIsRefP = false,
-            bool mIsRef = false, bool mIsRefP = false, params BaseOperand[] a)
+            byte? i = null, ushort? d = null, byte? n = null, byte? m = null, byte? ui = null,
+            bool nIsRef = false, bool nIsRefP = false, bool nIsRefM = false,
+            bool mIsRef = false, bool mIsRefP = false, bool mIsRefM = false,
+            params BaseOperand[] a)
         {
             byte[] bytes = [first, second];
             var args = new List<BaseOperand>();
@@ -17,12 +18,12 @@ namespace PoViEmu.Core.Risc
             if (ui is { } xUi)
                 args.Add(new ImmedUOperand(xUi));
             if (m is { } xM)
-                args.Add(mIsRef || mIsRefP
-                    ? new MemoryOperand(GetReg(xM), isPlus: mIsRefP)
+                args.Add(mIsRef || mIsRefP || mIsRefM
+                    ? new MemoryOperand(GetReg(xM), IsPlus: mIsRefP, IsMinus: mIsRefM)
                     : new SourceReg(GetReg(xM)));
             if (n is { } xN)
-                args.Add(nIsRef || nIsRefP
-                    ? new MemoryOperand(GetReg(xN), isPlus: nIsRefP)
+                args.Add(nIsRef || nIsRefP || nIsRefM
+                    ? new MemoryOperand(GetReg(xN), IsPlus: nIsRefP, IsMinus: nIsRefM)
                     : new DestReg(GetReg(xN)));
             if (d is { } xD)
                 args.Add(new DisplOperand(xD));
@@ -93,5 +94,7 @@ namespace PoViEmu.Core.Risc
 
         public static BaseOperand N(byte low) => new DestReg(GetReg(low));
         public static BaseOperand M(byte low) => new SourceReg(GetReg(low));
+
+        public static BaseOperand Nm(byte low) => new MemoryOperand(GetReg(low), IsMinus: true);
     }
 }

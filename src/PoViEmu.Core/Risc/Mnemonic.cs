@@ -476,11 +476,20 @@ namespace PoViEmu.Core.Risc
         /// Exclusive OR Logical (Logic Operation Instruction) [8.2.76]
         /// </summary>
         Xor,
-        
+
+        /// <summary>
+        /// Exclusive OR Logical (Logic Operation Instruction) [8.2.76]
+        /// </summary>
+        XorB,
+
         /// <summary>
         /// Extract (Data Transfer Instruction) [8.2.77]
         /// </summary>
         Xtrct,
+        
+        
+        
+        
         
         
         

@@ -23,7 +23,7 @@ namespace PoViEmu.Core.Risc
                     {
                         case 0b00000000:
                             return null;
-                        
+
                         case 0b00001000:
                             // Clear T Bit
                             return T.Create(first, second, O.Clrt);
@@ -174,6 +174,11 @@ namespace PoViEmu.Core.Risc
                     second = reader.ReadNextByte();
                     imm = second;
                     return T.Create(first, second, O.AndB, ui: imm, a: T.R0Gbr);
+                case 0b11001110:
+                    // XOR
+                    second = reader.ReadNextByte();
+                    imm = second;
+                    return T.Create(first, second, O.XorB, ui: imm, a: T.R0Gbr);
                 case 0b11001111:
                     // OR Logical
                     second = reader.ReadNextByte();
@@ -567,7 +572,7 @@ namespace PoViEmu.Core.Risc
                             return T.Create(first, second, O.StsL, a: [T.Mach, T.N(low)]);
                         case 0b00000011:
                             // Store Control Register
-                            return T.Create(first, second, O.StcL, a: [T.Sr, T.N(low)]);
+                            return T.Create(first, second, O.StcL, a: [T.Sr, T.Nm(low)]);
                         case 0b00000100:
                             // Rotate Left
                             return T.Create(first, second, O.Rotl, n: low);
@@ -594,7 +599,7 @@ namespace PoViEmu.Core.Risc
                             return T.Create(first, second, O.StsL, a: [T.Macl, T.N(low)]);
                         case 0b00010011:
                             // Store Control Register
-                            return T.Create(first, second, O.StcL, a: [T.Gbr, T.N(low)]);
+                            return T.Create(first, second, O.StcL, a: [T.Gbr, T.Nm(low)]);
                         case 0b00010101:
                             // Compare Conditionally
                             return T.Create(first, second, O.CmpPl, n: low);
@@ -615,10 +620,10 @@ namespace PoViEmu.Core.Risc
                             return T.Create(first, second, O.Shar, n: low);
                         case 0b00100010:
                             // Store System Register
-                            return T.Create(first, second, O.StsL, a: [T.Pr, T.N(low)]);
+                            return T.Create(first, second, O.StsL, a: [T.Pr, T.Nm(low)]);
                         case 0b00100011:
                             // Store Control Register
-                            return T.Create(first, second, O.StcL, a: [T.Vbr, T.N(low)]);
+                            return T.Create(first, second, O.StcL, a: [T.Vbr, T.Nm(low)]);
                         case 0b00100100:
                             // Rotate with Carry Left
                             return T.Create(first, second, O.Rotcl, n: low);
@@ -636,28 +641,28 @@ namespace PoViEmu.Core.Risc
                             return T.Create(first, second, O.Jmp, n: low, nIsRef: true);
                         case 0b00110011:
                             // Store Control Register
-                            return T.Create(first, second, O.StcL, a: [T.Ssr, T.N(low)]);
+                            return T.Create(first, second, O.StcL, a: [T.Ssr, T.Nm(low)]);
                         case 0b01000011:
                             // Store Control Register
-                            return T.Create(first, second, O.StcL, a: [T.Spc, T.N(low)]);
+                            return T.Create(first, second, O.StcL, a: [T.Spc, T.Nm(low)]);
                         case 0b01010011:
                             // Store Control Register
-                            return T.Create(first, second, O.StcL, a: [T.R5Bank, T.N(low)]);
+                            return T.Create(first, second, O.StcL, a: [T.R5Bank, T.Nm(low)]);
                         case 0b01100010:
                             // Store System Register
                             return T.Create(first, second, O.xxx179, n: low);
                         case 0b01100011:
                             // Store Control Register
-                            return T.Create(first, second, O.StcL, a: [T.R6Bank, T.N(low)]);
+                            return T.Create(first, second, O.StcL, a: [T.R6Bank, T.Nm(low)]);
                         case 0b01110011:
                             // Store Control Register
-                            return T.Create(first, second, O.StcL, a: [T.R7Bank, T.N(low)]);
+                            return T.Create(first, second, O.StcL, a: [T.R7Bank, T.Nm(low)]);
                         case 0b10000010:
                             // Store System Register
                             return T.Create(first, second, O.xxx182, n: low);
                         case 0b10000011:
                             // Store Control Register
-                            return T.Create(first, second, O.StcL, a: [T.R0Bank, T.N(low)]);
+                            return T.Create(first, second, O.StcL, a: [T.R0Bank, T.Nm(low)]);
                         case 0b10000110:
                             // Load to System Register
                             return T.Create(first, second, O.xxx184, n: low);
@@ -666,7 +671,7 @@ namespace PoViEmu.Core.Risc
                             return T.Create(first, second, O.xxx185, n: low);
                         case 0b10010011:
                             // Store Control Register
-                            return T.Create(first, second, O.StcL, a: [T.R1Bank, T.N(low)]);
+                            return T.Create(first, second, O.StcL, a: [T.R1Bank, T.Nm(low)]);
                         case 0b10010110:
                             // Load to System Register
                             return T.Create(first, second, O.xxx187, n: low);
@@ -675,7 +680,7 @@ namespace PoViEmu.Core.Risc
                             return T.Create(first, second, O.xxx188, n: low);
                         case 0b10100011:
                             // Store Control Register
-                            return T.Create(first, second, O.StcL, a: [T.R2Bank, T.N(low)]);
+                            return T.Create(first, second, O.StcL, a: [T.R2Bank, T.Nm(low)]);
                         case 0b10100110:
                             // Load to System Register
                             return T.Create(first, second, O.xxx190, n: low);
@@ -684,22 +689,22 @@ namespace PoViEmu.Core.Risc
                             return T.Create(first, second, O.xxx191, n: low);
                         case 0b10110011:
                             // Store Control Register
-                            return T.Create(first, second, O.StcL, a: [T.R3Bank, T.N(low)]);
+                            return T.Create(first, second, O.StcL, a: [T.R3Bank, T.Nm(low)]);
                         case 0b10110110:
                             // Load to System Register
                             return T.Create(first, second, O.xxx193, n: low);
                         case 0b11000011:
                             // Store Control Register
-                            return T.Create(first, second, O.StcL, a: [T.R4Bank, T.N(low)]);
+                            return T.Create(first, second, O.StcL, a: [T.R4Bank, T.Nm(low)]);
                         case 0b11010011:
                             // Store Control Register
-                            return T.Create(first, second, O.StcL, a: [T.R5Bank, T.N(low)]);
+                            return T.Create(first, second, O.StcL, a: [T.R5Bank, T.Nm(low)]);
                         case 0b11100011:
                             // Store Control Register
-                            return T.Create(first, second, O.StcL, a: [T.R6Bank, T.N(low)]);
+                            return T.Create(first, second, O.StcL, a: [T.R6Bank, T.Nm(low)]);
                         case 0b11110011:
                             // Store Control Register
-                            return T.Create(first, second, O.StcL, a: [T.R7Bank, T.N(low)]);
+                            return T.Create(first, second, O.StcL, a: [T.R7Bank, T.Nm(low)]);
                     }
 
                     var (secH4, secL4) = T.SplitByte(second);
