@@ -485,34 +485,6 @@ namespace PoViEmu.Core.Risc
         /// <summary>
         /// Extract (Data Transfer Instruction) [8.2.77]
         /// </summary>
-        Xtrct,
-
-
-
-
-
-        xxx049,
-        xxx051,
-        xxx054,
-        xxx056,
-        xxx058,
-        xxx060,
-        xxx122,
-        xxx124,
-        xxx126,
-        xxx128,
-        xxx131,
-        xxx134,
-        xxx137,
-        xxx140,
-        xxx179,
-        xxx182,
-        xxx184,
-        xxx185,
-        xxx187,
-        xxx188,
-        xxx190,
-        xxx191,
-        xxx193
+        Xtrct
     }
 }
