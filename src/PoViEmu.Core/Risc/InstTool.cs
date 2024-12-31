@@ -56,6 +56,14 @@ namespace PoViEmu.Core.Risc
             };
         }
 
+        public static void LoadSecIfNeeded(this IReader reader, ref byte second, ref bool hadSec)
+        {
+            if (hadSec)
+                return;
+            second = reader.ReadNextByte();
+            hadSec = true;
+        }
+
         public static (byte high, byte low) SplitByte(byte val)
         {
             var high = val >> 4;

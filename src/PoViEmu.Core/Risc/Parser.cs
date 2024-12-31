@@ -9,7 +9,8 @@ namespace PoViEmu.Core.Risc
         public static Instruction? Parse(IReader reader)
         {
             var first = reader.ReadNextByte();
-            byte second;
+            byte second = default;
+            var hadSec = false;
             byte imm;
             byte dis;
             ushort dsp;
@@ -18,7 +19,7 @@ namespace PoViEmu.Core.Risc
             switch (first)
             {
                 case 0b00000000:
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     switch (second)
                     {
                         case 0b00000000:
@@ -61,127 +62,127 @@ namespace PoViEmu.Core.Risc
                     break;
                 case 0b10000000:
                     // Move data
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     var (movN1, movD1) = T.SplitByte(second);
                     return T.Create(first, second, O.MovB, n: movN1, d: movD1);
                 case 0b10000001:
                     // Move data
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     var (movN2, movD2) = T.SplitByte(second);
                     return T.Create(first, second, O.xxx012, n: movN2, d: movD2);
                 case 0b10000100:
                     // Move data
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     var (movM1, movD3) = T.SplitByte(second);
                     return T.Create(first, second, O.MovB, m: movM1, d: movD3);
                 case 0b10000101:
                     // Move data
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     var (movM2, movD4) = T.SplitByte(second);
                     return T.Create(first, second, O.MovW, m: movM2, d: movD4);
                 case 0b10001000:
                     // Compare Conditionally
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     imm = second;
                     return T.Create(first, second, O.CmpEq, i: imm, n: 0);
                 case 0b10001001:
                     // Branch if True
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dis = second;
                     return T.Create(first, second, O.Bt, d: dis);
                 case 0b10001011:
                     // Branch if False
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dis = second;
                     return T.Create(first, second, O.Bf, d: dis);
                 case 0b10001101:
                     // Branch if True with Delay Slot
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dis = second;
                     return T.Create(first, second, O.BtS, d: dis);
                 case 0b10001111:
                     // Branch if False with Delay Slot
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dis = second;
                     return T.Create(first, second, O.BfS, d: dis);
                 case 0b11000000:
                     // Move Peripheral Data
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dis = second;
                     return T.Create(first, second, O.MovB, d: dis);
                 case 0b11000001:
                     // Move Peripheral Data
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dis = second;
                     return T.Create(first, second, O.xxx022, d: dis);
                 case 0b11000010:
                     // Move Peripheral Data
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dis = second;
                     return T.Create(first, second, O.xxx023, d: dis);
                 case 0b11000011:
                     // Trap Always
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     imm = second;
                     return T.Create(first, second, O.Trapa, ui: imm);
                 case 0b11000100:
                     // Move Peripheral Data
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dis = second;
                     return T.Create(first, second, O.MovB, a: [T.R0Gbr, T.R0]);
                 case 0b11000101:
                     // Move Peripheral Data
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dis = second;
                     return T.Create(first, second, O.MovW, d: dis);
                 case 0b11000110:
                     // Move Peripheral Data
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dis = second;
                     return T.Create(first, second, O.xxx027, d: dis);
                 case 0b11000111:
                     // Move Effective Address
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dis = second;
                     return T.Create(first, second, O.Mova, d: dis);
                 case 0b11001000:
                     // Test Logical
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     imm = second;
                     return T.Create(first, second, O.Tst, ui: imm, m: 0);
                 case 0b11001001:
                     // AND Logical
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     imm = second;
                     return T.Create(first, second, O.And, ui: imm, n: 0);
                 case 0b11001010:
                     // Exclusive OR Logical
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     imm = second;
                     return T.Create(first, second, O.Xor, ui: imm, n: 0);
                 case 0b11001011:
                     // OR Logical
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     imm = second;
                     return T.Create(first, second, O.Or, ui: imm, n: 0);
                 case 0b11001100:
                     // Test Logical
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     imm = second;
                     return T.Create(first, second, O.TstB, ui: imm, a: T.R0Gbr);
                 case 0b11001101:
                     // AND Logical
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     imm = second;
                     return T.Create(first, second, O.AndB, ui: imm, a: T.R0Gbr);
                 case 0b11001110:
                     // XOR
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     imm = second;
                     return T.Create(first, second, O.XorB, ui: imm, a: T.R0Gbr);
                 case 0b11001111:
                     // OR Logical
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     imm = second;
                     return T.Create(first, second, O.OrB, ui: imm, a: T.R0Gbr);
             }
@@ -190,7 +191,7 @@ namespace PoViEmu.Core.Risc
             switch (high)
             {
                 case 0b0000:
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     switch (second)
                     {
                         case 0b00000010:
@@ -313,11 +314,11 @@ namespace PoViEmu.Core.Risc
                     break;
                 case 0b0001:
                     // Move Structure Data
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     (src, dis) = T.SplitByte(first);
                     return T.Create(first, second, O.MovL, n: low, m: src, d: dis);
                 case 0b0010:
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
 
                     var (secH2, secL2) = T.SplitByte(second);
                     switch (secL2)
@@ -370,7 +371,7 @@ namespace PoViEmu.Core.Risc
                     }
                     break;
                 case 0b0011:
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
 
                     var (secH3, secL3) = T.SplitByte(second);
                     switch (secL3)
@@ -420,7 +421,7 @@ namespace PoViEmu.Core.Risc
                     }
                     break;
                 case 0b0100:
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     switch (second)
                     {
                         case 0b00000110:
@@ -569,7 +570,7 @@ namespace PoViEmu.Core.Risc
                             return T.Create(first, second, O.Shlr, n: low);
                         case 0b00000010:
                             // Store System Register
-                            return T.Create(first, second, O.StsL, a: [T.Mach, T.N(low)]);
+                            return T.Create(first, second, O.StsL, a: [T.Mach, T.Nm(low)]);
                         case 0b00000011:
                             // Store Control Register
                             return T.Create(first, second, O.StcL, a: [T.Sr, T.Nm(low)]);
@@ -596,7 +597,7 @@ namespace PoViEmu.Core.Risc
                             return T.Create(first, second, O.CmpPz, n: low);
                         case 0b00010010:
                             // Store System Register
-                            return T.Create(first, second, O.StsL, a: [T.Macl, T.N(low)]);
+                            return T.Create(first, second, O.StsL, a: [T.Macl, T.Nm(low)]);
                         case 0b00010011:
                             // Store Control Register
                             return T.Create(first, second, O.StcL, a: [T.Gbr, T.Nm(low)]);
@@ -723,11 +724,11 @@ namespace PoViEmu.Core.Risc
                     break;
                 case 0b0101:
                     // Move Structure Data
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     var (secH5, secL5) = T.SplitByte(second);
                     return T.Create(first, second, O.MovL, n: low, m: secH5, d: secL5);
                 case 0b0110:
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
 
                     var (secH6, secL6) = T.SplitByte(second);
                     switch (secL6)
@@ -784,35 +785,35 @@ namespace PoViEmu.Core.Risc
                     break;
                 case 0b0111:
                     // Add Binary
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dst = low;
                     imm = second;
                     return T.Create(first, second, O.Add, n: dst, i: imm);
                 case 0b1001:
                     // Move Immediate Data
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dst = low;
                     dis = second;
                     return T.Create(first, second, O.MovW, n: dst, d: dis);
                 case 0b1010:
                     // Branch
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dsp = T.CombineBytes(low, second);
                     return T.Create(first, second, O.Bra, d: dsp);
                 case 0b1011:
                     // Branch to Subroutine
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dsp = T.CombineBytes(low, second);
                     return T.Create(first, second, O.Bsr, d: dsp);
                 case 0b1101:
                     // Move Immediate Data
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dst = low;
                     dis = second;
                     return T.Create(first, second, O.MovL, n: dst, d: dis);
                 case 0b1110:
                     // Move Immediate Data
-                    second = reader.ReadNextByte();
+                    reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dst = low;
                     imm = second;
                     return T.Create(first, second, O.Mov, n: dst, i: imm);

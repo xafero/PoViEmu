@@ -76,7 +76,7 @@ namespace PoViEmu.Core.Risc
             switch ((Mnemonic)parsed.Mnemonic)
             {
                 case Mnemonic.Addc when ops is [R8 r, U8 u]:
-                    m[r] = CpuIntern.Add8(m, withCarry: true, m[r], u.Val);
+                    m[r] = m.Add8(withCarry: true, m[r], u.Val);
                     return;
             }
 
