@@ -1,12 +1,12 @@
 using System;
 using System.IO;
 using System.Linq;
-using PoViEmu.Common;
+using PoViEmu.Base;
 using PoViEmu.I186.ABI.Dumps;
 using SixLabors.ImageSharp;
 using TextHelper = PoViEmu.Base.DataHelper;
 
-namespace PoViEmu.Core.Inventory
+namespace PoViEmu.Inventory
 {
     public static class StockUtil
     {

@@ -1,10 +1,10 @@
 using System.IO;
-using PoViEmu.Common;
-using PoViEmu.Core.Images;
+using PoViEmu.Base;
 using PoViEmu.I186.ABI;
+using PoViEmu.Inventory.Utils;
 using SixLabors.ImageSharp;
 
-namespace PoViEmu.Core.Inventory
+namespace PoViEmu.Inventory
 {
     public static class ExtraUtil
     {

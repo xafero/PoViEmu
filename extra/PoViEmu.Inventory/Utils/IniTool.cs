@@ -2,7 +2,7 @@ using System.IO;
 using System.Text;
 using IniFile;
 
-namespace PoViEmu.Common
+namespace PoViEmu.Inventory.Utils
 {
     public static class IniTool
     {

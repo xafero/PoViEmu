@@ -4,8 +4,9 @@ using System.IO;
 using System.Linq;
 using IniFile;
 using PoViEmu.Base;
-using PoViEmu.Common;
-using PoViEmu.Core.Infos;
+using PoViEmu.Compression;
+using PoViEmu.Inventory.Infos;
+using PoViEmu.Inventory.Utils;
 
 namespace Discover
 {

@@ -1,10 +1,9 @@
 using System.IO;
 using PoViEmu.Base.Gfx;
-using PoViEmu.Core;
 using PoViEmu.I186.ABI;
 using SixLabors.ImageSharp;
 
-namespace PoViEmu.Core.Images
+namespace PoViEmu.Inventory.Utils
 {
     public static class ImageTools
     {

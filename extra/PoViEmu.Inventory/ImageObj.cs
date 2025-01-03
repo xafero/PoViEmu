@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace PoViEmu.Core.Inventory
+namespace PoViEmu.Inventory
 {
     public class ImageObj
     {

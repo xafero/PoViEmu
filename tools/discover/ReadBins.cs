@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using PoViEmu.Base;
-using PoViEmu.Core.Inventory;
 using PoViEmu.I186.ABI;
 using PoViEmu.I186.ABI.Dumps;
-using static PoViEmu.Core.Inventory.StockUtil;
-using static PoViEmu.Core.Inventory.ExtraUtil;
+using PoViEmu.Inventory;
+using static PoViEmu.Inventory.StockUtil;
+using static PoViEmu.Inventory.ExtraUtil;
 
 namespace Discover
 {

@@ -2,11 +2,11 @@ using System;
 using System.IO;
 using PoViEmu.Base;
 using PoViEmu.Base.ABI.Twf;
-using PoViEmu.Core.Mimes;
 using PoViEmu.I186.ABI;
 using PoViEmu.I186.ABI.Dumps;
+using PoViEmu.Inventory.Mime;
 using PoViEmu.SH3.ABI;
-using MT = PoViEmu.Core.Mimes.MimeType;
+using MT = PoViEmu.Inventory.Mime.MimeType;
 
 namespace Discover
 {

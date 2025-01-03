@@ -2,7 +2,7 @@ using System;
 using ByteSizeLib;
 using Newtonsoft.Json;
 
-namespace PoViEmu.Core.Inventory
+namespace PoViEmu.Inventory
 {
     public class AddInEntry
     {

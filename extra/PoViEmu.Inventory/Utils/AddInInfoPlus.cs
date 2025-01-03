@@ -1,9 +1,8 @@
 using System;
 using System.IO;
-using PoViEmu.Core;
 using PoViEmu.I186.ABI;
 
-namespace PoViEmu.Core.Images
+namespace PoViEmu.Inventory.Utils
 {
     public sealed class AddInInfoPlus<T>
     {

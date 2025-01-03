@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.IO.Compression;
 
-namespace PoViEmu.Common
+namespace PoViEmu.Compression
 {
     public static class CompressIt
     {

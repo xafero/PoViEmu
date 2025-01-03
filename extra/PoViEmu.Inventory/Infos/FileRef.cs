@@ -1,4 +1,4 @@
-namespace PoViEmu.Core.Infos
+namespace PoViEmu.Inventory.Infos
 {
     public class FileRef
     {

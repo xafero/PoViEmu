@@ -1,4 +1,4 @@
-namespace PoViEmu.Core.Mimes
+namespace PoViEmu.Inventory.Mime
 {
     public enum MimeType
     {

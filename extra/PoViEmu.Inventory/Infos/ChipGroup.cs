@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace PoViEmu.Core.Infos
+namespace PoViEmu.Inventory.Infos
 {
     public class ChipGroup
     {

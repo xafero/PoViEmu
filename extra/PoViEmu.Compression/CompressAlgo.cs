@@ -1,4 +1,4 @@
-namespace PoViEmu.Common
+namespace PoViEmu.Compression
 {
     public enum CompressAlgo
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Security.Cryptography;
 
-namespace PoViEmu.Common
+namespace PoViEmu.Base
 {
     public static class HashHelper
     {
