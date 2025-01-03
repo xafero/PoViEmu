@@ -2,6 +2,8 @@ using PoViEmu.Base;
 using System.IO;
 using System.Text;
 using PoViEmu.Base.CPU.Diff;
+using PoViEmu.Tests.Base;
+using Xunit;
 using ExeT1 = PoViEmu.I186.CPU.ExecTool;
 using DefT1 = PoViEmu.I186.CPU.Impl.Defaults;
 using ExeT2 = PoViEmu.SH3.CPU.ExecTool;
@@ -24,11 +26,11 @@ namespace PoViEmu.Tests.CPU
             var (actual1, ret1) = Exec1(com1Bytes, dir, com1File);
             var (actual2, ret2) = Exec2(com2Bytes, dir, com2File);
 
-            // TODO TestTool.Equal(expected, actual1);
-            // TODO Assert.Equal("0", $"{ret1}");
+            TestTool.Equal(expected, actual1);
+            Assert.Equal("0", $"{ret1}");
 
-            // TODO TestTool.Equal(expected, actual2);
-            // TODO Assert.Equal("0", $"{ret2}");
+            // TestTool.Equal(expected, actual2);
+            // Assert.Equal("0", $"{ret2}");
         }
 
         private static (string[] t, byte? r) Exec1(byte[] comBytes, string dir, string fName)
