@@ -4,7 +4,7 @@ echo " ### Build ### "
 dotnet build
 
 echo " ### Clean ### "
-rm -R test/PoViEmu.Tests/TestResults
+rm -R test/PoViEmu.Tests.CPU/TestResults
 
 echo " ### Test ### "
 dotnet test --collect:"XPlat Code Coverage"

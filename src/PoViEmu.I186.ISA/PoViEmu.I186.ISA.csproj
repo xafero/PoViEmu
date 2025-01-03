@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Iced" Version="1.21.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\PoViEmu.Base.ISA\PoViEmu.Base.ISA.csproj" />
+  </ItemGroup>
+
+</Project>

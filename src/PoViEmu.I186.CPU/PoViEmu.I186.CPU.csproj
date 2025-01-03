@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PoViEmu.Base.CPU\PoViEmu.Base.CPU.csproj" />
+    <ProjectReference Include="..\PoViEmu.I186.ISA\PoViEmu.I186.ISA.csproj" />
+  </ItemGroup>
+  
+</Project>
