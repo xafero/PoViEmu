@@ -25,8 +25,5 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
 
-    - name: Install test deps
-      run: sudo apt-get install -y nasm
-
     - name: Test
       run: dotnet test --no-build --verbosity normal
