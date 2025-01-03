@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
-using static PoViEmu.Base.ABI.TwfDecoder;
+using static PoViEmu.Base.ABI.Twf.TwfDecoder;
 
-namespace PoViEmu.Base.ABI
+namespace PoViEmu.Base.ABI.Twf
 {
     public static class TwfReader
     {

@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace PoViEmu.Base.ABI
+namespace PoViEmu.Base.ABI.Twf
 {
     public static class TwfDecoder
     {

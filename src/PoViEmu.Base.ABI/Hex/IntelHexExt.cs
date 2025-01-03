@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using HexIO;
 
-namespace PoViEmu.Core.Binaries
+namespace PoViEmu.Base.ABI.Hex
 {
     public static class IntelHexExt
     {

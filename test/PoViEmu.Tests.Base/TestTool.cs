@@ -27,5 +27,23 @@ namespace PoViEmu.Tests.Base
             var actualTxt = string.Join(nl, actual);
             Equal(expectedTxt, actualTxt);
         }
+        
+        public static void Compare(string expected, string actual)
+        {
+            try
+            {
+                Assert.Equal(expected, actual);
+            }
+            catch (EqualException e)
+            {
+                var nl = Environment.NewLine;
+                throw new InvalidOperationException($"{nl}{actual}{nl}{nl}{expected}", e);
+            }
+        }
+        
+        public static void Equal(byte[] expected, byte[] actual)
+        {
+            Assert.Equal(expected.ToHex(), actual.ToHex());
+        }
     }
 }

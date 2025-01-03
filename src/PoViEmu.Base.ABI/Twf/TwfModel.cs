@@ -1,4 +1,4 @@
-namespace PoViEmu.Base.ABI
+namespace PoViEmu.Base.ABI.Twf
 {
     public enum TwfModel
     {

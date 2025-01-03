@@ -1,6 +1,6 @@
 using System.IO;
 using PoViEmu.Base;
-using PoViEmu.Base.ABI;
+using PoViEmu.Base.ABI.Twf;
 using PoViEmu.Tests.Base;
 
 namespace PoViEmu.Tests.ABI

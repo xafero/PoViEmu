@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace PoViEmu.Base.ABI
+namespace PoViEmu.Base.ABI.Twf
 {
     public sealed class TwfInfo
     {

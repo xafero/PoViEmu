@@ -1,7 +1,16 @@
+using System;
+
 namespace PoViEmu.Base
 {
     public static class BytesHelper
     {
+        public static string ToHex(this byte[] bytes, bool prependSize = true, bool withSpace = false)
+        {
+            var txt = Convert.ToHexString(bytes);
+            var hex = withSpace ? string.Join(' ', txt.SplitEvery(2)) : txt;
+            return prependSize ? $"({bytes.Length}) {hex}" : hex;
+        }
+        
         public static int FindArray(this byte[] outer, byte[] inner)
         {
             var len = inner.Length;

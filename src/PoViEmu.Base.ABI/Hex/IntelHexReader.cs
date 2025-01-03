@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using HexIO;
-using static PoViEmu.Common.MathHelper;
-using static PoViEmu.Core.Binaries.IntelHexExt;
+using static PoViEmu.Base.MathHelper;
+using static PoViEmu.Base.ABI.Hex.IntelHexExt;
 
-namespace PoViEmu.Core.Binaries
+namespace PoViEmu.Base.ABI.Hex
 {
     public static class IntelHexReader
     {

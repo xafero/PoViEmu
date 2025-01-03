@@ -8,4 +8,8 @@
     <ProjectReference Include="..\PoViEmu.Base\PoViEmu.Base.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="HexIO" Version="3.0.5" />
+  </ItemGroup>
+
 </Project>
