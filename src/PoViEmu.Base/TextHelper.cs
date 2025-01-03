@@ -10,6 +10,18 @@ namespace PoViEmu.Base
     {
         public static readonly Encoding Utf8 = Encoding.UTF8;
         
+        public static string FixSpaces(this string text)
+        {
+            return text.Replace((char)0, ' ')
+                .Replace((char)4, ' ')
+                .Replace((char)5, ' ')
+                .Replace((char)14, ' ')
+                .Replace((char)16, ' ')
+                .Replace((char)63, ' ')
+                .Replace((char)64, ' ')
+                .Trim();
+        }
+        
         public static IEnumerable<string> SplitEvery(this string text, int count)
         {
             var bld = new StringBuilder();
