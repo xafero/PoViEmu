@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using PoViEmu.Common;
+using PoViEmu.Base;
 
 namespace Discover
 {
@@ -49,7 +49,7 @@ namespace Discover
                     var num = (int)bit;
                     sub.Add($"{bit:X2} ({ascii}) ({num})");
                 }
-
+                
                 var hex = Convert.ToHexString(bytes);
                 items.Add(new HexedLine(label, hex, string.Empty));
             }

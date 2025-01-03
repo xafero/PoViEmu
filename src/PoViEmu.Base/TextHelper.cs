@@ -10,6 +10,11 @@ namespace PoViEmu.Base
     {
         public static readonly Encoding Utf8 = Encoding.UTF8;
         
+        public static string Title(this string text)
+        {
+            return text[..1].ToUpperInvariant() + text[1..];
+        }
+        
         public static string FixSpaces(this string text)
         {
             return text.Replace((char)0, ' ')

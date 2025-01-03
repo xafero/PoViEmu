@@ -17,7 +17,11 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\src\PoViEmu.Core\PoViEmu.Core.csproj" />
+    <ProjectReference Include="..\..\extra\PoViEmu.Compression\PoViEmu.Compression.csproj" />
+    <ProjectReference Include="..\..\extra\PoViEmu.Inventory\PoViEmu.Inventory.csproj" />
+    <ProjectReference Include="..\..\src\PoViEmu.Base.ABI\PoViEmu.Base.ABI.csproj" />
+    <ProjectReference Include="..\..\src\PoViEmu.I186.ABI\PoViEmu.I186.ABI.csproj" />
+    <ProjectReference Include="..\..\src\PoViEmu.SH3.ABI\PoViEmu.SH3.ABI.csproj" />
   </ItemGroup>
     
 </Project>

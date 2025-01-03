@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using IniFile;
+using PoViEmu.Base;
 using PoViEmu.Common;
 using PoViEmu.Core.Infos;
 
