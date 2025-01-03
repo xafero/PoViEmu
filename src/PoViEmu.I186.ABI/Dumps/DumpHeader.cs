@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace PoViEmu.Core.Dumps
+namespace PoViEmu.I186.ABI.Dumps
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct DumpHeader

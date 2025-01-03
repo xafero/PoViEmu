@@ -1,9 +1,9 @@
 using System.IO;
 using PoViEmu.Base;
-using PoViEmu.Core.Dumps;
+using PoViEmu.I186.ABI.Dumps;
 using PoViEmu.Tests.Base;
 
-namespace PoViEmu.Tests
+namespace PoViEmu.Tests.ABI
 {
     public static class DumpCheck
     {

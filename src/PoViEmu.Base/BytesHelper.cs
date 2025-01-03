@@ -1,9 +1,21 @@
 using System;
+using System.Linq;
 
 namespace PoViEmu.Base
 {
     public static class BytesHelper
     {
+        public static byte[] ToArray(long value, int skip = 0, bool noZero = true)
+        {
+            var array = BitConverter.GetBytes(value);
+            var items = array.Reverse();
+            if (noZero)
+                items = items.SkipWhile(b => b == 0);
+            if (skip >= 1)
+                items = items.Skip(skip);
+            return items.ToArray();
+        }
+        
         public static string ToHex(this byte[] bytes, bool prependSize = true, bool withSpace = false)
         {
             var txt = Convert.ToHexString(bytes);

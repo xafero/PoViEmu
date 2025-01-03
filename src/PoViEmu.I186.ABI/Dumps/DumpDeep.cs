@@ -2,14 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using PoViEmu;
 using PoViEmu.Base;
-using PoViEmu.Core;
-using PoViEmu.I186.ABI;
 using static PoViEmu.Base.ErrorHelper;
 using TextHelper = PoViEmu.Base.DataHelper;
 
-namespace PoViEmu.Core.Dumps
+namespace PoViEmu.I186.ABI.Dumps
 {
     public static class DumpDeep
     {

@@ -1,3 +1,0 @@
-
-DefaultRepoBase = "https://raw.githubusercontent.com/klaumit/CasioPocketEmu/main"
-

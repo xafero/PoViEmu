@@ -1,8 +1,8 @@
 using System.IO;
 using Xunit;
-using static PoViEmu.Tests.DumpCheck;
+using static PoViEmu.Tests.ABI.DumpCheck;
 
-namespace PoViEmu.Tests
+namespace PoViEmu.Tests.ABI
 {
     public class DumpTest
     {

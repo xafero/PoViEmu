@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using PoViEmu.Base;
 
-namespace PoViEmu.Core.Dumps
+namespace PoViEmu.I186.ABI.Dumps
 {
     public static class DumpReader
     {

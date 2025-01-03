@@ -1,8 +1,8 @@
 using System.IO;
 using Xunit;
-using static PoViEmu.Tests.ImageCheck;
+using static PoViEmu.Tests.Gfx.ImageCheck;
 
-namespace PoViEmu.Tests
+namespace PoViEmu.Tests.Gfx
 {
     public class ImageTest
     {

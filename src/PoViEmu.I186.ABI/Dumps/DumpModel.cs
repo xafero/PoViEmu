@@ -1,4 +1,4 @@
-namespace PoViEmu.Core.Dumps
+namespace PoViEmu.I186.ABI.Dumps
 {
     public enum DumpModel
     {

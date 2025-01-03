@@ -20,6 +20,9 @@ namespace PoViEmu.I186.CPU
                 yield return mem[physicalAddr + i];
         }
         
+        public static (ushort seg, ushort off) ToLogicalAddress(uint physical, ushort segment)
+            => (segment, (ushort)(physical - segment * 16));
+        
         public static uint ToPhysicalAddress(ushort segment, ushort offset)
             => (uint)(segment * 16) + offset;
 

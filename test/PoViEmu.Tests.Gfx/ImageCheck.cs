@@ -1,9 +1,9 @@
 using System.IO;
-using PoViEmu.Core.Images;
+using PoViEmu.Base.Gfx;
 using PoViEmu.Tests.Base;
 using SixLabors.ImageSharp;
 
-namespace PoViEmu.Tests
+namespace PoViEmu.Tests.Gfx
 {
     public static class ImageCheck
     {

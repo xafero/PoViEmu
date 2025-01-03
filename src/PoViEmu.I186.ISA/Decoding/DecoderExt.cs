@@ -8,7 +8,7 @@ namespace PoViEmu.I186.ISA.Decoding
         {
             UppercaseMnemonics = true
         });
-        
+
         public static (string op, string arg) FormatStr(this Instruction instruct)
         {
             StringOutput output = new();
@@ -19,10 +19,17 @@ namespace PoViEmu.I186.ISA.Decoding
             var arg = parts.Length == 2 ? parts[1] : string.Empty;
             return (op, arg);
         }
-        
+
         public static bool IsInvalidFor16Bit(this Instruction parsed)
         {
             return parsed.IsInvalid || parsed.CodeSize != CodeSize.Code16;
+        }
+
+        public static Decoder Create16(this CodeReader reader, ushort ip)
+        {
+            const DecoderOptions options = DecoderOptions.NoInvalidCheck;
+            var decoder = Decoder.Create(16, reader, ip, options);
+            return decoder;
         }
     }
 }

@@ -1,12 +1,8 @@
 using System;
 using System.Collections.Generic;
-using PoViEmu.Base;
-using PoViEmu;
-using PoViEmu.Core;
-using PoViEmu.I186.ABI;
 using TextHelper = PoViEmu.Base.DataHelper;
 
-namespace PoViEmu.Core.Dumps
+namespace PoViEmu.I186.ABI.Dumps
 {
     public sealed class DumpInfo
     {

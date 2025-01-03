@@ -5,7 +5,7 @@ using System.Linq;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace PoViEmu.Core.Images
+namespace PoViEmu.Base.Gfx
 {
     public static class ImageWriter
     {
