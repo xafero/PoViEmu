@@ -2,12 +2,13 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using PoViEmu.Base.CPU;
 
 // ReSharper disable InconsistentNaming
 
 namespace PoViEmu.I186.CPU.Soft
 {
-    public sealed class DOSInterrupts : IInterruptHandler
+    public sealed class DOSInterrupts : IInterruptHandler, IDosEmu
     {
         public const byte MainIntNo = 0x21;
         
