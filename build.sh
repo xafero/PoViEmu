@@ -4,6 +4,7 @@ echo " ### Build ### "
 dotnet build
 
 echo " ### Clean ### "
+rm -R test/PoViEmu.Tests.ABI/TestResults
 rm -R test/PoViEmu.Tests.CPU/TestResults
 
 echo " ### Test ### "
