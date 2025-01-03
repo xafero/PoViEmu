@@ -10,6 +10,12 @@ namespace PoViEmu.Base
     {
         public static readonly Encoding Utf8 = Encoding.UTF8;
         
+        public static string ToText(string file)
+        {
+            var txt = File.ReadAllText(file, Encoding.UTF8);
+            return txt.Trim();
+        }
+        
         public static string? TrimNull(this string? text)
         {
             return string.IsNullOrWhiteSpace(text) ? null : text.Trim();
