@@ -1,7 +1,7 @@
 ﻿using System;
 using PoViEmu.Base.CPU.Diff;
-using PoViEmu.I186.CPU.Soft;
 using PoViEmu.SH3.CPU.Impl;
+using PoViEmu.SH3.CPU.Soft;
 
 namespace PoViEmu.SH3.CPU
 {
