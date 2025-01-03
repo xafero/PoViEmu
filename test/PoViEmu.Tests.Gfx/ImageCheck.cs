@@ -1,5 +1,6 @@
 using System.IO;
 using PoViEmu.Core.Images;
+using PoViEmu.Tests.Base;
 using SixLabors.ImageSharp;
 
 namespace PoViEmu.Tests
