@@ -1,3 +1,5 @@
+// ReSharper disable InconsistentNaming
+
 namespace PoViEmu.UI.Extra
 {
     public record SystemInfo
