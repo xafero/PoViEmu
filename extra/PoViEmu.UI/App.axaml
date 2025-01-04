@@ -3,7 +3,6 @@
              xmlns:local="using:PoViEmu.UI"
              x:Class="PoViEmu.UI.App"
              RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.DataTemplates>
         <local:ViewLocator/>
@@ -12,4 +11,5 @@
     <Application.Styles>
         <FluentTheme />
     </Application.Styles>
+    
 </Application>
