@@ -7,8 +7,19 @@ namespace PoViEmu.Base
     public static class PathHelper
     {
         public static string CurrentDir
-            => Environment.CurrentDirectory;
-        
+        {
+            get
+            {
+                var dir = Environment.CurrentDirectory;
+                if (dir == "/")
+                {
+                    // We could be running on Android here
+                    dir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                }
+                return dir;
+            }
+        }
+
         public static string GetLast(string url)
         {
             return url.Split('/').Last();
