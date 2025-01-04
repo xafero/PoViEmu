@@ -1,11 +1,12 @@
 using Avalonia.Controls;
 
-namespace PoViEmu.UI.Views;
-
-public partial class MainView : UserControl
+namespace PoViEmu.UI.Views
 {
-    public MainView()
+    public partial class MainView : UserControl
     {
-        InitializeComponent();
+        public MainView()
+        {
+            InitializeComponent();
+        }
     }
 }

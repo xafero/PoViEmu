@@ -1,11 +1,12 @@
 using Avalonia.Controls;
 
-namespace PoViEmu.UI.Views;
-
-public partial class MainWindow : Window
+namespace PoViEmu.UI.Views
 {
-    public MainWindow()
+    public partial class MainWindow : Window
     {
-        InitializeComponent();
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
     }
 }

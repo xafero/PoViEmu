@@ -3,19 +3,20 @@ using Android.Content.PM;
 using Avalonia;
 using Avalonia.Android;
 
-namespace PoViEmu.UI.Android;
-
-[Activity(
-    Label = "PoViEmu.UI.Android",
-    Theme = "@style/MyTheme.NoActionBar",
-    Icon = "@drawable/icon",
-    MainLauncher = true,
-    ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize | ConfigChanges.UiMode)]
-public class MainActivity : AvaloniaMainActivity<App>
+namespace PoViEmu.UI.Android
 {
-    protected override AppBuilder CustomizeAppBuilder(AppBuilder builder)
+    [Activity(
+        Label = "PoViEmu.UI.Android",
+        Theme = "@style/MyTheme.NoActionBar",
+        Icon = "@drawable/icon",
+        MainLauncher = true,
+        ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize | ConfigChanges.UiMode)]
+    public class MainActivity : AvaloniaMainActivity<App>
     {
-        return base.CustomizeAppBuilder(builder)
-            .WithInterFont();
+        protected override AppBuilder CustomizeAppBuilder(AppBuilder builder)
+        {
+            return base.CustomizeAppBuilder(builder)
+                .WithInterFont();
+        }
     }
 }
