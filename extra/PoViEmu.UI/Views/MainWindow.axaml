@@ -6,7 +6,7 @@
         xmlns:views="clr-namespace:PoViEmu.UI.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="PoViEmu.UI.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/app-logo.ico"
         Title="PoViEmu">
         <views:MainView />
 </Window>
