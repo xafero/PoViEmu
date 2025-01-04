@@ -1,6 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <AssemblyTitle>PoViEmu UI</AssemblyTitle>
+        <AssemblyName>PoViEmu.UI</AssemblyName>
+    </PropertyGroup>
+
+    <PropertyGroup>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>

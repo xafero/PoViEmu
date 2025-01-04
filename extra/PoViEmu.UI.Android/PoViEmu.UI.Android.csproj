@@ -2,9 +2,17 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net8.0-android</TargetFramework>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <AssemblyTitle>PoViEmu Android</AssemblyTitle>
+        <AssemblyName>PoViEmu</AssemblyName>
+    </PropertyGroup>
+
+    <PropertyGroup>
         <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
         <Nullable>enable</Nullable>
-        <ApplicationId>com.CompanyName.PoViEmu.UI</ApplicationId>
+        <ApplicationId>com.xafero.PoViEmu</ApplicationId>
         <ApplicationVersion>1</ApplicationVersion>
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
         <AndroidPackageFormat>apk</AndroidPackageFormat>
