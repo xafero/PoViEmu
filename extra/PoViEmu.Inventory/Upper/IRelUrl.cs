@@ -1,4 +1,4 @@
-namespace PoViEmu.Core.Inventory
+namespace PoViEmu.Inventory.Upper
 {
     public interface IRelUrl
     {

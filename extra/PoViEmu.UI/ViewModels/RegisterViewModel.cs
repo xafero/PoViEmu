@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using PoViEmu.I186.CPU;
-using PoViEmu.I186.ISA;
 using PoViEmu.UI.Models;
-using F = PoViEmu.I186.ISA.Flagged;
 using R = PoViEmu.I186.ISA.B16Register;
 
 namespace PoViEmu.UI.ViewModels

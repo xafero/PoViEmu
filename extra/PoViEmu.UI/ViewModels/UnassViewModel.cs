@@ -3,8 +3,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
-using PoViEmu.Common;
-using PoViEmu.Core.Decoding;
+using PoViEmu.UI.Extra;
 using PoViEmu.UI.Models;
 
 // using PoViEmu.X86Decoding;

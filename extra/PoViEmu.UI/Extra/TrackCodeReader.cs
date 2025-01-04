@@ -1,6 +1,6 @@
 using Iced.Intel;
 
-namespace PoViEmu.Core.Decoding
+namespace PoViEmu.UI.Extra
 {
     public abstract class TrackCodeReader : CodeReader
     {

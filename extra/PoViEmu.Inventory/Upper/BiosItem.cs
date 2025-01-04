@@ -1,6 +1,4 @@
-using PoViEmu.Inventory;
-
-namespace PoViEmu.Core.Inventory
+namespace PoViEmu.Inventory.Upper
 {
     public record BiosItem(string Model, string Hash, BiosEntry Entry) : IRelUrl
     {

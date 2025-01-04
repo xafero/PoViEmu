@@ -4,9 +4,8 @@ using PoViEmu.I186.CPU;
 using PoViEmu.I186.CPU.Soft;
 using PoViEmu.SH3.CPU;
 using PoViEmu.SH3.CPU.Soft;
-using WareTool = PoViEmu.SH3.CPU.Soft.WareTool;
 
-namespace PoViEmu.Workbook.CPU
+namespace PoViEmu.Workbook
 {
     internal static class SoftUtil
     {

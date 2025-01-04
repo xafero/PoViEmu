@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
-using PoViEmu.Core.Inventory;
+using PoViEmu.Inventory.Upper;
 using PoViEmu.UI.Models;
 
 namespace PoViEmu.UI.ViewModels

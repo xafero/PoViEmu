@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PoViEmu.Core.Decoding
+namespace PoViEmu.UI.Extra
 {
     public sealed class MemCodeReader : TrackCodeReader, IDisposable, IAsyncDisposable
     {

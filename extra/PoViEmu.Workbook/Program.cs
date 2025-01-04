@@ -2,7 +2,7 @@
 using System.IO;
 using PoViEmu.Base;
 
-namespace PoViEmu.Workbook.CPU
+namespace PoViEmu.Workbook
 {
     internal static class Program
     {

@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using PoViEmu.Core.Inventory;
+using PoViEmu.Inventory.Upper;
 using PoViEmu.UI.Models;
 using PoViEmu.UI.ViewModels;
 

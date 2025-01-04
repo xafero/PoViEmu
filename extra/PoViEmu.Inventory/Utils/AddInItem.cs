@@ -1,6 +1,6 @@
-using PoViEmu.Inventory;
+using PoViEmu.Inventory.Upper;
 
-namespace PoViEmu.Core.Inventory
+namespace PoViEmu.Inventory.Utils
 {
     public record AddInItem(string Model, string Hash, AddInEntry Entry) : IRelUrl
     {

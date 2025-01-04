@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using PoViEmu.Base;
-using PoViEmu.Common;
 using PoViEmu.UI.Models;
 
 namespace PoViEmu.UI.ViewModels

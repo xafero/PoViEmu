@@ -1,17 +1,8 @@
 using System;
-using System.IO;
 using System.Linq;
 
-namespace PoViEmu.Common
+namespace PoViEmu.UI.Extra
 {
-    public static class PathHelper
-    {
-        public static string GetChild(this string root, string sub)
-        {
-            return Path.Combine(root, sub);
-        }
-    }
-    
     public static class TextHelper
     {
         public static string[] SplitOn(string l)

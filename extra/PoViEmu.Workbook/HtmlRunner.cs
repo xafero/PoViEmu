@@ -10,11 +10,11 @@ using PoViEmu.Base.ISA;
 using DefI = PoViEmu.I186.CPU.Impl.Defaults;
 using DefS = PoViEmu.SH3.CPU.Impl.Defaults;
 using static PoViEmu.Base.FileHelper;
-using static PoViEmu.Workbook.CPU.SoftUtil;
+using static PoViEmu.Workbook.SoftUtil;
 
 // ReSharper disable CoVariantArrayConversion
 
-namespace PoViEmu.Workbook.CPU
+namespace PoViEmu.Workbook
 {
     internal static class HtmlRunner
     {

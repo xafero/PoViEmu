@@ -1,6 +1,7 @@
 using System.IO;
 using System.Text.Json.Serialization;
-using PoViEmu.Core.Inventory;
+using PoViEmu.Inventory.Upper;
+using PoViEmu.Inventory.Utils;
 
 namespace PoViEmu.UI.Models
 {

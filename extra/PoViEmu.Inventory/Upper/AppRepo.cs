@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PoViEmu.Base;
-using PoViEmu.Base;
-using PoViEmu.Common;
-using PoViEmu.Inventory;
+using PoViEmu.Inventory.Utils;
 
-namespace PoViEmu.Core.Inventory
+namespace PoViEmu.Inventory.Upper
 {
     public sealed class AppRepo
     {

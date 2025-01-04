@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace PoViEmu.Common
+namespace PoViEmu.UI.Extra
 {
     public static class SysInfo
     {

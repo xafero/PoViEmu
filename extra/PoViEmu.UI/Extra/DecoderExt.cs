@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Iced.Intel;
 using PoViEmu.I186.ISA.Decoding;
 using DTx = PoViEmu.I186.ISA.Decoding.DecoderExt;
 
-namespace PoViEmu.Core.Decoding
+namespace PoViEmu.UI.Extra
 {
     public static class DecoderExt
     {

@@ -1,6 +1,5 @@
 using PoViEmu.Base;
-using PoViEmu.Base;
-using PoViEmu.Common;
+using PoViEmu.UI.Extra;
 
 namespace PoViEmu.UI.Models
 {

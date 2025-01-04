@@ -1,8 +1,7 @@
 using Cscg.AutoGen;
 using PoViEmu.Base;
-using PoViEmu.Common;
 
-namespace PoViEmu.Core.Inventory
+namespace PoViEmu.Inventory.Upper
 {
     public sealed class AppConst
     {

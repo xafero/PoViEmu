@@ -5,8 +5,8 @@ using System.IO;
 using System.Linq;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
-using PoViEmu.Core.Inventory;
 using PoViEmu.I186.ABI;
+using PoViEmu.Inventory.Upper;
 using PoViEmu.Inventory.Utils;
 using PoViEmu.UI.Tools;
 
