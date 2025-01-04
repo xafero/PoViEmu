@@ -6,7 +6,7 @@ using Avalonia.Android;
 namespace PoViEmu.UI.Android
 {
     [Activity(
-        Label = "PoViEmu.UI.Android",
+        Label = "PoViEmu",
         Theme = "@style/MyTheme.NoActionBar",
         Icon = "@drawable/icon",
         MainLauncher = true,
