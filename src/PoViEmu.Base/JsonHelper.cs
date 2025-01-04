@@ -27,6 +27,13 @@ namespace PoViEmu.Base
             return json;
         }
         
+        public static T FromJson<T>(string json, bool format = true, bool noDefaults = false)
+        {
+            var config = GetConfig(format, noDefaults);
+            var obj = JsonConvert.DeserializeObject<T>(json, config);
+            return obj;
+        }
+        
         public static void SaveToFile<T>(T obj, string file)
         {
             var text = ToJson(obj);

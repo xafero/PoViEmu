@@ -7,12 +7,12 @@ namespace PoViEmu.UI
 {
     public class ViewLocator : IDataTemplate
     {
-        public Control? Build(object? param)
+        public Control? Build(object? data)
         {
-            if (param is null)
+            if (data is null)
                 return null;
 
-            var name = param.GetType().FullName!.Replace("ViewModel", "View", StringComparison.Ordinal);
+            var name = data.GetType().FullName!.Replace("ViewModel", "View", StringComparison.Ordinal);
             var type = Type.GetType(name);
 
             if (type != null)
@@ -20,7 +20,7 @@ namespace PoViEmu.UI
                 return (Control)Activator.CreateInstance(type)!;
             }
 
-            return new TextBlock { Text = "Not Found: " + name };
+            return new TextBlock { Text = $"Not Found: {name}" };
         }
 
         public bool Match(object? data)

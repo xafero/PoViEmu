@@ -26,9 +26,9 @@ namespace PoViEmu.UI
                     DataContext = new MainViewModel()
                 };
             }
-            else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
+            else if (ApplicationLifetime is ISingleViewApplicationLifetime mobile)
             {
-                singleViewPlatform.MainView = new MainView
+                mobile.MainView = new MainView
                 {
                     DataContext = new MainViewModel()
                 };

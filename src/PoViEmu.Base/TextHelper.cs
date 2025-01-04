@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace PoViEmu.Base
 {
     public static class TextHelper
     {
+        public const StringComparison Ignore = StringComparison.InvariantCultureIgnoreCase;
+        
         public static readonly Encoding Utf8 = Encoding.UTF8;
         
         public static string Title(this string text)

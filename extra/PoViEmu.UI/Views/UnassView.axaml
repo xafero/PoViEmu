@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
+             mc:Ignorable="d"
+             d:DesignWidth="460" d:DesignHeight="850"
+             x:Class="PoViEmu.UI.Views.UnassView"
+             x:DataType="vm:UnassViewModel"
+             Loaded="Control_OnLoaded">
+
+    <Design.DataContext>
+        <vm:UnassViewModel />
+    </Design.DataContext>
+
+    <HeaderedContentControl>
+        <HeaderedContentControl.Header>
+            <Border BorderThickness="2" BorderBrush="Black" CornerRadius="10">
+                <Label HorizontalAlignment="Center">Disassembly</Label>
+            </Border>
+        </HeaderedContentControl.Header>
+        <DataGrid ItemsSource="{Binding Assembly}"
+                  FontFamily="{StaticResource MonoFont}"
+                  IsReadOnly="True" GridLinesVisibility="All"
+                  HorizontalAlignment="Center">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="Auto" Header="Offset" Binding="{Binding Offset}" />
+                <DataGridTextColumn Width="Auto" Header="Bytes" Binding="{Binding Hex}" />
+                <DataGridTextColumn Header="Operation" Binding="{Binding Command}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </HeaderedContentControl>
+
+</UserControl>

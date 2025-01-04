@@ -1,4 +1,6 @@
 using Avalonia.Controls;
+using Avalonia.Interactivity;
+using PoViEmu.UI.ViewModels;
 
 namespace PoViEmu.UI.Views
 {
@@ -7,6 +9,12 @@ namespace PoViEmu.UI.Views
         public MainView()
         {
             InitializeComponent();
+        }
+
+        private void Control_OnLoaded(object? sender, RoutedEventArgs e)
+        {
+            if (DataContext is MainViewModel mvm)
+                mvm.Title = nameof(PoViEmu);
         }
     }
 }

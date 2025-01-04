@@ -6,6 +6,27 @@ namespace PoViEmu.Base
 {
     public static class PathHelper
     {
+        public static string CurrentDir
+            => Environment.CurrentDirectory;
+        
+        public static string GetLast(string url)
+        {
+            return url.Split('/').Last();
+        }
+        
+        public static string GetDirFor(this string root, string file, params string[] dirs)
+        {
+            return Path.Combine(Path.Combine(root, Path.Combine(dirs)), file);
+        }
+        
+        public static string MakeDirFor(this string root, string file, params string[] dirs)
+        {
+            var target = Path.Combine(root, Path.Combine(dirs));
+            if (!Directory.Exists(target))
+                Directory.CreateDirectory(target);
+            return Path.Combine(target, file);
+        }
+        
         public static string? Normalize(string path)
         {
             return path.Replace('\\', Path.DirectorySeparatorChar).TrimNull();

@@ -3,14 +3,40 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vw="clr-namespace:PoViEmu.UI.Views"
+             mc:Ignorable="d" 
+             d:DesignWidth="660" d:DesignHeight="730"
              x:Class="PoViEmu.UI.Views.MainView"
-             x:DataType="vm:MainViewModel">
+             x:DataType="vm:MainViewModel"
+             Loaded="Control_OnLoaded">
 
-  <Design.DataContext>
-    <vm:MainViewModel />
-  </Design.DataContext>
+    <Design.DataContext>
+        <vm:MainViewModel />
+    </Design.DataContext>
 
-  <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-  
+    <DockPanel LastChildFill="True">
+        <Panel DockPanel.Dock="Left">
+            <!-- <vw:RegisterView /> -->
+            <!-- <vw:RawMemView /> -->
+        </Panel>
+        <Panel DockPanel.Dock="Right">
+            <StackPanel Orientation="Vertical">
+                <!-- <vw:StackView /> -->
+                <!-- <vw:SimCtrlView /> -->
+            </StackPanel>
+        </Panel>
+        <Panel DockPanel.Dock="Bottom">
+            <!-- <vw:EmsView /> -->
+        </Panel>
+        <Panel DockPanel.Dock="Right">
+            <!-- <vw:AddInListView /> -->
+        </Panel>
+        <Panel>
+            <!-- <vw:HandheldView /> -->
+            <!-- <vw:MinimalView /> -->
+            <!-- <vw:AddInView /> -->
+            <vw:RepoView />
+        </Panel>
+    </DockPanel>
+
 </UserControl>
