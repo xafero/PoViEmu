@@ -1,9 +1,8 @@
-using PoViEmu.SH3.CPU;
 using static PoViEmu.SH3.CPU.MachExt;
 using RS = PoViEmu.SH3.ISA.Ops.SourceReg;
 using RD = PoViEmu.SH3.ISA.Ops.DestReg;
 
-namespace xxx
+namespace PoViEmu.SH3.CPU
 {
     internal static class Compute
     {
