@@ -17,8 +17,8 @@ namespace PoViEmu.SH3.ISA.Decoding
 
         public void Decode(out Instruction instr)
         {
-            const uint step = 2;
             var current = Parser.Parse(_reader);
+            var step = (uint)current.Length;
             current.IP32 = PC;
             current.NextIP32 = PC + step;
             PC += step;

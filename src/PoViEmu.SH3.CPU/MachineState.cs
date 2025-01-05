@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using PoViEmu.Base.CPU;
 using PoViEmu.SH3.ISA;
+using PoViEmu.SH3.ISA.Ops;
 using static PoViEmu.SH3.CPU.SegTool;
 using static PoViEmu.Base.CPU.MemTool;
 using Fl = PoViEmu.SH3.ISA.Flagged;
@@ -469,6 +470,18 @@ namespace PoViEmu.SH3.CPU
         {
             get => this.GetByString(name);
             set => this.SetByString(name, value);
+        }
+
+        public uint this[RegOperand r]
+        {
+            get => MachExt.Get(this, r);
+            set => MachExt.Set(this, r, value);
+        }
+
+        public uint this[ShRegister r]
+        {
+            get => MachExt.Get(this, r);
+            set => MachExt.Set(this, r, value);
         }
 
         #endregion
