@@ -13,12 +13,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="ByteSize" Version="2.1.2"/>
-        <PackageReference Include="IniFile.NET" Version="1.6.0"/>
+        <PackageReference Include="ByteSize" />
+        <PackageReference Include="IniFile.NET" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Cscg.Constants" Version="0.0.3">
+        <PackageReference Include="Cscg.Constants">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
