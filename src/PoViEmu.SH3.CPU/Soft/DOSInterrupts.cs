@@ -27,7 +27,7 @@ namespace PoViEmu.SH3.CPU.Soft
             switch (num)
             {
                 case MainIntNo:
-                    switch (m.R5)
+                    switch (m.R3)
                     {
                         // Write string to standard output
                         case 0x09:
