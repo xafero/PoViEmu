@@ -5,7 +5,7 @@ using T = PoViEmu.SH3.ISA.Core.InstTool;
 
 namespace PoViEmu.SH3.ISA.Core
 {
-    internal sealed class Parser
+    public sealed class Parser
     {
         public static Instruction Parse(IByteReader reader)
         {

@@ -10,6 +10,11 @@ namespace PoViEmu.SH3.ISA.Ops
         ushort? Dis = null)
         : BaseOperand
     {
+        public override string ToDebug(bool v)
+        {
+            return $"p{(v ? $"{{{ToString()}}}" : "")}";
+        }
+
         public override string ToString()
         {
             var @base = Base?.Name();

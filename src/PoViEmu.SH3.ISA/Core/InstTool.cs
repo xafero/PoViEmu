@@ -114,8 +114,13 @@ namespace PoViEmu.SH3.ISA.Core
         public static BaseOperand D(uint low) => new DisplOperand(low);
         
         public static BaseOperand Nm(byte low) => new MemoryOperand(GetReg(low), IsMinus: true);
+
         public static BaseOperand M(byte low, ushort dis) => new MemoryOperand(GetReg(low), Dis: dis);
         public static BaseOperand M(ShRegister low, ushort dis) => new MemoryOperand(low, Dis: dis);
         public static BaseOperand M(byte low, ShRegister off) => new MemoryOperand(off, GetReg(low));
+
+        public static BaseOperand N(byte low, ushort dis) => new MemoryOperand(GetReg(low), Dis: dis);
+        public static BaseOperand N(ShRegister low, ushort dis) => new MemoryOperand(low, Dis: dis);
+        public static BaseOperand N(byte low, ShRegister off) => new MemoryOperand(off, GetReg(low));
     }
 }
