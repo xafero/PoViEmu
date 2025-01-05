@@ -7,7 +7,7 @@ namespace PoViEmu.SH3.ISA.Core
 {
     internal static class InstTool
     {
-        private static ShRegister GetReg(byte i)
+        internal static ShRegister GetReg(byte i)
         {
             return i switch
             {
