@@ -1,5 +1,3 @@
-using System;
-using System.Reflection.Metadata.Ecma335;
 using PoViEmu.SH3.ISA.Ops;
 
 namespace PoViEmu.SH3.ISA.Core
@@ -78,65 +76,5 @@ namespace PoViEmu.SH3.ISA.Core
         {
             return new RegMathOperand(InstTool.GetReg(a), b);
         }
-    }
-
-    public record RegMathOperand(ShRegister Reg, int? Dis = null) : BaseOperand
-    {
-        public override string ToDebug(bool v)
-        {
-            return $"rm{(v ? $"({Dis},{Reg})" : "")}";
-        }
-
-        public override string ToString() => $"@({Dis}, {Reg.Name()})";
-    }
-
-    public record RegOperand(ShRegister Reg) : BaseOperand
-    {
-        public override string ToDebug(bool v)
-        {
-            return $"r{(v ? $"({Reg})" : "")}";
-        }
-
-        public override string ToString() => $"{Reg.Name()}";
-    }
-
-    public record RegRegOperand(ShRegister Reg1, ShRegister Reg2) : BaseOperand
-    {
-        public override string ToDebug(bool v)
-        {
-            return $"rr{(v ? $"({Reg1},{Reg2})" : "")}";
-        }
-
-        public override string ToString() => $"{Reg1.Name()}:{Reg2.Name()}";
-    }
-
-    public record UImmOperand(byte Val) : BaseOperand
-    {
-        public override string ToDebug(bool v)
-        {
-            return $"ui{(v ? $"({Val})" : "")}";
-        }
-
-        public override string ToString() => $"#{Val}";
-    }
-
-    public record SImmOperand(sbyte Val) : BaseOperand
-    {
-        public override string ToDebug(bool v)
-        {
-            return $"si{(v ? $"({Val})" : "")}";
-        }
-
-        public override string ToString() => $"#{Val}";
-    }
-
-    public record DisplOperand(uint Val) : BaseOperand
-    {
-        public override string ToDebug(bool v)
-        {
-            return $"d{(v ? $"({Val})" : "")}";
-        }
-
-        public override string ToString() => $"d{Val:x}";
     }
 }

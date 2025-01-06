@@ -31,12 +31,12 @@ namespace PoViEmu.Base
         {
             var config = GetConfig(format, noDefaults);
             var obj = JsonConvert.DeserializeObject<T>(json, config);
-            return obj;
+            return obj!;
         }
         
         public static void SaveToFile<T>(T obj, string file)
         {
-            var text = ToJson(obj);
+            var text = ToJson(obj!);
             File.WriteAllText(file, text, TextHelper.Utf8);
         }
         
