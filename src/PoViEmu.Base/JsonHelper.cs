@@ -33,7 +33,13 @@ namespace PoViEmu.Base
             var obj = JsonConvert.DeserializeObject<T>(json, config);
             return obj!;
         }
-        
+
+        public static T ReadFromFile<T>(string file)
+        {
+            var json = File.ReadAllText(file, TextHelper.Utf8);
+            return FromJson<T>(json);
+        }
+
         public static void SaveToFile<T>(T obj, string file)
         {
             var text = ToJson(obj!);
