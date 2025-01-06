@@ -23,4 +23,10 @@
     <ProjectReference Include="..\..\src\PoViEmu.SH3.ISA\PoViEmu.SH3.ISA.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Resources\SH3\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
