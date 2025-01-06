@@ -947,7 +947,7 @@ namespace PoViEmu.SH3.CPU
                     return;
                 case Mnemonic.Tst when ops is [I8 i, RD n]:
                     long tempTs;
-                    tempTs = s[0] & (0x000000FF & (long)i.Val);
+                    tempTs = s[R.R0] & (0x000000FF & (long)i.Val);
                     s.T = tempTs == 0;
                     return;
                 case Mnemonic.TstB when ops is [I8 i, RD n]:

@@ -28,5 +28,11 @@ namespace PoViEmu.Base
 
         public static uint ReadUInt32(byte[] buffer, int offset = 0, EndianMode mode = default)
             => (uint)ReadInt32(buffer, offset, mode);
+
+        public static byte[] GetBytes(object o)
+        {
+            // TODO
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -1,9 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using PoViEmu.Base;
 using PoViEmu.Base.CPU;
+using PoViEmu.Base.ISA;
 using PoViEmu.SH3.ISA;
 using PoViEmu.SH3.ISA.Ops;
 using static PoViEmu.SH3.CPU.SegTool;
@@ -13,8 +17,9 @@ using Fl = PoViEmu.SH3.ISA.Flagged;
 namespace PoViEmu.SH3.CPU
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public sealed class MachineState : INotifyPropertyChanging, INotifyPropertyChanged,
-        IState
+    public sealed class MachineState : IMachineState, IState,
+        IFlatMemAccess<byte>, IFlatMemAccess<ushort>, IFlatMemAccess<uint>,
+        IFlatMemAccess<byte[]>, IFlatMemAccess<ushort[]>, IFlatMemAccess<uint[]>
     {
         #region General registers
 
@@ -462,6 +467,18 @@ namespace PoViEmu.SH3.CPU
             OnPropertyChanged(name);
         }
 
+        [DebuggerNonUserCode]
+        [ExcludeFromCodeCoverage]
+        private void SetProperty<T>(Func<T> getter, Action<T> setter, T newValue,
+            [CallerMemberName] string? name = null, IEqualityComparer<T>? comparer = null)
+        {
+            if ((comparer ?? EqualityComparer<T>.Default).Equals(getter(), newValue))
+                return;
+            OnPropertyChanging(name);
+            setter(newValue);
+            OnPropertyChanged(name);
+        }
+
         #endregion
 
         #region Indexers
@@ -490,11 +507,27 @@ namespace PoViEmu.SH3.CPU
 
         private readonly byte[] _memory = AllocateMemory();
 
+        public MachineState()
+        {
+            U8 = new FlatMemAccess<byte>(this);
+            U8A = new FlatMemAccess<byte[]>(this);
+            U16 = new FlatMemAccess<ushort>(this);
+            U16A = new FlatMemAccess<ushort[]>(this);
+            U32 = new FlatMemAccess<uint>(this);
+            U32A = new FlatMemAccess<uint[]>(this);
+        }
+
         public IEnumerable<byte> ReadMemory(uint offset, int count)
             => Read(_memory, offset, count);
 
         public void WriteMemory(uint offset, params byte[] bytes)
             => Write(_memory, offset, bytes);
+
+        public byte[] this[uint offset]
+        {
+            get => ReadMemory(offset, 128 * 4).ToArray();
+            set => WriteMemory(offset, value);
+        }
 
         #endregion
 
@@ -503,6 +536,177 @@ namespace PoViEmu.SH3.CPU
         public override string ToString()
         {
             return this.ToRegisterString(" ");
+        }
+
+        #endregion
+
+        #region Memory access
+
+        public FlatMemAccess<byte> U8 { get; }
+        public FlatMemAccess<byte[]> U8A { get; }
+        public FlatMemAccess<ushort> U16 { get; }
+        public FlatMemAccess<ushort[]> U16A { get; }
+        public FlatMemAccess<uint> U32 { get; }
+        public FlatMemAccess<uint[]> U32A { get; }
+
+        byte IFlatMemAccess<byte>.Get(uint addr)
+        {
+            var value = _memory[addr];
+            return value;
+        }
+
+        byte[] IFlatMemAccess<byte[]>.Get(uint addr)
+        {
+            var count = ushort.MaxValue;
+            var values = new byte[count];
+            for (var i = 0; i < count; i++)
+            {
+                var value = _memory[addr + i];
+                values[i] = value;
+            }
+            return values;
+        }
+
+        void IFlatMemAccess<byte>.Set(uint addr, byte value)
+        {
+            SetProperty(() => ((IFlatMemAccess<byte>)this).Get(addr),
+                v => { _memory[addr] = v; }, value, GetSrc<byte>(addr));
+        }
+
+        void IFlatMemAccess<byte[]>.Set(uint addr, byte[] values)
+        {
+            SetProperty(() => ((IFlatMemAccess<byte[]>)this).Get(addr),
+                v =>
+                {
+                    for (var i = 0; i < v.Length; i++)
+                    {
+                        var value = v[i];
+                        _memory[addr + i] = value;
+                    }
+                }, values, GetSrc<byte[]>(addr));
+        }
+
+        ushort IFlatMemAccess<ushort>.Get(uint addr)
+        {
+            var bytes = new[] { _memory[addr], _memory[addr + 1] };
+            var value = Endian.ReadUInt16(bytes);
+            return value;
+        }
+
+        ushort[] IFlatMemAccess<ushort[]>.Get(uint addr)
+        {
+            var count = (ushort.MaxValue) / 2;
+            var values = new ushort[count];
+            for (int i = 0, j = 0; i < count; i++, j += 2)
+            {
+                var bytes = new[] { _memory[addr + j], _memory[addr + j + 1] };
+                var value = Endian.ReadUInt16(bytes);
+                values[i] = value;
+            }
+            return values;
+        }
+
+        void IFlatMemAccess<ushort>.Set(uint addr, ushort value)
+        {
+            SetProperty(() => ((IFlatMemAccess<ushort>)this).Get(addr),
+                v =>
+                {
+                    var bytes = Endian.GetBytes(v);
+                    _memory[addr] = bytes[0];
+                    _memory[addr + 1] = bytes[1];
+                }, value, GetSrc<ushort>(addr));
+        }
+
+        void IFlatMemAccess<ushort[]>.Set(uint addr, ushort[] values)
+        {
+            SetProperty(() => ((IFlatMemAccess<ushort[]>)this).Get(addr),
+                v =>
+                {
+                    for (int i = 0, j = 0; i < v.Length; i++, j += 2)
+                    {
+                        var value = v[i];
+                        var bytes = Endian.GetBytes(value);
+                        _memory[addr + j] = bytes[0];
+                        _memory[addr + j + 1] = bytes[1];
+                    }
+                }, values, GetSrc<ushort[]>(addr));
+        }
+
+        uint IFlatMemAccess<uint>.Get(uint addr)
+        {
+            var bytes = new[] { _memory[addr], _memory[addr + 1], _memory[addr + 2], _memory[addr + 3] };
+            var value = Endian.ReadUInt16(bytes);
+            return value;
+        }
+
+        uint[] IFlatMemAccess<uint[]>.Get(uint addr)
+        {
+            var count = (ushort.MaxValue) / 2;
+            var values = new uint[count];
+            for (int i = 0, j = 0; i < count; i++, j += 2)
+            {
+                var bytes = new[]
+                {
+                    _memory[addr + j], _memory[addr + j + 1], _memory[addr + j + 2], _memory[addr + j + 3]
+                };
+                var value = Endian.ReadUInt16(bytes);
+                values[i] = value;
+            }
+            return values;
+        }
+
+        void IFlatMemAccess<uint>.Set(uint addr, uint value)
+        {
+            SetProperty(() => ((IFlatMemAccess<uint>)this).Get(addr),
+                v =>
+                {
+                    var bytes = Endian.GetBytes(v);
+                    _memory[addr] = bytes[0];
+                    _memory[addr + 1] = bytes[1];
+                    _memory[addr + 2] = bytes[2];
+                    _memory[addr + 3] = bytes[3];
+                }, value, GetSrc<uint>(addr));
+        }
+
+        void IFlatMemAccess<uint[]>.Set(uint addr, uint[] values)
+        {
+            SetProperty(() => ((IFlatMemAccess<uint[]>)this).Get(addr),
+                v =>
+                {
+                    for (int i = 0, j = 0; i < v.Length; i++, j += 2)
+                    {
+                        var value = v[i];
+                        var bytes = Endian.GetBytes(value);
+                        _memory[addr + j] = bytes[0];
+                        _memory[addr + j + 1] = bytes[1];
+                        _memory[addr + j + 2] = bytes[2];
+                        _memory[addr + j + 3] = bytes[3];
+                    }
+                }, values, GetSrc<uint[]>(addr));
+        }
+
+        internal byte GetU8(string? addr)
+        {
+            ParseSrc(addr, out var idx);
+            return ((IFlatMemAccess<byte>)this).Get(idx);
+        }
+
+        internal byte[] GetU8A(string? addr)
+        {
+            ParseSrc(addr, out var idx);
+            return ((IFlatMemAccess<byte[]>)this).Get(idx);
+        }
+
+        internal ushort GetU16(string? addr)
+        {
+            ParseSrc(addr, out var idx);
+            return ((IFlatMemAccess<ushort>)this).Get(idx);
+        }
+
+        internal ushort[] GetU16A(string? addr)
+        {
+            ParseSrc(addr, out var idx);
+            return ((IFlatMemAccess<ushort[]>)this).Get(idx);
         }
 
         #endregion

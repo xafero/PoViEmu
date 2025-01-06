@@ -17,9 +17,8 @@ using Fl = PoViEmu.I186.ISA.Flagged;
 namespace PoViEmu.I186.CPU
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public sealed class MachineState : INotifyPropertyChanging, INotifyPropertyChanged,
-        IMemAccess<byte>, IMemAccess<ushort>, IMemAccess<byte[]>, IMemAccess<ushort[]>,
-        IMachineState, IState
+    public sealed class MachineState : IMachineState, IState,
+        IMemAccess<byte>, IMemAccess<ushort>, IMemAccess<byte[]>, IMemAccess<ushort[]>
     {
         #region Data group
 
@@ -518,13 +517,13 @@ namespace PoViEmu.I186.CPU
             get => this.Get(reg16);
             set => this.Set(reg16, value);
         }
-        
+
         public byte this[B8Register reg8]
         {
             get => this.Get(reg8);
             set => this.Set(reg8, value);
         }
-        
+
         public ushort this[Reg16Operand reg16]
         {
             get => this.Get(reg16);
