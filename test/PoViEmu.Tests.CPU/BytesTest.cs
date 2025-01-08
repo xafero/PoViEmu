@@ -63,6 +63,10 @@ namespace PoViEmu.Tests.CPU
             Assert.Equal(xI16, i16);
             Assert.Equal(xI32, i32);
 
+            Assert.Equal(hex[..2], Convert.ToHexString(Endian.WriteInt8(i8)));
+            Assert.Equal(hex[..4], Convert.ToHexString(Endian.WriteInt16(i16, m)));
+            Assert.Equal(hex, Convert.ToHexString(Endian.WriteInt32(i32, m)));
+
             var u8 = Endian.ReadUInt8(bytes);
             var u16 = Endian.ReadUInt16(bytes, mode: m);
             var u32 = Endian.ReadUInt32(bytes, mode: m);
@@ -70,6 +74,10 @@ namespace PoViEmu.Tests.CPU
             Assert.Equal(xU8, u8);
             Assert.Equal(xU16, u16);
             Assert.Equal(xU32, u32);
+
+            Assert.Equal(hex[..2], Convert.ToHexString(Endian.WriteUInt8(u8)));
+            Assert.Equal(hex[..4], Convert.ToHexString(Endian.WriteUInt16(u16, m)));
+            Assert.Equal(hex, Convert.ToHexString(Endian.WriteUInt32(u32, m)));
         }
     }
 }

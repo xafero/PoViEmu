@@ -611,9 +611,7 @@ namespace PoViEmu.SH3.CPU
             SetProperty(() => ((IFlatMemAccess<ushort>)this).Get(addr),
                 v =>
                 {
-                    var bytes = Endian.GetBytes(v);
-                    _memory[addr] = bytes[0];
-                    _memory[addr + 1] = bytes[1];
+                    Endian.WriteUInt16(v, _memory, offset: addr);
                 }, value, GetSrc<ushort>(addr));
         }
 
@@ -625,9 +623,7 @@ namespace PoViEmu.SH3.CPU
                     for (int i = 0, j = 0; i < v.Length; i++, j += 2)
                     {
                         var value = v[i];
-                        var bytes = Endian.GetBytes(value);
-                        _memory[addr + j] = bytes[0];
-                        _memory[addr + j + 1] = bytes[1];
+                        Endian.WriteUInt16(value,  _memory, offset: addr + j);
                     }
                 }, values, GetSrc<ushort[]>(addr));
         }
@@ -660,11 +656,7 @@ namespace PoViEmu.SH3.CPU
             SetProperty(() => ((IFlatMemAccess<uint>)this).Get(addr),
                 v =>
                 {
-                    var bytes = Endian.GetBytes(v);
-                    _memory[addr] = bytes[0];
-                    _memory[addr + 1] = bytes[1];
-                    _memory[addr + 2] = bytes[2];
-                    _memory[addr + 3] = bytes[3];
+                    Endian.WriteUInt32(v, _memory, offset: addr);
                 }, value, GetSrc<uint>(addr));
         }
 
@@ -676,11 +668,7 @@ namespace PoViEmu.SH3.CPU
                     for (int i = 0, j = 0; i < v.Length; i++, j += 2)
                     {
                         var value = v[i];
-                        var bytes = Endian.GetBytes(value);
-                        _memory[addr + j] = bytes[0];
-                        _memory[addr + j + 1] = bytes[1];
-                        _memory[addr + j + 2] = bytes[2];
-                        _memory[addr + j + 3] = bytes[3];
+                        Endian.WriteUInt32(value, _memory, offset: addr + j);
                     }
                 }, values, GetSrc<uint[]>(addr));
         }
