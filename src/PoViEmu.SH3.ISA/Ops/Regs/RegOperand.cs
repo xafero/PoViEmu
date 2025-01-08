@@ -13,9 +13,5 @@ namespace PoViEmu.SH3.ISA.Ops.Regs
 
     public record Reg32Operand(B32 Reg) : RegOperand<B32>
     {
-        public override string ToDebug(bool v)
-        {
-            return ToString();
-        }
     }
 }

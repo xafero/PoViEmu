@@ -62,6 +62,7 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Sets);
                     }
                     break;
+                /*
                 case 0b10000000:
                     // Move data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
@@ -800,7 +801,7 @@ namespace PoViEmu.SH3.ISA.Core
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dst = low;
                     imm = second;
-                    return X.Create(first, second, O.Mov, a: [I(imm), R(dst)]);
+                    return X.Create(first, second, O.Mov, a: [I(imm), R(dst)]);*/
             }
 
             return DoNull();

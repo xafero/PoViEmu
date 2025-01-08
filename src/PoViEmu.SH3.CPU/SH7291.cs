@@ -7,11 +7,11 @@ using PoViEmu.SH3.CPU.Soft;
 using PoViEmu.SH3.ISA;
 using PoViEmu.SH3.ISA.Decoding;
 using static PoViEmu.SH3.CPU.MachExt;
-using DO = PoViEmu.SH3.ISA.Ops.DisplOperand;
+using DO = PoViEmu.SH3.ISA.Ops.Consts.I32Operand;
 using Fl = PoViEmu.SH3.ISA.Flagged;
-using I8 = PoViEmu.SH3.ISA.Ops.ImmedOperand;
-using RS = PoViEmu.SH3.ISA.Ops.SourceReg;
-using RD = PoViEmu.SH3.ISA.Ops.DestReg;
+using I8 = PoViEmu.SH3.ISA.Ops.Consts.I8Operand;
+using RS = PoViEmu.SH3.ISA.Ops.Regs.Reg32Operand;
+using RD = PoViEmu.SH3.ISA.Ops.Regs.Reg32Operand;
 using R = PoViEmu.SH3.ISA.ShRegister;
 
 // ReSharper disable InconsistentNaming
@@ -485,10 +485,10 @@ namespace PoViEmu.SH3.CPU
                     // TLB_data=PTEL;
                     return;
                 case Mnemonic.MacL when ops is [RS m, RD n]:
-                    s.MACL(m, n);
+                    Compute.MACL(s, (R)(object)m, (R)(object)n);
                     return;
                 case Mnemonic.MacW when ops is [RS m, RD n]:
-                    s.MACW(m, n);
+                    Compute.MACW(s, (R)(object)m, (R)(object)n);
                     return;
                 case Mnemonic.Mov when ops is [RS m, RD n]:
                     s[n] = s[m];

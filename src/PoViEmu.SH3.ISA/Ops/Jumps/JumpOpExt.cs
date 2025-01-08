@@ -17,14 +17,11 @@ namespace PoViEmu.SH3.ISA.Ops.Jumps
             var destIP = (uint)callDst;
             return destIP;
         }
-
-        public override string ToDebug(bool v) => ToString();
     }
 
     public record FarOperand(uint Off)
         : JumpOperand
     {
-        public override string ToDebug(bool v) => ToString();
     }
 
     public static class JumpOpExt

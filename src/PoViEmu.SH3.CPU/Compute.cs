@@ -1,6 +1,6 @@
 using static PoViEmu.SH3.CPU.MachExt;
-using RS = PoViEmu.SH3.ISA.Ops.SourceReg;
-using RD = PoViEmu.SH3.ISA.Ops.DestReg;
+using RS = PoViEmu.SH3.ISA.ShRegister;
+using RD = PoViEmu.SH3.ISA.ShRegister;
 
 namespace PoViEmu.SH3.CPU
 {

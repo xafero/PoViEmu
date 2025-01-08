@@ -1,6 +1,7 @@
 using System;
 using PoViEmu.SH3.ISA;
 using PoViEmu.SH3.ISA.Ops;
+using PoViEmu.SH3.ISA.Ops.Regs;
 
 namespace PoViEmu.SH3.CPU
 {
@@ -15,8 +16,7 @@ namespace PoViEmu.SH3.CPU
         {
             switch (r)
             {
-                case SourceReg sr: return Get(m, sr.Reg);
-                case DestReg dr: return Get(m, dr.Reg);
+                case RegOperand<ShRegister> sr: return Get(m, sr.Reg);
             }
             throw new InvalidOperationException($"{r} ?!");
         }
@@ -30,8 +30,7 @@ namespace PoViEmu.SH3.CPU
         {
             switch (r)
             {
-                case SourceReg sr: Set(m, sr.Reg, value); break;
-                case DestReg dr: Set(m, dr.Reg, value); break;
+                case RegOperand<ShRegister> sr: Set(m, sr.Reg, value); break;
             }
             throw new InvalidOperationException($"{r} {value} ?!");
         }

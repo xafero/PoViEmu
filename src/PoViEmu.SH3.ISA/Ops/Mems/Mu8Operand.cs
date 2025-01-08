@@ -10,8 +10,6 @@ namespace PoViEmu.SH3.ISA.Ops.Mems
             get => m.U8[this.OffA(m)];
             set => m.U8[this.OffA(m)] = value;
         }
-
-        public override string ToDebug(bool v) => ToString();
     }
 
     public record Mu16Operand(AddressingMode Mode, B32 Base, B32? Idx, int? Disp)
@@ -22,8 +20,6 @@ namespace PoViEmu.SH3.ISA.Ops.Mems
             get => m.U16[this.OffA(m)];
             set => m.U16[this.OffA(m)] = value;
         }
-
-        public override string ToDebug(bool v) => ToString();
     }
 
     public record Mu32Operand(AddressingMode Mode, B32 Base, B32? Idx, int? Disp)
@@ -34,7 +30,5 @@ namespace PoViEmu.SH3.ISA.Ops.Mems
             get => m.U32[this.OffA(m)];
             set => m.U32[this.OffA(m)] = value;
         }
-
-        public override string ToDebug(bool v) => ToString();
     }
 }
