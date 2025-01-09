@@ -9,7 +9,6 @@ using PoViEmu.Base;
 using PoViEmu.Base.CPU;
 using PoViEmu.Base.ISA;
 using PoViEmu.SH3.ISA;
-using PoViEmu.SH3.ISA.Ops;
 using PoViEmu.SH3.ISA.Ops.Regs;
 using static PoViEmu.SH3.CPU.SegTool;
 using static PoViEmu.Base.CPU.MemTool;

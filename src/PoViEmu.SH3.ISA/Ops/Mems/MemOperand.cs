@@ -1,5 +1,4 @@
 using System;
-using PoViEmu.SH3.ISA;
 using PoViEmu.SH3.ISA.Core;
 using B32 = PoViEmu.SH3.ISA.ShRegister;
 

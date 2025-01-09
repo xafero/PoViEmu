@@ -1,6 +1,5 @@
 using System;
 using PoViEmu.SH3.ISA;
-using PoViEmu.SH3.ISA.Ops;
 using PoViEmu.SH3.ISA.Ops.Regs;
 
 namespace PoViEmu.SH3.CPU

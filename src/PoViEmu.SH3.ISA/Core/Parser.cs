@@ -3,7 +3,6 @@ using static PoViEmu.SH3.ISA.Core.ArgTool;
 using static PoViEmu.SH3.ISA.ShRegister;
 using O = PoViEmu.SH3.ISA.Mnemonic;
 using X = PoViEmu.SH3.ISA.Core.InstTool;
-using A = PoViEmu.SH3.ISA.Core.ArgTool;
 
 namespace PoViEmu.SH3.ISA.Core
 {
