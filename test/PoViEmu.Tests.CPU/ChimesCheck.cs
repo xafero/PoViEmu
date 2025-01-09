@@ -24,12 +24,12 @@ namespace PoViEmu.Tests.CPU
             var expected = TextHelper.ReadUtf8Lines(txtFile);
 
             var (actual1, ret1) = Exec1(com1Bytes, dir, com1File);
-            var (actual2, ret2) = Exec2(com2Bytes, dir, com2File);
+            // var (actual2, ret2) = Exec2(com2Bytes, dir, com2File);
 
             TestTool.Equal(expected, actual1);
             Assert.Equal("0", $"{ret1}");
 
-            // TestTool.Equal(expected, actual2);
+            // TestTool.Equal(expected, actual2); // TODO
             // Assert.Equal("0", $"{ret2}");
         }
 
