@@ -31,7 +31,7 @@ namespace PoViEmu.SH3.ISA.Decoding
         {
             var codeTxt = Mnemonic.Name();
             var arg = string.Join(",", Args.Select(a => a.ToString()));
-            const string space = "    ";
+            const string space = "   ";
             return $"{codeTxt}{space}{arg}".Trim();
         }
     }

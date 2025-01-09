@@ -7,6 +7,11 @@ namespace PoViEmu.SH3.ISA.Ops.Consts
 
     public record I8Operand(sbyte Val) : NumOperand<sbyte>
     {
+        public override string ToString()
+        {
+            var val = Val;
+            return $"#{val}";
+        }
     }
 
     public record I16Operand(short Val) : NumOperand<short>
@@ -19,6 +24,11 @@ namespace PoViEmu.SH3.ISA.Ops.Consts
 
     public record U8Operand(byte Val) : NumOperand<byte>
     {
+        public override string ToString()
+        {
+            var val = Val;
+            return $"#{val}";
+        }
     }
 
     public record U16Operand(ushort Val) : NumOperand<ushort>

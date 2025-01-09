@@ -31,16 +31,11 @@ namespace PoViEmu.SH3.ISA.Core
             };
         }
 
-        public static Instruction Create(byte first, byte second, Mnemonic code,
-            byte? i = null, ushort? d = null, byte? n = null, byte? m = null, byte? ui = null,
-            bool nIsRef = false, bool nIsRefP = false, bool nIsRefM = false,
-            bool mIsRef = false, bool mIsRefP = false, bool mIsRefM = false,
-            params BaseOperand[] a)
+        public static Instruction Create(byte first, byte second, Mnemonic code, params BaseOperand[] a)
         {
             byte[] bytes = [first, second];
             var args = new List<BaseOperand>();
-            if (a is { } xA)
-                args.AddRange(xA);
+            if (a is { } xA) args.AddRange(xA);
             return new Instruction(bytes, code, args.ToArray());
         }
 

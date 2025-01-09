@@ -3,6 +3,7 @@ using static PoViEmu.SH3.ISA.Core.ArgTool;
 using static PoViEmu.SH3.ISA.ShRegister;
 using O = PoViEmu.SH3.ISA.Mnemonic;
 using X = PoViEmu.SH3.ISA.Core.InstTool;
+using A = PoViEmu.SH3.ISA.Core.ArgTool;
 
 namespace PoViEmu.SH3.ISA.Core
 {
@@ -62,7 +63,6 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Sets);
                     }
                     break;
-                /*
                 case 0b10000000:
                     // Move data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
@@ -129,7 +129,7 @@ namespace PoViEmu.SH3.ISA.Core
                     // Trap Always
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     imm = second;
-                    return X.Create(first, second, O.Trapa, a: [Ui(imm)]);
+                    return X.Create(first, second, O.Trapa, a: [U(imm)]);
                 case 0b11000100:
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
@@ -153,42 +153,42 @@ namespace PoViEmu.SH3.ISA.Core
                     // Test Logical
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     imm = second;
-                    return X.Create(first, second, O.Tst, a: [R0, Ui(imm)]);
+                    return X.Create(first, second, O.Tst, a: [U(imm), R0]);
                 case 0b11001001:
                     // AND Logical
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     imm = second;
-                    return X.Create(first, second, O.And, a: [Ui(imm), R0]);
+                    return X.Create(first, second, O.And, a: [U(imm), R0]);
                 case 0b11001010:
                     // Exclusive OR Logical
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     imm = second;
-                    return X.Create(first, second, O.Xor, a: [Ui(imm), R0]);
+                    return X.Create(first, second, O.Xor, a: [U(imm), R0]);
                 case 0b11001011:
                     // OR Logical
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     imm = second;
-                    return X.Create(first, second, O.Or, a: [Ui(imm), R0]);
+                    return X.Create(first, second, O.Or, a: [U(imm), R0]);
                 case 0b11001100:
                     // Test Logical
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     imm = second;
-                    return X.Create(first, second, O.TstB, a: [Ui(imm), B(R0, GBR)]);
+                    return X.Create(first, second, O.TstB, a: [U(imm), B(GBR, R0)]);
                 case 0b11001101:
                     // AND Logical
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     imm = second;
-                    return X.Create(first, second, O.AndB, a: [Ui(imm), B(R0, GBR)]);
+                    return X.Create(first, second, O.AndB, a: [U(imm), B(GBR, R0)]);
                 case 0b11001110:
                     // XOR
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     imm = second;
-                    return X.Create(first, second, O.XorB, a: [Ui(imm), B(R0, GBR)]);
+                    return X.Create(first, second, O.XorB, a: [U(imm), B(GBR, R0)]);
                 case 0b11001111:
                     // OR Logical
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     imm = second;
-                    return X.Create(first, second, O.OrB, a: [Ui(imm), B(R0, GBR)]);
+                    return X.Create(first, second, O.OrB, a: [U(imm), B(GBR, R0)]);
             }
 
             var (high, low) = X.SplitByte(first);
@@ -202,7 +202,7 @@ namespace PoViEmu.SH3.ISA.Core
                             // Store Control Register
                             return X.Create(first, second, O.Stc, a: [SR, R(low)]);
                         case 0b00000011:
-                            // Branch to Subroutine Far 
+                            // Branch to Subroutine Far
                             return X.Create(first, second, O.Bsrf, a: [R(low)]);
                         case 0b00001010:
                             // Store System Register
@@ -249,7 +249,7 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Stc, a: [R0_Bank, R(low)]);
                         case 0b10000011:
                             // Prefetch Data to the Cache
-                            return X.Create(first, second, O.Pref, a: [R(low, isRef: true)]);
+                            return X.Create(first, second, O.Pref, a: [Rr(low)]);
                         case 0b10001010:
                             return DoNull();
                         case 0b10010010:
@@ -295,7 +295,7 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.MovL, a: [R(secH), L(low, R0)]);
                         case 0b0111:
                             // Multiply Long
-                            return X.Create(first, second, O.MulL, n: low, m: secH);
+                            return X.Create(first, second, O.MulL, a: [R(secH), R(low)]);
                         case 0b1100:
                             // Move Data
                             return X.Create(first, second, O.MovB, a: [B(secH, R0), R(low)]);
@@ -307,7 +307,7 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.MovL, a: [L(secH, R0), R(low)]);
                         case 0b1111:
                             // Multiply and Accumulate Long
-                            return X.Create(first, second, O.MacL, a: [R(secH, plus: true), R(low, plus: true)]);
+                            return X.Create(first, second, O.MacL, a: [Rp(secH), Rp(low)]);
                     }
                     break;
                 case 0b0001:
@@ -324,22 +324,22 @@ namespace PoViEmu.SH3.ISA.Core
                     {
                         case 0b0000:
                             // Move Data
-                            return X.Create(first, second, O.MovB, a: [R(secH2), R(low, isRef: true)]);
+                            return X.Create(first, second, O.MovB, a: [R(secH2), Rr(low)]);
                         case 0b0001:
                             // Move Data
-                            return X.Create(first, second, O.MovW, a: [R(secH2), R(low, isRef: true)]);
+                            return X.Create(first, second, O.MovW, a: [R(secH2), Rr(low)]);
                         case 0b0010:
                             // Move Data
-                            return X.Create(first, second, O.MovL, a: [R(secH2), R(low, isRef: true)]);
+                            return X.Create(first, second, O.MovL, a: [R(secH2), Rr(low)]);
                         case 0b0100:
                             // Move Data
-                            return X.Create(first, second, O.MovB, a: [R(secH2), R(low, minus: true)]);
+                            return X.Create(first, second, O.MovB, a: [R(secH2), Rm(low)]);
                         case 0b0101:
                             // Move Data
-                            return X.Create(first, second, O.MovW, a: [R(secH2), R(low, minus: true)]);
+                            return X.Create(first, second, O.MovW, a: [R(secH2), Rm(low)]);
                         case 0b0110:
                             // Move Data
-                            return X.Create(first, second, O.MovL, a: [R(secH2), R(low, minus: true)]);
+                            return X.Create(first, second, O.MovL, a: [R(secH2), Rm(low)]);
                         case 0b0111:
                             // Divide Step 0 as Signed
                             return X.Create(first, second, O.Div0s, a: [R(secH2), R(low)]);
@@ -425,10 +425,10 @@ namespace PoViEmu.SH3.ISA.Core
                     {
                         case 0b00000110:
                             // Load to System Register
-                            return X.Create(first, second, O.LdsL, a: [R(low, isRef: true), MACH]);
+                            return X.Create(first, second, O.LdsL, a: [Rp(low), MACH]);
                         case 0b00000111:
                             // Load to Control Register
-                            return X.Create(first, second, O.LdcL, a: [R(low, isRef: true), SR]);
+                            return X.Create(first, second, O.LdcL, a: [Rp(low), SR]);
                         case 0b00001010:
                             // Load to System Register
                             return X.Create(first, second, O.Lds, a: [R(low), MACH]);
@@ -437,10 +437,10 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Ldc, a: [R(low), SR]);
                         case 0b00010110:
                             // Load to System Register
-                            return X.Create(first, second, O.LdsL, a: [R(low, isRef: true), MACL]);
+                            return X.Create(first, second, O.LdsL, a: [Rp(low), MACL]);
                         case 0b00010111:
                             // Load to Control Register
-                            return X.Create(first, second, O.LdcL, a: [R(low, isRef: true), GBR]);
+                            return X.Create(first, second, O.LdcL, a: [Rp(low), GBR]);
                         case 0b00011010:
                             // Load to System Register
                             return X.Create(first, second, O.Lds, a: [R(low), MACL]);
@@ -449,10 +449,10 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Ldc, a: [R(low), GBR]);
                         case 0b00100110:
                             // Load to System Register
-                            return X.Create(first, second, O.LdsL, a: [R(low, isRef: true), PR]);
+                            return X.Create(first, second, O.LdsL, a: [Rp(low), PR]);
                         case 0b00100111:
                             // Load to Control Register
-                            return X.Create(first, second, O.LdcL, a: [R(low, isRef: true), VBR]);
+                            return X.Create(first, second, O.LdcL, a: [Rp(low), VBR]);
                         case 0b00101010:
                             // Load to System Register
                             return X.Create(first, second, O.Lds, a: [R(low), PR]);
@@ -461,19 +461,19 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Ldc, a: [R(low), VBR]);
                         case 0b00110111:
                             // Load to Control Register
-                            return X.Create(first, second, O.LdcL, a: [R(low, isRef: true), SSR]);
+                            return X.Create(first, second, O.LdcL, a: [Rp(low), SSR]);
                         case 0b00111110:
                             // Load to Control Register
                             return X.Create(first, second, O.Ldc, a: [R(low), SSR]);
                         case 0b01000111:
                             // Load to Control Register
-                            return X.Create(first, second, O.LdcL, a: [R(low, isRef: true), SPC]);
+                            return X.Create(first, second, O.LdcL, a: [Rp(low), SPC]);
                         case 0b01001110:
                             // Load to Control Register
                             return X.Create(first, second, O.Ldc, a: [R(low), SPC]);
                         case 0b01010111:
                             // Load to Control Register
-                            return X.Create(first, second, O.LdcL, a: [R(low, isRef: true), R5_Bank]);
+                            return X.Create(first, second, O.LdcL, a: [Rp(low), R5_Bank]);
                         case 0b01011110:
                             // Load to Control Register
                             return X.Create(first, second, O.Ldc, a: [R(low), R5_Bank]);
@@ -481,7 +481,7 @@ namespace PoViEmu.SH3.ISA.Core
                             return DoNull();
                         case 0b01100111:
                             // Load to Control Register
-                            return X.Create(first, second, O.LdcL, a: [R(low, isRef: true), R6_Bank]);
+                            return X.Create(first, second, O.LdcL, a: [Rp(low), R6_Bank]);
                         case 0b01101010:
                             return DoNull();
                         case 0b01101110:
@@ -491,7 +491,7 @@ namespace PoViEmu.SH3.ISA.Core
                             return DoNull();
                         case 0b01110111:
                             // Load to Control Register
-                            return X.Create(first, second, O.LdcL, a: [R(low, isRef: true), R7_Bank]);
+                            return X.Create(first, second, O.LdcL, a: [Rp(low), R7_Bank]);
                         case 0b01111010:
                             return DoNull();
                         case 0b01111110:
@@ -499,7 +499,7 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Ldc, a: [R(low), R7_Bank]);
                         case 0b10000111:
                             // Load to Control Register
-                            return X.Create(first, second, O.LdcL, a: [R(low, isRef: true), R0_Bank]);
+                            return X.Create(first, second, O.LdcL, a: [Rp(low), R0_Bank]);
                         case 0b10001010:
                             return DoNull();
                         case 0b10001110:
@@ -507,7 +507,7 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Ldc, a: [R(low), R0_Bank]);
                         case 0b10010111:
                             // Load to Control Register
-                            return X.Create(first, second, O.LdcL, a: [R(low, isRef: true), R1_Bank]);
+                            return X.Create(first, second, O.LdcL, a: [Rp(low), R1_Bank]);
                         case 0b10011010:
                             return DoNull();
                         case 0b10011110:
@@ -515,7 +515,7 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Ldc, a: [R(low), R1_Bank]);
                         case 0b10100111:
                             // Load to Control Register
-                            return X.Create(first, second, O.LdcL, a: [R(low, isRef: true), R2_Bank]);
+                            return X.Create(first, second, O.LdcL, a: [Rp(low), R2_Bank]);
                         case 0b10101010:
                             return DoNull();
                         case 0b10101110:
@@ -523,7 +523,7 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Ldc, a: [R(low), R2_Bank]);
                         case 0b10110111:
                             // Load to Control Register
-                            return X.Create(first, second, O.LdcL, a: [R(low, isRef: true), R3_Bank]);
+                            return X.Create(first, second, O.LdcL, a: [Rp(low), R3_Bank]);
                         case 0b10111010:
                             return DoNull();
                         case 0b10111110:
@@ -531,25 +531,25 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Ldc, a: [R(low), R3_Bank]);
                         case 0b11000111:
                             // Load to Control Register
-                            return X.Create(first, second, O.LdcL, a: [R(low, isRef: true), R4_Bank]);
+                            return X.Create(first, second, O.LdcL, a: [Rp(low), R4_Bank]);
                         case 0b11001110:
                             // Load to Control Register
                             return X.Create(first, second, O.Ldc, a: [R(low), R4_Bank]);
                         case 0b11010111:
                             // Load to Control Register
-                            return X.Create(first, second, O.LdcL, a: [R(low, isRef: true), R5_Bank]);
+                            return X.Create(first, second, O.LdcL, a: [Rp(low), R5_Bank]);
                         case 0b11011110:
                             // Load to Control Register
                             return X.Create(first, second, O.Ldc, a: [R(low), R5_Bank]);
                         case 0b11100111:
                             // Load to Control Register
-                            return X.Create(first, second, O.LdcL, a: [R(low, isRef: true), R6_Bank]);
+                            return X.Create(first, second, O.LdcL, a: [Rp(low), R6_Bank]);
                         case 0b11101110:
                             // Load to Control Register
                             return X.Create(first, second, O.Ldc, a: [R(low), R6_Bank]);
                         case 0b11110111:
                             // Load to Control Register
-                            return X.Create(first, second, O.LdcL, a: [R(low, isRef: true), R7_Bank]);
+                            return X.Create(first, second, O.LdcL, a: [Rp(low), R7_Bank]);
                         case 0b11111110:
                             // Load to Control Register
                             return X.Create(first, second, O.Ldc, a: [R(low), R7_Bank]);
@@ -561,10 +561,10 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Shlr, a: [R(low)]);
                         case 0b00000010:
                             // Store System Register
-                            return X.Create(first, second, O.StsL, a: [MACH, R(low, minus: true)]);
+                            return X.Create(first, second, O.StsL, a: [MACH, Rm(low)]);
                         case 0b00000011:
                             // Store Control Register
-                            return X.Create(first, second, O.StcL, a: [SR, R(low, minus: true)]);
+                            return X.Create(first, second, O.StcL, a: [SR, Rm(low)]);
                         case 0b00000100:
                             // Rotate Left
                             return X.Create(first, second, O.Rotl, a: [R(low)]);
@@ -579,7 +579,7 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Shlr2, a: [R(low)]);
                         case 0b00001011:
                             // Jump to Subroutine
-                            return X.Create(first, second, O.Jsr, a: [R(low, isRef: true)]);
+                            return X.Create(first, second, O.Jsr, a: [Rr(low)]);
                         case 0b00010000:
                             // Decrement and Test
                             return X.Create(first, second, O.Dt, a: [R(low)]);
@@ -588,10 +588,10 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.CmpPz, a: [R(low)]);
                         case 0b00010010:
                             // Store System Register
-                            return X.Create(first, second, O.StsL, a: [MACL, R(low, minus: true)]);
+                            return X.Create(first, second, O.StsL, a: [MACL, Rm(low)]);
                         case 0b00010011:
                             // Store Control Register
-                            return X.Create(first, second, O.StcL, a: [GBR, R(low, minus: true)]);
+                            return X.Create(first, second, O.StcL, a: [GBR, Rm(low)]);
                         case 0b00010101:
                             // Compare Conditionally
                             return X.Create(first, second, O.CmpPl, a: [R(low)]);
@@ -603,7 +603,7 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Shlr8, a: [R(low)]);
                         case 0b00011011:
                             // Test and Set
-                            return X.Create(first, second, O.TasB, a: [R(low, isRef: true)]);
+                            return X.Create(first, second, O.TasB, a: [Rr(low)]);
                         case 0b00100000:
                             // Shift Arithmetic Left
                             return X.Create(first, second, O.Shal, a: [R(low)]);
@@ -612,10 +612,10 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Shar, a: [R(low)]);
                         case 0b00100010:
                             // Store System Register
-                            return X.Create(first, second, O.StsL, a: [PR, R(low, minus: true)]);
+                            return X.Create(first, second, O.StsL, a: [PR, Rm(low)]);
                         case 0b00100011:
                             // Store Control Register
-                            return X.Create(first, second, O.StcL, a: [VBR, R(low, minus: true)]);
+                            return X.Create(first, second, O.StcL, a: [VBR, Rm(low)]);
                         case 0b00100100:
                             // Rotate with Carry Left
                             return X.Create(first, second, O.Rotcl, a: [R(low)]);
@@ -630,64 +630,64 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Shlr16, a: [R(low)]);
                         case 0b00101011:
                             // Jump
-                            return X.Create(first, second, O.Jmp, a: [R(low, isRef: true)]);
+                            return X.Create(first, second, O.Jmp, a: [Rr(low)]);
                         case 0b00110011:
                             // Store Control Register
-                            return X.Create(first, second, O.StcL, a: [SSR, R(low, minus: true)]);
+                            return X.Create(first, second, O.StcL, a: [SSR, Rm(low)]);
                         case 0b01000011:
                             // Store Control Register
-                            return X.Create(first, second, O.StcL, a: [SPC, R(low, minus: true)]);
+                            return X.Create(first, second, O.StcL, a: [SPC, Rm(low)]);
                         case 0b01010011:
                             // Store Control Register
-                            return X.Create(first, second, O.StcL, a: [R5_Bank, R(low, minus: true)]);
+                            return X.Create(first, second, O.StcL, a: [R5_Bank, Rm(low)]);
                         case 0b01100010:
                             return DoNull();
                         case 0b01100011:
                             // Store Control Register
-                            return X.Create(first, second, O.StcL, a: [R6_Bank, R(low, minus: true)]);
+                            return X.Create(first, second, O.StcL, a: [R6_Bank, Rm(low)]);
                         case 0b01110011:
                             // Store Control Register
-                            return X.Create(first, second, O.StcL, a: [R7_Bank, R(low, minus: true)]);
+                            return X.Create(first, second, O.StcL, a: [R7_Bank, Rm(low)]);
                         case 0b10000010:
                             return DoNull();
                         case 0b10000011:
                             // Store Control Register
-                            return X.Create(first, second, O.StcL, a: [R0_Bank, R(low, minus: true)]);
+                            return X.Create(first, second, O.StcL, a: [R0_Bank, Rm(low)]);
                         case 0b10000110:
                             return DoNull();
                         case 0b10010010:
                             return DoNull();
                         case 0b10010011:
                             // Store Control Register
-                            return X.Create(first, second, O.StcL, a: [R1_Bank, R(low, minus: true)]);
+                            return X.Create(first, second, O.StcL, a: [R1_Bank, Rm(low)]);
                         case 0b10010110:
                             return DoNull();
                         case 0b10100010:
                             return DoNull();
                         case 0b10100011:
                             // Store Control Register
-                            return X.Create(first, second, O.StcL, a: [R2_Bank, R(low, minus: true)]);
+                            return X.Create(first, second, O.StcL, a: [R2_Bank, Rm(low)]);
                         case 0b10100110:
                             return DoNull();
                         case 0b10110010:
                             return DoNull();
                         case 0b10110011:
                             // Store Control Register
-                            return X.Create(first, second, O.StcL, a: [R3_Bank, R(low, minus: true)]);
+                            return X.Create(first, second, O.StcL, a: [R3_Bank, Rm(low)]);
                         case 0b10110110:
                             return DoNull();
                         case 0b11000011:
                             // Store Control Register
-                            return X.Create(first, second, O.StcL, a: [R4_Bank, R(low, minus: true)]);
+                            return X.Create(first, second, O.StcL, a: [R4_Bank, Rm(low)]);
                         case 0b11010011:
                             // Store Control Register
-                            return X.Create(first, second, O.StcL, a: [R5_Bank, R(low, minus: true)]);
+                            return X.Create(first, second, O.StcL, a: [R5_Bank, Rm(low)]);
                         case 0b11100011:
                             // Store Control Register
-                            return X.Create(first, second, O.StcL, a: [R6_Bank, R(low, minus: true)]);
+                            return X.Create(first, second, O.StcL, a: [R6_Bank, Rm(low)]);
                         case 0b11110011:
                             // Store Control Register
-                            return X.Create(first, second, O.StcL, a: [R7_Bank, R(low, minus: true)]);
+                            return X.Create(first, second, O.StcL, a: [R7_Bank, Rm(low)]);
                     }
 
                     var (secH4, secL4) = X.SplitByte(second);
@@ -701,7 +701,7 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Shld, a: [R(secH4), R(low)]);
                         case 0b1111:
                             // Multiply and Accumulate
-                            return X.Create(first, second, O.MacW, a: [R(secH4, isRef: true), R(low, isRef: true)]);
+                            return X.Create(first, second, O.MacW, a: [Rp(secH4), Rp(low)]);
                     }
                     break;
                 case 0b0101:
@@ -718,25 +718,25 @@ namespace PoViEmu.SH3.ISA.Core
                     {
                         case 0b0000:
                             // Move Data
-                            return X.Create(first, second, O.MovB, a: [R(secH6, isRef: true), R(low)]);
+                            return X.Create(first, second, O.MovB, a: [Rr(secH6), R(low)]);
                         case 0b0001:
                             // Move Data
-                            return X.Create(first, second, O.MovW, a: [R(secH6, isRef: true), R(low)]);
+                            return X.Create(first, second, O.MovW, a: [Rr(secH6), R(low)]);
                         case 0b0010:
                             // Move Data
-                            return X.Create(first, second, O.MovL, a: [R(secH6, isRef: true), R(low)]);
+                            return X.Create(first, second, O.MovL, a: [Rr(secH6), R(low)]);
                         case 0b0011:
                             // Move Data
                             return X.Create(first, second, O.Mov, a: [R(secH6), R(low)]);
                         case 0b0100:
                             // Move Data
-                            return X.Create(first, second, O.MovB, a: [R(secH6, isRef: true), R(low)]);
+                            return X.Create(first, second, O.MovB, a: [Rp(secH6), R(low)]);
                         case 0b0101:
                             // Move Data
-                            return X.Create(first, second, O.MovW, a: [R(secH6, isRef: true), R(low)]);
+                            return X.Create(first, second, O.MovW, a: [Rp(secH6), R(low)]);
                         case 0b0110:
                             // Move Data
-                            return X.Create(first, second, O.MovL, a: [R(secH6, isRef: true), R(low)]);
+                            return X.Create(first, second, O.MovL, a: [Rp(secH6), R(low)]);
                         case 0b0111:
                             // NOT Logical Complement
                             return X.Create(first, second, O.Not, a: [R(secH6), R(low)]);
@@ -801,7 +801,7 @@ namespace PoViEmu.SH3.ISA.Core
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     dst = low;
                     imm = second;
-                    return X.Create(first, second, O.Mov, a: [I(imm), R(dst)]);*/
+                    return X.Create(first, second, O.Mov, a: [I(imm), R(dst)]);
             }
 
             return DoNull();
