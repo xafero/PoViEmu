@@ -102,39 +102,11 @@ namespace PoViEmu.SH3.CPU
         {
             switch (r)
             {
-                case RegOperand<ShRegister> sr: Set(m, sr.Reg, value); break;
+                case RegOperand<ShRegister> sr:
+                    Set(m, sr.Reg, value);
+                    return;
             }
             throw new InvalidOperationException($"{r} {value} ?!");
-        }
-
-        public static long ReadByte(MachineState s, uint offset)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static short ReadWord(MachineState s, uint offset)
-        {
-            throw new NotImplementedException();
-        }
-        
-        public static int ReadLong(MachineState s, uint offset)
-        {
-            throw new NotImplementedException();
-        }
-        
-        public static void WriteByte(MachineState s, uint a, uint b)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void WriteWord(MachineState s, uint a, uint b)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void WriteLong(MachineState s, uint a, uint b)
-        {
-            throw new NotImplementedException();
         }
     }
 }

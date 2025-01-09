@@ -22,10 +22,7 @@ namespace PoViEmu.SH3.CPU
 
         public static void ParseSrc(string? addr, out uint off)
         {
-            var parts = addr?.Split(':', 2);
-            if (parts?.Length != 2)
-                throw new InvalidOperationException(addr);
-            off = Convert.ToUInt32(parts[1], 16);
+            off = Convert.ToUInt32(addr, 16);
         }
 
         public static string GetSrc<T>(uint off)
@@ -37,6 +34,8 @@ namespace PoViEmu.SH3.CPU
                 case "Byte[]": return $"U8A|{off:X8}";
                 case "UInt16": return $"U16|{off:X8}";
                 case "UInt16[]": return $"U16A|{off:X8}";
+                case "UInt32": return $"U32|{off:X8}";
+                case "UInt32[]": return $"U32A|{off:X8}";
             }
             throw new InvalidOperationException($"{name} {off}");
         }

@@ -12,8 +12,6 @@ namespace PoViEmu.Tests.CPU
 {
     public class HíPointerTest
     {
-        // TODO
-
         [Theory]
         [InlineData("mov.l   r0,@r15", "@r15", 0x2F02, "00000000")]
         [InlineData("mac.l   @r11+,@r15+", "@r11+", 0x0FBF, "00000000")]

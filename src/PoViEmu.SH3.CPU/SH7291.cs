@@ -7,12 +7,14 @@ using PoViEmu.SH3.CPU.Soft;
 using PoViEmu.SH3.ISA;
 using PoViEmu.SH3.ISA.Decoding;
 using static PoViEmu.SH3.CPU.MachExt;
-using DO = PoViEmu.SH3.ISA.Ops.Consts.I32Operand;
 using Fl = PoViEmu.SH3.ISA.Flagged;
 using I8 = PoViEmu.SH3.ISA.Ops.Consts.I8Operand;
-using RS = PoViEmu.SH3.ISA.Ops.Regs.Reg32Operand;
-using RD = PoViEmu.SH3.ISA.Ops.Regs.Reg32Operand;
-using R = PoViEmu.SH3.ISA.ShRegister;
+using U8 = PoViEmu.SH3.ISA.Ops.Consts.U8Operand;
+using NO = PoViEmu.SH3.ISA.Ops.Jumps.NearOperand;
+using MU32 = PoViEmu.SH3.ISA.Ops.Mems.Mu32Operand;
+using R = PoViEmu.SH3.ISA.Ops.Regs.Reg32Operand;
+using PoViEmu.SH3.ISA.Ops.Mems;
+using static PoViEmu.SH3.ISA.ShRegister;
 
 // ReSharper disable InconsistentNaming
 
@@ -62,22 +64,22 @@ namespace PoViEmu.SH3.CPU
             var ops = parsed.GetOps().ToArray();
             switch (parsed.Mnemonic)
             {
-                case Mnemonic.Add when ops is [RS m, RD n]:
+                case Mnemonic.Add when ops is [R m, R n]:
                     s[n] += s[m];
                     return;
-                case Mnemonic.Add when ops is [I8 i, RD n]:
+                case Mnemonic.Add when ops is [I8 i, R r]:
                     if ((i.Val & 0x80) == 0)
-                        s[n] = (uint)(s[n] + (0x000000FF & (long)i.Val));
+                        s[r] = (uint)(s[r] + (0x000000FF & (long)i.Val));
                     else
-                        s[n] += 0xFFFFFF00 | (byte)i.Val;
+                        s[r] += 0xFFFFFF00 | (byte)i.Val;
                     return;
-                case Mnemonic.Addc when ops is [RS m, RD n]:
+                case Mnemonic.Addc when ops is [R m, R n]:
                     var tmpc1 = s[n] + s[m];
                     var tmpc0 = s[n];
                     s[n] = (uint)(tmpc1 + s.T.ToNum());
                     s.T = tmpc0 > tmpc1 || tmpc1 > s[n];
                     return;
-                case Mnemonic.Addv when ops is [RS m, RD n]:
+                case Mnemonic.Addv when ops is [R m, R n]:
                     long dest, src, ans;
                     dest = (long)s[n] >= 0 ? 0 : 1;
                     src = (long)s[m] >= 0 ? 0 : 1;
@@ -90,11 +92,11 @@ namespace PoViEmu.SH3.CPU
                     else
                         s.T = false;
                     return;
-                case Mnemonic.And when ops is [RS m, RD n]:
+                case Mnemonic.And when ops is [R m, R n]:
                     s[n] &= s[m];
                     return;
                 case Mnemonic.And when ops is [I8 i]:
-                    s[R.R0] = (uint)(s[R.R0] & 0x000000FF & i.Val);
+                    s[R0] = (uint)(s[R0] & 0x000000FF & i.Val);
                     return;
                 case Mnemonic.AndB when ops is [I8 i]:
                     // TODO long temp;
@@ -102,25 +104,25 @@ namespace PoViEmu.SH3.CPU
                     // TODO temp&=(0x000000FF & (long)i.Val);
                     // TODO Write_Byte(GBR+R[0],temp);
                     return;
-                case Mnemonic.Bf when ops is [DO d]:
+                case Mnemonic.Bf when ops is [NO d]:
                     long disp;
-                    if ((d.Val & 0x80) == 0)
-                        disp = 0x000000FF & (long)d.Val;
+                    if ((d.Diff & 0x80) == 0)
+                        disp = 0x000000FF & (long)d.Diff;
                     else
-                        disp = 0xFFFFFF00 | (long)d.Val;
+                        disp = 0xFFFFFF00 | (long)d.Diff;
                     if (s.T == false)
                         nextIP = (uint)(s.PC + (disp << 1) + 4);
                     else
                         nextIP = s.PC + 2;
                     return;
-                case Mnemonic.BfS when ops is [DO d]:
+                case Mnemonic.BfS when ops is [NO d]:
                     long dispS;
                     uint tempS;
                     tempS = s.PC;
-                    if ((d.Val & 0x80) == 0)
-                        dispS = 0x000000FF & (long)d.Val;
+                    if ((d.Diff & 0x80) == 0)
+                        dispS = 0x000000FF & (long)d.Diff;
                     else
-                        dispS = 0xFFFFFF00 | (long)d.Val;
+                        dispS = 0xFFFFFF00 | (long)d.Diff;
                     if (s.T == false)
                     {
                         nextIP = (uint)(s.PC + (dispS << 1) + 4);
@@ -129,64 +131,67 @@ namespace PoViEmu.SH3.CPU
                     else
                         nextIP = s.PC + 2;
                     return;
-                case Mnemonic.Bra when ops is [DO d]:
+                case Mnemonic.Bra when ops is [NO d]:
                     ulong tempB;
                     long dispB;
-                    if ((d.Val & 0x800) == 0)
-                        dispB = 0x00000FFF & d.Val;
+                    if ((d.Diff & 0x800) == 0)
+                        dispB = 0x00000FFF & d.Diff;
                     else
-                        dispB = 0xFFFFF000 | d.Val;
+                        dispB = 0xFFFFF000 | d.Diff;
                     tempB = nextIP;
                     nextIP = (uint)(s.PC + (dispB << 1) + 4);
                     // TODO Delay_Slot(temp+2);
                     return;
-                case Mnemonic.Braf when ops is [RS m]:
+                case Mnemonic.Braf when ops is [R m]:
                     ulong tempF;
                     tempF = nextIP;
-                    nextIP = s.PC + s[m];
+                    // TODO nextIP = s.PC + s[m];
                     // TODO Delay_Slot(temp+2);
                     return;
-                case Mnemonic.Bsr when ops is [DO d]:
+                case Mnemonic.Bsr when ops is [NO d]:
                     long dispR;
-                    if ((d.Val & 0x800) == 0)
-                        dispR = 0x00000FFF & d.Val;
+                    if ((d.Diff & 0x800) == 0)
+                        dispR = 0x00000FFF & d.Diff;
                     else
-                        dispR = 0xFFFFF000 | d.Val;
-                    s.PR = nextIP;
-                    nextIP = (uint)(s.PC + (dispR << 1) + 4);
+                        dispR = 0xFFFFF000 | d.Diff;
+                    // TODO s.PR = nextIP;
+                    // TODO nextIP = (uint)(s.PC + (dispR << 1) + 4);
                     // TODO Delay_Slot(PR+2);
                     return;
-                case Mnemonic.Bsrf when ops is [RS m]:
-                    s.PR = s.PC;
-                    nextIP = s.PC + s[m];
+                case Mnemonic.Bsrf when ops is [R m]:
+                    // TODO s.PR = s.PC;
+                    // TODO nextIP = s.PC + s[m];
                     // TODO Delay_Slot(PR+2);
                     return;
-                case Mnemonic.Bt when ops is [DO d]:
+                case Mnemonic.Bt when ops is [NO d]:
                     long dispT;
-                    if ((d.Val & 0x80) == 0)
-                        dispT = 0x000000FF & (long)d.Val;
+                    if ((d.Diff & 0x80) == 0)
+                        dispT = 0x000000FF & (long)d.Diff;
                     else
-                        dispT = 0xFFFFFF00 | (long)d.Val;
-                    if (s.T)
-                        nextIP = (uint)(s.PC + (dispT << 1) + 4);
+                        dispT = 0xFFFFFF00 | (long)d.Diff;
+                    /*if (s.T)
+                        // TODO nextIP = (uint)(s.PC + (dispT << 1) + 4);
                     else
-                        nextIP = s.PC + 2;
+                        // TODO nextIP = s.PC + 2;
+                    */
                     return;
-                case Mnemonic.BtS when ops is [DO d]:
+                case Mnemonic.BtS when ops is [NO d]:
                     long dispW;
                     ulong tempW;
                     tempW = s.PC;
-                    if ((d.Val & 0x80) == 0)
-                        disp = 0x000000FF & (long)d.Val;
+                    if ((d.Diff & 0x80) == 0)
+                        disp = 0x000000FF & (long)d.Diff;
                     else
-                        disp = 0xFFFFFF00 | (long)d.Val;
+                        disp = 0xFFFFFF00 | (long)d.Diff;
                     if (s.T)
                     {
-                        nextIP = (uint)(s.PC + (disp << 1) + 4);
+                        // TODO nextIP = (uint)(s.PC + (disp << 1) + 4);
                         // TODO Delay_Slot(temp+2);
                     }
                     else
-                        nextIP = s.PC + 2;
+                    {
+                        // TODO nextIP = s.PC + 2;
+                    }
                     return;
                 case Mnemonic.Clrmac:
                     s.MACH = 0;
@@ -198,28 +203,28 @@ namespace PoViEmu.SH3.CPU
                 case Mnemonic.Clrt:
                     s.T = false;
                     return;
-                case Mnemonic.CmpEq when ops is [RS m, RD n]:
+                case Mnemonic.CmpEq when ops is [R m, R n]:
                     s.T = s[n] == s[m];
                     return;
-                case Mnemonic.CmpGe when ops is [RS m, RD n]:
+                case Mnemonic.CmpGe when ops is [R m, R n]:
                     s.T = (long)s[n] >= s[m];
                     return;
-                case Mnemonic.CmpGt when ops is [RS m, RD n]:
+                case Mnemonic.CmpGt when ops is [R m, R n]:
                     s.T = (long)s[n] > s[m];
                     return;
-                case Mnemonic.CmpHi when ops is [RS m, RD n]:
+                case Mnemonic.CmpHi when ops is [R m, R n]:
                     s.T = (ulong)s[n] > s[m];
                     return;
-                case Mnemonic.CmpHs when ops is [RS m, RD n]:
+                case Mnemonic.CmpHs when ops is [R m, R n]:
                     s.T = (ulong)s[n] >= s[m];
                     return;
-                case Mnemonic.CmpPl when ops is [RD n]:
+                case Mnemonic.CmpPl when ops is [R n]:
                     s.T = (long)s[n] > 0;
                     return;
-                case Mnemonic.CmpPz when ops is [RD n]:
+                case Mnemonic.CmpPz when ops is [R n]:
                     s.T = (long)s[n] >= 0;
                     return;
-                case Mnemonic.CmpStr when ops is [RS m, RD n]:
+                case Mnemonic.CmpStr when ops is [R m, R n]:
                     ulong temp = s[n] ^ s[m];
                     var HH = (long)((temp & 0xFF000000) >> 12);
                     var HL = (long)((temp & 0x00FF0000) >> 8);
@@ -234,9 +239,9 @@ namespace PoViEmu.SH3.CPU
                         imm = 0x000000FF & (long)i.Val;
                     else
                         imm = 0xFFFFFF00 | (byte)i.Val;
-                    s.T = s[R.R0] == imm;
+                    s.T = s[R0] == imm;
                     return;
-                case Mnemonic.Div0s when ops is [RS m, RD n]:
+                case Mnemonic.Div0s when ops is [R m, R n]:
                     s.Q = (s[n] & 0x80000000) != 0;
                     s.M = (s[m] & 0x80000000) != 0;
                     s.T = s.M != s.Q;
@@ -244,7 +249,7 @@ namespace PoViEmu.SH3.CPU
                 case Mnemonic.Div0u:
                     s.M = s.Q = s.T = false;
                     return;
-                case Mnemonic.Div1 when ops is [RS m, RD n]:
+                case Mnemonic.Div1 when ops is [R m, R n]:
                     uint tmp0;
                     byte tmp1;
                     var old_q = (byte)s.Q.ToNum();
@@ -322,7 +327,7 @@ namespace PoViEmu.SH3.CPU
                     }
                     s.T = s.Q == s.M;
                     return;
-                case Mnemonic.DmulsL when ops is [RS m, RD n]:
+                case Mnemonic.DmulsL when ops is [R m, R n]:
                     uint RnL, RnH, RmL, RmH, Res0, Res1, Res2;
                     uint temp0, temp1, temp2, temp3;
                     long tempm, tempn, fnLmL;
@@ -363,7 +368,7 @@ namespace PoViEmu.SH3.CPU
                     s.MACH = Res2;
                     s.MACL = Res0;
                     return;
-                case Mnemonic.DmuluL when ops is [RS m, RD n]:
+                case Mnemonic.DmuluL when ops is [R m, R n]:
                     uint RnLx, RnHx, RmLx, RmHx, Res0x, Res1x, Res2x;
                     uint temp0x, temp1x, temp2x, temp3x;
                     RnLx = s[n] & 0x0000FFFF;
@@ -386,72 +391,120 @@ namespace PoViEmu.SH3.CPU
                     s.MACH = Res2x;
                     s.MACL = Res0x;
                     return;
-                case Mnemonic.Dt when ops is [RS n]:
+                case Mnemonic.Dt when ops is [R n]:
                     s[n]--;
                     s.T = s[n] == 0;
                     return;
-                case Mnemonic.ExtsB when ops is [RS m, RD n]:
+                case Mnemonic.ExtsB when ops is [R m, R n]:
                     s[n] = s[m];
                     if ((s[m] & 0x00000080) == 0)
                         s[n] &= 0x000000FF;
                     else
                         s[n] |= 0xFFFFFF00;
                     return;
-                case Mnemonic.ExtsW when ops is [RS m, RD n]:
+                case Mnemonic.ExtsW when ops is [R m, R n]:
                     s[n] = s[m];
                     if ((s[m] & 0x00008000) == 0)
                         s[n] &= 0x0000FFFF;
                     else
                         s[n] |= 0xFFFF0000;
                     return;
-                case Mnemonic.ExtuB when ops is [RS m, RD n]:
+                case Mnemonic.ExtuB when ops is [R m, R n]:
                     s[n] = s[m];
                     s[n] &= 0x000000FF;
                     return;
-                case Mnemonic.ExtuW when ops is [RS m, RD n]:
+                case Mnemonic.ExtuW when ops is [R m, R n]:
                     s[n] = s[m];
                     s[n] &= 0x0000FFFF;
                     return;
-                case Mnemonic.Jmp when ops is [RS m]:
+                case Mnemonic.Jmp when ops is [R m]:
                     uint tempJ;
                     tempJ = s.PC;
                     nextIP = s[m] + 4;
                     // TODO Delay_Slot(temp+2);
                     return;
-                case Mnemonic.Jsr when ops is [RS m]:
-                    s.PR = s.PC;
-                    nextIP = s[m] + 4;
+                case Mnemonic.Jsr when ops is [MU32 mem]:
+                    // TODO s.PR = s.PC;
+                    // TODO nextIP = mem[s] + 4;
                     // TODO Delay_Slot(PR+2);
                     return;
-                case Mnemonic.Ldc when ops is [RS m, RD n]:
+                case Mnemonic.Mov when ops is [I8 i, R r]:
+                    s[r] = (uint)i.Val;
+                    return;
+                case Mnemonic.MovL when ops is [R r, MU32 mem]:
+                    mem[s] = s[r];
+                    return;
+                case Mnemonic.MovL when ops is [MU32 mem, R r]:
+                    s[r] = mem[s];
+                    return;
+                case Mnemonic.MovL when ops is [NO d, R n]:
+                    var dispWl = 0x000000FF & (long)d.Diff;
+                    s[n] = s.U32[(uint)((s.PC & 0xFFFFFFFC) + (dispWl << 2))];
+                    return;
+                case Mnemonic.Movt when ops is [R n]:
+                    s[n] = (0x00000001 & (uint)s.SR);
+                    return;
+                case Mnemonic.MulL when ops is [R m, R n]:
+                    s.MACL = s[n] * s[m];
+                    return;
+                case Mnemonic.MulsW when ops is [R m, R n]:
+                    s.MACL = (uint)((long)(short)s[n] * (long)(short)s[m]);
+                    return;
+                case Mnemonic.MuluW when ops is [R m, R n]:
+                    s.MACL = (uint)((ulong)(ushort)s[n] * (ulong)(ushort)s[m]);
+                    return;
+                case Mnemonic.Neg when ops is [R m, R n]:
+                    s[n] = 0 - s[m];
+                    return;
+                case Mnemonic.Negc when ops is [R m, R n]:
+                    ulong tempC;
+                    tempC = 0 - s[m];
+                    s[n] = (uint)(tempC - (ulong)s.T.ToNum());
+                    s.T = 0 < tempC || tempC < s[n];
+                    return;
+                case Mnemonic.Nop:
+                    return;
+                case Mnemonic.Not when ops is [R m, R n]:
+                    s[n] = ~s[m];
+                    return;
+                case Mnemonic.Or when ops is [R m, R n]:
+                    s[n] |= s[m];
+                    return;
+                case Mnemonic.StsL when ops is [R r, MU32 mem]:
+                    mem[s] = s[r];
+                    return;
+                case Mnemonic.Sub when ops is [R m, R n]:
+                    s[n] -= s[m];
+                    return;
+                case Mnemonic.Ldc when ops is [R m, R n]:
                     switch (n.Reg)
                     {
-                        case R.SR: s.SR = (Fl)(s[m] & 0x0FFF0FFF); break;
-                        case R.SSR: s.SSR = s[m] & 0x700003F3; break;
+                        case SR: s.SR = (Fl)(s[m] & 0x0FFF0FFF); break;
+                        case SSR: s.SSR = s[m] & 0x700003F3; break;
                         default: s[n] = s[m]; break;
                     }
                     return;
-                case Mnemonic.LdcL when ops is [RS m, RD n]:
+                case Mnemonic.LdcL when ops is [R m, R n]:
                     switch (n.Reg)
                     {
-                        case R.SR:
-                            s.SR = (Fl)(ReadLong(s, s[m]) & 0x0FFF0FFF);
+                        case SR:
+                            s.SR = (Fl)(s.U32[s[m]] & 0x0FFF0FFF);
                             s[m] += 4;
                             break;
-                        case R.SSR:
-                            s.SSR = (uint)(ReadLong(s, s[m]) & 0x700003F3);
+                        case SSR:
+                            s.SSR = (uint)(s.U32[s[m]] & 0x700003F3);
                             s[m] += 4;
                             break;
                         default:
-                            s[n] = (uint)ReadLong(s, s[m]);
+                            s[n] = (uint)(s.U32[s[m]]);
                             s[m] += 4;
                             break;
                     }
                     return;
-                case Mnemonic.Lds when ops is [RS m, RD n]:
+                case Mnemonic.Lds when ops is [R m, R n]:
                     switch (n.Reg)
                     {
-                        case R.MACH:
+                        case MACH:
                             s.MACH = s[m];
                             if ((s.MACH & 0x00000200) == 0)
                                 s.MACH &= 0x000003FF;
@@ -463,11 +516,11 @@ namespace PoViEmu.SH3.CPU
                             break;
                     }
                     return;
-                case Mnemonic.LdsL when ops is [RS m, RD n]:
+                case Mnemonic.LdsL when ops is [R m, R n]:
                     switch (n.Reg)
                     {
-                        case R.MACH:
-                            s.MACH = (uint)ReadLong(s, s[m]);
+                        case MACH:
+                            s.MACH = (uint)(s.U32[s[m]]);
                             if ((s.MACH & 0x00000200) == 0)
                                 s.MACH &= 0x000003FF;
                             else
@@ -475,8 +528,25 @@ namespace PoViEmu.SH3.CPU
                             s[m] += 4;
                             break;
                         default:
-                            s[n] = (uint)ReadLong(s, s[m]);
+                            s[n] = (uint)(s.U32[s[m]]);
                             s[m] += 4;
+                            break;
+                    }
+                    return;
+                case Mnemonic.LdsL when ops is [MU32 mem, R n]:
+                    switch (n.Reg)
+                    {
+                        case MACH:
+                            s.MACH = (uint)(s.U32[mem[s]]);
+                            if ((s.MACH & 0x00000200) == 0)
+                                s.MACH &= 0x000003FF;
+                            else
+                                s.MACH |= 0xFFFFFC00;
+                            mem[s] += 4;
+                            break;
+                        default:
+                            s[n] = (uint)(s.U32[mem[s]]);
+                            mem[s] += 4;
                             break;
                     }
                     return;
@@ -484,55 +554,55 @@ namespace PoViEmu.SH3.CPU
                     // TLB_tag=PTEH;
                     // TLB_data=PTEL;
                     return;
-                case Mnemonic.MacL when ops is [RS m, RD n]:
-                    Compute.MACL(s, (R)(object)m, (R)(object)n);
+                case Mnemonic.MacL when ops is [R m, R n]:
+                    Compute.MACL(s, m.Reg, n.Reg);
                     return;
-                case Mnemonic.MacW when ops is [RS m, RD n]:
-                    Compute.MACW(s, (R)(object)m, (R)(object)n);
+                case Mnemonic.MacW when ops is [R m, R n]:
+                    Compute.MACW(s, m.Reg, n.Reg);
                     return;
-                case Mnemonic.Mov when ops is [RS m, RD n]:
+                case Mnemonic.Mov when ops is [R m, R n]:
                     s[n] = s[m];
                     return;
-                case Mnemonic.MovB when ops is [RS m, RD n]:
-                    WriteByte(s, s[n], s[m]);
+                case Mnemonic.MovB when ops is [R m, R n]:
+                    s.U8[s[n]] = (byte)s[m];
                     return;
-                case Mnemonic.MovW when ops is [RS m, RD n]:
-                    WriteWord(s, s[n], s[m]);
+                case Mnemonic.MovW when ops is [R m, R n]:
+                    s.U16[s[n]] = (ushort)s[m];
                     return;
-                case Mnemonic.MovL when ops is [RS m, RD n]:
-                    WriteLong(s, s[n], s[m]);
+                case Mnemonic.MovL when ops is [R m, R n]:
+                    s.U32[s[n]] = s[m];
                     return;
-                case Mnemonic.MovB when ops is [RS m, RD n]:
-                    s[n] = (uint)ReadByte(s, s[m]);
+                case Mnemonic.MovB when ops is [R m, R n]:
+                    s[n] = (uint)(s.U8[s[m]]);
                     if ((s[n] & 0x80) == 0)
                         s[n] &= 0x000000FF;
                     else
                         s[n] |= 0xFFFFFF00;
                     return;
-                case Mnemonic.MovW when ops is [RS m, RD n]:
-                    s[n] = (uint)ReadWord(s, s[m]);
+                case Mnemonic.MovW when ops is [R m, R n]:
+                    s[n] = (uint)(s.U16[s[m]]);
                     if ((s[n] & 0x8000) == 0)
                         s[n] &= 0x0000FFFF;
                     else
                         s[n] |= 0xFFFF0000;
                     return;
-                case Mnemonic.MovL when ops is [RS m, RD n]:
-                    s[n] = (uint)ReadLong(s, s[m]);
+                case Mnemonic.MovL when ops is [R m, R n]:
+                    s[n] = (uint)(s.U32[s[m]]);
                     return;
-                case Mnemonic.MovB when ops is [RS m, RD n]:
-                    WriteByte(s, s[n] - 1, s[m]);
+                case Mnemonic.MovB when ops is [R m, R n]:
+                    s.U8[s[n] - 1] = (byte)s[m];
                     s[n] -= 1;
                     return;
-                case Mnemonic.MovW when ops is [RS m, RD n]:
-                    WriteWord(s, s[n] - 2, s[m]);
+                case Mnemonic.MovW when ops is [R m, R n]:
+                    s.U16[s[n] - 2] = (ushort)s[m];
                     s[n] -= 2;
                     return;
-                case Mnemonic.MovL when ops is [RS m, RD n]:
-                    WriteLong(s, s[n] - 4, s[m]);
+                case Mnemonic.MovL when ops is [R m, R n]:
+                    s.U32[s[n] - 4] = s[m];
                     s[n] -= 4;
                     return;
-                case Mnemonic.MovB when ops is [RS m, RD n]:
-                    s[n] = (uint)ReadByte(s, s[m]);
+                case Mnemonic.MovB when ops is [R m, R n]:
+                    s[n] = (uint)(s.U8[s[m]]);
                     if ((s[n] & 0x80) == 0)
                         s[n] &= 0x000000FF;
                     else
@@ -540,8 +610,8 @@ namespace PoViEmu.SH3.CPU
                     if (n != m)
                         s[m] += 1;
                     return;
-                case Mnemonic.MovW when ops is [RS m, RD n]:
-                    s[n] = (uint)ReadWord(s, s[m]);
+                case Mnemonic.MovW when ops is [R m, R n]:
+                    s[n] = (uint)(s.U16[s[m]]);
                     if ((s[n] & 0x8000) == 0)
                         s[n] &= 0x0000FFFF;
                     else
@@ -549,180 +619,146 @@ namespace PoViEmu.SH3.CPU
                     if (n != m)
                         s[m] += 2;
                     return;
-                case Mnemonic.MovL when ops is [RS m, RD n]:
-                    s[n] = (uint)ReadLong(s, s[m]);
+                case Mnemonic.MovL when ops is [R m, R n]:
+                    s[n] = (uint)(s.U32[s[m]]);
                     if (n != m)
                         s[m] += 4;
                     return;
-                case Mnemonic.MovB when ops is [RS m, RD n]:
-                    WriteByte(s, s[n] + s[R.R0], s[m]);
+                case Mnemonic.MovB when ops is [R m, R n]:
+                    s.U8[s[n] + s[R0]] = (byte)s[m];
                     return;
-                case Mnemonic.MovW when ops is [RS m, RD n]:
-                    WriteWord(s, s[n] + s[R.R0], s[m]);
+                case Mnemonic.MovW when ops is [R m, R n]:
+                    s.U16[s[n] + s[R0]] = (ushort)s[m];
                     return;
-                case Mnemonic.MovL when ops is [RS m, RD n]:
-                    WriteLong(s, s[n] + s[R.R0], s[m]);
+                case Mnemonic.MovL when ops is [R m, R n]:
+                    s.U32[s[n] + s[R0]] = s[m];
                     return;
-                case Mnemonic.MovB when ops is [RS m, RD n]:
-                    s[n] = (uint)ReadByte(s, s[m] + s[R.R0]);
+                case Mnemonic.MovB when ops is [R m, R n]:
+                    s[n] = (uint)(s.U8[s[m] + s[R0]]);
                     if ((s[n] & 0x80) == 0)
                         s[n] &= 0x000000FF;
                     else
                         s[n] |= 0xFFFFFF00;
                     return;
-                case Mnemonic.MovW when ops is [RS m, RD n]:
-                    s[n] = (uint)ReadWord(s, s[m] + s[R.R0]);
+                case Mnemonic.MovW when ops is [R m, R n]:
+                    s[n] = (uint)(s.U16[s[m] + s[R0]]);
                     if ((s[n] & 0x8000) == 0)
                         s[n] &= 0x0000FFFF;
                     else
                         s[n] |= 0xFFFF0000;
                     return;
-                case Mnemonic.MovL when ops is [RS m, RD n]:
-                    s[n] = (uint)ReadLong(s, s[m] + s[R.R0]);
+                case Mnemonic.MovL when ops is [R m, R n]:
+                    s[n] = (uint)(s.U32[s[m] + s[R0]]);
                     return;
-                case Mnemonic.Mov when ops is [I8 i, RD n]:
+                case Mnemonic.Mov when ops is [I8 i, R n]:
                     if ((i.Val & 0x80) == 0)
                         s[n] = (uint)(0x000000FF & (long)i.Val);
                     else
                         s[n] = (uint)(0xFFFFFF00 | i.Val);
                     return;
-                case Mnemonic.MovW when ops is [DO d, RD n]:
+                case Mnemonic.MovW when ops is [NO d, R n]:
                     long dispWw;
-                    dispWw = 0x000000FF & (long)d.Val;
-                    s[n] = (uint)ReadWord(s, (uint)(s.PC + (dispWw << 1)));
+                    dispWw = 0x000000FF & (long)d.Diff;
+                    s[n] = (uint)(s.U16[(uint)(s.PC + (dispWw << 1))]);
                     if ((s[n] & 0x8000) == 0)
                         s[n] &= 0x0000FFFF;
                     else
                         s[n] |= 0xFFFF0000;
                     return;
-                case Mnemonic.MovL when ops is [DO d, RD n]:
-                    long dispWl;
-                    dispWl = (0x000000FF & (long)d.Val);
-                    s[n] = (uint)ReadLong(s, (uint)((s.PC & 0xFFFFFFFC) + (dispWl << 2)));
-                    return;
-                case Mnemonic.MovB when ops is [DO d]:
+                case Mnemonic.MovB when ops is [NO d]:
                     long dispBb;
-                    dispBb = (0x000000FF & (long)d.Val);
-                    s[R.R0] = (uint)ReadByte(s, (uint)(s[R.GBR] + dispBb));
-                    if ((s[R.R0] & 0x80) == 0)
-                        s[R.R0] &= 0x000000FF;
+                    dispBb = (0x000000FF & (long)d.Diff);
+                    s[R0] = (uint)(s.U8[(uint)(s[GBR] + dispBb)]);
+                    if ((s[R0] & 0x80) == 0)
+                        s[R0] &= 0x000000FF;
                     else
-                        s[R.R0] |= 0xFFFFFF00;
+                        s[R0] |= 0xFFFFFF00;
                     return;
-                case Mnemonic.MovW when ops is [DO d]:
+                case Mnemonic.MovW when ops is [NO d]:
                     long dispWy;
-                    dispWy = (0x000000FF & (long)d.Val);
-                    s[R.R0] = (uint)ReadWord(s, (uint)(s[R.GBR] + (dispWy << 1)));
-                    if ((s[R.R0] & 0x8000) == 0)
-                        s[R.R0] &= 0x0000FFFF;
+                    dispWy = (0x000000FF & (long)d.Diff);
+                    s[R0] = (uint)(s.U16[(uint)(s[GBR] + (dispWy << 1))]);
+                    if ((s[R0] & 0x8000) == 0)
+                        s[R0] &= 0x0000FFFF;
                     else
-                        s[R.R0] |= 0xFFFF0000;
+                        s[R0] |= 0xFFFF0000;
                     return;
-                case Mnemonic.MovL when ops is [DO d]:
+                case Mnemonic.MovL when ops is [NO d]:
                     long dispWz;
-                    dispWz = (0x000000FF & (long)d.Val);
-                    s[R.R0] = (uint)ReadLong(s, (uint)(s[R.GBR] + (dispWz << 2)));
+                    dispWz = (0x000000FF & (long)d.Diff);
+                    s[R0] = (uint)(s.U32[(uint)(s[GBR] + (dispWz << 2))]);
                     return;
-                case Mnemonic.MovB when ops is [DO d]:
+                case Mnemonic.MovB when ops is [NO d]:
                     long dispWk;
-                    dispWk = (0x000000FF & (long)d.Val);
-                    WriteByte(s, (uint)(s[R.GBR] + dispWk), s[R.R0]);
+                    dispWk = (0x000000FF & (long)d.Diff);
+                    s.U8[(uint)(s[GBR] + dispWk)] = (byte)s[R0];
                     return;
-                case Mnemonic.MovW when ops is [DO d]:
+                case Mnemonic.MovW when ops is [NO d]:
                     long dispWn;
-                    dispWn = (0x000000FF & (long)d.Val);
-                    WriteWord(s, (uint)(s[R.GBR] + (dispWn << 1)), s[R.R0]);
+                    dispWn = (0x000000FF & (long)d.Diff);
+                    s.U16[(uint)(s[GBR] + (dispWn << 1))] = (ushort)s[R0];
                     return;
-                case Mnemonic.MovL when ops is [DO d]:
+                case Mnemonic.MovL when ops is [NO d]:
                     long dispWf;
-                    dispWf = (0x000000FF & (long)d.Val);
-                    WriteLong(s, (uint)(s[R.GBR] + (dispWf << 2)), s[R.R0]);
+                    dispWf = (0x000000FF & (long)d.Diff);
+                    s.U32[(uint)(s[GBR] + (dispWf << 2))] = s[R0];
                     return;
-                case Mnemonic.MovB when ops is [DO d, RD n]:
+                case Mnemonic.MovB when ops is [NO d, R n]:
                     long dispWg;
-                    dispWg = (0x0000000F & (long)d.Val);
-                    WriteByte(s, (uint)(s[n] + dispWg), s[R.R0]);
+                    dispWg = (0x0000000F & (long)d.Diff);
+                    s.U8[(uint)(s[n] + dispWg)] = (byte)s[R0];
                     return;
-                case Mnemonic.MovW when ops is [DO d, RD n]:
+                case Mnemonic.MovW when ops is [NO d, R n]:
                     long dispWh;
-                    dispWh = (0x0000000F & (long)d.Val);
-                    WriteWord(s, (uint)(s[n] + (dispWh << 1)), s[R.R0]);
+                    dispWh = (0x0000000F & (long)d.Diff);
+                    s.U16[(uint)(s[n] + (dispWh << 1))] = (ushort)s[R0];
                     return;
-                case Mnemonic.MovL when ops is [RS m, DO d, RD n]:
+                case Mnemonic.MovL when ops is [R m, NO d, R n]:
                     long dispWi;
-                    dispWi = (0x0000000F & (long)d.Val);
-                    WriteLong(s, (uint)(s[n] + (dispWi << 2)), s[m]);
+                    dispWi = (0x0000000F & (long)d.Diff);
+                    s.U32[(uint)(s[n] + (dispWi << 2))] = s[m];
                     return;
-                case Mnemonic.MovB when ops is [RS m, DO d]:
+                case Mnemonic.MovB when ops is [R m, NO d]:
                     long dispWj;
-                    dispWj = (0x0000000F & (long)d.Val);
-                    s[R.R0] = (uint)ReadByte(s, (uint)(s[m] + dispWj));
-                    if ((s[R.R0] & 0x80) == 0)
-                        s[R.R0] &= 0x000000FF;
+                    dispWj = (0x0000000F & (long)d.Diff);
+                    s[R0] = (uint)(s.U8[(uint)(s[m] + dispWj)]);
+                    if ((s[R0] & 0x80) == 0)
+                        s[R0] &= 0x000000FF;
                     else
-                        s[R.R0] |= 0xFFFFFF00;
+                        s[R0] |= 0xFFFFFF00;
                     return;
-                case Mnemonic.MovW when ops is [RS m, DO d]:
+                case Mnemonic.MovW when ops is [R m, NO d]:
                     long dispWp;
-                    dispWp = (0x0000000F & (long)d.Val);
-                    s[R.R0] = (uint)ReadWord(s, (uint)(s[m] + (dispWp << 1)));
-                    if ((s[R.R0] & 0x8000) == 0)
-                        s[R.R0] &= 0x0000FFFF;
+                    dispWp = (0x0000000F & (long)d.Diff);
+                    s[R0] = (uint)(s.U16[(uint)(s[m] + (dispWp << 1))]);
+                    if ((s[R0] & 0x8000) == 0)
+                        s[R0] &= 0x0000FFFF;
                     else
-                        s[R.R0] |= 0xFFFF0000;
+                        s[R0] |= 0xFFFF0000;
                     return;
-                case Mnemonic.MovL when ops is [RS m, DO d, RD n]:
+                case Mnemonic.MovL when ops is [R m, NO d, R n]:
                     long dispWo;
-                    dispWo = (0x0000000F & (long)d.Val);
-                    s[n] = (uint)ReadLong(s, (uint)(s[m] + (dispWo << 2)));
+                    dispWo = (0x0000000F & (long)d.Diff);
+                    s[n] = (uint)(s.U32[(uint)(s[m] + (dispWo << 2))]);
                     return;
-                case Mnemonic.Mova when ops is [DO d]:
+                case Mnemonic.Mova when ops is [NO d]:
                     long dispWm;
-                    dispWm = (0x000000FF & (long)d.Val);
-                    s[R.R0] = (uint)((s.PC & 0xFFFFFFFC) + (dispWm << 2));
-                    return;
-                case Mnemonic.Movt when ops is [RD n]:
-                    s[n] = (0x00000001 & (uint)s.SR);
-                    return;
-                case Mnemonic.MulL when ops is [RS m, RD n]:
-                    s.MACL = s[n] * s[m];
-                    return;
-                case Mnemonic.MulsW when ops is [RS m, RD n]:
-                    s.MACL = (uint)((long)(short)s[n] * (long)(short)s[m]);
-                    return;
-                case Mnemonic.MuluW when ops is [RS m, RD n]:
-                    s.MACL = (uint)((ulong)(ushort)s[n] * (ulong)(ushort)s[m]);
-                    return;
-                case Mnemonic.Neg when ops is [RS m, RD n]:
-                    s[n] = 0 - s[m];
-                    return;
-                case Mnemonic.Negc when ops is [RS m, RD n]:
-                    ulong tempC;
-                    tempC = 0 - s[m];
-                    s[n] = (uint)(tempC - (ulong)s.T.ToNum());
-                    s.T = 0 < tempC || tempC < s[n];
-                    return;
-                case Mnemonic.Nop:
-                    return;
-                case Mnemonic.Not when ops is [RS m, RD n]:
-                    s[n] = ~s[m];
-                    return;
-                case Mnemonic.Or when ops is [RS m, RD n]:
-                    s[n] |= s[m];
+                    dispWm = (0x000000FF & (long)d.Diff);
+                    s[R0] = (uint)((s.PC & 0xFFFFFFFC) + (dispWm << 2));
                     return;
                 case Mnemonic.Or when ops is [I8 i]:
-                    s[R.R0] = (uint)(s[R.R0] | (0x000000FF & (long)i.Val));
+                    s[R0] = (uint)(s[R0] | (0x000000FF & (long)i.Val));
                     return;
                 case Mnemonic.OrB when ops is [I8 i]:
                     long tempOo;
-                    tempOo = (long)ReadByte(s, s[R.GBR] + s[R.R0]);
+                    tempOo = (long)(s.U8[s[GBR] + s[R0]]);
                     tempOo |= (0x000000FF & (long)i.Val);
-                    WriteByte(s, s[R.GBR] + s[R.R0], (uint)tempOo);
+                    s.U8[s[GBR] + s[R0]] = (byte)tempOo;
                     return;
-                case Mnemonic.Pref when ops is [RD n]:
+                case Mnemonic.Pref when ops is [R n]:
                     // TODO Load cache?!
                     return;
-                case Mnemonic.Rotcl when ops is [RD n]:
+                case Mnemonic.Rotcl when ops is [R n]:
                     long tempYx;
                     tempYx = (s[n] & 0x80000000) == 0 ? 0 : 1;
                     s[n] <<= 1;
@@ -732,7 +768,7 @@ namespace PoViEmu.SH3.CPU
                         s[n] &= 0xFFFFFFFE;
                     s.T = tempYx == 1;
                     return;
-                case Mnemonic.Rotcr when ops is [RD n]:
+                case Mnemonic.Rotcr when ops is [R n]:
                     long tempYy;
                     tempYy = (s[n] & 0x00000001) == 0 ? 0 : 1;
                     s[n] >>= 1;
@@ -742,7 +778,7 @@ namespace PoViEmu.SH3.CPU
                         s[n] &= 0x7FFFFFFF;
                     s.T = tempYy == 1;
                     return;
-                case Mnemonic.Rotl when ops is [RD n]:
+                case Mnemonic.Rotl when ops is [R n]:
                     s.T = (s[n] & 0x80000000) != 0;
                     s[n] <<= 1;
                     if (s.T)
@@ -750,7 +786,7 @@ namespace PoViEmu.SH3.CPU
                     else
                         s[n] &= 0xFFFFFFFE;
                     return;
-                case Mnemonic.Rotr when ops is [RD n]:
+                case Mnemonic.Rotr when ops is [R n]:
                     s.T = (s[n] & 0x00000001) != 0;
                     s[n] >>= 1;
                     if (s.T)
@@ -777,7 +813,7 @@ namespace PoViEmu.SH3.CPU
                 case Mnemonic.Sett:
                     s.T = true;
                     return;
-                case Mnemonic.Shad when ops is [RS m, RD n]:
+                case Mnemonic.Shad when ops is [R m, R n]:
                     long cnt, sgn;
                     sgn = s[m] & 0x80000000;
                     cnt = s[m] & 0x0000001F;
@@ -786,11 +822,11 @@ namespace PoViEmu.SH3.CPU
                     else
                         s[n] = (uint)((long)s[n] >> (int)((~cnt + 1) & 0x1F));
                     return;
-                case Mnemonic.Shal when ops is [RD n]:
+                case Mnemonic.Shal when ops is [R n]:
                     s.T = (s[n] & 0x80000000) != 0;
                     s[n] <<= 1;
                     return;
-                case Mnemonic.Shar when ops is [RD n]:
+                case Mnemonic.Shar when ops is [R n]:
                     long tempWq;
                     s.T = (s[n] & 0x00000001) != 0;
                     tempWq = (s[n] & 0x80000000) == 0 ? 0 : 1;
@@ -800,7 +836,7 @@ namespace PoViEmu.SH3.CPU
                     else
                         s[n] &= 0x7FFFFFFF;
                     return;
-                case Mnemonic.Shld when ops is [RS m, RD n]:
+                case Mnemonic.Shld when ops is [R m, R n]:
                     long cntX, sgnX;
                     sgnX = s[m] & 0x80000000;
                     cntX = s[m] & 0x0000001F;
@@ -809,33 +845,33 @@ namespace PoViEmu.SH3.CPU
                     else
                         s[n] >>= (int)((~cntX + 1) & 0x1F);
                     return;
-                case Mnemonic.Shll when ops is [RD n]:
+                case Mnemonic.Shll when ops is [R n]:
                     s.T = (s[n] & 0x80000000) != 0;
                     s[n] <<= 1;
                     return;
-                case Mnemonic.Shll2 when ops is [RD n]:
+                case Mnemonic.Shll2 when ops is [R n]:
                     s[n] <<= 2;
                     return;
-                case Mnemonic.Shll8 when ops is [RD n]:
+                case Mnemonic.Shll8 when ops is [R n]:
                     s[n] <<= 8;
                     return;
-                case Mnemonic.Shll16 when ops is [RD n]:
+                case Mnemonic.Shll16 when ops is [R n]:
                     s[n] <<= 16;
                     return;
-                case Mnemonic.Shlr when ops is [RD n]:
+                case Mnemonic.Shlr when ops is [R n]:
                     s.T = (s[n] & 0x00000001) != 0;
                     s[n] >>= 1;
                     s[n] &= 0x7FFFFFFF;
                     return;
-                case Mnemonic.Shlr2 when ops is [RD n]:
+                case Mnemonic.Shlr2 when ops is [R n]:
                     s[n] >>= 2;
                     s[n] &= 0x3FFFFFFF;
                     return;
-                case Mnemonic.Shlr8 when ops is [RD n]:
+                case Mnemonic.Shlr8 when ops is [R n]:
                     s[n] >>= 8;
                     s[n] &= 0x00FFFFFF;
                     return;
-                case Mnemonic.Shlr16 when ops is [RD n]:
+                case Mnemonic.Shlr16 when ops is [R n]:
                     s[n] >>= 16;
                     s[n] &= 0x0000FFFF;
                     return;
@@ -843,17 +879,17 @@ namespace PoViEmu.SH3.CPU
                     nextIP -= 2;
                     // TODO Sleep Mode
                     return;
-                case Mnemonic.Stc when ops is [RS m, RD n]:
+                case Mnemonic.Stc when ops is [R m, R n]:
                     s[n] = s[m];
                     return;
-                case Mnemonic.StcL when ops is [RS m, RD n]:
+                case Mnemonic.StcL when ops is [R m, R n]:
                     s[n] -= 4;
-                    WriteLong(s, s[n], s[m]);
+                    s.U32[s[n]] = s[m];
                     return;
-                case Mnemonic.Sts when ops is [RS m, RD n]:
+                case Mnemonic.Sts when ops is [R m, R n]:
                     switch (m.Reg)
                     {
-                        case R.MACH:
+                        case MACH:
                             s[n] = s.MACH;
                             if ((s[n] & 0x00000200) == 0)
                                 s[n] &= 0x000003FF;
@@ -865,33 +901,30 @@ namespace PoViEmu.SH3.CPU
                             break;
                     }
                     return;
-                case Mnemonic.StsL when ops is [RS m, RD n]:
+                case Mnemonic.StsL when ops is [R m, R n]:
                     switch (m.Reg)
                     {
-                        case R.MACH:
+                        case MACH:
                             s[n] -= 4;
                             if ((s.MACH & 0x00000200) == 0)
-                                WriteLong(s, s[n], s.MACH & 0x000003FF);
+                                s.U32[s[n]] = s.MACH & 0x000003FF;
                             else
-                                WriteLong(s, s[n], s.MACH | 0xFFFFFC00);
+                                s.U32[s[n]] = s.MACH | 0xFFFFFC00;
                             break;
                         default:
                             s[n] -= 4;
-                            WriteLong(s, s[n], s[m]);
+                            s.U32[s[n]] = s[m];
                             break;
                     }
                     return;
-                case Mnemonic.Sub when ops is [RS m, RD n]:
-                    s[n] -= s[m];
-                    return;
-                case Mnemonic.Subc when ops is [RS m, RD n]:
+                case Mnemonic.Subc when ops is [R m, R n]:
                     ulong tmp0s, tmp1s;
                     tmp1s = s[n] - s[m];
                     tmp0s = s[n];
                     s[n] = (uint)(tmp1s - (ulong)s.T.ToNum());
                     s.T = tmp0s < tmp1s || (tmp1s < s[n]);
                     return;
-                case Mnemonic.Subv when ops is [RS m, RD n]:
+                case Mnemonic.Subv when ops is [R m, R n]:
                     long destK, srcK, ansK;
                     destK = (long)s[n] >= 0 ? 0 : 1;
                     srcK = (long)s[m] >= 0 ? 0 : 1;
@@ -904,32 +937,33 @@ namespace PoViEmu.SH3.CPU
                     else
                         s.T = false;
                     return;
-                case Mnemonic.SwapB when ops is [RS m, RD n]:
+                case Mnemonic.SwapB when ops is [R m, R n]:
                     ulong temp0Sb, temp1Sb;
                     temp0Sb = s[m] & 0xffff0000;
                     temp1Sb = (s[m] & 0x000000ff) << 8;
                     s[n] = (s[m] & 0x0000ff00) >> 8;
                     s[n] = (uint)(s[n] | temp1Sb | temp0Sb);
                     return;
-                case Mnemonic.SwapW when ops is [RS m, RD n]:
+                case Mnemonic.SwapW when ops is [R m, R n]:
                     ulong tempSw;
                     tempSw = (s[m] >> 16) & 0x0000FFFF;
                     s[n] = s[m] << 16;
                     s[n] = (uint)(s[n] | tempSw);
                     return;
-                case Mnemonic.TasB when ops is [RD n]:
+                case Mnemonic.TasB when ops is [R n]:
                     long tempBs;
-                    tempBs = (long)ReadByte(s, s[n]);
+                    tempBs = (long)(s.U8[s[n]]);
                     s.T = tempBs == 0;
                     tempBs |= 0x00000080;
-                    WriteByte(s, s[n], (uint)tempBs);
+                    s.U8[s[n]] = (byte)tempBs;
                     return;
                 case Mnemonic.Trapa when ops is [I8 i]:
-                    // TODO
                     /*
+                    // TODO
+                    //
                     long immT;
                     immT=(0x000000FF & i);
-                    TRA=immT<<2;
+                    // TODO TRA=immT<<2;
                     s.SSR = (uint)s.SR;
                     s.SPC = s.PC;
                     s.MD = true;
@@ -937,38 +971,39 @@ namespace PoViEmu.SH3.CPU
                     s.RB = true;
                     s.EXPEVT=0x00000160;
                     s.PC=s.VBR+0x00000100;
+                    //
                     */
                     ExecuteInterrupt((byte)i.Val, s);
                     if ((InterruptTable[0x21] as DOSInterrupts)?.ReturnCode is not null)
                         Halted = true;
                     return;
-                case Mnemonic.Tst when ops is [RS m, RD n]:
+                case Mnemonic.Tst when ops is [R m, R n]:
                     s.T = (s[n] & s[m]) == 0;
                     return;
-                case Mnemonic.Tst when ops is [I8 i, RD n]:
+                case Mnemonic.Tst when ops is [I8 i, R n]:
                     long tempTs;
-                    tempTs = s[R.R0] & (0x000000FF & (long)i.Val);
+                    tempTs = s[R0] & (0x000000FF & (long)i.Val);
                     s.T = tempTs == 0;
                     return;
-                case Mnemonic.TstB when ops is [I8 i, RD n]:
+                case Mnemonic.TstB when ops is [I8 i, R n]:
                     long tempTb;
-                    tempTb = (long)ReadByte(s, s[R.GBR] + s[R.R0]);
+                    tempTb = (long)(s.U8[s[GBR] + s[R0]]);
                     tempTb &= (0x000000FF & (long)i.Val);
                     s.T = tempTb == 0;
                     return;
-                case Mnemonic.Xor when ops is [RS m, RD n]:
+                case Mnemonic.Xor when ops is [R m, R n]:
                     s[n] ^= s[m];
                     return;
-                case Mnemonic.Xor when ops is [I8 i, RD n]:
-                    s[R.R0] = (uint)(s[R.R0] ^ (0x000000FF & (long)i.Val));
+                case Mnemonic.Xor when ops is [I8 i, R n]:
+                    s[R0] = (uint)(s[R0] ^ (0x000000FF & (long)i.Val));
                     return;
-                case Mnemonic.XorB when ops is [I8 i, RD n]:
+                case Mnemonic.XorB when ops is [I8 i, R n]:
                     long tempQt;
-                    tempQt = (long)ReadByte(s, s[R.GBR] + s[R.R0]);
+                    tempQt = (long)(s.U8[s[GBR] + s[R0]]);
                     tempQt ^= (0x000000FF & (long)i.Val);
-                    WriteByte(s, s[R.GBR] + s[R.R0], (uint)tempQt);
+                    s.U8[s[GBR] + s[R0]] = (byte)tempQt;
                     return;
-                case Mnemonic.Xtrct when ops is [RS m, RD n]:
+                case Mnemonic.Xtrct when ops is [R m, R n]:
                     ulong tempXx;
                     tempXx = (s[m] << 16) & 0xFFFF0000;
                     s[n] = (s[n] >> 16) & 0x0000FFFF;

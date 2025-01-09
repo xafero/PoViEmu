@@ -57,7 +57,7 @@ namespace PoViEmu.Tests.CPU
 
             Assert.Equal("", $"{@out}");
             Assert.Equal("", $"{ret}");
-            // TODO Assert.Equal("0x1234", $"{fmt.Format(t.U16[SS + 0x0006])}");
+            Assert.Equal("0x1234", $"{fmt.Format(t.U16[SS + 0x0006])}");
         }
     }
 }

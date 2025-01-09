@@ -697,6 +697,18 @@ namespace PoViEmu.SH3.CPU
             return ((IFlatMemAccess<ushort[]>)this).Get(idx);
         }
 
+        internal uint GetU32(string? addr)
+        {
+            ParseSrc(addr, out var idx);
+            return ((IFlatMemAccess<uint>)this).Get(idx);
+        }
+
+        internal uint[] GetU32A(string? addr)
+        {
+            ParseSrc(addr, out var idx);
+            return ((IFlatMemAccess<uint[]>)this).Get(idx);
+        }
+
         #endregion
     }
 }

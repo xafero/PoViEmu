@@ -12,9 +12,9 @@ namespace PoViEmu.SH3.CPU
             uint temp0, temp1, temp2, temp3;
             long tempm, tempn, fnLmL;
 
-            tempn = ReadLong(s, s[n]);
+            tempn = (s.U32[s[n]]);
             s[n] += 4;
-            tempm = ReadLong(s, s[m]);
+            tempm = (s.U32[s[m]]);
             s[m] += 4;
 
             fnLmL = (tempn ^ tempm) < 0 ? -1 : 0;
@@ -97,9 +97,9 @@ namespace PoViEmu.SH3.CPU
             long tempm, tempn, dest, src, ans;
             ulong templ;
 
-            tempn = ReadWord(s, s[n]);
+            tempn = (s.U16[s[n]]);
             s[n] += 2;
-            tempm = ReadWord(s, s[m]);
+            tempm = (s.U16[s[m]]);
             s[m] += 2;
 
             templ = s.MACL;
