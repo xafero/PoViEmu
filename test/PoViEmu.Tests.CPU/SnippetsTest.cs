@@ -5,8 +5,11 @@ using PoViEmu.Base;
 using PoViEmu.Base.CPU.Diff;
 using ExeT2 = PoViEmu.SH3.CPU.ExecTool;
 using DefT2 = PoViEmu.SH3.CPU.Impl.Defaults;
+using System.IO;
+using Xunit;
+using static PoViEmu.Tests.CPU.SnippetsCheck;
 
-namespace PoViEmu.Tests.SHit
+namespace PoViEmu.Tests.CPU
 {
     public class SnippetsTest
     {
@@ -332,27 +335,14 @@ namespace PoViEmu.Tests.SHit
         // XTRCT
         [InlineData(0b0010000100001101, "xtrct r0,r1",
             new[] { "R0", "0x01234567", "R1", "0x89ABCDEF" },
-    new[] { "R1 = 0x89ABCDEF --> 0x000089AB", "R1 = 0x000089AB --> 0x456789AB" })]
+            new[] { "R1 = 0x89ABCDEF --> 0x000089AB", "R1 = 0x000089AB --> 0x456789AB" })]
         public void ShouldCheck(ushort bin, string code, string[] input, string[] checks)
         {
             var bytes = BitConverter.GetBytes(bin);
             (bytes[0], bytes[1]) = (bytes[1], bytes[0]);
-            var fmt = DefT2.ValFormatter;
-            var first = true;
-            var (@out, ret, diff) = ExeT2.Execute(bytes, act: s =>
-                {
-                    for (var i = 0; i < input.Length; i += 2)
-                        s[input[i]] = input[i + 1];
-                    s.WriteMemory(s.PC, bytes);
-                },
-                beforeExec: (x, _) =>
-                {
-                    if (!first) return;
-                    Assert.Equal(code, x.ToString().Split("  ", 3).Last().RemoveSpaces());
-                    first = false;
-                });
-            var actual = @out.ToLines();
-            var changes = diff.ToChangeLines(fmt, ignoreIP: true);
+
+            var (changes, ret, actual) = DoShouldExec(bytes, code, input);
+
             Assert.Equal(checks, changes);
             Assert.Null(ret);
             Assert.Empty(actual);
