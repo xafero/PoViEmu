@@ -144,6 +144,21 @@ namespace PoViEmu.SH3.CPU
             nextIP = mem[s] + 4;
             DelaySlot(s.PR + 2);
         }
+
+        public static void ReturnFromEx(this MachineState s, ref uint nextIP)
+        {
+            var temp = s.PC;
+            nextIP = s.SPC;
+            s.SR = (Fl)s.SSR;
+            DelaySlot(temp + 2);
+        }
+
+        public static void ReturnSubroutine(this MachineState s, ref uint nextIP)
+        {
+            var temp = s.PC;
+            nextIP = s.PR + 4;
+            DelaySlot(temp + 2);
+        }
     }
 
     internal static class Compute
@@ -763,6 +778,124 @@ namespace PoViEmu.SH3.CPU
             var temp = mem[s];
             temp = (byte)(temp | (0x000000FF & i));
             mem[s] = temp;
+        }
+
+        public static void Rotcl(this MachineState s, R n)
+        {
+            long tempYx = (s[n] & 0x80000000) == 0 ? 0 : 1;
+            s[n] <<= 1;
+            if (s.T)
+                s[n] |= 0x00000001;
+            else
+                s[n] &= 0xFFFFFFFE;
+            s.T = tempYx == 1;
+        }
+
+        public static void Rotcr(this MachineState s, R n)
+        {
+            var temp = (s[n] & 0x00000001) == 0 ? 0 : 1;
+            s[n] >>= 1;
+            if (s.T)
+                s[n] |= 0x80000000;
+            else
+                s[n] &= 0x7FFFFFFF;
+            s.T = temp == 1;
+        }
+
+        public static void Rotl(this MachineState s, R n)
+        {
+            s.T = (s[n] & 0x80000000) != 0;
+            s[n] <<= 1;
+            if (s.T)
+                s[n] |= 0x00000001;
+            else
+                s[n] &= 0xFFFFFFFE;
+        }
+
+        public static void Rotr(this MachineState s, R n)
+        {
+            s.T = (s[n] & 0x00000001) != 0;
+            s[n] >>= 1;
+            if (s.T)
+                s[n] |= 0x80000000;
+            else
+                s[n] &= 0x7FFFFFFF;
+        }
+
+        public static void Sett(this MachineState s)
+        {
+            s.T = true;
+        }
+
+        public static void Sets(this MachineState s)
+        {
+            s.S = true;
+        }
+
+        public static void Shad(this MachineState s, R m, R n)
+        {
+            var sgn = (int)(s[m] & 0x80000000);
+            var cnt = (int)(s[m] & 0x0000001F);
+            if (sgn == 0)
+                s[n] <<= (int)cnt;
+            else
+                s[n] = (uint)(((int)s[n]) >> ((~cnt + 1) & 0x1F));
+        }
+
+        public static void Shal(this MachineState s, R n)
+        {
+            s.T = (s[n] & 0x80000000) != 0;
+            s[n] <<= 1;
+        }
+
+        public static void Shar(this MachineState s, R n)
+        {
+            s.T = (s[n] & 0x00000001) != 0;
+            var temp = (s[n] & 0x80000000) == 0 ? 0 : 1;
+            s[n] >>= 1;
+            if (temp == 1)
+                s[n] |= 0x80000000;
+            else
+                s[n] &= 0x7FFFFFFF;
+        }
+
+        public static void Shld(this MachineState s, R m, R n)
+        {
+            var sgnX = (int)(s[m] & 0x80000000);
+            var cntX = (int)(s[m] & 0x0000001F);
+            if (sgnX == 0)
+                s[n] <<= (int)cntX;
+            else
+                s[n] >>= (int)((~cntX + 1) & 0x1F);
+        }
+
+        public static void Shll(this MachineState s, R n)
+        {
+            s.T = (s[n] & 0x80000000) != 0;
+            s[n] <<= 1;
+        }
+
+        public static void Shlln(this MachineState s, int v, R n)
+        {
+            s[n] <<= v;
+        }
+
+        public static void Shlr(this MachineState s, R n)
+        {
+            s.T = (s[n] & 0x00000001) != 0;
+            s[n] >>= 1;
+            s[n] &= 0x7FFFFFFF;
+        }
+
+        public static void Shlrn(this MachineState s, int v, R n)
+        {
+            s[n] >>= v;
+            switch (v)
+            {
+                case 2: s[n] &= 0x3FFFFFFF; break;
+                case 8: s[n] &= 0x00FFFFFF; break;
+                case 16: s[n] &= 0x0000FFFF; break;
+            }
         }
     }
 }
