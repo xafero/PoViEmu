@@ -161,6 +161,16 @@ namespace PoViEmu.SH3.CPU
         }
     }
 
+    internal static class Special
+    {
+        public static void Sleep(this MachineState _, SH7291 cpu, ref uint nextIP)
+        {
+            nextIP -= 2;
+            // TODO Sleep Mode
+            cpu.Halted = true;
+        }
+    }
+
     internal static class Compute
     {
         public static void Add(this MachineState s, R m, R n)
@@ -472,6 +482,11 @@ namespace PoViEmu.SH3.CPU
             s[n] &= 0x0000FFFF;
         }
 
+        public static void Stc(this MachineState s, R m, R n)
+        {
+            s[n] = s[m];
+        }
+
         public static void Ldc(this MachineState s, R m, R n)
         {
             switch (n.Reg)
@@ -480,6 +495,12 @@ namespace PoViEmu.SH3.CPU
                 case SSR: s.SSR = s[m] & 0x700003F3; break;
                 default: s[n] = s[m]; break;
             }
+        }
+
+        public static void StcL(this MachineState s, R m, MU32 mem)
+        {
+            mem[s] -= 4;
+            s.U32[mem[s]] = s[m];
         }
 
         public static void LdcL(this MachineState s, MU32 mem, R n)
@@ -896,6 +917,91 @@ namespace PoViEmu.SH3.CPU
                 case 8: s[n] &= 0x00FFFFFF; break;
                 case 16: s[n] &= 0x0000FFFF; break;
             }
+        }
+
+        public static void Sts(this MachineState s, R m, R n)
+        {
+            switch (m.Reg)
+            {
+                case MACH:
+                    s[n] = s.MACH;
+                    if ((s[n] & 0x00000200) == 0)
+                        s[n] &= 0x000003FF;
+                    else
+                        s[n] |= 0xFFFFFC00;
+                    break;
+                default:
+                    s[n] = s[m];
+                    break;
+            }
+        }
+
+        public static void StsL(this MachineState s, R m, MU32 mem)
+        {
+            switch (m.Reg)
+            {
+                case MACH:
+                    mem[s] -= 4;
+                    if ((s.MACH & 0x00000200) == 0)
+                        s.U32[mem[s]] = s.MACH & 0x000003FF;
+                    else
+                        s.U32[mem[s]] = s.MACH | 0xFFFFFC00;
+                    break;
+                default:
+                    mem[s] -= 4;
+                    s.U32[mem[s]] = s[m];
+                    break;
+            }
+        }
+
+        public static void Sub(this MachineState s, R m, R n)
+        {
+            s[n] -= s[m];
+        }
+
+        public static void Subc(this MachineState s, R m, R n)
+        {
+            var tmp1 = s[n] - s[m];
+            var tmp0 = s[n];
+            s[n] = (uint)(tmp1 - (ulong)s.T.ToNum());
+            s.T = tmp0 < tmp1 || (tmp1 < s[n]);
+        }
+
+        public static void Subv(this MachineState s, R m, R n)
+        {
+            var dest = (int)s[n] >= 0 ? 0 : 1;
+            var src = (int)s[m] >= 0 ? 0 : 1;
+            src += dest;
+            s[n] -= s[m];
+            var ans = (int)s[n] >= 0 ? 0 : 1;
+            ans += dest;
+            if (src == 1)
+                s.T = ans == 1;
+            else
+                s.T = false;
+        }
+
+        public static void Swapb(this MachineState s, R m, R n)
+        {
+            var temp0 = s[m] & 0xffff0000;
+            var temp1 = (s[m] & 0x000000ff) << 8;
+            s[n] = (s[m] & 0x0000ff00) >> 8;
+            s[n] = (uint)(s[n] | temp1 | temp0);
+        }
+
+        public static void Swapw(this MachineState s, R m, R n)
+        {
+            var tempSw = (s[m] >> 16) & 0x0000FFFF;
+            s[n] = s[m] << 16;
+            s[n] = (uint)(s[n] | tempSw);
+        }
+
+        public static void Tasb(this MachineState s, MU32 mem)
+        {
+            var temp = (int)(s.U8[mem[s]]);
+            s.T = temp == 0;
+            temp |= 0x00000080;
+            s.U8[mem[s]] = (byte)temp;
         }
     }
 }

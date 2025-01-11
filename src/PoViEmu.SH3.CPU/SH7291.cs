@@ -323,6 +323,39 @@ namespace PoViEmu.SH3.CPU
                 case Mnemonic.Shlr16 when ops is [R n]:
                     Compute.Shlrn(s, 16,n );
                     return;
+                case Mnemonic.Sleep:
+                    Special.Sleep(s, this, ref nextIP);
+                    return;
+                case Mnemonic.Stc when ops is [R m, R n]:
+                    Compute.Stc(s, m, n);
+                    return;
+                case Mnemonic.StcL when ops is [R m, MU32 mem]:
+                    Compute.StcL(s, m, mem);
+                    return;
+                case Mnemonic.Sts when ops is [R m, R n]:
+                    Compute.Sts(s, m, n);
+                    return;
+                case Mnemonic.StsL when ops is [R m, MU32 mem]:
+                    Compute.StsL(s, m, mem);
+                    return;
+                case Mnemonic.Sub when ops is [R m, R n]:
+                    Compute.Sub(s, m, n);
+                    return;
+                case Mnemonic.Subc when ops is [R m, R n]:
+                    Compute.Subc(s, m, n);
+                    return;
+                case Mnemonic.Subv when ops is [R m, R n]:
+                    Compute.Subv(s, m, n);
+                    return;
+                case Mnemonic.SwapB when ops is [R m, R n]:
+                    Compute.Swapb(s, m, n);
+                    return;
+                case Mnemonic.SwapW when ops is [R m, R n]:
+                    Compute.Swapw(s, m, n);
+                    return;
+                case Mnemonic.TasB when ops is [MU32 mem]:
+                    Compute.Tasb(s, mem);
+                    return;
                 
             }
 
