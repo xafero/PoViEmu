@@ -39,7 +39,7 @@ namespace PoViEmu.SH3.CPU
             };
         }
 
-        private void ExecuteInterrupt(byte key, MachineState m)
+        internal void ExecuteInterrupt(byte key, MachineState m)
         {
             if (!InterruptTable.TryGetValue(key, out var handler))
                 throw new InvalidOperationException($"Missing interrupt 0x{key:X2}!");
@@ -79,7 +79,7 @@ namespace PoViEmu.SH3.CPU
                     Compute.Addv(s, m, n);
                     return;
                 case Mnemonic.And when ops is [R m, R n]:
-                    Compute.And(s,m,n);
+                    Compute.And(s, m, n);
                     return;
                 case Mnemonic.And when ops is [U8 i, R n]:
                     Compute.And(s, i.Val, n);
@@ -121,7 +121,7 @@ namespace PoViEmu.SH3.CPU
                     Compute.Clrt(s);
                     return;
                 case Mnemonic.CmpEq when ops is [R m, R n]:
-                    Compute.CmpEq(s,m,n);
+                    Compute.CmpEq(s, m, n);
                     return;
                 case Mnemonic.CmpGe when ops is [R m, R n]:
                     Compute.CmpGe(s, m, n);
@@ -154,7 +154,7 @@ namespace PoViEmu.SH3.CPU
                     Compute.Div0u(s);
                     return;
                 case Mnemonic.Div1 when ops is [R m, R n]:
-                    Compute.Div1(s,m,n);
+                    Compute.Div1(s, m, n);
                     return;
                 case Mnemonic.DmulsL when ops is [R m, R n]:
                     Compute.DmulsL(s, m, n);
@@ -166,7 +166,7 @@ namespace PoViEmu.SH3.CPU
                     Compute.Dt(s, n);
                     return;
                 case Mnemonic.ExtsB when ops is [R m, R n]:
-                    Compute.Extsb(s,m,n);
+                    Compute.Extsb(s, m, n);
                     return;
                 case Mnemonic.ExtsW when ops is [R m, R n]:
                     Compute.Extsw(s, m, n);
@@ -181,10 +181,10 @@ namespace PoViEmu.SH3.CPU
                     Jumping.Jump(s, m, ref nextIP);
                     return;
                 case Mnemonic.Jsr when ops is [MU32 mem]:
-                    Jumping.JumpSubroutine(s, mem,ref nextIP);
+                    Jumping.JumpSubroutine(s, mem, ref nextIP);
                     return;
                 case Mnemonic.Ldc when ops is [R m, R n]:
-                    Compute.Ldc(s,m,n);
+                    Compute.Ldc(s, m, n);
                     return;
                 case Mnemonic.LdcL when ops is [MU32 mem, R n]:
                     Compute.LdcL(s, mem, n);
@@ -303,25 +303,25 @@ namespace PoViEmu.SH3.CPU
                     Compute.Shll(s, n);
                     return;
                 case Mnemonic.Shll2 when ops is [R n]:
-                    Compute.Shlln(s, 2,n );
+                    Compute.Shlln(s, 2, n);
                     return;
                 case Mnemonic.Shll8 when ops is [R n]:
-                    Compute.Shlln(s, 8,n );
+                    Compute.Shlln(s, 8, n);
                     return;
                 case Mnemonic.Shll16 when ops is [R n]:
-                    Compute.Shlln(s, 16,n );
+                    Compute.Shlln(s, 16, n);
                     return;
                 case Mnemonic.Shlr when ops is [R n]:
                     Compute.Shlr(s, n);
                     return;
                 case Mnemonic.Shlr2 when ops is [R n]:
-                    Compute.Shlrn(s, 2,n );
+                    Compute.Shlrn(s, 2, n);
                     return;
                 case Mnemonic.Shlr8 when ops is [R n]:
-                    Compute.Shlrn(s, 8,n );
+                    Compute.Shlrn(s, 8, n);
                     return;
                 case Mnemonic.Shlr16 when ops is [R n]:
-                    Compute.Shlrn(s, 16,n );
+                    Compute.Shlrn(s, 16, n);
                     return;
                 case Mnemonic.Sleep:
                     Special.Sleep(s, this, ref nextIP);
@@ -356,7 +356,30 @@ namespace PoViEmu.SH3.CPU
                 case Mnemonic.TasB when ops is [MU32 mem]:
                     Compute.Tasb(s, mem);
                     return;
-                
+                case Mnemonic.Trapa when ops is [I8 i]:
+                    Special.Trapa(s, this, i.Val);
+                    return;
+                case Mnemonic.Tst when ops is [R m, R n]:
+                    Compute.Tst(s, m, n);
+                    return;
+                case Mnemonic.Tst when ops is [U8 i, R n]:
+                    Compute.Tst(s, i.Val, n);
+                    return;
+                case Mnemonic.TstB when ops is [U8 i, MU8 mem]:
+                    Compute.Tstb(s, i.Val, mem);
+                    return;
+                case Mnemonic.Xor when ops is [R m, R n]:
+                    Compute.Xor(s, m, n);
+                    return;
+                case Mnemonic.Xor when ops is [U8 i, R n]:
+                    Compute.Xor(s, i.Val, n);
+                    return;
+                case Mnemonic.XorB when ops is [U8 i, MU8 mem]:
+                    Compute.Xorb(s, i.Val, mem);
+                    return;
+                case Mnemonic.Xtrct when ops is [R m, R n]:
+                    Compute.Xtrct(s, m, n);
+                    return;
             }
 
             var debug = string.Join(", ", ops.Select(o => o.GetType().Name));

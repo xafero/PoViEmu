@@ -169,6 +169,29 @@ namespace PoViEmu.SH3.CPU
             // TODO Sleep Mode
             cpu.Halted = true;
         }
+
+        public static void Trapa(this MachineState s, SH7291 cpu, sbyte i)
+        {
+            /*
+            // TODO
+            //
+            long immT;
+            immT=(0x000000FF & i);
+            TRA=immT<<2;
+            s.SSR = (uint)s.SR;
+            s.SPC = s.PC;
+            s.MD = true;
+            s.BL = true;
+            s.RB = true;
+            s.EXPEVT=0x00000160;
+            s.PC=s.VBR+0x00000100;
+            //
+            */
+
+            cpu.ExecuteInterrupt((byte)i, s);
+            if ((cpu.InterruptTable[0x21] as DOSInterrupts)?.ReturnCode is not null)
+                cpu.Halted = true;
+        }
     }
 
     internal static class Compute
@@ -1002,6 +1025,48 @@ namespace PoViEmu.SH3.CPU
             s.T = temp == 0;
             temp |= 0x00000080;
             s.U8[mem[s]] = (byte)temp;
+        }
+
+        public static void Tst(this MachineState s, R m, R n)
+        {
+            s.T = (s[n] & s[m]) == 0;
+        }
+
+        public static void Tst(this MachineState s, byte i, R n)
+        {
+            var temp = s[R0] & (0x000000FF & (long)i);
+            s.T = temp == 0;
+        }
+
+        public static void Tstb(this MachineState s, byte i, MU8 mem)
+        {
+            var temp = (int)(s.U8[mem[s]]);
+            temp &= (0x000000FF & (int)i);
+            s.T = temp == 0;
+        }
+
+        public static void Xor(this MachineState s, R m, R n)
+        {
+            s[n] ^= s[m];
+        }
+
+        public static void Xor(this MachineState s, byte i, R n)
+        {
+            s[R0] = (uint)(s[R0] ^ (0x000000FF & (long)i));
+        }
+
+        public static void Xorb(this MachineState s, byte i, MU8 mem)
+        {
+            var temp = (int)(s.U8[mem[s]]);
+            temp ^= (0x000000FF & (int)i);
+            s.U8[mem[s]] = (byte)temp;
+        }
+
+        public static void Xtrct(this MachineState s, R m, R n)
+        {
+            var temp = (s[m] << 16) & 0xFFFF0000;
+            s[n] = (s[n] >> 16) & 0x0000FFFF;
+            s[n] = (uint)(s[n] | temp);
         }
     }
 }
