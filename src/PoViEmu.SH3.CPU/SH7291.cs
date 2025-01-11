@@ -11,6 +11,8 @@ using Fl = PoViEmu.SH3.ISA.Flagged;
 using I8 = PoViEmu.SH3.ISA.Ops.Consts.I8Operand;
 using U8 = PoViEmu.SH3.ISA.Ops.Consts.U8Operand;
 using NO = PoViEmu.SH3.ISA.Ops.Jumps.NearOperand;
+using MU8 = PoViEmu.SH3.ISA.Ops.Mems.Mu8Operand;
+using MU16 = PoViEmu.SH3.ISA.Ops.Mems.Mu16Operand;
 using MU32 = PoViEmu.SH3.ISA.Ops.Mems.Mu32Operand;
 using R = PoViEmu.SH3.ISA.Ops.Regs.Reg32Operand;
 using PoViEmu.SH3.ISA.Ops.Mems;
@@ -65,369 +67,210 @@ namespace PoViEmu.SH3.CPU
             switch (parsed.Mnemonic)
             {
                 case Mnemonic.Add when ops is [R m, R n]:
-                    s[n] += s[m];
+                    Compute.Add(s, m, n);
                     return;
                 case Mnemonic.Add when ops is [I8 i, R r]:
-                    if ((i.Val & 0x80) == 0)
-                        s[r] = (uint)(s[r] + (0x000000FF & (long)i.Val));
-                    else
-                        s[r] += 0xFFFFFF00 | (byte)i.Val;
+                    Compute.Add(s, i.Val, r);
                     return;
                 case Mnemonic.Addc when ops is [R m, R n]:
-                    var tmpc1 = s[n] + s[m];
-                    var tmpc0 = s[n];
-                    s[n] = (uint)(tmpc1 + s.T.ToNum());
-                    s.T = tmpc0 > tmpc1 || tmpc1 > s[n];
+                    Compute.Addc(s, m, n);
                     return;
                 case Mnemonic.Addv when ops is [R m, R n]:
-                    long dest, src, ans;
-                    dest = (long)s[n] >= 0 ? 0 : 1;
-                    src = (long)s[m] >= 0 ? 0 : 1;
-                    src += dest;
-                    s[n] += s[m];
-                    ans = (long)s[n] >= 0 ? 0 : 1;
-                    ans += dest;
-                    if (src == 0 || src == 2)
-                        s.T = ans == 1;
-                    else
-                        s.T = false;
+                    Compute.Addv(s, m, n);
                     return;
                 case Mnemonic.And when ops is [R m, R n]:
-                    s[n] &= s[m];
+                    Compute.And(s,m,n);
                     return;
-                case Mnemonic.And when ops is [I8 i]:
-                    s[R0] = (uint)(s[R0] & 0x000000FF & i.Val);
+                case Mnemonic.And when ops is [U8 i, R n]:
+                    Compute.And(s, i.Val, n);
                     return;
-                case Mnemonic.AndB when ops is [I8 i]:
-                    // TODO long temp;
-                    // TODO temp=(long)Read_Byte(GBR+s[0]);
-                    // TODO temp&=(0x000000FF & (long)i.Val);
-                    // TODO Write_Byte(GBR+R[0],temp);
+                case Mnemonic.AndB when ops is [U8 i, MU8 mem]:
+                    Compute.Andb(s, i.Val, mem);
                     return;
                 case Mnemonic.Bf when ops is [NO d]:
-                    long disp;
-                    if ((d.Diff & 0x80) == 0)
-                        disp = 0x000000FF & (long)d.Diff;
-                    else
-                        disp = 0xFFFFFF00 | (long)d.Diff;
-                    if (s.T == false)
-                        nextIP = (uint)(s.PC + (disp << 1) + 4);
-                    else
-                        nextIP = s.PC + 2;
+                    Jumping.BranchIfFalse(s, d.Diff, ref nextIP);
                     return;
                 case Mnemonic.BfS when ops is [NO d]:
-                    long dispS;
-                    uint tempS;
-                    tempS = s.PC;
-                    if ((d.Diff & 0x80) == 0)
-                        dispS = 0x000000FF & (long)d.Diff;
-                    else
-                        dispS = 0xFFFFFF00 | (long)d.Diff;
-                    if (s.T == false)
-                    {
-                        nextIP = (uint)(s.PC + (dispS << 1) + 4);
-                        // TODO Delay_Slot(tempS+2);
-                    }
-                    else
-                        nextIP = s.PC + 2;
+                    Jumping.BranchIfFalseDelay(s, d.Diff, ref nextIP);
                     return;
                 case Mnemonic.Bra when ops is [NO d]:
-                    ulong tempB;
-                    long dispB;
-                    if ((d.Diff & 0x800) == 0)
-                        dispB = 0x00000FFF & d.Diff;
-                    else
-                        dispB = 0xFFFFF000 | d.Diff;
-                    tempB = nextIP;
-                    nextIP = (uint)(s.PC + (dispB << 1) + 4);
-                    // TODO Delay_Slot(temp+2);
+                    Jumping.Branch(s, d.Diff, ref nextIP);
                     return;
                 case Mnemonic.Braf when ops is [R m]:
-                    ulong tempF;
-                    tempF = nextIP;
-                    // TODO nextIP = s.PC + s[m];
-                    // TODO Delay_Slot(temp+2);
+                    Jumping.BranchFar(s, m, ref nextIP);
                     return;
                 case Mnemonic.Bsr when ops is [NO d]:
-                    long dispR;
-                    if ((d.Diff & 0x800) == 0)
-                        dispR = 0x00000FFF & d.Diff;
-                    else
-                        dispR = 0xFFFFF000 | d.Diff;
-                    // TODO s.PR = nextIP;
-                    // TODO nextIP = (uint)(s.PC + (dispR << 1) + 4);
-                    // TODO Delay_Slot(PR+2);
+                    Jumping.BranchSubroutine(s, d.Diff, ref nextIP);
                     return;
                 case Mnemonic.Bsrf when ops is [R m]:
-                    // TODO s.PR = s.PC;
-                    // TODO nextIP = s.PC + s[m];
-                    // TODO Delay_Slot(PR+2);
+                    Jumping.BranchSubroutineFar(s, m, ref nextIP);
                     return;
                 case Mnemonic.Bt when ops is [NO d]:
-                    long dispT;
-                    if ((d.Diff & 0x80) == 0)
-                        dispT = 0x000000FF & (long)d.Diff;
-                    else
-                        dispT = 0xFFFFFF00 | (long)d.Diff;
-                    /*if (s.T)
-                        // TODO nextIP = (uint)(s.PC + (dispT << 1) + 4);
-                    else
-                        // TODO nextIP = s.PC + 2;
-                    */
+                    Jumping.BranchIfTrue(s, d.Diff, ref nextIP);
                     return;
                 case Mnemonic.BtS when ops is [NO d]:
-                    long dispW;
-                    ulong tempW;
-                    tempW = s.PC;
-                    if ((d.Diff & 0x80) == 0)
-                        disp = 0x000000FF & (long)d.Diff;
-                    else
-                        disp = 0xFFFFFF00 | (long)d.Diff;
-                    if (s.T)
-                    {
-                        // TODO nextIP = (uint)(s.PC + (disp << 1) + 4);
-                        // TODO Delay_Slot(temp+2);
-                    }
-                    else
-                    {
-                        // TODO nextIP = s.PC + 2;
-                    }
+                    Jumping.BranchIfTrueDelay(s, d.Diff, ref nextIP);
                     return;
                 case Mnemonic.Clrmac:
-                    s.MACH = 0;
-                    s.MACL = 0;
+                    Compute.Clrmac(s);
                     return;
                 case Mnemonic.Clrs:
-                    s.S = false;
+                    Compute.Clrs(s);
                     return;
                 case Mnemonic.Clrt:
-                    s.T = false;
+                    Compute.Clrt(s);
                     return;
                 case Mnemonic.CmpEq when ops is [R m, R n]:
-                    s.T = s[n] == s[m];
+                    Compute.CmpEq(s,m,n);
                     return;
                 case Mnemonic.CmpGe when ops is [R m, R n]:
-                    s.T = (long)s[n] >= s[m];
+                    Compute.CmpGe(s, m, n);
                     return;
                 case Mnemonic.CmpGt when ops is [R m, R n]:
-                    s.T = (long)s[n] > s[m];
+                    Compute.CmpGt(s, m, n);
                     return;
                 case Mnemonic.CmpHi when ops is [R m, R n]:
-                    s.T = (ulong)s[n] > s[m];
+                    Compute.CmpHi(s, m, n);
                     return;
                 case Mnemonic.CmpHs when ops is [R m, R n]:
-                    s.T = (ulong)s[n] >= s[m];
+                    Compute.CmpHs(s, m, n);
                     return;
                 case Mnemonic.CmpPl when ops is [R n]:
-                    s.T = (long)s[n] > 0;
+                    Compute.CmpPl(s, n);
                     return;
                 case Mnemonic.CmpPz when ops is [R n]:
-                    s.T = (long)s[n] >= 0;
+                    Compute.CmpPz(s, n);
                     return;
                 case Mnemonic.CmpStr when ops is [R m, R n]:
-                    ulong temp = s[n] ^ s[m];
-                    var HH = (long)((temp & 0xFF000000) >> 12);
-                    var HL = (long)((temp & 0x00FF0000) >> 8);
-                    var LH = (long)((temp & 0x0000FF00) >> 4);
-                    var LL = (long)(temp & 0x000000FF);
-                    HH = HH & HL & LH & LL;
-                    s.T = HH == 0;
+                    Compute.CmpStr(s, m, n);
                     return;
-                case Mnemonic.CmpEq when ops is [I8 i]:
-                    long imm;
-                    if ((i.Val & 0x80) == 0)
-                        imm = 0x000000FF & (long)i.Val;
-                    else
-                        imm = 0xFFFFFF00 | (byte)i.Val;
-                    s.T = s[R0] == imm;
+                case Mnemonic.CmpEq when ops is [I8 i, R n]:
+                    Compute.CmpEq(s, i.Val, n);
                     return;
                 case Mnemonic.Div0s when ops is [R m, R n]:
-                    s.Q = (s[n] & 0x80000000) != 0;
-                    s.M = (s[m] & 0x80000000) != 0;
-                    s.T = s.M != s.Q;
+                    Compute.Div0s(s, m, n);
                     return;
                 case Mnemonic.Div0u:
-                    s.M = s.Q = s.T = false;
+                    Compute.Div0u(s);
                     return;
                 case Mnemonic.Div1 when ops is [R m, R n]:
-                    uint tmp0;
-                    byte tmp1;
-                    var old_q = (byte)s.Q.ToNum();
-                    s.Q = (0x80000000 & s[n]) != 0;
-                    s[n] <<= 1;
-                    s[n] |= (uint)s.T.ToNum();
-                    switch (old_q)
-                    {
-                        case 0:
-                            switch (s.M)
-                            {
-                                case false:
-                                    tmp0 = s[n];
-                                    s[n] -= s[m];
-                                    tmp1 = (byte)(s[n] > tmp0 ? 1 : 0);
-                                    switch (s.Q)
-                                    {
-                                        case false:
-                                            s.Q = tmp1.ToBool();
-                                            break;
-                                        case true:
-                                            s.Q = tmp1 == 0;
-                                            break;
-                                    }
-                                    break;
-                                case true:
-                                    tmp0 = s[n];
-                                    s[n] += s[m];
-                                    tmp1 = (byte)(s[n] < tmp0 ? 1 : 0);
-                                    switch (s.Q)
-                                    {
-                                        case false:
-                                            s.Q = tmp1 == 0;
-                                            break;
-                                        case true:
-                                            s.Q = tmp1.ToBool();
-                                            break;
-                                    }
-                                    break;
-                            }
-                            break;
-                        case 1:
-                            switch (s.M)
-                            {
-                                case false:
-                                    tmp0 = s[n];
-                                    s[n] += s[m];
-                                    tmp1 = (byte)(s[n] < tmp0 ? 1 : 0);
-                                    switch (s.Q)
-                                    {
-                                        case false:
-                                            s.Q = tmp1.ToBool();
-                                            break;
-                                        case true:
-                                            s.Q = tmp1 == 0;
-                                            break;
-                                    }
-                                    break;
-                                case true:
-                                    tmp0 = s[n];
-                                    s[n] -= s[m];
-                                    tmp1 = (byte)(s[n] > tmp0 ? 1 : 0);
-                                    switch (s.Q)
-                                    {
-                                        case false:
-                                            s.Q = tmp1 == 0;
-                                            break;
-                                        case true:
-                                            s.Q = tmp1.ToBool();
-                                            break;
-                                    }
-                                    break;
-                            }
-                            break;
-                    }
-                    s.T = s.Q == s.M;
+                    Compute.Div1(s,m,n);
                     return;
                 case Mnemonic.DmulsL when ops is [R m, R n]:
-                    uint RnL, RnH, RmL, RmH, Res0, Res1, Res2;
-                    uint temp0, temp1, temp2, temp3;
-                    long tempm, tempn, fnLmL;
-                    tempn = s[n];
-                    tempm = s[m];
-                    if (tempn < 0)
-                        tempn = -tempn;
-                    if (tempm < 0)
-                        tempm = -tempm;
-                    fnLmL = ((long)s[n] ^ s[m]) < 0 ? -1 : 0;
-                    temp1 = (uint)tempn;
-                    temp2 = (uint)tempm;
-                    RnL = temp1 & 0x0000FFFF;
-                    RnH = (temp1 >> 16) & 0x0000FFFF;
-                    RmL = temp2 & 0x0000FFFF;
-                    RmH = (temp2 >> 16) & 0x0000FFFF;
-                    temp0 = RmL * RnL;
-                    temp1 = RmH * RnL;
-                    temp2 = RmL * RnH;
-                    temp3 = RmH * RnH;
-                    Res2 = 0;
-                    Res1 = temp1 + temp2;
-                    if (Res1 < temp1)
-                        Res2 += 0x00010000;
-                    temp1 = (Res1 << 16) & 0xFFFF0000;
-                    Res0 = temp0 + temp1;
-                    if (Res0 < temp0)
-                        Res2++;
-                    Res2 = Res2 + ((Res1 >> 16) & 0x0000FFFF) + temp3;
-                    if (fnLmL < 0)
-                    {
-                        Res2 = ~Res2;
-                        if (Res0 == 0)
-                            Res2++;
-                        else
-                            Res0 = ~Res0 + 1;
-                    }
-                    s.MACH = Res2;
-                    s.MACL = Res0;
+                    Compute.DmulsL(s, m, n);
                     return;
                 case Mnemonic.DmuluL when ops is [R m, R n]:
-                    uint RnLx, RnHx, RmLx, RmHx, Res0x, Res1x, Res2x;
-                    uint temp0x, temp1x, temp2x, temp3x;
-                    RnLx = s[n] & 0x0000FFFF;
-                    RnHx = (s[n] >> 16) & 0x0000FFFF;
-                    RmLx = s[m] & 0x0000FFFF;
-                    RmHx = (s[m] >> 16) & 0x0000FFFF;
-                    temp0x = RmLx * RnLx;
-                    temp1x = RmHx * RnLx;
-                    temp2x = RmLx * RnHx;
-                    temp3x = RmHx * RnHx;
-                    Res2x = 0;
-                    Res1x = temp1x + temp2x;
-                    if (Res1x < temp1x)
-                        Res2x += 0x00010000;
-                    temp1x = (Res1x << 16) & 0xFFFF0000;
-                    Res0x = temp0x + temp1x;
-                    if (Res0x < temp0x)
-                        Res2x++;
-                    Res2x = Res2x + ((Res1x >> 16) & 0x0000FFFF) + temp3x;
-                    s.MACH = Res2x;
-                    s.MACL = Res0x;
+                    Compute.DmuluL(s, m, n);
                     return;
                 case Mnemonic.Dt when ops is [R n]:
-                    s[n]--;
-                    s.T = s[n] == 0;
+                    Compute.Dt(s, n);
                     return;
                 case Mnemonic.ExtsB when ops is [R m, R n]:
-                    s[n] = s[m];
-                    if ((s[m] & 0x00000080) == 0)
-                        s[n] &= 0x000000FF;
-                    else
-                        s[n] |= 0xFFFFFF00;
+                    Compute.Extsb(s,m,n);
                     return;
                 case Mnemonic.ExtsW when ops is [R m, R n]:
-                    s[n] = s[m];
-                    if ((s[m] & 0x00008000) == 0)
-                        s[n] &= 0x0000FFFF;
-                    else
-                        s[n] |= 0xFFFF0000;
+                    Compute.Extsw(s, m, n);
                     return;
                 case Mnemonic.ExtuB when ops is [R m, R n]:
-                    s[n] = s[m];
-                    s[n] &= 0x000000FF;
+                    Compute.Extub(s, m, n);
                     return;
                 case Mnemonic.ExtuW when ops is [R m, R n]:
-                    s[n] = s[m];
-                    s[n] &= 0x0000FFFF;
+                    Compute.Extuw(s, m, n);
                     return;
                 case Mnemonic.Jmp when ops is [R m]:
-                    uint tempJ;
-                    tempJ = s.PC;
-                    nextIP = s[m] + 4;
-                    // TODO Delay_Slot(temp+2);
+                    Jumping.Jump(s, m, ref nextIP);
                     return;
                 case Mnemonic.Jsr when ops is [MU32 mem]:
-                    // TODO s.PR = s.PC;
-                    // TODO nextIP = mem[s] + 4;
-                    // TODO Delay_Slot(PR+2);
+                    Jumping.JumpSubroutine(s, mem,ref nextIP);
                     return;
+                case Mnemonic.Ldc when ops is [R m, R n]:
+                    Compute.Ldc(s,m,n);
+                    return;
+                case Mnemonic.LdcL when ops is [MU32 mem, R n]:
+                    Compute.LdcL(s, mem, n);
+                    return;
+                case Mnemonic.Lds when ops is [R m, R n]:
+                    Compute.Lds(s, m, n);
+                    return;
+                case Mnemonic.LdsL when ops is [MU32 mem, R n]:
+                    Compute.LdsL(s, mem, n);
+                    return;
+                case Mnemonic.Ldtlb:
+                    Compute.Ldtlb(s);
+                    return;
+                case Mnemonic.MacL when ops is [R m, R n]:
+                    Compute.Macl(s, m, n);
+                    return;
+                case Mnemonic.MacW when ops is [R m, R n]:
+                    Compute.Macw(s, m, n);
+                    return;
+                case Mnemonic.Mov when ops is [R m, R n]:
+                    Compute.Mov(s, m, n);
+                    return;
+                case Mnemonic.MovB when ops is [R r, MU8 mem]:
+                    Compute.Mov(s, r, mem);
+                    return;
+                case Mnemonic.MovW when ops is [R r, MU32 mem]:
+                    Compute.Mov(s, r, mem);
+                    return;
+                case Mnemonic.MovL when ops is [R r, MU32 mem]:
+                    Compute.Mov(s, r, mem);
+                    return;
+                case Mnemonic.MovB when ops is [MU8 mem, R r]:
+                    Compute.Mov(s, mem, r);
+                    return;
+                case Mnemonic.MovW when ops is [MU16 mem, R r]:
+                    Compute.Mov(s, mem, r);
+                    return;
+                case Mnemonic.MovL when ops is [MU32 mem, R r]:
+                    Compute.Mov(s, mem, r);
+                    return;
+                case Mnemonic.Mova when ops is [NO d, R n]:
+                    Compute.Mova(s, d.Diff, n);
+                    return;
+                case Mnemonic.Movt when ops is [R n]:
+                    Compute.Movt(s, n);
+                    return;
+                case Mnemonic.MulL when ops is [R m, R n]:
+                    Compute.MulL(s, m, n);
+                    return;
+                case Mnemonic.MulsW when ops is [R m, R n]:
+                    Compute.MulsW(s, m, n);
+                    return;
+                case Mnemonic.MuluW when ops is [R m, R n]:
+                    Compute.MuluW(s, m, n);
+                    return;
+                case Mnemonic.Neg when ops is [R m, R n]:
+                    Compute.Neg(s, m, n);
+                    return;
+                case Mnemonic.Negc when ops is [R m, R n]:
+                    Compute.Negc(s, m, n);
+                    return;
+                case Mnemonic.Nop:
+                    return;
+                case Mnemonic.Not when ops is [R m, R n]:
+                    Compute.Not(s, m, n);
+                    return;
+                case Mnemonic.Or when ops is [R m, R n]:
+                    Compute.Or(s, m, n);
+                    return;
+                case Mnemonic.Or when ops is [U8 i, R n]:
+                    Compute.Or(s, i.Val, n);
+                    return;
+                case Mnemonic.OrB when ops is [U8 i, MU8 mem]:
+                    Compute.Or(s, i.Val, mem);
+                    return;
+                case Mnemonic.Pref when ops is [MU32 mem]:
+                    // TODO Handle cache?
+                    return;
+                
+                
+                
+                
+                
+                
+                
+                /*                                                                           
                 case Mnemonic.Mov when ops is [I8 i, R r]:
                     s[r] = (uint)i.Val;
                     return;
@@ -440,82 +283,16 @@ namespace PoViEmu.SH3.CPU
                 case Mnemonic.MovL when ops is [NO d, R n]:
                     var dispWl = 0x000000FF & (long)d.Diff;
                     s[n] = s.U32[(uint)((s.PC & 0xFFFFFFFC) + (dispWl << 2))];
-                    return;
-                case Mnemonic.Movt when ops is [R n]:
-                    s[n] = (0x00000001 & (uint)s.SR);
-                    return;
-                case Mnemonic.MulL when ops is [R m, R n]:
-                    s.MACL = s[n] * s[m];
-                    return;
-                case Mnemonic.MulsW when ops is [R m, R n]:
-                    s.MACL = (uint)((long)(short)s[n] * (long)(short)s[m]);
-                    return;
-                case Mnemonic.MuluW when ops is [R m, R n]:
-                    s.MACL = (uint)((ulong)(ushort)s[n] * (ulong)(ushort)s[m]);
-                    return;
-                case Mnemonic.Neg when ops is [R m, R n]:
-                    s[n] = 0 - s[m];
-                    return;
-                case Mnemonic.Negc when ops is [R m, R n]:
-                    ulong tempC;
-                    tempC = 0 - s[m];
-                    s[n] = (uint)(tempC - (ulong)s.T.ToNum());
-                    s.T = 0 < tempC || tempC < s[n];
-                    return;
-                case Mnemonic.Nop:
-                    return;
-                case Mnemonic.Not when ops is [R m, R n]:
-                    s[n] = ~s[m];
-                    return;
-                case Mnemonic.Or when ops is [R m, R n]:
-                    s[n] |= s[m];
-                    return;
+                    return;                                                            
+                
                 case Mnemonic.StsL when ops is [R r, MU32 mem]:
                     mem[s] = s[r];
                     return;
                 case Mnemonic.Sub when ops is [R m, R n]:
                     s[n] -= s[m];
                     return;
-                case Mnemonic.Ldc when ops is [R m, R n]:
-                    switch (n.Reg)
-                    {
-                        case SR: s.SR = (Fl)(s[m] & 0x0FFF0FFF); break;
-                        case SSR: s.SSR = s[m] & 0x700003F3; break;
-                        default: s[n] = s[m]; break;
-                    }
-                    return;
-                case Mnemonic.LdcL when ops is [R m, R n]:
-                    switch (n.Reg)
-                    {
-                        case SR:
-                            s.SR = (Fl)(s.U32[s[m]] & 0x0FFF0FFF);
-                            s[m] += 4;
-                            break;
-                        case SSR:
-                            s.SSR = (uint)(s.U32[s[m]] & 0x700003F3);
-                            s[m] += 4;
-                            break;
-                        default:
-                            s[n] = (uint)(s.U32[s[m]]);
-                            s[m] += 4;
-                            break;
-                    }
-                    return;
-                case Mnemonic.Lds when ops is [R m, R n]:
-                    switch (n.Reg)
-                    {
-                        case MACH:
-                            s.MACH = s[m];
-                            if ((s.MACH & 0x00000200) == 0)
-                                s.MACH &= 0x000003FF;
-                            else
-                                s.MACH |= 0xFFFFFC00;
-                            break;
-                        default:
-                            s[n] = s[m];
-                            break;
-                    }
-                    return;
+               
+               
                 case Mnemonic.LdsL when ops is [R m, R n]:
                     switch (n.Reg)
                     {
@@ -533,36 +310,9 @@ namespace PoViEmu.SH3.CPU
                             break;
                     }
                     return;
-                case Mnemonic.LdsL when ops is [MU32 mem, R n]:
-                    switch (n.Reg)
-                    {
-                        case MACH:
-                            s.MACH = (uint)(s.U32[mem[s]]);
-                            if ((s.MACH & 0x00000200) == 0)
-                                s.MACH &= 0x000003FF;
-                            else
-                                s.MACH |= 0xFFFFFC00;
-                            mem[s] += 4;
-                            break;
-                        default:
-                            s[n] = (uint)(s.U32[mem[s]]);
-                            mem[s] += 4;
-                            break;
-                    }
-                    return;
-                case Mnemonic.Ldtlb:
-                    // TLB_tag=PTEH;
-                    // TLB_data=PTEL;
-                    return;
-                case Mnemonic.MacL when ops is [R m, R n]:
-                    Compute.MACL(s, m.Reg, n.Reg);
-                    return;
-                case Mnemonic.MacW when ops is [R m, R n]:
-                    Compute.MACW(s, m.Reg, n.Reg);
-                    return;
-                case Mnemonic.Mov when ops is [R m, R n]:
-                    s[n] = s[m];
-                    return;
+              
+              
+              
                 case Mnemonic.MovB when ops is [R m, R n]:
                     s.U8[s[n]] = (byte)s[m];
                     return;
@@ -957,7 +707,7 @@ namespace PoViEmu.SH3.CPU
                     tempBs |= 0x00000080;
                     s.U8[s[n]] = (byte)tempBs;
                     return;
-                case Mnemonic.Trapa when ops is [I8 i]:
+                case Mnemonic.Trapa when ops is [I8 i]:*/
                     /*
                     // TODO
                     //
@@ -973,7 +723,7 @@ namespace PoViEmu.SH3.CPU
                     s.PC=s.VBR+0x00000100;
                     //
                     */
-                    ExecuteInterrupt((byte)i.Val, s);
+                    /*ExecuteInterrupt((byte)i.Val, s);
                     if ((InterruptTable[0x21] as DOSInterrupts)?.ReturnCode is not null)
                         Halted = true;
                     return;
@@ -1008,7 +758,7 @@ namespace PoViEmu.SH3.CPU
                     tempXx = (s[m] << 16) & 0xFFFF0000;
                     s[n] = (s[n] >> 16) & 0x0000FFFF;
                     s[n] = (uint)(s[n] | tempXx);
-                    return;
+                    return;*/
             }
 
             var debug = string.Join(", ", ops.Select(o => o.GetType().Name));
