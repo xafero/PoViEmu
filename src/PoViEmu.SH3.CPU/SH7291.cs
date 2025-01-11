@@ -6,8 +6,6 @@ using PoViEmu.SH3.CPU.Errors;
 using PoViEmu.SH3.CPU.Soft;
 using PoViEmu.SH3.ISA;
 using PoViEmu.SH3.ISA.Decoding;
-using static PoViEmu.SH3.CPU.MachExt;
-using Fl = PoViEmu.SH3.ISA.Flagged;
 using I8 = PoViEmu.SH3.ISA.Ops.Consts.I8Operand;
 using U8 = PoViEmu.SH3.ISA.Ops.Consts.U8Operand;
 using NO = PoViEmu.SH3.ISA.Ops.Jumps.NearOperand;
@@ -15,8 +13,6 @@ using MU8 = PoViEmu.SH3.ISA.Ops.Mems.Mu8Operand;
 using MU16 = PoViEmu.SH3.ISA.Ops.Mems.Mu16Operand;
 using MU32 = PoViEmu.SH3.ISA.Ops.Mems.Mu32Operand;
 using R = PoViEmu.SH3.ISA.Ops.Regs.Reg32Operand;
-using PoViEmu.SH3.ISA.Ops.Mems;
-using static PoViEmu.SH3.ISA.ShRegister;
 
 // ReSharper disable InconsistentNaming
 

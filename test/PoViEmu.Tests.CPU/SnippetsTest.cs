@@ -1,11 +1,4 @@
 using System;
-using System.Linq;
-using Xunit;
-using PoViEmu.Base;
-using PoViEmu.Base.CPU.Diff;
-using ExeT2 = PoViEmu.SH3.CPU.ExecTool;
-using DefT2 = PoViEmu.SH3.CPU.Impl.Defaults;
-using System.IO;
 using Xunit;
 using static PoViEmu.Tests.CPU.SnippetsCheck;
 

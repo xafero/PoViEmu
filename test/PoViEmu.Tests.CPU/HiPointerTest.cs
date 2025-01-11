@@ -1,8 +1,6 @@
 using System.Linq;
-using Iced.Intel;
 using PoViEmu.Base;
 using PoViEmu.SH3.CPU;
-using PoViEmu.SH3.ISA.Core;
 using PoViEmu.SH3.ISA.Decoding;
 using PoViEmu.SH3.ISA.Ops.Mems;
 using Xunit;
