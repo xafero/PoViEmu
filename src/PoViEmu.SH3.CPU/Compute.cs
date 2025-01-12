@@ -5,6 +5,7 @@ using static PoViEmu.SH3.ISA.ShRegister;
 using MU16 = PoViEmu.SH3.ISA.Ops.Mems.Mu16Operand;
 using MU32 = PoViEmu.SH3.ISA.Ops.Mems.Mu32Operand;
 using MU8 = PoViEmu.SH3.ISA.Ops.Mems.Mu8Operand;
+using NO = PoViEmu.SH3.ISA.Ops.Jumps.NearOperand;
 using R = PoViEmu.SH3.ISA.Ops.Regs.Reg32Operand;
 
 // ReSharper disable InconsistentNaming
@@ -736,19 +737,19 @@ namespace PoViEmu.SH3.CPU
             mem[s] = s[r];
         }
 
-        public static void Mov(this MachineState s, MU8 mem, R r)
+        public static void Mov(this MachineState s, MU8 mem, R n)
         {
-            s[r] = mem[s];
+            s[n] = mem[s];
         }
 
-        public static void Mov(this MachineState s, MU16 mem, R r)
+        public static void Mov(this MachineState s, MU16 mem, R n)
         {
-            s[r] = mem[s];
+            s[n] = mem[s];
         }
 
-        public static void Mov(this MachineState s, MU32 mem, R r)
+        public static void Mov(this MachineState s, MU32 mem, R n)
         {
-            s[r] = mem[s];
+            s[n] = mem[s];
         }
 
         public static void Mova(this MachineState s, int d, R r)
@@ -1054,6 +1055,36 @@ namespace PoViEmu.SH3.CPU
             var temp = (s[m] << 16) & 0xFFFF0000;
             s[n] = (s[n] >> 16) & 0x0000FFFF;
             s[n] = (uint)(s[n] | temp);
+        }
+
+        public static void Macl(this MachineState s, MU32 a, MU32 b)
+        {
+            // TODO
+        }
+
+        public static void Macw(this MachineState s, MU16 a, MU16 b)
+        {
+            // TODO
+        }
+
+        public static void Mov(this MachineState s, sbyte i, R n)
+        {
+            s[n] = (uint)i;
+        }
+
+        public static void MovW(this MachineState s, NO m, R n)
+        {
+            s[n] = (uint)m.Diff;
+        }
+
+        public static void MovW(this MachineState s, R r, MU16 mem)
+        {
+            mem[s] = (ushort)s[r];
+        }
+
+        public static void MovL(this MachineState s, NO m, R n)
+        {
+            s[n] = (uint)m.Diff;
         }
     }
 }
