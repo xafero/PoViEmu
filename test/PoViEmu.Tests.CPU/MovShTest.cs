@@ -32,25 +32,25 @@ namespace PoViEmu.Tests.CPU
 // 0110nnnnmmmm0110
 [InlineData(0b0110100111010110, "mov.l @r13+,r9", new[] { "R13","0x200","U32|200", "99887766" }, new[] { "R13 = 0x00000200 --> 0x00000204", "R9 = 0x00000000 --> 0x99887766" })]
 // 0100nnnnmmmm1111
-[InlineData(0b0100100111011111, "mac.w @r13+,@r9+", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b0100100111011111, "mac.w @r13+,@r9+", new[] { "R0", "0x12345678" }, new string[] { })]
 // 0100nnnnmmmm1111
-[InlineData(0b0100110110011111, "mac.w @r9+,@r13+", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b0100110110011111, "mac.w @r9+,@r13+", new[] { "R0", "0x12345678" }, new string[] { })]
 // 0000nnnnmmmm1111
-[InlineData(0b0000100111011111, "mac.l @r13+,@r9+", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b0000100111011111, "mac.l @r13+,@r9+", new[] { "R0", "0x12345678" }, new string[] { })]
 // 0000nnnnmmmm1111
-[InlineData(0b0000110110011111, "mac.l @r9+,@r13+", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b0000110110011111, "mac.l @r9+,@r13+", new[] { "R0", "0x12345678" }, new string[] { })]
 // 11000100dddddddd
-[InlineData(0b1100010000100100, "mov.b @(36,gbr),r0", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b1100010000100100, "mov.b @(36,gbr),r0", new[] { "GBR","0x200","U8|224","0x12" }, new[] { "R0 = 0x00000000 --> 0x00000012" })]
 // 11000000dddddddd
-[InlineData(0b1100000000100100, "mov.b r0,@(36,gbr)", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b1100000000100100, "mov.b r0,@(36,gbr)", new[] { "GBR","0x200","U8|224","0x11","R0","0xA5" }, new[] { "U8|00000224 = 0x11 --> 0xA5" })]
 // 11000101dddddddd
-[InlineData(0b1100010100010010, "mov.w @(36,gbr),r0", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b1100010100010010, "mov.w @(36,gbr),r0", new[] { "GBR","0x200","U16|224","0x1234" }, new[] { "R0 = 0x00000000 --> 0x00001234" })]
 // 11000001dddddddd
-[InlineData(0b1100000100010010, "mov.w r0,@(36,gbr)", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b1100000100010010, "mov.w r0,@(36,gbr)", new[] { "GBR","0x200","U16|224","0x1234","R0","0xA5A6" }, new[] { "U16|00000224 = 0x1234 --> 0xA5A6" })]
 // 11000110dddddddd
-[InlineData(0b1100011000001001, "mov.l @(36,gbr),r0", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b1100011000001001, "mov.l @(36,gbr),r0", new[] { "GBR","0x200","U32|224","0x12345678" }, new[] { "R0 = 0x00000000 --> 0x12345678" })]
 // 11000010dddddddd
-[InlineData(0b1100001000001001, "mov.l r0,@(36,gbr)", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b1100001000001001, "mov.l r0,@(36,gbr)", new[] { "GBR","0x200","U32|224","0x12345678","R0","0xA5A6A7A8" }, new[] { "U32|00000224 = 0x12345678 --> 0xA5A6A7A8" })]
 // 0010nnnnmmmm0000
 [InlineData(0b0010100111010000, "mov.b r13,@r9", new[] { "R0", "0x12345678" }, new[] { "" })]
 // 0110nnnnmmmm0000
