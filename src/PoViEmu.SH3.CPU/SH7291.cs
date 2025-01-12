@@ -197,17 +197,44 @@ namespace PoViEmu.SH3.CPU
                 case Mnemonic.MacL when ops is [R m, R n]:
                     Compute.Macl(s, m, n);
                     return;
+                case Mnemonic.MacL when ops is [MU32 m, MU32 n]:
+                    // TODO
+                    return;
                 case Mnemonic.MacW when ops is [R m, R n]:
                     Compute.Macw(s, m, n);
                     return;
+                case Mnemonic.MacW when ops is [MU32 m, MU32 n]:
+                    // TODO
+                    return;
                 case Mnemonic.Mov when ops is [R m, R n]:
                     Compute.Mov(s, m, n);
+                    return;
+                case Mnemonic.Mov when ops is [I8 i, R n]:
+                    // TODO
                     return;
                 case Mnemonic.MovB when ops is [R r, MU8 mem]:
                     Compute.Mov(s, r, mem);
                     return;
                 case Mnemonic.MovW when ops is [R r, MU32 mem]:
                     Compute.Mov(s, r, mem);
+                    return;
+                case Mnemonic.MovW when ops is [MU32 mem, R r]:
+                    // TODO
+                    return;
+                case Mnemonic.MovW when ops is [R r, MU16 mem]:
+                    // TODO
+                    return;
+                case Mnemonic.MovB when ops is [R r, MU32 mem]:
+                    // TODO
+                    return;
+                case Mnemonic.MovW when ops is [NO no, R r]:
+                    // TODO
+                    return;
+                case Mnemonic.MovB when ops is [MU32 mem, R r]:
+                    // TODO
+                    return;
+                case Mnemonic.MovL when ops is [NO no, R r]:
+                    // TODO
                     return;
                 case Mnemonic.MovL when ops is [R r, MU32 mem]:
                     Compute.Mov(s, r, mem);
