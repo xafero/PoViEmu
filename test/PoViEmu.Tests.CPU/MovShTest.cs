@@ -64,29 +64,29 @@ namespace PoViEmu.Tests.CPU
 // 0110nnnnmmmm0010
 [InlineData(0b0110110110010010, "mov.l @r9,r13", new[] { "R9","0x200","U32|200", "0x11111111" }, new[] { "R13 = 0x00000000 --> 0x11111111" })]
 // 0000nnnnmmmm0100
-[InlineData(0b0000100111010100, "mov.b r13,@(r0,r9)", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b0000100111010100, "mov.b r13,@(r0,r9)", new[] { "R13","0xA5","R0","0x200","R9","0x10","U8|210","0x11" }, new[] { "U8|00000210 = 0x11 --> 0xA5" })]
 // 0000nnnnmmmm1100
-[InlineData(0b0000110110011100, "mov.b @(r0,r9),r13", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b0000110110011100, "mov.b @(r0,r9),r13", new[] { "R0","0x200","R9","0x10","U8|210","0xA5" }, new[] { "R13 = 0x00000000 --> 0x000000A5" })]
 // 0000nnnnmmmm0101
-[InlineData(0b0000100111010101, "mov.w r13,@(r0,r9)", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b0000100111010101, "mov.w r13,@(r0,r9)", new[] { "R13","0xA5A6","R0","0x200","R9","0x10","U16|210","0x1111" }, new[] { "U16|00000210 = 0x1111 --> 0xA5A6" })]
 // 0000nnnnmmmm1101
-[InlineData(0b0000110110011101, "mov.w @(r0,r9),r13", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b0000110110011101, "mov.w @(r0,r9),r13", new[] { "R0","0x200","R9","0x10","U16|210","0xA5A6" }, new[] { "R13 = 0x00000000 --> 0x0000A5A6" })]
 // 0000nnnnmmmm0110
-[InlineData(0b0000100111010110, "mov.l r13,@(r0,r9)", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b0000100111010110, "mov.l r13,@(r0,r9)", new[] { "R13","0xA5A6A7A8","R0","0x200","R9","0x10","U32|210","0x11111111" }, new[] { "U32|00000210 = 0x11111111 --> 0xA5A6A7A8" })]
 // 0000nnnnmmmm1110
-[InlineData(0b0000110110011110, "mov.l @(r0,r9),r13", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b0000110110011110, "mov.l @(r0,r9),r13", new[] { "R0","0x200","R9","0x10","U32|210","0xA5A6A7A8" }, new[] { "R13 = 0x00000000 --> 0xA5A6A7A8" })]
 // 10000000nnnndddd
-[InlineData(0b1000000010011000, "mov.b r0,@(8,r9)", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b1000000010011000, "mov.b r0,@(8,r9)", new[] { "R0","0xA5","R9","0x200","U8|208","0x11" }, new[] { "U8|00000208 = 0x11 --> 0xA5" })]
 // 10000100mmmmdddd
-[InlineData(0b1000010010011000, "mov.b @(8,r9),r0", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b1000010010011000, "mov.b @(8,r9),r0", new[] { "R9","0x200","U8|208","0xA5" }, new[] { "R0 = 0x00000000 --> 0x000000A5" })]
 // 10000001nnnndddd
-[InlineData(0b1000000110010100, "mov.w r0,@(8,r9)", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b1000000110010100, "mov.w r0,@(8,r9)", new[] { "R0","0xA5A6","R9","0x200","U16|208","0x1111" }, new[] { "U16|00000208 = 0x1111 --> 0xA5A6" })]
 // 10000101mmmmdddd
-[InlineData(0b1000010110010100, "mov.w @(8,r9),r0", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b1000010110010100, "mov.w @(8,r9),r0", new[] { "R9","0x200","U16|208","0xA5A6" }, new[] { "R0 = 0x00000000 --> 0x0000A5A6" })]
 // 0001nnnnmmmmdddd
-[InlineData(0b0001100100000010, "mov.l r0,@(8,r9)", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b0001100100000010, "mov.l r0,@(8,r9)", new[] { "R0","0xA5A6A7A8","R9","0x200","U32|208", "0x11111111" }, new[] { "U32|00000208 = 0x11111111 --> 0xA5A6A7A8" })]
 // 0101nnnnmmmmdddd
-[InlineData(0b0101000010010010, "mov.l @(8,r9),r0", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b0101000010010010, "mov.l @(8,r9),r0", new[] { "R9","0x200","U32|208","0xA5A6A7A8" }, new[] { "R0 = 0x00000000 --> 0xA5A6A7A8" })]
         public void ShouldCheck(ushort bin, string code, string[] input, string[] checks)
         {
             var bytes = BitConverter.GetBytes(bin);
