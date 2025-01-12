@@ -47,13 +47,25 @@ namespace PoViEmu.SH3.ISA.Core
         public static BaseOperand D(uint imm) => new NearOperand((int)imm);
         public static BaseOperand R(byte regNo) => new Reg32Operand(InstTool.GetReg(regNo));
 
-        public static BaseOperand Rr(byte regNo)
-            => new Mu32Operand(AM.RegIndirect, InstTool.GetReg(regNo), null, null);
+        public static BaseOperand RrB(byte regNo)
+            => new Mu8Operand(AM.RegIndirect, InstTool.GetReg(regNo), null, null);
+        public static BaseOperand RpB(byte regNo)
+            => new Mu8Operand(AM.PostIncrement, InstTool.GetReg(regNo), null, null);
+        public static BaseOperand RmB(byte regNo)
+            => new Mu8Operand(AM.PreDecrement, InstTool.GetReg(regNo), null, null);
 
-        public static BaseOperand Rp(byte regNo)
+        public static BaseOperand RrW(byte regNo)
+            => new Mu16Operand(AM.RegIndirect, InstTool.GetReg(regNo), null, null);
+        public static BaseOperand RpW(byte regNo)
+            => new Mu16Operand(AM.PostIncrement, InstTool.GetReg(regNo), null, null);
+        public static BaseOperand RmW(byte regNo)
+            => new Mu16Operand(AM.PreDecrement, InstTool.GetReg(regNo), null, null);
+
+        public static BaseOperand RrL(byte regNo)
+            => new Mu32Operand(AM.RegIndirect, InstTool.GetReg(regNo), null, null);
+        public static BaseOperand RpL(byte regNo)
             => new Mu32Operand(AM.PostIncrement, InstTool.GetReg(regNo), null, null);
-        
-        public static BaseOperand Rm(byte regNo)
+        public static BaseOperand RmL(byte regNo)
             => new Mu32Operand(AM.PreDecrement, InstTool.GetReg(regNo), null, null);
     }
 }

@@ -8,29 +8,29 @@ namespace PoViEmu.Tests.CPU
     {
         [Theory]
 // 1001nnnndddddddd
-[InlineData(0b1001110111000110, "mov.w 0x00000190,r13", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b1001110111000110, "mov.w 0x00000190,r13", new[] { "R13", "0" }, new[] { "R13 = 0x00000000 --> 0x00000190" })]
 // 1101nnnndddddddd
-[InlineData(0b1101110101100011, "mov.l 0x00000190,r13", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b1101110101100011, "mov.l 0x00000190,r13", new[] { "R13", "0" }, new[] { "R13 = 0x00000000 --> 0x00000190" })]
 // 1110nnnniiiiiiii
-[InlineData(0b1110000001101011, "mov #107,r0", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b1110000001101011, "mov #107,r0", new[] { "R0", "0" }, new[] { "R0 = 0x00000000 --> 0x0000006B" })]
 // 1110nnnniiiiiiii
-[InlineData(0b1110000010010101, "mov #-107,r0", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b1110000010010101, "mov #-107,r0", new[] { "R0", "0" }, new[] { "R0 = 0x00000000 --> 0xFFFFFF95" })]
 // 0110nnnnmmmm0011
-[InlineData(0b0110100111010011, "mov r13,r9", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b0110100111010011, "mov r13,r9", new[] { "R13", "0x12345678" }, new[] { "R9 = 0x00000000 --> 0x12345678" })]
 // 0110nnnnmmmm0011
-[InlineData(0b0110110110010011, "mov r9,r13", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b0110110110010011, "mov r9,r13", new[] { "R9", "0x12345678" }, new[] { "R13 = 0x00000000 --> 0x12345678" })]
 // 0010nnnnmmmm0100
-[InlineData(0b0010100111010100, "mov.b r13,@-r9", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b0010100111010100, "mov.b r13,@-r9", new[] { "R13","0xA5","R9","0x201","U8|200","11" }, new[] { "R9 = 0x00000201 --> 0x00000200","U8|00000200 = 0x11 --> 0xA5" })] 
 // 0010nnnnmmmm0101
-[InlineData(0b0010100111010101, "mov.w r13,@-r9", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b0010100111010101, "mov.w r13,@-r9", new[] { "R13","0xA5A6","R9","0x202","U16|200","1111" }, new[] { "R9 = 0x00000202 --> 0x00000200","U16|00000200 = 0x1111 --> 0xA5A6" })]
 // 0010nnnnmmmm0110
-[InlineData(0b0010100111010110, "mov.l r13,@-r9", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b0010100111010110, "mov.l r13,@-r9", new[] { "R13","0xA5A6A7A8","R9","0x204","U32|200","11111111" }, new[] { "R9 = 0x00000204 --> 0x00000200", "U32|00000200 = 0x11111111 --> 0xA5A6A7A8" })]
 // 0110nnnnmmmm0100
-[InlineData(0b0110100111010100, "mov.b @r13+,r9", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b0110100111010100, "mov.b @r13+,r9", new[] { "R13","0x200","U8|200","99" }, new[] { "R13 = 0x00000200 --> 0x00000201", "R9 = 0x00000000 --> 0x00000099" })]
 // 0110nnnnmmmm0101
-[InlineData(0b0110100111010101, "mov.w @r13+,r9", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b0110100111010101, "mov.w @r13+,r9", new[] { "R13","0x200","U16|200", "9988" }, new[] { "R13 = 0x00000200 --> 0x00000202", "R9 = 0x00000000 --> 0x00009988" })]
 // 0110nnnnmmmm0110
-[InlineData(0b0110100111010110, "mov.l @r13+,r9", new[] { "R0", "0x12345678" }, new[] { "" })]
+[InlineData(0b0110100111010110, "mov.l @r13+,r9", new[] { "R13","0x200","U32|200", "99887766" }, new[] { "R13 = 0x00000200 --> 0x00000204", "R9 = 0x00000000 --> 0x99887766" })]
 // 0100nnnnmmmm1111
 [InlineData(0b0100100111011111, "mac.w @r13+,@r9+", new[] { "R0", "0x12345678" }, new[] { "" })]
 // 0100nnnnmmmm1111
@@ -94,7 +94,7 @@ namespace PoViEmu.Tests.CPU
 
             var (changes, ret, actual) = DoShouldExec(bytes, code, input);
 
-            // Assert.Equal(checks, changes);
+            Assert.Equal(checks, changes);
             Assert.Null(ret);
             Assert.Empty(actual);
         }

@@ -6,7 +6,7 @@ namespace PoViEmu.SH3.ISA.Ops.Mems
 {
     public static class MemOpExt
     {
-        public static uint OffA(this MemOperand op, MS s, bool allowMod = true)
+        public static uint OffA(this MemOperand op, MS s)
         {
             uint offset;
             switch (op.Mode)
@@ -16,10 +16,10 @@ namespace PoViEmu.SH3.ISA.Ops.Mems
                     break;
                 case AddressingMode.PostIncrement:
                     offset = s[op.Base];
-                    if (allowMod) s[op.Base] += op.ByteSize;
+                    s[op.Base] += op.ByteSize;
                     break;
                 case AddressingMode.PreDecrement:
-                    if (allowMod) s[op.Base] -= op.ByteSize;
+                    s[op.Base] -= op.ByteSize;
                     offset = s[op.Base];
                     break;
                 case AddressingMode.Displacement:

@@ -551,7 +551,7 @@ namespace PoViEmu.SH3.CPU
 
         byte IFlatMemAccess<byte>.Get(uint addr)
         {
-            var value = _memory[addr];
+            var value = Endian.ReadUInt8(_memory, (int)addr);
             return value;
         }
 
@@ -561,7 +561,7 @@ namespace PoViEmu.SH3.CPU
             var values = new byte[count];
             for (var i = 0; i < count; i++)
             {
-                var value = _memory[addr + i];
+                var value = Endian.ReadUInt8(_memory, (int)(addr + i));
                 values[i] = value;
             }
             return values;
@@ -570,7 +570,10 @@ namespace PoViEmu.SH3.CPU
         void IFlatMemAccess<byte>.Set(uint addr, byte value)
         {
             SetProperty(() => ((IFlatMemAccess<byte>)this).Get(addr),
-                v => { _memory[addr] = v; }, value, GetSrc<byte>(addr));
+                v =>
+                {
+                    Endian.WriteUInt8(v, _memory, (int)addr);
+                }, value, GetSrc<byte>(addr));
         }
 
         void IFlatMemAccess<byte[]>.Set(uint addr, byte[] values)
@@ -581,15 +584,14 @@ namespace PoViEmu.SH3.CPU
                     for (var i = 0; i < v.Length; i++)
                     {
                         var value = v[i];
-                        _memory[addr + i] = value;
+                        Endian.WriteUInt8(value, _memory, (int)(addr + i));
                     }
                 }, values, GetSrc<byte[]>(addr));
         }
 
         ushort IFlatMemAccess<ushort>.Get(uint addr)
         {
-            var bytes = new[] { _memory[addr], _memory[addr + 1] };
-            var value = Endian.ReadUInt16(bytes);
+            var value = Endian.ReadUInt16(_memory, (int)addr);
             return value;
         }
 
@@ -599,8 +601,7 @@ namespace PoViEmu.SH3.CPU
             var values = new ushort[count];
             for (int i = 0, j = 0; i < count; i++, j += 2)
             {
-                var bytes = new[] { _memory[addr + j], _memory[addr + j + 1] };
-                var value = Endian.ReadUInt16(bytes);
+                var value = Endian.ReadUInt16(_memory, (int)(addr + j));
                 values[i] = value;
             }
             return values;
@@ -630,22 +631,17 @@ namespace PoViEmu.SH3.CPU
 
         uint IFlatMemAccess<uint>.Get(uint addr)
         {
-            var bytes = new[] { _memory[addr], _memory[addr + 1], _memory[addr + 2], _memory[addr + 3] };
-            var value = Endian.ReadUInt16(bytes);
+            var value = Endian.ReadUInt32(_memory, (int)addr);
             return value;
         }
 
         uint[] IFlatMemAccess<uint[]>.Get(uint addr)
         {
-            var count = (ushort.MaxValue) / 2;
+            var count = (ushort.MaxValue) / 4;
             var values = new uint[count];
-            for (int i = 0, j = 0; i < count; i++, j += 2)
+            for (int i = 0, j = 0; i < count; i++, j += 4)
             {
-                var bytes = new[]
-                {
-                    _memory[addr + j], _memory[addr + j + 1], _memory[addr + j + 2], _memory[addr + j + 3]
-                };
-                var value = Endian.ReadUInt16(bytes);
+                var value = Endian.ReadUInt32(_memory, (int)(addr + j));
                 values[i] = value;
             }
             return values;
@@ -665,7 +661,7 @@ namespace PoViEmu.SH3.CPU
             SetProperty(() => ((IFlatMemAccess<uint[]>)this).Get(addr),
                 v =>
                 {
-                    for (int i = 0, j = 0; i < v.Length; i++, j += 2)
+                    for (int i = 0, j = 0; i < v.Length; i++, j += 4)
                     {
                         var value = v[i];
                         Endian.WriteUInt32(value, _memory, offset: addr + j);
