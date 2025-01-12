@@ -11,11 +11,11 @@ namespace PoViEmu.Tests.CPU
     public class HíPointerTest
     {
         [Theory]
-        [InlineData("mov.l   r0,@r15", "@r15", 0x2F02, "00000000")]
-        [InlineData("mac.l   @r11+,@r15+", "@r11+", 0x0FBF, "00000000")]
-        [InlineData("mov.l   r0,@-r15", "@-r15", 0x2F06, "00000000")]
-        [InlineData("mov.b   r0,@(13,r15)", "@(13,r15)", 0x80FD, "0000000D")]
-        [InlineData("or.b   #104,@(r0,gbr)", "@(r0,gbr)", 0xCF68, "00000000")]
+        [InlineData("mov.l   r0,@r15", "@r15", 0x2F02, "00002150")]
+        [InlineData("mac.l   @r11+,@r15+", "@r11+", 0x0FBF, "00002110")]
+        [InlineData("mov.l   r0,@-r15", "@-r15", 0x2F06, "0000214C")]
+        [InlineData("mov.b   r0,@(13,r15)", "@(13,r15)", 0x80FD, "0000215D")]
+        [InlineData("or.b   #104,@(r0,gbr)", "@(r0,gbr)", 0xCF68, "00004160")]
         public void ShouldCalcPointer(string code, string txt, long raw, string dst, int? bx = null)
         {
             var b = BytesHelper.ToArray(raw);
@@ -34,12 +34,13 @@ namespace PoViEmu.Tests.CPU
             Assert.Equal(dst, target);
         }
 
-        private static MachineState GenerateState(ushort bp = 0x1000,
-            ushort bx = 0x2000, ushort si = 0x0120, ushort di = 0x0005)
+        private static MachineState GenerateState()
         {
             var state = new MachineState
             {
-                R1 = bp, R2 = bx, R3 = si, R4 = di
+                R0 = 0x2000, R1 = 0x2010, R2 = 0x2020, R3 = 0x2030, R4 = 0x2040, R5 = 0x2050,
+                R6 = 0x2060, R7 = 0x2070, R8 = 0x2080, R9 = 0x2090, R10 = 0x2100, R11 = 0x2110,
+                R12 = 0x2120, R13 = 0x2130, R14 = 0x2140, R15 = 0x2150, GBR = 0x2160
             };
             return state;
         }
