@@ -6,7 +6,7 @@ namespace PoViEmu.Tests.CPU
 {
     public class ChimesTest
     {
-        [Theory(Skip = "Not usable atm!")]
+        [Theory]
         [InlineData("op")]
         public void ShouldRead(string fileName)
         {
