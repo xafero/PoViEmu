@@ -48,7 +48,7 @@ namespace PoViEmu.SH3.ISA.Core
         public static BaseOperand R(byte regNo) => new Reg32Operand(InstTool.GetReg(regNo));
 
         public static BaseOperand Rr(byte regNo)
-            => new Mu32Operand(AM.RegisterIndirect, InstTool.GetReg(regNo), null, null);
+            => new Mu32Operand(AM.RegIndirect, InstTool.GetReg(regNo), null, null);
 
         public static BaseOperand Rp(byte regNo)
             => new Mu32Operand(AM.PostIncrement, InstTool.GetReg(regNo), null, null);

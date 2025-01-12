@@ -10,6 +10,8 @@ namespace PoViEmu.SH3.ISA.Ops.Mems
             get => m.U8[this.OffA(m)];
             set => m.U8[this.OffA(m)] = value;
         }
+
+        public override byte ByteSize => 1;
     }
 
     public record Mu16Operand(AddressingMode Mode, B32 Base, B32? Idx, int? Disp)
@@ -20,6 +22,8 @@ namespace PoViEmu.SH3.ISA.Ops.Mems
             get => m.U16[this.OffA(m)];
             set => m.U16[this.OffA(m)] = value;
         }
+
+        public override byte ByteSize => 2;
     }
 
     public record Mu32Operand(AddressingMode Mode, B32 Base, B32? Idx, int? Disp)
@@ -30,5 +34,7 @@ namespace PoViEmu.SH3.ISA.Ops.Mems
             get => m.U32[this.OffA(m)];
             set => m.U32[this.OffA(m)] = value;
         }
+
+        public override byte ByteSize => 4;
     }
 }

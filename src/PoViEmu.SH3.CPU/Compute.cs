@@ -733,7 +733,7 @@ namespace PoViEmu.SH3.CPU
 
         public static void Mov(this MachineState s, R r, MU32 mem)
         {
-            mem[s] = (uint)s[r];
+            mem[s] = s[r];
         }
 
         public static void Mov(this MachineState s, MU8 mem, R r)

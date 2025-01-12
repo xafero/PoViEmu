@@ -8,6 +8,6 @@ namespace PoViEmu.SH3.ISA
         FlatMemAccess<ushort> U16 { get; }
         FlatMemAccess<uint> U32 { get; }
 
-        uint this[ShRegister reg] { get; }
+        uint this[ShRegister reg] { get; set; }
     }
 }
