@@ -170,7 +170,6 @@ namespace PoViEmu.I186.ISA.Decoding
             {
                 case MS.UInt8: return new Mu8Operand(xSeg, xBse, xIdx, xDisp);
                 case MS.UInt16: return new Mu16Operand(xSeg, xBse, xIdx, xDisp);
-                // TODO case MS.Int8: return new Mi8Operand(xSeg, xBse, xIdx, xDisp);
                 case MS.Int16: return new Mi16Operand(xSeg, xBse, xIdx, xDisp);
                 case MS.Float32: return new Mf32Operand(xSeg, xBse, xIdx, xDisp);
                 case MS.Bound16_WordWord: return new Mu16BOperand(xSeg, xBse, xIdx, xDisp);

@@ -97,49 +97,61 @@ namespace PoViEmu.Tests.CPU
             new[] { "R0", "0xFFFF8000" },
             new[] { "R1 = 0x00000000 --> 0xFFFF8000", "R1 = 0xFFFF8000 --> 0x00008000" })]
         // LDC
-        /* [InlineData(0b0100000000001110,"ldc r0,sr",
-            new[] {"R0","0xFFFFFFFF","SR","0x00000000"},
-            new[] {"SR = 0x700003F3"})]*/ // TODO
+        [InlineData(0b0100000000001110,"ldc r0,sr",
+            new[] {"R0","0xFFFFFFFF", "SR","0"},
+            new[] {"M = 0 --> 1", "Q = 0 --> 1", "S = 0 --> 1", "T = 0 --> 1"})]
+        [InlineData(0b0100000000011110,"ldc r0,gbr",
+            new[] {"R0","0xFFFFFFFF", "GBR","0"},
+            new[] {"GBR = 0x00000000 --> 0xFFFFFFFF"})]
+        [InlineData(0b0100000000101110,"ldc r0,vbr",
+            new[] {"R0","0xFFFFFFFF", "VBR","0"},
+            new[] {"VBR = 0x00000000 --> 0xFFFFFFFF"})]
+        [InlineData(0b0100000000111110,"ldc r0,ssr",
+            new[] {"R0","0xFFFFFFFF", "SSR","0"},
+            new[] {"SSR = 0x00000000 --> 0x700003F3"})]
+        [InlineData(0b0100000001001110,"ldc r0,spc",
+            new[] {"R0","0xFFFFFFFF", "SPC","0"},
+            new[] {"SPC = 0x00000000 --> 0xFFFFFFFF"})]
         // LDCL
-        /* [InlineData(0b0100111100010111,"ldc.l @r15+,gbr",
-            new[] {"R15","0x10000","U32|10000","0x12345678","GBR","0xEDCBA987"},
-            new[] {"R15 = H'10000004", "GBR = @H'10000000"})] */ // TODO
+        [InlineData(0b0100111100010111,"ldc.l @r15+,gbr",
+            new[] {"R15","0x200","U32|200","0xEDCBA987","GBR","0x11111111"},
+            new[] {"R15 = 0x00000200 --> 0x00000204", "GBR = 0x11111111 --> 0xEDCBA987"})] 
         // LDS
         [InlineData(0b0100000000101010, "lds r0,pr",
             new[] { "R0", "0x12345678", "PR", "0x00000000" },
             new[] { "PR = 0x00000000 --> 0x12345678" })]
         // LDSL
-        /* [InlineData(0b0100111100010110,"lds.l @r15+,macl",
-            new[] {"R15","0x10000000"},
-            new[] {"R15 = H'10000004", "MACL = @H'10000000"})] */ // TODO
+        [InlineData(0b0100111100010110,"lds.l @r15+,macl",
+            new[] {"R15","0x200","MACL","0x1111","U32|200","0xCDCDEF"},
+            new[] { "R15 = 0x00000200 --> 0x00000204", "MACL = 0x00001111 --> 0x00CDCDEF" })] 
         // MOV
         [InlineData(0b0110000100000011, "mov r0,r1",
             new[] { "R0", "0xFFFFFFFF", "R1", "0x00000000" },
             new[] { "R1 = 0x00000000 --> 0xFFFFFFFF" })]
         // MOVB
-        /*[InlineData(0b0110000100000000,"mov.b @r0,r1",
-            new[] {"@R0","0x80","R1","0x00000000"},
-            new[] {"R1 = H'FFFFFF80"})]
+        [InlineData(0b0110000100000000,"mov.b @r0,r1",
+            new[] {"R0","0x200","U8|200","0x80"},
+            new[] {"R1 = 0x00000000 --> 0x00000080"})]
         [InlineData(0b0000001000010100,"mov.b r1,@(r0,r2)",
-            new[] {"R2","0x00000004","R0","0x10000000"},
-            new[] {"R1 = @H'10000004"})]
+            new[] {"R1","0x04","R0","0x200","R2","0x10","U8|210","0x11"},
+            new[] {"U8|00000210 = 0x11 --> 0x04"})]
         // MOVW
         [InlineData(0b0010000100000001,"mov.w r0,@r1",
-            new[] {"R0","0xFFFF7F80"},
-            new[] {"@R1 = H'7F80"})]
-        [InlineData(0b0010000100000101,"mov.w r0,@–r1",
-            new[] {"R0","0xAAAAAAAA","R1","0xFFFF7F80"},
-            new[] {"R1 = H'FFFF7F7E, @R1 = H'AAAA"})]
+            new[] {"R0","0xFFFF7F80", "R1","0x200", "U16|200","0x1111"},
+            new[] {"U16|00000200 = 0x1111 --> 0x7F80"})]
+        [InlineData(0b0010000100000101,"mov.w r0,@-r1",
+            new[] {"R0","0xAAAAAAAA","R1","0x202", "U16|200","0x1111"},
+            new[] {"R1 = 0x00000202 --> 0x00000200", "U16|00000200 = 0x1111 --> 0xAAAA"})]
         [InlineData(0b0000000100101101,"mov.w @(r0,r2),r1",
-            new[] {"R2","0x00000004","R0","0x10000000"},
-            new[] {"R1 = @H'10000004"})]
+            new[] {"R0","0x200","R2","0x10","U16|210","0xA5A6","R1","0x1111"},
+            new[] {"R1 = 0x00001111 --> 0x0000A5A6"})]
         // MOVL
         [InlineData(0b0110000100000110,"mov.l @r0+,r1",
-            new[] {"R0","0x12345670"},
-            new[] {"R0 = H'12345674, R1 = @H'12345670"})]*/ // TODO
-        /*[InlineData(0b0001000100001111,"mov.l r0,@(60,r1)",
-            new[] {"R0","0xFFFF7F80"},
-            new[] {"@(R1 + 60) = H'FFFF7F80"})]*/ // TODO 
+            new[] {"R0","0x200","U32|200","0xA5A6A7A8","R1","0x11"},
+            new[] { "R0 = 0x00000200 --> 0x00000204", "R1 = 0x00000011 --> 0xA5A6A7A8" })]
+        [InlineData(0b0001000100001111,"mov.l r0,@(60,r1)",
+            new[] {"R0","0xFFFF7F80","R1","0x200","U32|23C","0x11"},
+            new[] {"U32|0000023C = 0x00000011 --> 0xFFFF7F80"})] 
         // MULL
         [InlineData(0b0000000100000111, "mul.l r0,r1",
             new[] { "R0", "0xFFFFFFFE", "R1", "0x00005555" },
@@ -260,21 +272,21 @@ namespace PoViEmu.Tests.CPU
             new[] { "R0", "0x12345678" },
             new[] { "R0 = 0x12345678 --> 0x00001234" })]
         // STC
-        /*[InlineData(0b0000000000000010,"stc sr,r0",
-            new[] {"R0","0xFFFFFFFF", "SR","0x00000000"},
-            new[] {"R0 = 0x00000000"})]
+        [InlineData(0b0000000000000010,"stc sr,r0",
+            new[] {"R0","0x11", "SR","0xCDCE"},
+            new[] {"R0 = 0x00000011 --> 0x000001F2"})]
         // STCL
         [InlineData(0b0100111100010011,"stc.l gbr,@-r15",
-            new[] {"R15","0x10000004"},
-            new[] {"R15 = 0x10000000, @R15 = GBR"})]*/ // TODO
+            new[] {"GBR","0xAEAD", "R15","0x204", "U32|200","0x1111" },
+            new[] {"R15 = 0x00000204 --> 0x00000200", "U32|00000200 = 0x00001111 --> 0x0000AEAD"})]
         // STS
         [InlineData(0b0000000000001010, "sts mach,r0",
             new[] { "R0", "0xFFFFFFFF", "MACH", "0x00000000" },
             new[] { "R0 = 0xFFFFFFFF --> 0x00000000" })]
         // STSL
-        /*[InlineData(0b0100111100100010,"sts.l pr,@-r15",
-            new[] {"R15","0x10000004"},
-            new[] {"R15 = 0x10000004 --> 0x10000000", "@R15 = PR"})]*/ // TODO
+        [InlineData(0b0100111100100010,"sts.l pr,@-r15",
+            new[] {"R15","0x204","U32|200","0x11111111","PR","0xA9"},
+            new[] {"R15 = 0x00000204 --> 0x00000200","U32|00000200 = 0x11111111 --> 0x000000A9"})]
         // SUB
         [InlineData(0b0011000100001000, "sub r0,r1",
             new[] { "R0", "0x00000001", "R1", "0x80000000" },
@@ -302,18 +314,18 @@ namespace PoViEmu.Tests.CPU
             new[] { "R0", "0x12345678" },
             new[] { "R1 = 0x00000000 --> 0x56780000", "R1 = 0x56780000 --> 0x56781234" })]
         // TASB
-        /*[InlineData(0b0100011100011011,"tas.b @r7",
-            new[] {"R7","1000"},
-            new[] {""})]*/ // TODO
+        [InlineData(0b0100011100011011,"tas.b @r7",
+            new[] {"R7","0x200", "U8|200","0x80"},
+            new string[] { })]
         // TST
         [InlineData(0b0010000000001000, "tst r0,r0",
             new[] { "R0", "0x00000000" }, new[] { "T = 0 --> 1" })]
         [InlineData(0b1100100010000000, "tst #128,r0",
             new[] { "R0", "0xFFFFFF7F" }, new[] { "T = 0 --> 1" })]
         // TSTB
-        /*[InlineData(0b1100110010100101,"tst.b #165,@(r0,gbr)",
-            new[] { "GBR","0x1000", "R0", "0x0020", "U8|0x1020","0xA5" },
-            new[] {"T = 0"})]*/ // TODO
+        [InlineData(0b1100110010100101,"tst.b #165,@(r0,gbr)",
+            new[] { "R0","0x200", "GBR","0x10", "U8|210","0xA5", "T","1" },
+            new[] {"T = 1 --> 0"})]
         // XOR
         [InlineData(0b0010000100001010, "xor r0,r1",
             new[] { "R0", "0xAAAAAAAA", "R1", "0x55555555" },
@@ -322,9 +334,9 @@ namespace PoViEmu.Tests.CPU
             new[] { "R0", "0xFFFFFFFF" },
             new[] { "R0 = 0xFFFFFFFF --> 0xFFFFFF0F" })]
         // XORB
-        /* [InlineData(0b1100111010100101,"xor.b #165,@(r0,gbr)",
+        [InlineData(0b1100111010100101,"xor.b #165,@(r0,gbr)",
             new[] { "GBR","0x1000", "R0", "0x0020", "U8|1020","0xA5" },
-            new[] {"@(R0,GBR) = H'00"})]*/ // TODO
+            new[] {"U8|00001020 = 0xA5 --> 0x00"})]
         // XTRCT
         [InlineData(0b0010000100001101, "xtrct r0,r1",
             new[] { "R0", "0x01234567", "R1", "0x89ABCDEF" },

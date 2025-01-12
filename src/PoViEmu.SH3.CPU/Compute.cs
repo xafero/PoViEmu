@@ -510,8 +510,7 @@ namespace PoViEmu.SH3.CPU
 
         public static void StcL(this MachineState s, R m, MU32 mem)
         {
-            mem[s] -= 4;
-            s.U32[mem[s]] = s[m];
+            mem[s] = s[m];
         }
 
         public static void LdcL(this MachineState s, MU32 mem, R n)
@@ -519,16 +518,13 @@ namespace PoViEmu.SH3.CPU
             switch (n.Reg)
             {
                 case SR:
-                    s.SR = (Fl)(s.U32[mem[s]] & 0x0FFF0FFF);
-                    mem[s] += 4;
+                    s.SR = (Fl)( mem[s]  & 0x0FFF0FFF);
                     break;
                 case SSR:
-                    s.SSR = s.U32[mem[s]] & 0x700003F3;
-                    mem[s] += 4;
+                    s.SSR =  mem[s]  & 0x700003F3;
                     break;
                 default:
-                    s[n] = s.U32[mem[s]];
-                    mem[s] += 4;
+                    s[n] =   mem[s];
                     break;
             }
         }
@@ -555,16 +551,14 @@ namespace PoViEmu.SH3.CPU
             switch (n.Reg)
             {
                 case MACH:
-                    s.MACH = (uint)(s.U32[mem[s]]);
+                    s.MACH = (uint)( mem[s] );
                     if ((s.MACH & 0x00000200) == 0)
                         s.MACH &= 0x000003FF;
                     else
                         s.MACH |= 0xFFFFFC00;
-                    mem[s] += 4;
                     break;
                 default:
-                    s[n] = (uint)(s.U32[mem[s]]);
-                    mem[s] += 4;
+                    s[n] = (uint)( mem[s] );
                     break;
             }
         }
@@ -578,10 +572,8 @@ namespace PoViEmu.SH3.CPU
 
         public static void Macl(this MachineState s, R m, R n)
         {
-            var tempn = (int)(s.U32[s[n]]);
-            s[n] += 4;
-            var tempm = (int)(s.U32[s[m]]);
-            s[m] += 4;
+            var tempn = (int)( s[n] );
+            var tempm = (int)( s[m] );
 
             var fnLmL = (tempn ^ tempm) < 0 ? -1 : 0;
 
@@ -662,10 +654,8 @@ namespace PoViEmu.SH3.CPU
         {
             int src;
 
-            var tempn = (uint)(s.U16[s[n]]);
-            s[n] += 2;
-            int tempm = (s.U16[s[m]]);
-            s[m] += 2;
+            var tempn = (uint)( s[n] );
+            int tempm = (int)( s[m] );
 
             var templ = s.MACL;
 
@@ -952,15 +942,13 @@ namespace PoViEmu.SH3.CPU
             switch (m.Reg)
             {
                 case MACH:
-                    mem[s] -= 4;
                     if ((s.MACH & 0x00000200) == 0)
-                        s.U32[mem[s]] = s.MACH & 0x000003FF;
+                        mem[s] = s.MACH & 0x000003FF;
                     else
-                        s.U32[mem[s]] = s.MACH | 0xFFFFFC00;
+                        mem[s] = s.MACH | 0xFFFFFC00;
                     break;
                 default:
-                    mem[s] -= 4;
-                    s.U32[mem[s]] = s[m];
+                    mem[s] = s[m];
                     break;
             }
         }
@@ -1007,12 +995,12 @@ namespace PoViEmu.SH3.CPU
             s[n] = (uint)(s[n] | tempSw);
         }
 
-        public static void Tasb(this MachineState s, MU32 mem)
+        public static void Tasb(this MachineState s, MU8 mem)
         {
-            var temp = (int)(s.U8[mem[s]]);
+            var temp = (int)(mem[s]);
             s.T = temp == 0;
             temp |= 0x00000080;
-            s.U8[mem[s]] = (byte)temp;
+            mem[s] = (byte)temp;
         }
 
         public static void Tst(this MachineState s, R m, R n)
@@ -1028,7 +1016,7 @@ namespace PoViEmu.SH3.CPU
 
         public static void Tstb(this MachineState s, byte i, MU8 mem)
         {
-            var temp = (int)(s.U8[mem[s]]);
+            var temp = (int)(mem[s]);
             temp &= (0x000000FF & (int)i);
             s.T = temp == 0;
         }
@@ -1045,9 +1033,9 @@ namespace PoViEmu.SH3.CPU
 
         public static void Xorb(this MachineState s, byte i, MU8 mem)
         {
-            var temp = (int)(s.U8[mem[s]]);
+            var temp = (int)(mem[s]);
             temp ^= (0x000000FF & (int)i);
-            s.U8[mem[s]] = (byte)temp;
+            mem[s] = (byte)temp;
         }
 
         public static void Xtrct(this MachineState s, R m, R n)

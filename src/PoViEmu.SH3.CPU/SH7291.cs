@@ -380,7 +380,7 @@ namespace PoViEmu.SH3.CPU
                 case Mnemonic.SwapW when ops is [R m, R n]:
                     Compute.Swapw(s, m, n);
                     return;
-                case Mnemonic.TasB when ops is [MU32 mem]:
+                case Mnemonic.TasB when ops is [MU8 mem]:
                     Compute.Tasb(s, mem);
                     return;
                 case Mnemonic.Trapa when ops is [I8 i]:

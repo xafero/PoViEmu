@@ -536,7 +536,6 @@ namespace PoViEmu.I186.CPU
             set => this.Set(reg8, value);
         }
 
-        // TODO [JsonIgnore]
         public ushort TopOfStack
         {
             get => this.Pop();

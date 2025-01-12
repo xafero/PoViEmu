@@ -41,6 +41,8 @@ namespace PoViEmu.SH3.CPU
                 nameof(MachineState.MACL) => m.MACL,
                 nameof(MachineState.GBR) => m.GBR,
                 nameof(MachineState.VBR) => m.VBR,
+                nameof(MachineState.SPC) => m.SPC,
+                nameof(MachineState.SSR) => m.SSR,
                 nameof(MachineState.T) => m.T,
                 nameof(MachineState.S) => m.S,
                 nameof(MachineState.Q) => m.Q,
