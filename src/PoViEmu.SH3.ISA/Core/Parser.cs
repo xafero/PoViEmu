@@ -15,7 +15,6 @@ namespace PoViEmu.SH3.ISA.Core
             var hadSec = false;
             byte imm;
             byte dis;
-            ushort dsp;
             byte dst;
             byte src;
             switch (first)
@@ -65,30 +64,23 @@ namespace PoViEmu.SH3.ISA.Core
                 case 0b10000000:
                     // Move data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    var (movN1, movD1) = X.SplitByte(second);
-                    return X.Create(first, second, O.MovB, a: [R0, B(movN1, movD1)]);
+                    return X.Create(first, second, O.MovB, a: [R0, B(X.SplitByte(second))]);
                 case 0b10000001:
                     // Move data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    var (movN2, movD2) = X.SplitByte(second);
-                    var movD2d = (ushort)(movD2 * 2);
-                    return X.Create(first, second, O.MovW, a: [R0, W(movN2, movD2d)]);
+                    return X.Create(first, second, O.MovW, a: [R0, W(X.SplitByte(second), 2)]);
                 case 0b10000100:
                     // Move data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    var (movM1, movD3) = X.SplitByte(second);
-                    return X.Create(first, second, O.MovB, a: [B(movM1, movD3), R0]);
+                    return X.Create(first, second, O.MovB, a: [B(X.SplitByte(second)), R0]);
                 case 0b10000101:
                     // Move data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    var (movM2, movD4) = X.SplitByte(second);
-                    var movD4d = (ushort)(movD4 * 2);
-                    return X.Create(first, second, O.MovW, a: [W(movM2, movD4d), R0]);
+                    return X.Create(first, second, O.MovW, a: [W(X.SplitByte(second), 2), R0]);
                 case 0b10001000:
                     // Compare Conditionally
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    imm = second;
-                    return X.Create(first, second, O.CmpEq, a: [I(imm), R0]);
+                    return X.Create(first, second, O.CmpEq, a: [I(second), R0]);
                 case 0b10001001:
                     // Branch if True
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
@@ -112,23 +104,19 @@ namespace PoViEmu.SH3.ISA.Core
                 case 0b11000000:
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    dis = second;
-                    return X.Create(first, second, O.MovB, a: [R0, B(GBR, dis)]);
+                    return X.Create(first, second, O.MovB, a: [R0, B(GBR, second)]);
                 case 0b11000001:
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    var psDis = (ushort)(second * 2);
-                    return X.Create(first, second, O.MovW, a: [R0, W(GBR, psDis)]);
+                    return X.Create(first, second, O.MovW, a: [R0, W(GBR, second, 2)]);
                 case 0b11000010:
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    var ppDis = (ushort)(second * 4);
-                    return X.Create(first, second, O.MovL, a: [R0, L(GBR, ppDis)]);
+                    return X.Create(first, second, O.MovL, a: [R0, L(GBR, second, 4)]);
                 case 0b11000011:
                     // Trap Always
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    imm = second;
-                    return X.Create(first, second, O.Trapa, a: [U(imm)]);
+                    return X.Create(first, second, O.Trapa, a: [U(second)]);
                 case 0b11000100:
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
@@ -136,13 +124,11 @@ namespace PoViEmu.SH3.ISA.Core
                 case 0b11000101:
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    var mDis = (ushort)(second * 2);
-                    return X.Create(first, second, O.MovW, a: [W(GBR, mDis), R0]);
+                    return X.Create(first, second, O.MovW, a: [W(GBR, second, 2), R0]);
                 case 0b11000110:
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    var pDis = (ushort)(second * 4);
-                    return X.Create(first, second, O.MovL, a: [L(GBR, pDis), R0]);
+                    return X.Create(first, second, O.MovL, a: [L(GBR, second, 4), R0]);
                 case 0b11000111:
                     // Move Effective Address
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
@@ -313,8 +299,7 @@ namespace PoViEmu.SH3.ISA.Core
                     // Move Structure Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
                     (src, dis) = X.SplitByte(second);
-                    var msDis = (ushort)(dis * 4);
-                    return X.Create(first, second, O.MovL, a: [R(src), L(low, msDis)]);
+                    return X.Create(first, second, O.MovL, a: [R(src), L((low, dis), 4)]);
                 case 0b0010:
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
 
@@ -706,9 +691,7 @@ namespace PoViEmu.SH3.ISA.Core
                 case 0b0101:
                     // Move Structure Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    var (secH5, secL5) = X.SplitByte(second);
-                    var secL5d = (ushort)(secL5 * 4);
-                    return X.Create(first, second, O.MovL, a: [L(secH5, secL5d), R(low)]);
+                    return X.Create(first, second, O.MovL, a: [L(X.SplitByte(second), 4), R(low)]);
                 case 0b0110:
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
 
@@ -792,15 +775,12 @@ namespace PoViEmu.SH3.ISA.Core
                 case 0b1101:
                     // Move Immediate Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    dst = low;
                     var mDis = (ushort)(second * 4 + 4);
-                    return X.Create(first, second, O.MovL, a: [D(mDis), R(dst)]);
+                    return X.Create(first, second, O.MovL, a: [D(mDis), R(low)]);
                 case 0b1110:
                     // Move Immediate Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    dst = low;
-                    imm = second;
-                    return X.Create(first, second, O.Mov, a: [I(imm), R(dst)]);
+                    return X.Create(first, second, O.Mov, a: [I(second), R(low)]);
             }
 
             return DoNull();
