@@ -26,18 +26,28 @@ namespace PoViEmu.SH3.ISA.Core
 
         public static BaseOperand L(ShRegister a, ShRegister b)
             => new Mu32Operand(AM.Indexed, a, b, null);
-
+        
+        public static BaseOperand B((byte high, byte low) t) => B(t.high, t.low);
+        
         public static BaseOperand B(byte regNo, int disp) => B(InstTool.GetReg(regNo), disp);
-
+        
         public static BaseOperand B(ShRegister reg, int disp)
             => new Mu8Operand(AM.Displacement, reg, null, disp);
 
+        public static BaseOperand W((byte high, byte low) t, int factor) => W(t.high, t.low * factor);
+        
         public static BaseOperand W(byte regNo, int disp) => W(InstTool.GetReg(regNo), disp);
+        
+        public static BaseOperand W(ShRegister reg, byte disp, int factor) => W(reg, disp * factor);
 
         public static BaseOperand W(ShRegister reg, int disp)
             => new Mu16Operand(AM.Displacement, reg, null, disp);
+        
+        public static BaseOperand L((byte high, byte low) t, int factor) => L(t.high, t.low * factor);
 
         public static BaseOperand L(byte regNo, int disp) => L(InstTool.GetReg(regNo), disp);
+
+        public static BaseOperand L(ShRegister reg, byte disp, int factor) => L(reg, disp * factor);
 
         public static BaseOperand L(ShRegister reg, int disp)
             => new Mu32Operand(AM.Displacement, reg, null, disp);
