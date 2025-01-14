@@ -11,12 +11,8 @@ namespace PoViEmu.SH3.ISA.Core
         public static Instruction Parse(IByteReader reader)
         {
             var first = reader.ReadByte();
-            byte second = default;
+            byte second = 0;
             var hadSec = false;
-            byte imm;
-            byte dis;
-            byte dst;
-            byte src;
             switch (first)
             {
                 case 0b00000000:
@@ -68,7 +64,7 @@ namespace PoViEmu.SH3.ISA.Core
                 case 0b10000001:
                     // Move data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    return X.Create(first, second, O.MovW, a: [R0, W(X.SplitByte(second), 2)]);
+                    return X.Create(first, second, O.MovW, a: [R0, W(X.SplitByte(second))]);
                 case 0b10000100:
                     // Move data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
@@ -76,7 +72,7 @@ namespace PoViEmu.SH3.ISA.Core
                 case 0b10000101:
                     // Move data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    return X.Create(first, second, O.MovW, a: [W(X.SplitByte(second), 2), R0]);
+                    return X.Create(first, second, O.MovW, a: [W(X.SplitByte(second)), R0]);
                 case 0b10001000:
                     // Compare Conditionally
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
@@ -84,23 +80,19 @@ namespace PoViEmu.SH3.ISA.Core
                 case 0b10001001:
                     // Branch if True
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    var btDis = (uint)((sbyte)second * 2 + 4);
-                    return X.Create(first, second, O.Bt, a: [D(btDis)]);
+                    return X.Create(first, second, O.Bt, a: [Ds(second)]);
                 case 0b10001011:
                     // Branch if False
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    var bfDis = (uint)((sbyte)second * 2 + 4);
-                    return X.Create(first, second, O.Bf, a: [D(bfDis)]);
+                    return X.Create(first, second, O.Bf, a: [Ds(second)]);
                 case 0b10001101:
                     // Branch if True with Delay Slot
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    var btsDis = (uint)((sbyte)second * 2 + 4);
-                    return X.Create(first, second, O.BtS, a: [D(btsDis)]);
+                    return X.Create(first, second, O.BtS, a: [Ds(second)]);
                 case 0b10001111:
                     // Branch if False with Delay Slot
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    var bfsDis = (uint)((sbyte)second * 2 + 4);
-                    return X.Create(first, second, O.BfS, a: [D(bfsDis)]);
+                    return X.Create(first, second, O.BfS, a: [Ds(second)]);
                 case 0b11000000:
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
@@ -108,11 +100,11 @@ namespace PoViEmu.SH3.ISA.Core
                 case 0b11000001:
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    return X.Create(first, second, O.MovW, a: [R0, W(GBR, second, 2)]);
+                    return X.Create(first, second, O.MovW, a: [R0, W(GBR, second)]);
                 case 0b11000010:
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    return X.Create(first, second, O.MovL, a: [R0, L(GBR, second, 4)]);
+                    return X.Create(first, second, O.MovL, a: [R0, L(GBR, second)]);
                 case 0b11000011:
                     // Trap Always
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
@@ -124,59 +116,51 @@ namespace PoViEmu.SH3.ISA.Core
                 case 0b11000101:
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    return X.Create(first, second, O.MovW, a: [W(GBR, second, 2), R0]);
+                    return X.Create(first, second, O.MovW, a: [W(GBR, second), R0]);
                 case 0b11000110:
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    return X.Create(first, second, O.MovL, a: [L(GBR, second, 4), R0]);
+                    return X.Create(first, second, O.MovL, a: [L(GBR, second), R0]);
                 case 0b11000111:
                     // Move Effective Address
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    var maDis = (ushort)(second * 4 + 4);
-                    return X.Create(first, second, O.Mova, a: [D(maDis), R0]);
+                    return X.Create(first, second, O.Mova, a: [D(second), R0]);
                 case 0b11001000:
                     // Test Logical
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    imm = second;
-                    return X.Create(first, second, O.Tst, a: [U(imm), R0]);
+                    return X.Create(first, second, O.Tst, a: [U(second), R0]);
                 case 0b11001001:
                     // AND Logical
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    imm = second;
-                    return X.Create(first, second, O.And, a: [U(imm), R0]);
+                    return X.Create(first, second, O.And, a: [U(second), R0]);
                 case 0b11001010:
                     // Exclusive OR Logical
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    imm = second;
-                    return X.Create(first, second, O.Xor, a: [U(imm), R0]);
+                    return X.Create(first, second, O.Xor, a: [U(second), R0]);
                 case 0b11001011:
                     // OR Logical
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    imm = second;
-                    return X.Create(first, second, O.Or, a: [U(imm), R0]);
+                    return X.Create(first, second, O.Or, a: [U(second), R0]);
                 case 0b11001100:
                     // Test Logical
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    imm = second;
-                    return X.Create(first, second, O.TstB, a: [U(imm), B(GBR, R0)]);
+                    return X.Create(first, second, O.TstB, a: [U(second), B(GBR, R0)]);
                 case 0b11001101:
                     // AND Logical
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    imm = second;
-                    return X.Create(first, second, O.AndB, a: [U(imm), B(GBR, R0)]);
+                    return X.Create(first, second, O.AndB, a: [U(second), B(GBR, R0)]);
                 case 0b11001110:
                     // XOR
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    imm = second;
-                    return X.Create(first, second, O.XorB, a: [U(imm), B(GBR, R0)]);
+                    return X.Create(first, second, O.XorB, a: [U(second), B(GBR, R0)]);
                 case 0b11001111:
                     // OR Logical
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    imm = second;
-                    return X.Create(first, second, O.OrB, a: [U(imm), B(GBR, R0)]);
+                    return X.Create(first, second, O.OrB, a: [U(second), B(GBR, R0)]);
             }
 
             var (high, low) = X.SplitByte(first);
+            byte secH, secL;
             switch (high)
             {
                 case 0b0000:
@@ -266,7 +250,7 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Stc, a: [R7_Bank, R(low)]);
                     }
 
-                    var (secH, secL) = X.SplitByte(second);
+                    (secH, secL) = X.SplitByte(second);
                     switch (secL)
                     {
                         case 0b0100:
@@ -298,109 +282,109 @@ namespace PoViEmu.SH3.ISA.Core
                 case 0b0001:
                     // Move Structure Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    (src, dis) = X.SplitByte(second);
-                    return X.Create(first, second, O.MovL, a: [R(src), L((low, dis), 4)]);
+                    var (src, dis) = X.SplitByte(second);
+                    return X.Create(first, second, O.MovL, a: [R(src), L((low, dis))]);
                 case 0b0010:
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
 
-                    var (secH2, secL2) = X.SplitByte(second);
-                    switch (secL2)
+                    (secH, secL) = X.SplitByte(second);
+                    switch (secL)
                     {
                         case 0b0000:
                             // Move Data
-                            return X.Create(first, second, O.MovB, a: [R(secH2), RrB(low)]);
+                            return X.Create(first, second, O.MovB, a: [R(secH), RrB(low)]);
                         case 0b0001:
                             // Move Data
-                            return X.Create(first, second, O.MovW, a: [R(secH2), RrW(low)]);
+                            return X.Create(first, second, O.MovW, a: [R(secH), RrW(low)]);
                         case 0b0010:
                             // Move Data
-                            return X.Create(first, second, O.MovL, a: [R(secH2), RrL(low)]);
+                            return X.Create(first, second, O.MovL, a: [R(secH), RrL(low)]);
                         case 0b0100:
                             // Move Data
-                            return X.Create(first, second, O.MovB, a: [R(secH2), RmB(low)]);
+                            return X.Create(first, second, O.MovB, a: [R(secH), RmB(low)]);
                         case 0b0101:
                             // Move Data
-                            return X.Create(first, second, O.MovW, a: [R(secH2), RmW(low)]);
+                            return X.Create(first, second, O.MovW, a: [R(secH), RmW(low)]);
                         case 0b0110:
                             // Move Data
-                            return X.Create(first, second, O.MovL, a: [R(secH2), RmL(low)]);
+                            return X.Create(first, second, O.MovL, a: [R(secH), RmL(low)]);
                         case 0b0111:
                             // Divide Step 0 as Signed
-                            return X.Create(first, second, O.Div0s, a: [R(secH2), R(low)]);
+                            return X.Create(first, second, O.Div0s, a: [R(secH), R(low)]);
                         case 0b1000:
                             // Test Logical
-                            return X.Create(first, second, O.Tst, a: [R(secH2), R(low)]);
+                            return X.Create(first, second, O.Tst, a: [R(secH), R(low)]);
                         case 0b1001:
                             // AND Logical
-                            return X.Create(first, second, O.And, a: [R(secH2), R(low)]);
+                            return X.Create(first, second, O.And, a: [R(secH), R(low)]);
                         case 0b1010:
                             // Exclusive OR Logical
-                            return X.Create(first, second, O.Xor, a: [R(secH2), R(low)]);
+                            return X.Create(first, second, O.Xor, a: [R(secH), R(low)]);
                         case 0b1011:
                             // OR Logical
-                            return X.Create(first, second, O.Or, a: [R(secH2), R(low)]);
+                            return X.Create(first, second, O.Or, a: [R(secH), R(low)]);
                         case 0b1100:
                             // Compare Conditionally
-                            return X.Create(first, second, O.CmpStr, a: [R(secH2), R(low)]);
+                            return X.Create(first, second, O.CmpStr, a: [R(secH), R(low)]);
                         case 0b1101:
                             // Extract
-                            return X.Create(first, second, O.Xtrct, a: [R(secH2), R(low)]);
+                            return X.Create(first, second, O.Xtrct, a: [R(secH), R(low)]);
                         case 0b1110:
                             // Multiply as Unsigned Word
-                            return X.Create(first, second, O.MuluW, a: [R(secH2), R(low)]);
+                            return X.Create(first, second, O.MuluW, a: [R(secH), R(low)]);
                         case 0b1111:
                             // Multiply as Signed Word
-                            return X.Create(first, second, O.MulsW, a: [R(secH2), R(low)]);
+                            return X.Create(first, second, O.MulsW, a: [R(secH), R(low)]);
                     }
                     break;
                 case 0b0011:
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
 
-                    var (secH3, secL3) = X.SplitByte(second);
-                    switch (secL3)
+                    (secH, secL) = X.SplitByte(second);
+                    switch (secL)
                     {
                         case 0b0000:
                             // Compare Conditionally
-                            return X.Create(first, second, O.CmpEq, a: [R(secH3), R(low)]);
+                            return X.Create(first, second, O.CmpEq, a: [R(secH), R(low)]);
                         case 0b0010:
                             // Compare Conditionally
-                            return X.Create(first, second, O.CmpHs, a: [R(secH3), R(low)]);
+                            return X.Create(first, second, O.CmpHs, a: [R(secH), R(low)]);
                         case 0b0011:
                             // Compare Conditionally
-                            return X.Create(first, second, O.CmpGe, a: [R(secH3), R(low)]);
+                            return X.Create(first, second, O.CmpGe, a: [R(secH), R(low)]);
                         case 0b0100:
                             // Divide Step 1
-                            return X.Create(first, second, O.Div1, a: [R(secH3), R(low)]);
+                            return X.Create(first, second, O.Div1, a: [R(secH), R(low)]);
                         case 0b0101:
                             // Double-Length Multiply as Unsigned
-                            return X.Create(first, second, O.DmuluL, a: [R(secH3), R(low)]);
+                            return X.Create(first, second, O.DmuluL, a: [R(secH), R(low)]);
                         case 0b0110:
                             // Compare Conditionally
-                            return X.Create(first, second, O.CmpHi, a: [R(secH3), R(low)]);
+                            return X.Create(first, second, O.CmpHi, a: [R(secH), R(low)]);
                         case 0b0111:
                             // Compare Conditionally
-                            return X.Create(first, second, O.CmpGt, a: [R(secH3), R(low)]);
+                            return X.Create(first, second, O.CmpGt, a: [R(secH), R(low)]);
                         case 0b1000:
                             // Subtract Binary
-                            return X.Create(first, second, O.Sub, a: [R(secH3), R(low)]);
+                            return X.Create(first, second, O.Sub, a: [R(secH), R(low)]);
                         case 0b1010:
                             // Subtract with Carry
-                            return X.Create(first, second, O.Subc, a: [R(secH3), R(low)]);
+                            return X.Create(first, second, O.Subc, a: [R(secH), R(low)]);
                         case 0b1011:
                             // Subtract with V Flag Underflow Check
-                            return X.Create(first, second, O.Subv, a: [R(secH3), R(low)]);
+                            return X.Create(first, second, O.Subv, a: [R(secH), R(low)]);
                         case 0b1100:
                             // Add Binary
-                            return X.Create(first, second, O.Add, a: [R(secH3), R(low)]);
+                            return X.Create(first, second, O.Add, a: [R(secH), R(low)]);
                         case 0b1101:
                             // Double-Length Multiply as Signed
-                            return X.Create(first, second, O.DmulsL, a: [R(secH3), R(low)]);
+                            return X.Create(first, second, O.DmulsL, a: [R(secH), R(low)]);
                         case 0b1110:
                             // Add with Carry
-                            return X.Create(first, second, O.Addc, a: [R(secH3), R(low)]);
+                            return X.Create(first, second, O.Addc, a: [R(secH), R(low)]);
                         case 0b1111:
                             // Add with V Flag Overflow Check
-                            return X.Create(first, second, O.Addv, a: [R(secH3), R(low)]);
+                            return X.Create(first, second, O.Addv, a: [R(secH), R(low)]);
                     }
                     break;
                 case 0b0100:
@@ -674,109 +658,100 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.StcL, a: [R7_Bank, RmL(low)]);
                     }
 
-                    var (secH4, secL4) = X.SplitByte(second);
-                    switch (secL4)
+                    (secH, secL) = X.SplitByte(second);
+                    switch (secL)
                     {
                         case 0b1100:
                             // Shift Arithmetic Dynamically
-                            return X.Create(first, second, O.Shad, a: [R(secH4), R(low)]);
+                            return X.Create(first, second, O.Shad, a: [R(secH), R(low)]);
                         case 0b1101:
                             // Shift Logical Dynamically
-                            return X.Create(first, second, O.Shld, a: [R(secH4), R(low)]);
+                            return X.Create(first, second, O.Shld, a: [R(secH), R(low)]);
                         case 0b1111:
                             // Multiply and Accumulate
-                            return X.Create(first, second, O.MacW, a: [RpW(secH4), RpW(low)]);
+                            return X.Create(first, second, O.MacW, a: [RpW(secH), RpW(low)]);
                     }
                     break;
                 case 0b0101:
                     // Move Structure Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    return X.Create(first, second, O.MovL, a: [L(X.SplitByte(second), 4), R(low)]);
+                    return X.Create(first, second, O.MovL, a: [L(X.SplitByte(second)), R(low)]);
                 case 0b0110:
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
 
-                    var (secH6, secL6) = X.SplitByte(second);
-                    switch (secL6)
+                    (secH, secL) = X.SplitByte(second);
+                    switch (secL)
                     {
                         case 0b0000:
                             // Move Data
-                            return X.Create(first, second, O.MovB, a: [RrB(secH6), R(low)]);
+                            return X.Create(first, second, O.MovB, a: [RrB(secH), R(low)]);
                         case 0b0001:
                             // Move Data
-                            return X.Create(first, second, O.MovW, a: [RrW(secH6), R(low)]);
+                            return X.Create(first, second, O.MovW, a: [RrW(secH), R(low)]);
                         case 0b0010:
                             // Move Data
-                            return X.Create(first, second, O.MovL, a: [RrL(secH6), R(low)]);
+                            return X.Create(first, second, O.MovL, a: [RrL(secH), R(low)]);
                         case 0b0011:
                             // Move Data
-                            return X.Create(first, second, O.Mov, a: [R(secH6), R(low)]);
+                            return X.Create(first, second, O.Mov, a: [R(secH), R(low)]);
                         case 0b0100:
                             // Move Data
-                            return X.Create(first, second, O.MovB, a: [RpB(secH6), R(low)]);
+                            return X.Create(first, second, O.MovB, a: [RpB(secH), R(low)]);
                         case 0b0101:
                             // Move Data
-                            return X.Create(first, second, O.MovW, a: [RpW(secH6), R(low)]);
+                            return X.Create(first, second, O.MovW, a: [RpW(secH), R(low)]);
                         case 0b0110:
                             // Move Data
-                            return X.Create(first, second, O.MovL, a: [RpL(secH6), R(low)]);
+                            return X.Create(first, second, O.MovL, a: [RpL(secH), R(low)]);
                         case 0b0111:
                             // NOT Logical Complement
-                            return X.Create(first, second, O.Not, a: [R(secH6), R(low)]);
+                            return X.Create(first, second, O.Not, a: [R(secH), R(low)]);
                         case 0b1000:
                             // Swap Register Halves
-                            return X.Create(first, second, O.SwapB, a: [R(secH6), R(low)]);
+                            return X.Create(first, second, O.SwapB, a: [R(secH), R(low)]);
                         case 0b1001:
                             // Swap Register Halves
-                            return X.Create(first, second, O.SwapW, a: [R(secH6), R(low)]);
+                            return X.Create(first, second, O.SwapW, a: [R(secH), R(low)]);
                         case 0b1010:
                             // Negate with Carry
-                            return X.Create(first, second, O.Negc, a: [R(secH6), R(low)]);
+                            return X.Create(first, second, O.Negc, a: [R(secH), R(low)]);
                         case 0b1011:
                             // Negate
-                            return X.Create(first, second, O.Neg, a: [R(secH6), R(low)]);
+                            return X.Create(first, second, O.Neg, a: [R(secH), R(low)]);
                         case 0b1100:
                             // Extend as Unsigned
-                            return X.Create(first, second, O.ExtuB, a: [R(secH6), R(low)]);
+                            return X.Create(first, second, O.ExtuB, a: [R(secH), R(low)]);
                         case 0b1101:
                             // Extend as Unsigned
-                            return X.Create(first, second, O.ExtuW, a: [R(secH6), R(low)]);
+                            return X.Create(first, second, O.ExtuW, a: [R(secH), R(low)]);
                         case 0b1110:
                             // Extend as Signed
-                            return X.Create(first, second, O.ExtsB, a: [R(secH6), R(low)]);
+                            return X.Create(first, second, O.ExtsB, a: [R(secH), R(low)]);
                         case 0b1111:
                             // Extend as Signed
-                            return X.Create(first, second, O.ExtsW, a: [R(secH6), R(low)]);
+                            return X.Create(first, second, O.ExtsW, a: [R(secH), R(low)]);
                     }
                     break;
                 case 0b0111:
                     // Add Binary
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    dst = low;
-                    imm = second;
-                    return X.Create(first, second, O.Add, a: [I(imm), R(dst)]);
+                    return X.Create(first, second, O.Add, a: [I(second), R(low)]);
                 case 0b1001:
                     // Move Immediate Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    dst = low;
-                    var bDis = (ushort)(second * 2 + 4);
-                    return X.Create(first, second, O.MovW, a: [D(bDis), R(dst)]);
+                    return X.Create(first, second, O.MovW, a: [Db(second), R(low)]);
                 case 0b1010:
                     // Branch
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    var bDsp = X.CombineBytes(low, second);
-                    var braDis = (uint)(bDsp * 2 + 4);
-                    return X.Create(first, second, O.Bra, a: [D(braDis)]);
+                    return X.Create(first, second, O.Bra, a: [Db(X.CombineBytes(low, second))]);
                 case 0b1011:
                     // Branch to Subroutine
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    var bsDsp = X.CombineBytes(low, second);
-                    var brasDis = (uint)(bsDsp * 2 + 4);
-                    return X.Create(first, second, O.Bsr, a: [D(brasDis)]);
+                    return X.Create(first, second, O.Bsr, a: [Db(X.CombineBytes(low, second))]);
                 case 0b1101:
                     // Move Immediate Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    var mDis = (ushort)(second * 4 + 4);
-                    return X.Create(first, second, O.MovL, a: [D(mDis), R(low)]);
+                    return X.Create(first, second, O.MovL, a: [D(second), R(low)]);
                 case 0b1110:
                     // Move Immediate Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
