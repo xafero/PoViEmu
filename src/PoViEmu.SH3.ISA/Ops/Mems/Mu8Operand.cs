@@ -13,28 +13,4 @@ namespace PoViEmu.SH3.ISA.Ops.Mems
 
         public override byte ByteSize => 1;
     }
-
-    public record Mu16Operand(AddressingMode Mode, B32 Base, B32? Idx, int? Disp)
-        : MemOperand<ushort>(Mode, Base, Idx, Disp)
-    {
-        public override ushort this[IMachineState m]
-        {
-            get => m.U16[this.OffA(m)];
-            set => m.U16[this.OffA(m)] = value;
-        }
-
-        public override byte ByteSize => 2;
-    }
-
-    public record Mu32Operand(AddressingMode Mode, B32 Base, B32? Idx, int? Disp)
-        : MemOperand<uint>(Mode, Base, Idx, Disp)
-    {
-        public override uint this[IMachineState m]
-        {
-            get => m.U32[this.OffA(m)];
-            set => m.U32[this.OffA(m)] = value;
-        }
-
-        public override byte ByteSize => 4;
-    }
 }

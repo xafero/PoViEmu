@@ -5,11 +5,6 @@ using AM = PoViEmu.SH3.ISA.Ops.Mems.AddressingMode;
 
 namespace PoViEmu.SH3.ISA.Ops.Mems
 {
-    public enum AddressingMode
-    {
-        Unknown = 0, RegIndirect, PostIncrement, PreDecrement, Displacement, Indexed
-    }
-
     public abstract record MemOperand<T>(AM Mode, B32 Base, B32? Idx = null, int? Disp = null)
         : MemOperand(Mode, Base, Idx, Disp)
     {

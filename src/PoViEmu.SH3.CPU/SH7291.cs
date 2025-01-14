@@ -13,10 +13,6 @@ using MU8 = PoViEmu.SH3.ISA.Ops.Mems.Mu8Operand;
 using MU16 = PoViEmu.SH3.ISA.Ops.Mems.Mu16Operand;
 using MU32 = PoViEmu.SH3.ISA.Ops.Mems.Mu32Operand;
 using R = PoViEmu.SH3.ISA.Ops.Regs.Reg32Operand;
-using PoViEmu.SH3.ISA.Ops.Jumps;
-using PoViEmu.SH3.ISA.Ops.Regs;
-using PoViEmu.SH3.ISA.Ops.Consts;
-using PoViEmu.SH3.ISA.Ops.Mems;
 
 // ReSharper disable InconsistentNaming
 

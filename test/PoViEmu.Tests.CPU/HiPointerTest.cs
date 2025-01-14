@@ -8,7 +8,7 @@ using Decoder = PoViEmu.SH3.ISA.Decoding.Decoder;
 
 namespace PoViEmu.Tests.CPU
 {
-    public class HíPointerTest
+    public class HiPointerTest
     {
         [Theory]
         [InlineData("mov.l   r0,@r15", "@r15", 0x2F02, "00002150")]

@@ -8,7 +8,7 @@ using static PoViEmu.SH3.CPU.ExecTool;
 
 namespace PoViEmu.Tests.CPU
 {
-    public class HíStateTest
+    public class HiStateTest
     {
         [Fact]
         public void TestStackOperation()
