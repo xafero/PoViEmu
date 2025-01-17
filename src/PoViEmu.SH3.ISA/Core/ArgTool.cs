@@ -1,6 +1,6 @@
 using PoViEmu.SH3.ISA.Ops;
 using PoViEmu.SH3.ISA.Ops.Consts;
-using PoViEmu.SH3.ISA.Ops.Jumps;
+using PoViEmu.SH3.ISA.Ops.Places;
 using PoViEmu.SH3.ISA.Ops.Mems;
 using PoViEmu.SH3.ISA.Ops.Regs;
 using AM = PoViEmu.SH3.ISA.Ops.Mems.AddressingMode;
@@ -54,7 +54,6 @@ namespace PoViEmu.SH3.ISA.Core
 
         public static BaseOperand I(byte imm) => new I8Operand((sbyte)imm);
         public static BaseOperand U(byte imm) => new U8Operand(imm);
-        private static BaseOperand D(uint imm) => new NearOperand((int)imm);
         public static BaseOperand R(byte regNo) => new Reg32Operand(InstTool.GetReg(regNo));
 
         public static BaseOperand RrB(byte regNo)
@@ -84,13 +83,19 @@ namespace PoViEmu.SH3.ISA.Core
         public static BaseOperand RmL(byte regNo)
             => new Mu32Operand(AM.PreDecrement, InstTool.GetReg(regNo), null, null);
 
-        public static BaseOperand D(int dis, int factor = 4, int post = 4)
-            => D((uint)(dis * factor + post));
+        public static BaseOperand Ac(ShRegister reg, byte disp, int factor = 2, int post = 4)
+            => new AddressOperand(reg, (sbyte)disp * factor + post);
 
-        public static BaseOperand Ds(byte dis, int factor = 2, int post = 4)
-            => D((uint)((sbyte)dis * factor + post));
+        public static BaseOperand Au(ShRegister reg, int disp, int factor = 2, int post = 4)
+            => new AddressOperand(reg, disp * factor + post);
 
-        public static BaseOperand Db(int dis, int factor = 2, int post = 4)
-            => D((uint)(dis * factor + post));
+        public static BaseOperand Am(ShRegister reg, int disp, int factor = 4, int post = 4)
+            => new AddressOperand(reg, disp * factor + post);
+
+        public static BaseOperand Wa(ShRegister reg, byte dis, int factor = 2, int post = 4)
+            => new Mu16Operand(AM.Relative, reg, null, dis * factor + post);
+
+        public static BaseOperand La(ShRegister reg, byte dis, int factor = 4, int post = 4)
+            => new Mu32Operand(AM.Relative, reg, null, dis * factor + post);
     }
 }

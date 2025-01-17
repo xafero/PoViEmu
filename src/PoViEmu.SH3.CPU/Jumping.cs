@@ -2,6 +2,8 @@ using PoViEmu.SH3.ISA;
 using PoViEmu.SH3.ISA.Ops.Mems;
 using PoViEmu.SH3.ISA.Ops.Regs;
 
+// ReSharper disable InconsistentNaming
+
 namespace PoViEmu.SH3.CPU
 {
     internal static class Jumping

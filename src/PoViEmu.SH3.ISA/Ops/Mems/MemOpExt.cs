@@ -23,6 +23,7 @@ namespace PoViEmu.SH3.ISA.Ops.Mems
                     offset = s[op.Base];
                     break;
                 case AddressingMode.Displacement:
+                case AddressingMode.Relative:
                     offset = (uint)(s[op.Base] + op.Disp!);
                     break;
                 case AddressingMode.Indexed:

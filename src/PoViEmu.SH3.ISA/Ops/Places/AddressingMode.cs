@@ -27,6 +27,11 @@ namespace PoViEmu.SH3.ISA.Ops.Mems
         /// <summary>
         /// @(r0,r5)
         /// </summary>
-        Indexed
+        Indexed,
+
+        /// <summary>
+        /// 0x00000400
+        /// </summary>
+        Relative
     }
 }

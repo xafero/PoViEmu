@@ -80,19 +80,19 @@ namespace PoViEmu.SH3.ISA.Core
                 case 0b10001001:
                     // Branch if True
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    return X.Create(first, second, O.Bt, a: [Ds(second)]);
+                    return X.Create(first, second, O.Bt, a: [Ac(PC, second)]);
                 case 0b10001011:
                     // Branch if False
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    return X.Create(first, second, O.Bf, a: [Ds(second)]);
+                    return X.Create(first, second, O.Bf, a: [Ac(PC, second)]);
                 case 0b10001101:
                     // Branch if True with Delay Slot
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    return X.Create(first, second, O.BtS, a: [Ds(second)]);
+                    return X.Create(first, second, O.BtS, a: [Ac(PC, second)]);
                 case 0b10001111:
                     // Branch if False with Delay Slot
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    return X.Create(first, second, O.BfS, a: [Ds(second)]);
+                    return X.Create(first, second, O.BfS, a: [Ac(PC, second)]);
                 case 0b11000000:
                     // Move Peripheral Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
@@ -124,7 +124,7 @@ namespace PoViEmu.SH3.ISA.Core
                 case 0b11000111:
                     // Move Effective Address
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    return X.Create(first, second, O.Mova, a: [D(second), R0]);
+                    return X.Create(first, second, O.Mova, a: [Am(PC, second), R0]);
                 case 0b11001000:
                     // Test Logical
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
@@ -739,19 +739,19 @@ namespace PoViEmu.SH3.ISA.Core
                 case 0b1001:
                     // Move Immediate Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    return X.Create(first, second, O.MovW, a: [Db(second), R(low)]);
+                    return X.Create(first, second, O.MovW, a: [Wa(PC, second), R(low)]);
                 case 0b1010:
                     // Branch
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    return X.Create(first, second, O.Bra, a: [Db(X.CombineBytes(low, second))]);
+                    return X.Create(first, second, O.Bra, a: [Au(PC, X.CombineBytes(low, second))]);
                 case 0b1011:
                     // Branch to Subroutine
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    return X.Create(first, second, O.Bsr, a: [Db(X.CombineBytes(low, second))]);
+                    return X.Create(first, second, O.Bsr, a: [Au(PC, X.CombineBytes(low, second))]);
                 case 0b1101:
                     // Move Immediate Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);
-                    return X.Create(first, second, O.MovL, a: [D(second), R(low)]);
+                    return X.Create(first, second, O.MovL, a: [La(PC, second), R(low)]);
                 case 0b1110:
                     // Move Immediate Data
                     reader.LoadSecIfNeeded(ref second, ref hadSec);

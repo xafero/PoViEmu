@@ -18,6 +18,7 @@ namespace PoViEmu.SH3.ISA.Ops.Mems
                 AM.PostIncrement => $"@{Base.Name()}+",
                 AM.PreDecrement => $"@-{Base.Name()}",
                 AM.Displacement => $"@({Disp},{Base.Name()})",
+                AM.Relative => $"0x{Disp:x8}",
                 AM.Indexed => $"@({Idx?.Name()},{Base.Name()})",
                 _ => throw new InvalidOperationException($"{Mode} ?!")
             };

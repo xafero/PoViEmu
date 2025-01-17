@@ -4,7 +4,7 @@ using static PoViEmu.SH3.ISA.ShRegister;
 using MU16 = PoViEmu.SH3.ISA.Ops.Mems.Mu16Operand;
 using MU32 = PoViEmu.SH3.ISA.Ops.Mems.Mu32Operand;
 using MU8 = PoViEmu.SH3.ISA.Ops.Mems.Mu8Operand;
-using NO = PoViEmu.SH3.ISA.Ops.Jumps.NearOperand;
+using NO = PoViEmu.SH3.ISA.Ops.Places.AddressOperand;
 using R = PoViEmu.SH3.ISA.Ops.Regs.Reg32Operand;
 
 // ReSharper disable InconsistentNaming
@@ -891,7 +891,7 @@ namespace PoViEmu.SH3.CPU
 
         public static void MovW(this MachineState s, NO m, R n)
         {
-            s[n] = (uint)m.Diff;
+            // TODO s[n] = (uint)m.Diff;
         }
 
         public static void MovW(this MachineState s, R r, MU16 mem)
@@ -901,7 +901,7 @@ namespace PoViEmu.SH3.CPU
 
         public static void MovL(this MachineState s, NO m, R n)
         {
-            s[n] = (uint)m.Diff;
+            // TODO s[n] = (uint)m.Diff;
         }
     }
 }
