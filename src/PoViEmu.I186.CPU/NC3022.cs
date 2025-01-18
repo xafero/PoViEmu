@@ -169,6 +169,9 @@ namespace PoViEmu.I186.CPU
                 case Mnemonic.Cmp when ops is [R16 r, U16 u]:
                     _ = m.Sub16(withBorrow: false, m[r], u.Val);
                     return;
+                case Mnemonic.Cmp when ops is [MU16 mem, U16 u]:
+                    _ = m.Sub16(withBorrow: false, mem[m], u.Val);
+                    return;                
                 case Mnemonic.Cmp when ops is [MU16 mem, I16 u]:
                     _ = m.Sub16(withBorrow: false, mem[m], (ushort)u.Val);
                     return;
