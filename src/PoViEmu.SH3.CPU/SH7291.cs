@@ -8,6 +8,7 @@ using PoViEmu.SH3.ISA;
 using PoViEmu.SH3.ISA.Decoding;
 using I8 = PoViEmu.SH3.ISA.Ops.Consts.I8Operand;
 using U8 = PoViEmu.SH3.ISA.Ops.Consts.U8Operand;
+using AO = PoViEmu.SH3.ISA.Ops.Places.AddressOperand;
 using MU8 = PoViEmu.SH3.ISA.Ops.Mems.Mu8Operand;
 using MU16 = PoViEmu.SH3.ISA.Ops.Mems.Mu16Operand;
 using MU32 = PoViEmu.SH3.ISA.Ops.Mems.Mu32Operand;
@@ -82,30 +83,30 @@ namespace PoViEmu.SH3.CPU
                 case Mnemonic.AndB when ops is [U8 i, MU8 mem]:
                     Compute.Andb(s, i.Val, mem);
                     return;
-                /*case Mnemonic.Bf when ops is [NO d]:
-                    Jumping.BranchIfFalse(s, d.Diff, ref nextIP);
-                    return;*/
-                /*case Mnemonic.BfS when ops is [NO d]:
-                    Jumping.BranchIfFalseDelay(s, d.Diff, ref nextIP);
-                    return;*/
-                /*case Mnemonic.Bra when ops is [NO d]:
-                    Jumping.Branch(s, d.Diff, ref nextIP);
-                    return;*/
+                case Mnemonic.Bf when ops is [AO d]:
+                    Jumping.BranchIfFalse(s, d, ref nextIP);
+                    return;
+                case Mnemonic.BfS when ops is [AO d]:
+                    Jumping.BranchIfFalseDelay(s, d, ref nextIP);
+                    return;
+                case Mnemonic.Bra when ops is [AO d]:
+                    Jumping.Branch(s, d, ref nextIP);
+                    return;
                 case Mnemonic.Braf when ops is [R m]:
                     Jumping.BranchFar(s, m, ref nextIP);
                     return;
-                /*case Mnemonic.Bsr when ops is [NO d]:
-                    Jumping.BranchSubroutine(s, d.Diff, ref nextIP);
-                    return;*/
+                case Mnemonic.Bsr when ops is [AO d]:
+                    Jumping.BranchSubroutine(s, d, ref nextIP);
+                    return;
                 case Mnemonic.Bsrf when ops is [R m]:
                     Jumping.BranchSubroutineFar(s, m, ref nextIP);
                     return;
-                /*case Mnemonic.Bt when ops is [NO d]:
-                    Jumping.BranchIfTrue(s, d.Diff, ref nextIP);
-                    return;*/
-                /*case Mnemonic.BtS when ops is [NO d]:
-                    Jumping.BranchIfTrueDelay(s, d.Diff, ref nextIP);
-                    return;*/
+                case Mnemonic.Bt when ops is [AO d]:
+                    Jumping.BranchIfTrue(s, d, ref nextIP);
+                    return;
+                case Mnemonic.BtS when ops is [AO d]:
+                    Jumping.BranchIfTrueDelay(s, d, ref nextIP);
+                    return;
                 case Mnemonic.Clrmac:
                     Compute.Clrmac(s);
                     return;
@@ -193,14 +194,8 @@ namespace PoViEmu.SH3.CPU
                 case Mnemonic.Ldtlb:
                     Compute.Ldtlb(s);
                     return;
-                case Mnemonic.MacL when ops is [R m, R n]:
-                    Compute.Macl(s, m, n);
-                    return;
                 case Mnemonic.MacL when ops is [MU32 m, MU32 n]:
                     Compute.Macl(s, m, n);
-                    return;
-                case Mnemonic.MacW when ops is [R m, R n]:
-                    Compute.Macw(s, m, n);
                     return;
                 case Mnemonic.MacW when ops is [MU16 m, MU16 n]:
                     Compute.Macw(s, m, n);
@@ -214,27 +209,12 @@ namespace PoViEmu.SH3.CPU
                 case Mnemonic.MovB when ops is [R r, MU8 mem]:
                     Compute.Mov(s, r, mem);
                     return;
-                case Mnemonic.MovW when ops is [R r, MU32 mem]:
-                    Compute.Mov(s, r, mem);
-                    return;
-                case Mnemonic.MovW when ops is [MU32 mem, R r]:
-                    // TODO
+                case Mnemonic.MovW when ops is [MU16 mem, R r]:
+                    Compute.Mov(s, mem, r);
                     return;
                 case Mnemonic.MovW when ops is [R r, MU16 mem]:
                     Compute.MovW(s, r, mem);
                     return;
-                case Mnemonic.MovB when ops is [R r, MU32 mem]:
-                    // TODO
-                    return;
-                /*case Mnemonic.MovW when ops is [NO m, R n]:
-                    Compute.MovW(s, m, n);
-                    return;*/
-                case Mnemonic.MovB when ops is [MU32 mem, R r]:
-                    // TODO
-                    return;
-                /*case Mnemonic.MovL when ops is [NO m, R n]:
-                    Compute.MovL(s, m, n);
-                    return;*/
                 case Mnemonic.MovL when ops is [R r, MU32 mem]:
                     Compute.Mov(s, r, mem);
                     return;
@@ -247,9 +227,9 @@ namespace PoViEmu.SH3.CPU
                 case Mnemonic.MovL when ops is [MU32 mem, R n]:
                     Compute.Mov(s, mem, n);
                     return;
-                /*case Mnemonic.Mova when ops is [NO d, R n]:
-                    Compute.Mova(s, d.Diff, n);
-                    return;*/
+                case Mnemonic.Mova when ops is [AO d, R n]:
+                    Compute.Mova(s, d, n);
+                    return;
                 case Mnemonic.Movt when ops is [R n]:
                     Compute.Movt(s, n);
                     return;

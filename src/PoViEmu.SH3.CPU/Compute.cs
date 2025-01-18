@@ -1,6 +1,7 @@
 using PoViEmu.Base.CPU;
 using Fl = PoViEmu.SH3.ISA.Flagged;
 using static PoViEmu.SH3.ISA.ShRegister;
+using AO = PoViEmu.SH3.ISA.Ops.Places.AddressOperand;
 using MU16 = PoViEmu.SH3.ISA.Ops.Mems.Mu16Operand;
 using MU32 = PoViEmu.SH3.ISA.Ops.Mems.Mu32Operand;
 using MU8 = PoViEmu.SH3.ISA.Ops.Mems.Mu8Operand;
@@ -399,10 +400,10 @@ namespace PoViEmu.SH3.CPU
             // TLB_data=PTEL;
         }
 
-        public static void Macl(this MachineState s, R m, R n)
+        public static void Macl(this MachineState s, MU32 m, MU32 n)
         {
-            var tempn = (int)( s[n] );
-            var tempm = (int)( s[m] );
+            var tempn = (int)(n[s] );
+            var tempm = (int)(m[s] );
 
             var fnLmL = (tempn ^ tempm) < 0 ? -1 : 0;
 
@@ -479,12 +480,12 @@ namespace PoViEmu.SH3.CPU
             }
         }
 
-        public static void Macw(this MachineState s, R m, R n)
+        public static void Macw(this MachineState s, MU16 m, MU16 n)
         {
             int src;
 
-            var tempn = (uint)( s[n] );
-            int tempm = (int)( s[m] );
+            var tempn = (uint)(n[s] );
+            int tempm = (int)(m[s] );
 
             var templ = s.MACL;
 
@@ -712,8 +713,9 @@ namespace PoViEmu.SH3.CPU
 
         public static void Shld(this MachineState s, R m, R n)
         {
-            var sgnX = (int)(s[m] & 0x80000000);
-            var cntX = (int)(s[m] & 0x0000001F);
+            var tmp = s[m];
+            var sgnX = (int)(tmp & 0x80000000);
+            var cntX = (int)(tmp & 0x0000001F);
             if (sgnX == 0)
                 s[n] <<= (int)cntX;
             else
@@ -874,16 +876,6 @@ namespace PoViEmu.SH3.CPU
             s[n] = (uint)(s[n] | temp);
         }
 
-        public static void Macl(this MachineState s, MU32 a, MU32 b)
-        {
-            // TODO
-        }
-
-        public static void Macw(this MachineState s, MU16 a, MU16 b)
-        {
-            // TODO
-        }
-
         public static void Mov(this MachineState s, sbyte i, R n)
         {
             s[n] = (uint)i;
@@ -902,6 +894,17 @@ namespace PoViEmu.SH3.CPU
         public static void MovL(this MachineState s, NO m, R n)
         {
             // TODO s[n] = (uint)m.Diff;
+        }
+
+        public static void Mov2(this MachineState s, MU16 mem, R n)
+        {
+            s[n] = mem[s];
+        }
+
+        public static void Mova(this MachineState s, AO addr, R n)
+        {
+            var address = addr.CalcAddress(s);
+            s[n] = address;
         }
     }
 }
