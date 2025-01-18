@@ -411,3 +411,4 @@ dist/
 cache/
 /tamp/PoViEmu.CpuFan/op.json
 /tamp/PoViEmu.Workbook/output/
+*.d.txt
