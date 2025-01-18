@@ -8,9 +8,9 @@ namespace PoViEmu.Tests.CPU
     {
         [Theory]
 // 1001nnnndddddddd
-[InlineData(0b1001110111000110, "mov.w 0x00000190,r13", new[] { "R13", "0", "U16|290", "A5A6" }, new[] { "R13 = 0x00000000 --> 0x0000A5A6" })]
+[InlineData(0b1001110111000110, "mov.w 0x00000190,r13", new[] { "R13", "0", "U16|28e", "A5A6" }, new[] { "R13 = 0x00000000 --> 0x0000A5A6" })]
 // 1101nnnndddddddd
-[InlineData(0b1101110101100011, "mov.l 0x00000190,r13", new[] { "R13", "0", "U32|290", "A5A6A7A8" }, new[] { "R13 = 0x00000000 --> 0xA5A6A7A8" })]
+[InlineData(0b1101110101100011, "mov.l 0x00000190,r13", new[] { "R13", "0", "U32|28e", "A5A6A7A8" }, new[] { "R13 = 0x00000000 --> 0xA5A6A7A8" })]
 // 1110nnnniiiiiiii
 [InlineData(0b1110000001101011, "mov #107,r0", new[] { "R0", "0" }, new[] { "R0 = 0x00000000 --> 0x0000006B" })]
 // 1110nnnniiiiiiii

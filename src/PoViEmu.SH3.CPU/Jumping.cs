@@ -142,7 +142,7 @@ namespace PoViEmu.SH3.CPU
         public static void JumpSubroutine(this MachineState s, Mu32Operand mem, ref uint nextIP)
         {
             s.PR = s.PC;
-            nextIP = mem[s] + 4;
+            nextIP = mem.OffA(s);
             DelaySlot(s.PR + 2);
         }
 

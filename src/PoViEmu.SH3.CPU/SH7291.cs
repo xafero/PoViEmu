@@ -358,7 +358,7 @@ namespace PoViEmu.SH3.CPU
                 case Mnemonic.TasB when ops is [MU8 mem]:
                     Compute.Tasb(s, mem);
                     return;
-                case Mnemonic.Trapa when ops is [I8 i]:
+                case Mnemonic.Trapa when ops is [U8 i]:
                     Special.Trapa(s, this, i.Val);
                     return;
                 case Mnemonic.Tst when ops is [R m, R n]:

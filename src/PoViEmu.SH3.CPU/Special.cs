@@ -11,7 +11,7 @@ namespace PoViEmu.SH3.CPU
             cpu.Halted = true;
         }
 
-        public static void Trapa(this MachineState s, SH7291 cpu, sbyte i)
+        public static void Trapa(this MachineState s, SH7291 cpu, byte i)
         {
             /*
             // TODO
@@ -29,7 +29,7 @@ namespace PoViEmu.SH3.CPU
             //
             */
 
-            cpu.ExecuteInterrupt((byte)i, s);
+            cpu.ExecuteInterrupt(i, s);
             if ((cpu.InterruptTable[0x21] as DOSInterrupts)?.ReturnCode is not null)
                 cpu.Halted = true;
         }
