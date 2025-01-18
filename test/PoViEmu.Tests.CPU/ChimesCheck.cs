@@ -13,22 +13,30 @@ namespace PoViEmu.Tests.CPU
 {
     public static class ChimesCheck
     {
-        public static void DoShouldRead(string dir, string fileName)
+        public static void DoShouldRead_x86(string dir, string fileName)
         {
             var com1File = Path.Combine(dir, $"{fileName}_x86.com");
-            var com2File = Path.Combine(dir, $"{fileName}_sh3.com");
             var txtFile = Path.Combine(dir, $"{fileName}.txt");
 
             var com1Bytes = File.ReadAllBytes(com1File);
-            var com2Bytes = File.ReadAllBytes(com2File);
             var expected = TextHelper.ReadUtf8Lines(txtFile);
 
             var (actual1, ret1) = Exec1(com1Bytes, dir, com1File);
-            var (actual2, ret2) = Exec2(com2Bytes, dir, com2File);
 
             TestTool.Equal(expected, actual1);
             Assert.Equal("0", $"{ret1}");
+        }
+        
+        public static void DoShouldRead_sh3(string dir, string fileName)
+        {
+            var com2File = Path.Combine(dir, $"{fileName}_sh3.com");
+            var txtFile = Path.Combine(dir, $"{fileName}.txt");
 
+            var com2Bytes = File.ReadAllBytes(com2File);
+            var expected = TextHelper.ReadUtf8Lines(txtFile);
+
+            var (actual2, ret2) = Exec2(com2Bytes, dir, com2File);
+            
             TestTool.Equal(expected, actual2);
             Assert.Equal("0", $"{ret2}");
         }

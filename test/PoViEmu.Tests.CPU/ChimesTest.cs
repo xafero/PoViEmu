@@ -7,11 +7,15 @@ namespace PoViEmu.Tests.CPU
     public class ChimesTest
     {
         [Theory]
-        [InlineData("op")]
-        public void ShouldRead(string fileName)
+        [InlineData("op", "x86")]
+        [InlineData("op", "sh3")]
+        public void ShouldRead(string fileName, string cpu)
         {
             var dir = Path.Combine("Resources", "Chimes");
-            DoShouldRead(dir, fileName);
+            if (cpu == "x86")
+                DoShouldRead_x86(dir, fileName);
+            else
+                DoShouldRead_sh3(dir, fileName);
         }
     }
 }
