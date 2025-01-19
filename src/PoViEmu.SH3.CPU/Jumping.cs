@@ -48,6 +48,8 @@ namespace PoViEmu.SH3.CPU
         private static void DelaySlot(uint temp)
         {
             // TODO delay slot ?!
+
+            ;
         }
 
         public static void Branch(this MachineState s, AddressOperand d, ref uint nextIP)
