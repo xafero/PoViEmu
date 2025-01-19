@@ -4,9 +4,9 @@ using R = PoViEmu.SH3.ISA.ShRegister;
 
 namespace PoViEmu.SH3.ISA.Ops.Mems
 {
-    public static class MemOpExt
+    public static class AddressOpExt
     {
-        public static uint OffA(this MemOperand op, MS s)
+        public static uint OffA(this IAddressOperand op, MS s)
         {
             uint offset;
             switch (op.Mode)

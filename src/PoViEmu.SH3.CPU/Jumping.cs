@@ -20,7 +20,7 @@ namespace PoViEmu.SH3.CPU
             // nextIP = (uint)(s.PC + (disp << 1) + 4);
 
             if (s.T == false)
-                nextIP = (uint)(d.CalcAddress(s));
+                nextIP = (uint)(d.OffA(s));
             else
                 nextIP = s.PC + 2;
         }
@@ -38,7 +38,7 @@ namespace PoViEmu.SH3.CPU
             var temp = s.PC;
             if (s.T == false)
             {
-                nextIP = (uint)(d.CalcAddress(s));
+                nextIP = (uint)(d.OffA(s));
                 DelaySlot(temp + 2);
             }
             else
@@ -61,7 +61,7 @@ namespace PoViEmu.SH3.CPU
             // nextIP = (uint)(s.PC + (disp << 1) + 4);
 
             var temp = s.PC;
-            nextIP = (uint)(d.CalcAddress(s));
+            nextIP = (uint)(d.OffA(s));
             DelaySlot(temp + 2);
         }
 
@@ -83,7 +83,7 @@ namespace PoViEmu.SH3.CPU
             // nextIP = (uint)(s.PC + (disp << 1) + 4);
 
             s.PR = s.PC;
-            nextIP = (uint)(d.CalcAddress(s));
+            nextIP = (uint)(d.OffA(s));
             DelaySlot(s.PR + 2);
         }
 
@@ -105,7 +105,7 @@ namespace PoViEmu.SH3.CPU
             // nextIP = (uint)(s.PC + (disp << 1) + 4);
 
             if (s.T)
-                nextIP = (uint)(d.CalcAddress(s));
+                nextIP = (uint)(d.OffA(s));
             else
                 nextIP = s.PC + 2;
         }
@@ -123,7 +123,7 @@ namespace PoViEmu.SH3.CPU
             var temp = s.PC;
             if (s.T)
             {
-                nextIP = (uint)(d.CalcAddress(s));
+                nextIP = (uint)(d.OffA(s));
                 DelaySlot(temp + 2);
             }
             else

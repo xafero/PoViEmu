@@ -172,7 +172,7 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Stc, a: [SR, R(low)]);
                         case 0b00000011:
                             // Branch to Subroutine Far
-                            return X.Create(first, second, O.Bsrf, a: [R(low)]);
+                            return X.Create(first, second, O.Bsrf, a: [Ar(PC, low)]);
                         case 0b00001010:
                             // Store System Register
                             return X.Create(first, second, O.Sts, a: [MACH, R(low)]);
@@ -187,7 +187,7 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Stc, a: [VBR, R(low)]);
                         case 0b00100011:
                             // Branch Far
-                            return X.Create(first, second, O.Braf, a: [R(low)]);
+                            return X.Create(first, second, O.Braf, a: [Ar(PC, low)]);
                         case 0b00101001:
                             // Move T Bit
                             return X.Create(first, second, O.Movt, a: [R(low)]);
@@ -598,7 +598,7 @@ namespace PoViEmu.SH3.ISA.Core
                             return X.Create(first, second, O.Shlr16, a: [R(low)]);
                         case 0b00101011:
                             // Jump
-                            return X.Create(first, second, O.Jmp, a: [RrL(low)]);
+                            return X.Create(first, second, O.Jmp, a: [Ar(low)]);
                         case 0b00110011:
                             // Store Control Register
                             return X.Create(first, second, O.StcL, a: [SSR, RmL(low)]);

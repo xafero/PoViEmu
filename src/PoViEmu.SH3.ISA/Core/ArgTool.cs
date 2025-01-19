@@ -4,6 +4,7 @@ using PoViEmu.SH3.ISA.Ops.Places;
 using PoViEmu.SH3.ISA.Ops.Mems;
 using PoViEmu.SH3.ISA.Ops.Regs;
 using AM = PoViEmu.SH3.ISA.Ops.Mems.AddressingMode;
+using System.Text.RegularExpressions;
 
 namespace PoViEmu.SH3.ISA.Core
 {
@@ -97,5 +98,11 @@ namespace PoViEmu.SH3.ISA.Core
 
         public static BaseOperand La(ShRegister reg, byte dis, int factor = 4, int post = 4)
             => new Mu32Operand(AM.Relative, reg, null, dis * factor + post);
+
+        public static BaseOperand Ar(ShRegister reg, byte regNo)
+            => new AddressOperand(reg, InstTool.GetReg(regNo));
+
+        public static BaseOperand Ar(byte regNo)
+            => new AddressOperand(InstTool.GetReg(regNo));
     }
 }

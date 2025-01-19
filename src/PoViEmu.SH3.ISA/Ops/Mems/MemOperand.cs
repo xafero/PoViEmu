@@ -26,7 +26,7 @@ namespace PoViEmu.SH3.ISA.Ops.Mems
     }
 
     public abstract record MemOperand(AM Mode, B32 Base, B32? Idx = null, int? Disp = null)
-        : BaseOperand
+        : BaseOperand, IAddressOperand
     {
         public abstract byte ByteSize { get; }
     }
