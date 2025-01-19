@@ -11,7 +11,7 @@ namespace PoViEmu.SH3.CPU.Impl
             m.R0_b = m.R1_b = m.R2_b = m.R3_b = m.R4_b = m.R5_b = m.R6_b = m.R7_b = 0x0000;
             m.R15 = 0xF000;
             m.PC = 0x0100;
-            m.PR = 0x0000;
+            m.PR = 0x0010;
             m.GBR = 0x0000;
             m.VBR = 0x0000;
             m.MACL = 0x0000;

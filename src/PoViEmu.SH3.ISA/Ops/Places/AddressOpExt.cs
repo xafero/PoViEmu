@@ -23,10 +23,8 @@ namespace PoViEmu.SH3.ISA.Ops.Places
                     offset = s[op.Base];
                     break;
                 case AddressingMode.Displacement:
-                    offset = (uint)(s[op.Base] + op.Disp!);
-                    break;
                 case AddressingMode.Relative:
-                    offset = (uint)(s[op.Base] + (op.Disp!)) - 2;
+                    offset = (uint)(s[op.Base] + op.Disp!);
                     break;
                 case AddressingMode.Indexed:
                     offset = s[op.Base] + s[(R)op.Idx!];
