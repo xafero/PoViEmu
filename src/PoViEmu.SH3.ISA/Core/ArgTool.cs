@@ -3,8 +3,7 @@ using PoViEmu.SH3.ISA.Ops.Consts;
 using PoViEmu.SH3.ISA.Ops.Places;
 using PoViEmu.SH3.ISA.Ops.Mems;
 using PoViEmu.SH3.ISA.Ops.Regs;
-using AM = PoViEmu.SH3.ISA.Ops.Mems.AddressingMode;
-using System.Text.RegularExpressions;
+using AM = PoViEmu.SH3.ISA.Ops.Places.AddressingMode;
 
 namespace PoViEmu.SH3.ISA.Core
 {

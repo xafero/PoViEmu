@@ -1,5 +1,5 @@
 using PoViEmu.Base.CPU;
-using PoViEmu.SH3.ISA.Ops.Mems;
+using PoViEmu.SH3.ISA.Ops.Places;
 using Fl = PoViEmu.SH3.ISA.Flagged;
 using static PoViEmu.SH3.ISA.ShRegister;
 using AO = PoViEmu.SH3.ISA.Ops.Places.AddressOperand;

@@ -2,7 +2,7 @@ using System;
 using MS = PoViEmu.SH3.ISA.IMachineState;
 using R = PoViEmu.SH3.ISA.ShRegister;
 
-namespace PoViEmu.SH3.ISA.Ops.Mems
+namespace PoViEmu.SH3.ISA.Ops.Places
 {
     public static class AddressOpExt
     {

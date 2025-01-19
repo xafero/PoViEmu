@@ -1,6 +1,6 @@
 // ReSharper disable IdentifierTypo
 
-namespace PoViEmu.SH3.ISA.Ops.Mems
+namespace PoViEmu.SH3.ISA.Ops.Places
 {
     public interface IAddressOperand
     {

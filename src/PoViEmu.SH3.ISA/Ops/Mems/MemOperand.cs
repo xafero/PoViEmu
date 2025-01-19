@@ -1,7 +1,8 @@
 using System;
 using PoViEmu.SH3.ISA.Core;
+using PoViEmu.SH3.ISA.Ops.Places;
 using B32 = PoViEmu.SH3.ISA.ShRegister;
-using AM = PoViEmu.SH3.ISA.Ops.Mems.AddressingMode;
+using AM = PoViEmu.SH3.ISA.Ops.Places.AddressingMode;
 
 namespace PoViEmu.SH3.ISA.Ops.Mems
 {

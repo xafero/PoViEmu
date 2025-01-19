@@ -1,3 +1,4 @@
+using PoViEmu.SH3.ISA.Ops.Places;
 using B32 = PoViEmu.SH3.ISA.ShRegister;
 
 namespace PoViEmu.SH3.ISA.Ops.Mems

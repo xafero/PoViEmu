@@ -3,6 +3,7 @@ using PoViEmu.Base;
 using PoViEmu.SH3.CPU;
 using PoViEmu.SH3.ISA.Decoding;
 using PoViEmu.SH3.ISA.Ops.Mems;
+using PoViEmu.SH3.ISA.Ops.Places;
 using Xunit;
 using Decoder = PoViEmu.SH3.ISA.Decoding.Decoder;
 
