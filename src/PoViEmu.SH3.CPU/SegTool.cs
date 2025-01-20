@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using PoViEmu.Base;
 
 namespace PoViEmu.SH3.CPU
 {
@@ -7,17 +8,15 @@ namespace PoViEmu.SH3.CPU
     {
         public static void Write(byte[] mem, uint offset, IEnumerable<byte> bytes)
         {
-            var physicalAddr = (offset);
             var i = 0;
             foreach (var bits in bytes)
-                mem[physicalAddr + i++] = bits;
+                mem.CheckSet(offset + i++, bits);
         }
 
         public static IEnumerable<byte> Read(byte[] mem, uint offset, int count)
         {
-            var physicalAddr = (offset);
             for (var i = 0; i < count; i++)
-                yield return mem[physicalAddr + i];
+                yield return mem.CheckGet(offset + i);
         }
 
         public static void ParseSrc(string? addr, out uint off)
