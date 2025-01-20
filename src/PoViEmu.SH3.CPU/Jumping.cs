@@ -25,7 +25,8 @@ namespace PoViEmu.SH3.CPU
                 nextIP = s.PC + 2;
         }
 
-        public static void BranchIfFalseDelay(this MachineState s, AddressOperand d, ref uint nextIP)
+        public static void BranchIfFalseDelay(this MachineState s, AddressOperand d, ref uint nextIP,
+            ref uint? delaySlot)
         {
             // TODO
             //int disp;
@@ -39,20 +40,14 @@ namespace PoViEmu.SH3.CPU
             if (s.T == false)
             {
                 nextIP = (uint)(d.OffA(s));
-                DelaySlot(temp + 2);
+                delaySlot = (temp + 2);
             }
             else
                 nextIP = s.PC + 2;
         }
 
-        private static void DelaySlot(uint temp)
-        {
-            // TODO delay slot ?!
-
-            ;
-        }
-
-        public static void Branch(this MachineState s, AddressOperand d, ref uint nextIP)
+        public static void Branch(this MachineState s, AddressOperand d, ref uint nextIP,
+            ref uint? delaySlot)
         {
             // TODO
             // int disp;
@@ -64,17 +59,19 @@ namespace PoViEmu.SH3.CPU
 
             var temp = s.PC;
             nextIP = (uint)(d.OffA(s));
-            DelaySlot(temp + 2);
+            delaySlot = (temp + 2);
         }
 
-        public static void BranchFar(this MachineState s, Reg32Operand m, ref uint nextIP)
+        public static void BranchFar(this MachineState s, Reg32Operand m, ref uint nextIP,
+            ref uint? delaySlot)
         {
             var temp = s.PC;
             nextIP = s.PC + s[m];
-            DelaySlot(temp + 2);
+            delaySlot = (temp + 2);
         }
 
-        public static void BranchSubroutine(this MachineState s, AddressOperand d, ref uint nextIP)
+        public static void BranchSubroutine(this MachineState s, AddressOperand d, ref uint nextIP,
+            ref uint? delaySlot)
         {
             // TODO
             // long disp;
@@ -86,14 +83,15 @@ namespace PoViEmu.SH3.CPU
 
             s.PR = s.PC;
             nextIP = (uint)(d.OffA(s));
-            DelaySlot(s.PR + 2);
+            delaySlot = (s.PR + 2);
         }
 
-        public static void BranchSubroutineFar(this MachineState s, Reg32Operand m, ref uint nextIP)
+        public static void BranchSubroutineFar(this MachineState s, Reg32Operand m, ref uint nextIP,
+            ref uint? delaySlot)
         {
             s.PR = s.PC;
             nextIP = s.PC + s[m];
-            DelaySlot(s.PR + 2);
+            delaySlot = (s.PR + 2);
         }
 
         public static void BranchIfTrue(this MachineState s, AddressOperand d, ref uint nextIP)
@@ -112,7 +110,8 @@ namespace PoViEmu.SH3.CPU
                 nextIP = s.PC + 2;
         }
 
-        public static void BranchIfTrueDelay(this MachineState s, AddressOperand d, ref uint nextIP)
+        public static void BranchIfTrueDelay(this MachineState s, AddressOperand d, ref uint nextIP,
+            ref uint? delaySlot)
         {
             // TODO
             // int disp;
@@ -126,7 +125,7 @@ namespace PoViEmu.SH3.CPU
             if (s.T)
             {
                 nextIP = (uint)(d.OffA(s));
-                DelaySlot(temp + 2);
+                delaySlot = (temp + 2);
             }
             else
             {
@@ -134,33 +133,37 @@ namespace PoViEmu.SH3.CPU
             }
         }
 
-        public static void Jump(this MachineState s, Reg32Operand m, ref uint nextIP)
+        public static void Jump(this MachineState s, Reg32Operand m, ref uint nextIP,
+            ref uint? delaySlot)
         {
             var temp = s.PC;
             nextIP = s[m] + 4;
-            DelaySlot(temp + 2);
+            delaySlot = (temp + 2);
         }
 
-        public static void JumpSubroutine(this MachineState s, Mu32Operand mem, ref uint nextIP)
+        public static void JumpSubroutine(this MachineState s, Mu32Operand mem, ref uint nextIP,
+            ref uint? delaySlot)
         {
             s.PR = s.PC;
             nextIP = mem.OffA(s);
-            DelaySlot(s.PR + 2);
+            delaySlot = (s.PR + 2);
         }
 
-        public static void ReturnFromEx(this MachineState s, ref uint nextIP)
+        public static void ReturnFromEx(this MachineState s, ref uint nextIP,
+            ref uint? delaySlot)
         {
             var temp = s.PC;
             nextIP = s.SPC;
             s.SR = (Flagged)s.SSR;
-            DelaySlot(temp + 2);
+            delaySlot = (temp + 2);
         }
 
-        public static void ReturnSubroutine(this MachineState s, ref uint nextIP)
+        public static void ReturnSubroutine(this MachineState s, ref uint nextIP,
+            ref uint? delaySlot)
         {
             var temp = s.PC;
             nextIP = s.PR + 4;
-            DelaySlot(temp + 2);
+            delaySlot = (temp + 2);
         }
     }
 }

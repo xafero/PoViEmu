@@ -50,7 +50,7 @@ namespace PoViEmu.SH3.CPU
         }
 
         private void Execute(XInstruction instruct, MachineState s, bool ignoreUc,
-            ref uint nextIP)
+            ref uint nextIP, ref uint? delayIP)
         {
             var parsed = instruct.Parsed;
             if (parsed.IsSimplyInvalid())
@@ -87,25 +87,25 @@ namespace PoViEmu.SH3.CPU
                     Jumping.BranchIfFalse(s, d, ref nextIP);
                     return;
                 case Mnemonic.BfS when ops is [AO d]:
-                    Jumping.BranchIfFalseDelay(s, d, ref nextIP);
+                    Jumping.BranchIfFalseDelay(s, d, ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Bra when ops is [AO d]:
-                    Jumping.Branch(s, d, ref nextIP);
+                    Jumping.Branch(s, d, ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Braf when ops is [R m]:
-                    Jumping.BranchFar(s, m, ref nextIP);
+                    Jumping.BranchFar(s, m, ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Bsr when ops is [AO d]:
-                    Jumping.BranchSubroutine(s, d, ref nextIP);
+                    Jumping.BranchSubroutine(s, d, ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Bsrf when ops is [R m]:
-                    Jumping.BranchSubroutineFar(s, m, ref nextIP);
+                    Jumping.BranchSubroutineFar(s, m, ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Bt when ops is [AO d]:
                     Jumping.BranchIfTrue(s, d, ref nextIP);
                     return;
                 case Mnemonic.BtS when ops is [AO d]:
-                    Jumping.BranchIfTrueDelay(s, d, ref nextIP);
+                    Jumping.BranchIfTrueDelay(s, d, ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Clrmac:
                     Compute.Clrmac(s);
@@ -174,10 +174,10 @@ namespace PoViEmu.SH3.CPU
                     Compute.Extuw(s, m, n);
                     return;
                 case Mnemonic.Jmp when ops is [R m]:
-                    Jumping.Jump(s, m, ref nextIP);
+                    Jumping.Jump(s, m, ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Jsr when ops is [MU32 mem]:
-                    Jumping.JumpSubroutine(s, mem, ref nextIP);
+                    Jumping.JumpSubroutine(s, mem, ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Ldc when ops is [R m, R n]:
                     Compute.Ldc(s, m, n);
@@ -278,10 +278,10 @@ namespace PoViEmu.SH3.CPU
                     Compute.Rotr(s, n);
                     return;
                 case Mnemonic.Rte:
-                    Jumping.ReturnFromEx(s, ref nextIP);
+                    Jumping.ReturnFromEx(s, ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Rts:
-                    Jumping.ReturnSubroutine(s, ref nextIP);
+                    Jumping.ReturnSubroutine(s, ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Sets:
                     Compute.Sets(s);

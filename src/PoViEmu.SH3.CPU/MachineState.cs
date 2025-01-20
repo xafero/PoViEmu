@@ -313,6 +313,21 @@ namespace PoViEmu.SH3.CPU
 
         #endregion
 
+        #region Delay slots
+
+        private uint _dpc;
+
+        /// <summary>
+        /// Program Counter (delayed)
+        /// </summary>
+        public uint dPC
+        {
+            get => _dpc;
+            set => SetProperty(ref _dpc, value);
+        }
+
+        #endregion
+
         #region Control flags
 
         private Fl _sr;
@@ -570,10 +585,7 @@ namespace PoViEmu.SH3.CPU
         void IFlatMemAccess<byte>.Set(uint addr, byte value)
         {
             SetProperty(() => ((IFlatMemAccess<byte>)this).Get(addr),
-                v =>
-                {
-                    Endian.WriteUInt8(v, _memory, (int)addr);
-                }, value, GetSrc<byte>(addr));
+                v => { Endian.WriteUInt8(v, _memory, (int)addr); }, value, GetSrc<byte>(addr));
         }
 
         void IFlatMemAccess<byte[]>.Set(uint addr, byte[] values)
@@ -610,10 +622,7 @@ namespace PoViEmu.SH3.CPU
         void IFlatMemAccess<ushort>.Set(uint addr, ushort value)
         {
             SetProperty(() => ((IFlatMemAccess<ushort>)this).Get(addr),
-                v =>
-                {
-                    Endian.WriteUInt16(v, _memory, offset: addr);
-                }, value, GetSrc<ushort>(addr));
+                v => { Endian.WriteUInt16(v, _memory, offset: addr); }, value, GetSrc<ushort>(addr));
         }
 
         void IFlatMemAccess<ushort[]>.Set(uint addr, ushort[] values)
@@ -624,7 +633,7 @@ namespace PoViEmu.SH3.CPU
                     for (int i = 0, j = 0; i < v.Length; i++, j += 2)
                     {
                         var value = v[i];
-                        Endian.WriteUInt16(value,  _memory, offset: addr + j);
+                        Endian.WriteUInt16(value, _memory, offset: addr + j);
                     }
                 }, values, GetSrc<ushort[]>(addr));
         }
@@ -650,10 +659,7 @@ namespace PoViEmu.SH3.CPU
         void IFlatMemAccess<uint>.Set(uint addr, uint value)
         {
             SetProperty(() => ((IFlatMemAccess<uint>)this).Get(addr),
-                v =>
-                {
-                    Endian.WriteUInt32(v, _memory, offset: addr);
-                }, value, GetSrc<uint>(addr));
+                v => { Endian.WriteUInt32(v, _memory, offset: addr); }, value, GetSrc<uint>(addr));
         }
 
         void IFlatMemAccess<uint[]>.Set(uint addr, uint[] values)
