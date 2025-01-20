@@ -25,6 +25,7 @@ namespace PoViEmu.SH3.CPU.Impl
         {
             return obj switch
             {
+                null => "\u2205", 
                 bool l => l ? "1" : "0",
                 byte b => $"0x{b:X2}"[(withPrefix ? 0 : 2)..],
                 ushort u => $"0x{u:X4}"[(withPrefix ? 0 : 2)..],

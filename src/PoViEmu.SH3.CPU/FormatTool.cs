@@ -1,4 +1,5 @@
 using System;
+using PoViEmu.Base;
 
 namespace PoViEmu.SH3.CPU
 {
@@ -12,7 +13,7 @@ namespace PoViEmu.SH3.CPU
                    $"R8={s.R8:x}{sep}R9={s.R9:x}{sep}R10={s.R10:x}{sep}R11={s.R11:x}{sep}" +
                    $"R12={s.R12:x}{sep}R13={s.R13:x}{sep}R14={s.R14:x}{sep}R15={s.R15:x}{sep}" +
                    $"MACH={s.MACH:x}{sep}MACL={s.MACL:x}{sep}GBR={s.GBR:x}{sep}" +
-                   $"VBR={s.VBR:x}{sep}PC={s.PC:x}{sep}dPC={s.dPC:x}{sep}" +
+                   $"VBR={s.VBR:x}{sep}PC={s.PC:x}{sep}dPC={s.dPC.NullStr()}{sep}" +
                    $"PR={s.PR:x}{sep}SSR={s.SSR:x}{sep}SPC={s.SPC:x}{sep}" +
                    $"T={(s.T ? 1 : 0)}{sep}S={(s.S ? 1 : 0)}{sep}" +
                    $"I0={(s.I0 ? 1 : 0)}{sep}I1={(s.I1 ? 1 : 0)}{sep}" +

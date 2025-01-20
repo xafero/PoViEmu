@@ -44,8 +44,12 @@ namespace PoViEmu.SH3.CPU
 
         public void Execute(XInstruction instruct, MachineState m)
         {
+            var isDelayed = m.dPC != null;
             var nextIP = instruct.Parsed.NextIP32;
-            Execute(instruct, m, true, ref nextIP);
+            var delayIP = default(uint?);
+            Execute(instruct, m, true, ref nextIP, ref delayIP);
+            m.dPC = delayIP;
+            if (isDelayed) return;
             m.PC = nextIP;
         }
 

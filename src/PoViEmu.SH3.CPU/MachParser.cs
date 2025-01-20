@@ -6,7 +6,7 @@ namespace PoViEmu.SH3.CPU
 {
     public static class MachParser
     {
-        public static object GetByString(this MachineState m, string? name)
+        public static object? GetByString(this MachineState m, string? name)
         {
             var (key, arg) = SplitPropName(name);
             return key switch
@@ -36,6 +36,7 @@ namespace PoViEmu.SH3.CPU
                 nameof(MachineState.R6_b) => m.R6_b,
                 nameof(MachineState.R7_b) => m.R7_b,
                 nameof(MachineState.PC) => m.PC,
+                nameof(MachineState.dPC) => m.dPC,
                 nameof(MachineState.PR) => m.PR,
                 nameof(MachineState.MACH) => m.MACH,
                 nameof(MachineState.MACL) => m.MACL,

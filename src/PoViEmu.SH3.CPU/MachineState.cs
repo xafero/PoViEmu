@@ -315,12 +315,12 @@ namespace PoViEmu.SH3.CPU
 
         #region Delay slots
 
-        private uint _dpc;
+        private uint? _dpc;
 
         /// <summary>
         /// Program Counter (delayed)
         /// </summary>
-        public uint dPC
+        public uint? dPC
         {
             get => _dpc;
             set => SetProperty(ref _dpc, value);

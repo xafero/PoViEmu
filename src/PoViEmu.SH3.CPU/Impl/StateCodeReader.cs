@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using PoViEmu.Base.CPU;
 using PoViEmu.SH3.ISA.Decoding;
 
+// ReSharper disable InconsistentNaming
 // ReSharper disable PossibleMultipleEnumeration
+
 #pragma warning disable CS8619
 
 namespace PoViEmu.SH3.CPU.Impl
@@ -19,9 +21,16 @@ namespace PoViEmu.SH3.CPU.Impl
             _parent = parent;
         }
 
+        private static uint GetPC(MachineState m)
+        {
+            if (m.dPC is { } dPc)
+                return dPc;
+            return m.PC;
+        }
+
         private static IEnumerable<byte> ReadBlock(MachineState m, uint? oIp)
         {
-            var ip = oIp ?? m.PC;
+            var ip = oIp ?? GetPC(m);
             return m.ReadMemory(ip, MaxLength);
         }
 
@@ -65,7 +74,7 @@ namespace PoViEmu.SH3.CPU.Impl
         {
             if (_ipPtr == null)
                 return;
-            var actualTgt = _parent.PC;
+            var actualTgt = GetPC(_parent);
             var expectTgt = _instruction?.IP32 + _instruction?.Length;
             if (actualTgt == expectTgt)
                 return;
@@ -87,7 +96,7 @@ namespace PoViEmu.SH3.CPU.Impl
             if (_decoder != null)
                 return _decoder;
 
-            var tool = CreateDecoder(this, _ipPtr ?? _parent.PC);
+            var tool = CreateDecoder(this, _ipPtr ?? GetPC(_parent));
             _decoder = tool;
             return tool;
         }
