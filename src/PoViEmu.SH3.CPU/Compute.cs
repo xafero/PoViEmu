@@ -1,5 +1,4 @@
 using PoViEmu.Base.CPU;
-using PoViEmu.SH3.ISA.Ops.Places;
 using Fl = PoViEmu.SH3.ISA.Flagged;
 using static PoViEmu.SH3.ISA.ShRegister;
 using AO = PoViEmu.SH3.ISA.Ops.Places.AddressOperand;
@@ -904,7 +903,7 @@ namespace PoViEmu.SH3.CPU
 
         public static void Mova(this MachineState s, AO addr, R n)
         {
-            var address = addr.OffA(s);
+            var address = addr.CalcAddr(s);
             s[n] = address;
         }
     }
