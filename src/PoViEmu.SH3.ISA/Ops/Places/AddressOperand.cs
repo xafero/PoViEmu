@@ -38,5 +38,12 @@ namespace PoViEmu.SH3.ISA.Ops.Places
                 _ => throw new InvalidOperationException($"{Mode} ?!")
             };
         }
+
+        public uint CalcAddr(IMachineState state)
+        {
+            var newAddr = this.OffA(state);
+            // TODO return newAddr - 2;
+            return newAddr;
+        }
     }
 }
