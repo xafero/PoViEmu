@@ -412,3 +412,4 @@ cache/
 /tamp/PoViEmu.CpuFan/op.json
 /tamp/PoViEmu.Workbook/output/
 *.d.txt
+extra/PoViEmu.Workbook/output/
