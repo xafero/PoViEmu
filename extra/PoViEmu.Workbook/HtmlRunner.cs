@@ -18,6 +18,22 @@ namespace PoViEmu.Workbook
 {
     internal static class HtmlRunner
     {
+        private sealed class FailedInstr : IInstruction
+        { 
+            private readonly Exception _error;
+
+            public FailedInstr(Exception error) {
+                _error = error;
+            }            
+
+            public override string ToString() {
+                var codeTxt = _error.GetType().Name.Replace("Exception","");
+                const string space = "   ";
+                var arg = _error.Message;
+                return $"0{space}{codeTxt}{space}{arg}".Trim();
+            } 
+        } 
+
         public static void Start(string folder)
         {
             var outDir = "output".GetOrCreateDir();
@@ -93,12 +109,19 @@ namespace PoViEmu.Workbook
 
                 var stateBeg = m.ToString()!;
                 tbody.Add(new XElement("tr", HtmlHelper.ColSpan(4, stateBeg)));
-                const int maxInstrCount = 250;
+                const int maxInstrCount = 950;
 
                 while (!cpu.Halted)
                 {
                     changes.Clear();
-                    var current = readNext();
+
+                    IInstruction current;
+                    try {
+                        current = readNext();
+                    } catch (Exception ex) {
+                        cpu.Halted = true;
+                        current = new FailedInstr(ex);
+                    }
 
                     var pre = fmt.GetFull(current, (IState)m);
                     var o = StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries;
