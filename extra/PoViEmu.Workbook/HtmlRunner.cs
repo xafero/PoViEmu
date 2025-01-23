@@ -18,22 +18,6 @@ namespace PoViEmu.Workbook
 {
     internal static class HtmlRunner
     {
-        private sealed class FailedInstr : IInstruction
-        { 
-            private readonly Exception _error;
-
-            public FailedInstr(Exception error) {
-                _error = error;
-            }            
-
-            public override string ToString() {
-                var codeTxt = _error.GetType().Name.Replace("Exception","");
-                const string space = "   ";
-                var arg = _error.Message;
-                return $"0{space}{codeTxt}{space}{arg}".Trim();
-            } 
-        } 
-
         public static void Start(string folder)
         {
             var outDir = "output".GetOrCreateDir();
@@ -132,7 +116,8 @@ namespace PoViEmu.Workbook
 
                     try
                     {
-                        execThis(current);
+                        if (current is not FailedInstr)
+                            execThis(current);
 
                         if (GetDosOut(cpu, out var stdOut, out var retNum))
                         {
