@@ -7,7 +7,9 @@ namespace PoViEmu.SH3.ISA.Ops.Places
         AddressingMode Mode { get; }
 
         ShRegister Base { get; }
-
+        
+        bool Align { get; }
+        
         byte ByteSize { get; }
 
         int? Disp { get; }

@@ -6,8 +6,8 @@ using AM = PoViEmu.SH3.ISA.Ops.Places.AddressingMode;
 
 namespace PoViEmu.SH3.ISA.Ops.Mems
 {
-    public abstract record MemOperand<T>(AM Mode, B32 Base, B32? Idx = null, int? Disp = null)
-        : MemOperand(Mode, Base, Idx, Disp)
+    public abstract record MemOperand<T>(AM Mode, B32 Base, B32? Idx = null, int? Disp = null, bool Align = false)
+        : MemOperand(Mode, Base, Idx, Disp, Align)
     {
         public abstract T this[IMachineState m] { get; set; }
 
@@ -26,7 +26,7 @@ namespace PoViEmu.SH3.ISA.Ops.Mems
         }
     }
 
-    public abstract record MemOperand(AM Mode, B32 Base, B32? Idx = null, int? Disp = null)
+    public abstract record MemOperand(AM Mode, B32 Base, B32? Idx = null, int? Disp = null, bool Align = false)
         : BaseOperand, IAddressOperand
     {
         public abstract byte ByteSize { get; }

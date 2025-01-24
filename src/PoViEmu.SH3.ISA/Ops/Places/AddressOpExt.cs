@@ -23,8 +23,10 @@ namespace PoViEmu.SH3.ISA.Ops.Places
                     offset = s[op.Base];
                     break;
                 case AddressingMode.Displacement:
-                case AddressingMode.Relative:
                     offset = (uint)(s[op.Base] + op.Disp!);
+                    break;
+                case AddressingMode.Relative:
+                    offset = (uint)(GetAligned(s, op.Base, op.Align) + op.Disp!);
                     break;
                 case AddressingMode.Indexed:
                     offset = s[op.Base] + s[(R)op.Idx!];
@@ -33,6 +35,18 @@ namespace PoViEmu.SH3.ISA.Ops.Places
                     throw new ArgumentOutOfRangeException($"{op.GetType().Name} {op.Mode}");
             }
             return offset;
+        }
+
+        private static uint GetAligned(MS s, R @base, bool isAligned)
+        {
+            var relBase = s[@base];
+            if (!isAligned)
+                return relBase;
+
+            var aligned = relBase % 4;
+            if (aligned != 0)
+                relBase -= aligned;
+            return relBase;
         }
     }
 }

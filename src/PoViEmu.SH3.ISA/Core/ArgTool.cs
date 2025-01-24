@@ -90,13 +90,13 @@ namespace PoViEmu.SH3.ISA.Core
             => new AddressOperand(reg, disp * factor + post);
 
         public static BaseOperand Am(ShRegister reg, int disp, int factor = 4, int post = 4)
-            => new AddressOperand(reg, disp * factor + post);
+            => new AddressOperand(reg, disp * factor + post, Align: true);
 
         public static BaseOperand Wa(ShRegister reg, byte dis, int factor = 2, int post = 4)
             => new Mu16Operand(AM.Relative, reg, null, dis * factor + post);
 
         public static BaseOperand La(ShRegister reg, byte dis, int factor = 4, int post = 4)
-            => new Mu32Operand(AM.Relative, reg, null, dis * factor + post);
+            => new Mu32Operand(AM.Relative, reg, null, dis * factor + post, Align: true);
 
         public static BaseOperand Ar(ShRegister reg, byte regNo)
             => new AddressOperand(reg, InstTool.GetReg(regNo));

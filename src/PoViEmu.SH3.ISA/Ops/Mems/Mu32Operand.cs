@@ -3,8 +3,8 @@ using B32 = PoViEmu.SH3.ISA.ShRegister;
 
 namespace PoViEmu.SH3.ISA.Ops.Mems
 {
-    public record Mu32Operand(AddressingMode Mode, B32 Base, B32? Idx, int? Disp)
-        : MemOperand<uint>(Mode, Base, Idx, Disp)
+    public record Mu32Operand(AddressingMode Mode, B32 Base, B32? Idx, int? Disp, bool Align = false)
+        : MemOperand<uint>(Mode, Base, Idx, Disp, Align)
     {
         public override uint this[IMachineState m]
         {

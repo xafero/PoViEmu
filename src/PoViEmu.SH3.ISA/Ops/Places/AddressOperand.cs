@@ -11,18 +11,18 @@ namespace PoViEmu.SH3.ISA.Ops.Places
     /// <summary>
     /// A register-relative address (usually program counter)
     /// </summary>
-    public record AddressOperand(B32 Base, int? Disp, B32? Idx, AM Mode)
+    public record AddressOperand(B32 Base, int? Disp, B32? Idx, AM Mode, bool Align)
         : BaseOperand, IAddressOperand
     {
-        public AddressOperand(B32 Base, int Disp) : this(Base, Disp, null, AM.Relative)
+        public AddressOperand(B32 Base, int Disp, bool Align = false) : this(Base, Disp, null, AM.Relative, Align)
         {
         }
 
-        public AddressOperand(B32 Base, B32 Idx) : this(Base, null, Idx, AM.Indexed)
+        public AddressOperand(B32 Base, B32 Idx) : this(Base, null, Idx, AM.Indexed, false)
         {
         }
 
-        public AddressOperand(B32 Base) : this(Base, null, null, AM.RegIndirect)
+        public AddressOperand(B32 Base) : this(Base, null, null, AM.RegIndirect, false)
         {
         }
 
@@ -42,7 +42,6 @@ namespace PoViEmu.SH3.ISA.Ops.Places
         public uint CalcAddr(IMachineState state)
         {
             var newAddr = this.OffA(state);
-            // TODO return newAddr - 2;
             return newAddr;
         }
     }
