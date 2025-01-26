@@ -105,6 +105,9 @@ namespace PoViEmu.I186.CPU
                 case Mnemonic.Add when ops is [R16 r, U16 u]:
                     m[r] = m.Add16(withCarry: false, m[r], u.Val);
                     return;
+                case Mnemonic.Add when ops is [MU16 mem, I16 u]:
+                    mem[m] = m.Add16(withCarry: false, mem[m], (ushort)u.Val);
+                    return;
                 case Mnemonic.Add when ops is [R16 r, MU16 mem]:
                     m[r] = m.Add16(withCarry: false, m[r], mem[m]);
                     return;
@@ -441,6 +444,9 @@ namespace PoViEmu.I186.CPU
                     return;
                 case Mnemonic.Mul when ops is [R8 r]:
                     m.AX = m.Mul8(signed: false, m.AL, m[r]);
+                    return;
+                case Mnemonic.Mul when ops is [R16 r]:
+                    (m.AX, m.DX) = m.Mul16(signed: false, m.AX, m[r]).Split();
                     return;
                 case Mnemonic.Mul when ops is [MU16 mem]:
                     (m.AX, m.DX) = m.Mul16(signed: false, m.AX, mem[m]).Split();

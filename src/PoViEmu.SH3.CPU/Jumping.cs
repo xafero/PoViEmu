@@ -133,11 +133,12 @@ namespace PoViEmu.SH3.CPU
             }
         }
 
-        public static void Jump(this MachineState s, Reg32Operand m, ref uint nextIP,
+        public static void Jump(this MachineState s, AddressOperand m, ref uint nextIP,
             ref uint? delaySlot)
         {
             var temp = s.PC;
-            nextIP = s[m] + 4;
+            var raw = m.CalcAddr(s);
+            nextIP = raw + 4;
             delaySlot = (temp + 2);
         }
 

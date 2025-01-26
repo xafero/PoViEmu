@@ -177,7 +177,7 @@ namespace PoViEmu.SH3.CPU
                 case Mnemonic.ExtuW when ops is [R m, R n]:
                     Compute.Extuw(s, m, n);
                     return;
-                case Mnemonic.Jmp when ops is [R m]:
+                case Mnemonic.Jmp when ops is [AO m]:
                     Jumping.Jump(s, m, ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Jsr when ops is [MU32 mem]:
