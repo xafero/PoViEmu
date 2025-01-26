@@ -93,7 +93,7 @@ namespace PoViEmu.Workbook
 
                 var stateBeg = m.ToString()!;
                 tbody.Add(new XElement("tr", HtmlHelper.ColSpan(4, stateBeg)));
-                const int maxInstrCount = 950;
+                const int maxInstrCount = 2000;
 
                 while (!cpu.Halted)
                 {

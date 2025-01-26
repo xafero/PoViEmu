@@ -9,7 +9,7 @@ namespace PoViEmu.SH3.CPU
     public static class ExecTool
     {
         public static (string Output, byte? Return, ChangeList Changes)
-            Execute(byte[] bytes, int maxLimit = 1151, Action<MachineState>? act = null,
+            Execute(byte[] bytes, int maxLimit = 2000, Action<MachineState>? act = null,
                 Action<XInstruction, MachineState>? beforeExec = null)
         {
             var c = new SH7291();
