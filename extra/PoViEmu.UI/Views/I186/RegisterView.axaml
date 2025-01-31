@@ -1,0 +1,358 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i186="clr-namespace:FunDesk.ViewModels.I186"
+             xmlns:tools="clr-namespace:FunDesk.Tools" 
+             mc:Ignorable="d" d:DesignWidth="340" d:DesignHeight="405"
+             x:Class="FunDesk.Views.I186.RegisterView"
+             x:DataType="i186:RegisterViewModel"
+             Loaded="Control_OnLoaded">
+
+    <UserControl.Resources>
+        <tools:HexStrConverter x:Key="Hex" />
+    </UserControl.Resources>
+    
+    <UserControl.Styles>
+        <Style Selector="Label.l">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style Selector="SelectableTextBlock.f">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="{StaticResource Mono}"/>
+        </Style>
+        <Style Selector="Border.b">
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="Margin" Value="3" />
+            <Setter Property="Padding" Value="5" />
+        </Style>
+    </UserControl.Styles>
+    
+    <Design.DataContext>
+        <i186:RegisterViewModel />
+    </Design.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        
+        <Label Classes="l" Grid.Row="0" Grid.Column="0" Content="AX" />
+        <Border Classes="b" Grid.Row="0" Grid.Column="1">
+            <SelectableTextBlock Classes="f" 
+                                 Text="{Binding Path=State.AX, 
+                                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="1" Grid.Column="0" Content="BX" />
+        <Border Classes="b" Grid.Row="1" Grid.Column="1">
+            <SelectableTextBlock Classes="f" 
+                                 Text="{Binding Path=State.BX,
+                                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="2" Grid.Column="0" Content="CX" />
+        <Border Classes="b" Grid.Row="2" Grid.Column="1">
+            <SelectableTextBlock Classes="f"
+                                 Text="{Binding Path=State.CX,
+                                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="3" Grid.Column="0" Content="DX" />
+        <Border Classes="b" Grid.Row="3" Grid.Column="1">
+            <SelectableTextBlock Classes="f" 
+                     Text="{Binding Path=State.DX,
+                     Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="4" Grid.Column="0" Content="SI" />
+        <Border Classes="b" Grid.Row="4" Grid.Column="1"> 
+            <SelectableTextBlock Classes="f"
+                     Text="{Binding Path=State.SI,
+                     Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="5" Grid.Column="0" Content="DI" />
+        <Border Classes="b" Grid.Row="5" Grid.Column="1"> 
+            <SelectableTextBlock Classes="f"
+                     Text="{Binding Path=State.DI,
+                     Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="6" Grid.Column="0" Content="DS" />
+        <Border Classes="b" Grid.Row="6" Grid.Column="1"> 
+            <SelectableTextBlock Classes="f"
+                 Text="{Binding Path=State.DS,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="7" Grid.Column="0" Content="ES" />
+        <Border Classes="b" Grid.Row="7" Grid.Column="1"> 
+        <SelectableTextBlock Classes="f"
+                    Text="{Binding Path=State.ES,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="8" Grid.Column="0" Content="SS" />
+        <Border Classes="b" Grid.Row="8" Grid.Column="1"> 
+        <SelectableTextBlock Classes="f"
+                    Text="{Binding Path=State.SS,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+
+        <Label Classes="l" Grid.Row="9" Grid.Column="0" Content="SP" />
+        <Border Classes="b" Grid.Row="9" Grid.Column="1"> 
+        <SelectableTextBlock Classes="f"
+                    Text="{Binding Path=State.SP,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="10" Grid.Column="0" Content="BP" />
+        <Border Classes="b" Grid.Row="10" Grid.Column="1"> 
+        <SelectableTextBlock Classes="f"
+                    Text="{Binding Path=State.BP,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="9" Grid.Column="2" Content="CS" />
+        <Border Classes="b" Grid.Row="9" Grid.Column="3"> 
+        <SelectableTextBlock Classes="f"
+                    Text="{Binding Path=State.CS,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="10" Grid.Column="2" Content="IP" />
+        <Border Classes="b" Grid.Row="10" Grid.Column="3"> 
+        <SelectableTextBlock Classes="f"
+                Text="{Binding Path=State.IP,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="0" Grid.Column="2" Content="CF" />
+        <Border Classes="b" Grid.Row="0" Grid.Column="3"> 
+        <SelectableTextBlock Classes="f"
+                    Text="{Binding Path=State.CF,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="1" Grid.Column="2" Content="ZF" />
+        <Border Classes="b" Grid.Row="1" Grid.Column="3"> 
+        <SelectableTextBlock Classes="f"
+                    Text="{Binding Path=State.ZF,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="2" Grid.Column="2" Content="SF" />
+        <Border Classes="b" Grid.Row="2" Grid.Column="3"> 
+        <SelectableTextBlock Classes="f"
+                    Text="{Binding Path=State.SF,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="3" Grid.Column="2" Content="DF" />
+        <Border Classes="b" Grid.Row="3" Grid.Column="3"> 
+        <SelectableTextBlock Classes="f"
+                    Text="{Binding Path=State.DF,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="4" Grid.Column="2" Content="IF" />
+        <Border Classes="b" Grid.Row="4" Grid.Column="3"> 
+        <SelectableTextBlock Classes="f"
+                    Text="{Binding Path=State.IF,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="5" Grid.Column="2" Content="OF" />
+        <Border Classes="b" Grid.Row="5" Grid.Column="3"> 
+        <SelectableTextBlock Classes="f"
+                    Text="{Binding Path=State.OF,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="6" Grid.Column="2" Content="PF" />
+        <Border Classes="b" Grid.Row="6" Grid.Column="3"> 
+        <SelectableTextBlock Classes="f"
+                Text="{Binding Path=State.PF,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="7" Grid.Column="2" Content="AF" />
+        <Border Classes="b" Grid.Row="7" Grid.Column="3"> 
+        <SelectableTextBlock Classes="f"
+                    Text="{Binding Path=State.AF,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="8" Grid.Column="2" Content="TF" />
+        <Border Classes="b" Grid.Row="8" Grid.Column="3"> 
+        <SelectableTextBlock Classes="f"
+                    Text="{Binding Path=State.TF,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="0" Grid.Column="4" Content="F" />
+        <Border Classes="b" Grid.Row="0" Grid.Column="5"> 
+        <SelectableTextBlock Classes="f"
+                    Text="{Binding Path=State.F,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="1" Grid.Column="4" Content="Bk0" />
+        <Border Classes="b" Grid.Row="1" Grid.Column="5"> 
+        <SelectableTextBlock Classes="f"
+                    Text="{Binding Path=State.Bk0,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="2" Grid.Column="4" Content="Bk1" />
+        <Border Classes="b" Grid.Row="2" Grid.Column="5"> 
+        <SelectableTextBlock Classes="f"
+                    Text="{Binding Path=State.Bk1,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="3" Grid.Column="4" Content="Bk2" />
+        <Border Classes="b" Grid.Row="3" Grid.Column="5"> 
+        <SelectableTextBlock Classes="f"
+                    Text="{Binding Path=State.Bk2,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+
+        <Label Classes="l" Grid.Row="4" Grid.Column="4" Content="Bk3" />
+        <Border Classes="b" Grid.Row="4" Grid.Column="5"> 
+        <SelectableTextBlock Classes="f"
+                    Text="{Binding Path=State.Bk3,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="5" Grid.Column="4" Content="Bk4" />
+        <Border Classes="b" Grid.Row="5" Grid.Column="5"> 
+        <SelectableTextBlock Classes="f"
+                Text="{Binding Path=State.Bk4,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="6" Grid.Column="4" Content="Bk5" />
+        <Border Classes="b" Grid.Row="6" Grid.Column="5"> 
+        <SelectableTextBlock Classes="f" 
+                Text="{Binding Path=State.Bk5,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="7" Grid.Column="4" Content="Bk6" />
+        <Border Classes="b" Grid.Row="7" Grid.Column="5"> 
+        <SelectableTextBlock Classes="f"
+                    Text="{Binding Path=State.Bk6,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="8" Grid.Column="4" Content="Fr0" />
+        <Border Classes="b" Grid.Row="8" Grid.Column="5"> 
+        <SelectableTextBlock Classes="f" 
+                    Text="{Binding Path=State.Fr0,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="9" Grid.Column="4" Content="Fr1" />
+        <Border Classes="b" Grid.Row="9" Grid.Column="5"> 
+        <SelectableTextBlock Classes="f"
+                Text="{Binding Path=State.Fr1,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="10" Grid.Column="4" Content="Fr2" />
+        <Border Classes="b" Grid.Row="10" Grid.Column="5"> 
+        <SelectableTextBlock Classes="f"
+                Text="{Binding Path=State.Fr2,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="0" Grid.Column="6" Content="Fr3" />
+        <Border Classes="b" Grid.Row="0" Grid.Column="7"> 
+        <SelectableTextBlock Classes="f"
+                Text="{Binding Path=State.Fr3,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="1" Grid.Column="6" Content="Fr4" />
+        <Border Classes="b" Grid.Row="1" Grid.Column="7"> 
+        <SelectableTextBlock Classes="f"
+                 Text="{Binding Path=State.Fr4,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="2" Grid.Column="6" Content="Fr5" />
+        <Border Classes="b" Grid.Row="2" Grid.Column="7"> 
+        <SelectableTextBlock Classes="f"
+                 Text="{Binding Path=State.Fr5,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="3" Grid.Column="6" Content="Fr6" />
+        <Border Classes="b" Grid.Row="3" Grid.Column="7"> 
+        <SelectableTextBlock Classes="f"
+                 Text="{Binding Path=State.Fr6,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+
+        <Label Classes="l" Grid.Row="4" Grid.Column="6" Content="Fr7" />
+        <Border Classes="b" Grid.Row="4" Grid.Column="7"> 
+        <SelectableTextBlock Classes="f"
+                 Text="{Binding Path=State.Fr7,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+
+        <Label Classes="l" Grid.Row="5" Grid.Column="6" Content="Fr8" />
+        <Border Classes="b" Grid.Row="5" Grid.Column="7"> 
+        <SelectableTextBlock Classes="f"
+                 Text="{Binding Path=State.Fr8,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="6" Grid.Column="6" Content="Fr9" />
+        <Border Classes="b" Grid.Row="6" Grid.Column="7"> 
+        <SelectableTextBlock Classes="f"
+                 Text="{Binding Path=State.Fr9,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+
+        <Label Classes="l" Grid.Row="7" Grid.Column="6" Content="Fr10" />
+        <Border Classes="b" Grid.Row="7" Grid.Column="7"> 
+        <SelectableTextBlock Classes="f"
+                 Text="{Binding Path=State.Fr10,
+                 Converter={StaticResource Hex}}" />
+        </Border>
+        
+        <Label Classes="l" Grid.Row="8" Grid.Column="6" Content="Fr11" />
+        <Border Classes="b" Grid.Row="8" Grid.Column="7"> 
+        <SelectableTextBlock Classes="f" 
+                Text="{Binding Path=State.Fr11,
+                Converter={StaticResource Hex}}" />
+        </Border>
+    </Grid>
+    
+</UserControl>
