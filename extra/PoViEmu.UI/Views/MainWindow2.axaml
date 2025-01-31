@@ -1,6 +1,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:FunDesk.ViewModels"
+        xmlns:vm2="using:PoViEmu.UI.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:sh3="clr-namespace:FunDesk.Views.SH3"
@@ -9,13 +10,13 @@
         d:DesignWidth="1200" d:DesignHeight="450"
         Width="1200" Height="450"
         x:Class="FunDesk.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
+        x:DataType="vm2:MainViewModel"
         Icon="/Assets/app-logo.ico"
         Title="Experimental"
         Loaded="Control_OnLoaded">
 
     <Design.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm2:MainViewModel/>
     </Design.DataContext>
 
     <Grid>
