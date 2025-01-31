@@ -1,8 +1,8 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using FunDesk.ViewModels.I186;
+using PoViEmu.UI.ViewModels.I186;
 
-namespace FunDesk.Views.I186
+namespace PoViEmu.UI.Views.I186
 {
     public partial class RegisterView : UserControl
     {

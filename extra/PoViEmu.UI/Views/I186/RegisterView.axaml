@@ -2,10 +2,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:i186="clr-namespace:FunDesk.ViewModels.I186"
-             xmlns:tools="clr-namespace:FunDesk.Tools" 
+             xmlns:i186="clr-namespace:PoViEmu.UI.ViewModels.I186"
+             xmlns:tools="clr-namespace:PoViEmu.UI.Tools" 
              mc:Ignorable="d" d:DesignWidth="340" d:DesignHeight="405"
-             x:Class="FunDesk.Views.I186.RegisterView"
+             x:Class="PoViEmu.UI.Views.I186.RegisterView"
              x:DataType="i186:RegisterViewModel"
              Loaded="Control_OnLoaded">
 

@@ -6,7 +6,7 @@ using Avalonia;
 using Avalonia.Data.Converters;
 using Conv = System.Convert;
 
-namespace FunDesk.Tools
+namespace PoViEmu.UI.Tools
 {
     public sealed class HexStrConverter : IValueConverter, IMultiValueConverter
     {

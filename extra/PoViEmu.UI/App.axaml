@@ -15,7 +15,7 @@
 
     <Application.Resources>
         <FontFamily x:Key="MonoR">avares://PoViEmu.UI/Assets/Fonts#Roboto Mono</FontFamily>
-        <FontFamily x:Key="MonoF">avares://FunDesk/Assets/Fonts#Fira Code Regular</FontFamily>
+        <FontFamily x:Key="MonoF">avares://PoViEmu.UI/Assets/Fonts#Fira Code Regular</FontFamily>
     </Application.Resources>
 
 </Application>

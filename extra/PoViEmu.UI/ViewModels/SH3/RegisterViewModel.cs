@@ -2,7 +2,7 @@
 using PoViEmu.UI.ViewModels;
 using MachineStateSH3 = PoViEmu.SH3.CPU.MachineState;
 
-namespace FunDesk.ViewModels.SH3
+namespace PoViEmu.UI.ViewModels.SH3
 {
     public partial class RegisterViewModel : ViewModelBase
     {

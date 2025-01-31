@@ -22,7 +22,7 @@
         </HeaderedContentControl.Header>
         <StackPanel>
             <StackPanel>
-                <Label FontFamily="{StaticResource MonoFont}"
+                <Label FontFamily="{StaticResource MonoR}"
                        FontSize="{StaticResource TabItemHeaderFontSize}"
                        HorizontalAlignment="Center" Content="{Binding CpuTime}" />
             </StackPanel>

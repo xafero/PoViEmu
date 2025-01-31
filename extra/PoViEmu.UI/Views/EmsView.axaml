@@ -26,7 +26,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <ItemsControl Grid.Row="0" Grid.Column="0"
-                          FontFamily="{StaticResource MonoFont}"
+                          FontFamily="{StaticResource MonoR}"
                           ItemsSource="{Binding BnkLines}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="m:ShortLine">
@@ -41,7 +41,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
             <ItemsControl Grid.Row="0" Grid.Column="1"
-                          FontFamily="{StaticResource MonoFont}"
+                          FontFamily="{StaticResource MonoR}"
                           ItemsSource="{Binding FraLines}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="m:ShortLine">

@@ -17,7 +17,7 @@
     <TabControl Margin="10" HorizontalContentAlignment="Center">
         <TabItem Header="AddIns">
             <DataGrid ItemsSource="{Binding AddIn}"
-                      FontFamily="{StaticResource MonoFont}"
+                      FontFamily="{StaticResource MonoR}"
                       IsReadOnly="True" GridLinesVisibility="All"
                       CanUserResizeColumns="True" CellPointerPressed="OnCellPointerPressed">
                 <DataGrid.Columns>
@@ -38,7 +38,7 @@
         </TabItem>
         <TabItem Header="System">
             <DataGrid ItemsSource="{Binding System}"
-                      FontFamily="{StaticResource MonoFont}"
+                      FontFamily="{StaticResource MonoR}"
                       IsReadOnly="True" GridLinesVisibility="All"
                       CanUserResizeColumns="True" CellPointerPressed="OnCellPointerPressed">
                 <DataGrid.Columns>
@@ -52,7 +52,7 @@
         </TabItem>
         <TabItem Header="Bios">
             <DataGrid ItemsSource="{Binding Bios}"
-                      FontFamily="{StaticResource MonoFont}"
+                      FontFamily="{StaticResource MonoR}"
                       IsReadOnly="True" GridLinesVisibility="All"
                       CanUserResizeColumns="True" CellPointerPressed="OnCellPointerPressed">
                 <DataGrid.Columns>

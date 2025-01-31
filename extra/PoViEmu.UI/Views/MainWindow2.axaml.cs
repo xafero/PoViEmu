@@ -4,7 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using PoViEmu.Base;
 
-namespace FunDesk.Views
+namespace PoViEmu.UI.Views2
 {
     public partial class MainWindow : Window
     {

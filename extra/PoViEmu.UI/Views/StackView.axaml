@@ -20,7 +20,7 @@
             </Border>
         </HeaderedContentControl.Header>
         <DataGrid ItemsSource="{Binding Stack}"
-                  FontFamily="{StaticResource MonoFont}"
+                  FontFamily="{StaticResource MonoR}"
                   IsReadOnly="True" GridLinesVisibility="All"
                   HorizontalAlignment="Center">
             <DataGrid.Columns>
