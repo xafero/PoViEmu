@@ -25,6 +25,10 @@
         <Style Selector="TextBlock.t">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+        <Style Selector="ListBox.w">
+            <Setter Property="Background" Value="White"/>
         </Style>
     </UserControl.Styles>
     
@@ -41,12 +45,12 @@
         <Border Grid.Row="0" Grid.Column="2" Classes="b">
             <Label Classes="l">Text</Label>
         </Border>
-       
+
         <RefreshContainer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" 
                           PullDirection="TopToBottom" 
                           FontFamily="{StaticResource MonoR}"
                           RefreshRequested="RefreshContainer_OnRefreshRequested">
-            <ListBox ItemsSource="{Binding Lines}">
+            <ListBox Classes="w" ItemsSource="{Binding Lines}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid ColumnDefinitions="2*,3*,2*">
