@@ -2,11 +2,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:i186="clr-namespace:PoViEmu.UI.ViewModels.I186"
-             xmlns:tools="clr-namespace:PoViEmu.UI.Tools" 
+             xmlns:tools="clr-namespace:PoViEmu.UI.Tools"
+             xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
              mc:Ignorable="d" d:DesignWidth="340" d:DesignHeight="405"
-             x:Class="PoViEmu.UI.Views.I186.RegisterView"
-             x:DataType="i186:RegisterViewModel"
+             x:Class="PoViEmu.UI.Views.RegIntView"
+             x:DataType="vm:RegIntViewModel"
              Loaded="Control_OnLoaded">
 
     <UserControl.Resources>
@@ -32,7 +32,7 @@
     </UserControl.Styles>
     
     <Design.DataContext>
-        <i186:RegisterViewModel />
+        <vm:RegIntViewModel />
     </Design.DataContext>
 
     <Grid>

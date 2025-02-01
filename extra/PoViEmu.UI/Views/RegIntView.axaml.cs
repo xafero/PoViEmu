@@ -1,19 +1,19 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using PoViEmu.UI.ViewModels.SH3;
+using PoViEmu.UI.ViewModels;
 
-namespace PoViEmu.UI.Views.SH3
+namespace PoViEmu.UI.Views
 {
-    public partial class RegisterView : UserControl
+    public partial class RegIntView : UserControl
     {
-        public RegisterView()
+        public RegIntView()
         {
             InitializeComponent();
         }
 
         private void Control_OnLoaded(object? sender, RoutedEventArgs e)
         {
-            DataContext = new RegisterViewModel();
+            DataContext = new RegIntViewModel();
         }
     }
 }
