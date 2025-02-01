@@ -1,0 +1,16 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:PoViEmu.UI.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:PoViEmu.UI.Views"
+        mc:Ignorable="d" 
+        d:DesignWidth="600" d:DesignHeight="500"
+        Width="600" Height="500"
+        x:Class="PoViEmu.UI.Views.MainWindow"
+        Icon="/Assets/app-logo.ico"
+        Title="PoViEmu">
+        
+        <views:MainView />
+        
+</Window>

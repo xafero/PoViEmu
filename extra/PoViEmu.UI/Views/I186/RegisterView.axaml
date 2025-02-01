@@ -21,7 +21,7 @@
         <Style Selector="SelectableTextBlock.f">
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="FontFamily" Value="{StaticResource Mono}"/>
+            <Setter Property="FontFamily" Value="{StaticResource MonoR}"/>
         </Style>
         <Style Selector="Border.b">
             <Setter Property="BorderThickness" Value="1" />

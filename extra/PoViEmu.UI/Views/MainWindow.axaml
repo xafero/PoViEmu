@@ -3,14 +3,32 @@
         xmlns:vm="using:PoViEmu.UI.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:views="clr-namespace:PoViEmu.UI.Views"
+        xmlns:sh3="clr-namespace:PoViEmu.UI.Views.SH3"
+        xmlns:i86="clr-namespace:PoViEmu.UI.Views.I186"
         mc:Ignorable="d" 
-        d:DesignWidth="600" d:DesignHeight="500"
-        Width="600" Height="500"
+        d:DesignWidth="1200" d:DesignHeight="450"
+        Width="1200" Height="450"
         x:Class="PoViEmu.UI.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
         Icon="/Assets/app-logo.ico"
-        Title="PoViEmu">
-        
-        <views:MainView />
-        
+        Title="Experimental"
+        Loaded="Control_OnLoaded">
+
+    <Design.DataContext>
+        <vm:MainViewModel/>
+    </Design.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <sh3:RegisterView Grid.Row="0" Grid.Column="0"
+                          HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <i86:RegisterView Grid.Row="0" Grid.Column="1"
+                          HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <GridSplitter Grid.Row="0" Grid.Column="0" Width="15" 
+                      HorizontalAlignment="Right" VerticalAlignment="Stretch" />
+    </Grid>
+    
 </Window>
