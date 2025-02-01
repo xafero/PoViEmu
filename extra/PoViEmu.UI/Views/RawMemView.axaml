@@ -25,7 +25,7 @@
         <Style Selector="TextBlock.t">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontWeight" Value="Black" />
         </Style>
         <Style Selector="ListBox.w">
             <Setter Property="Background" Value="White"/>

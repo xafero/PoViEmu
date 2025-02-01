@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using PoViEmu.UI.ViewModels;
 using MachineStateSH3 = PoViEmu.SH3.CPU.MachineState;
 
 namespace PoViEmu.UI.ViewModels
