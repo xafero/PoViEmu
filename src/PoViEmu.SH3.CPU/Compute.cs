@@ -485,7 +485,7 @@ namespace PoViEmu.SH3.CPU
             int src;
 
             var tempn = (uint)(n[s] );
-            int tempm = (int)(m[s] );
+            var tempm = (int)(m[s] );
 
             var templ = s.MACL;
 

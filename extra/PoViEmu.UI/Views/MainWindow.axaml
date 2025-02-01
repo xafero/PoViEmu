@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:sh3="clr-namespace:PoViEmu.UI.Views.SH3"
         xmlns:i86="clr-namespace:PoViEmu.UI.Views.I186"
+        xmlns:views="clr-namespace:PoViEmu.UI.Views"
         mc:Ignorable="d" 
         d:DesignWidth="1200" d:DesignHeight="450"
         Width="1200" Height="450"
@@ -18,17 +19,19 @@
         <vm:MainViewModel/>
     </Design.DataContext>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+    <Grid ColumnDefinitions="*, 4, *">
+        <!-- 
         <sh3:RegisterView Grid.Row="0" Grid.Column="0"
                           HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <i86:RegisterView Grid.Row="0" Grid.Column="1"
+        -->
+        <views:RawMemView Grid.Row="0" Grid.Column="0" />
+        <GridSplitter Grid.Row="0" Grid.Column="1" Width="10"
+                      Background="Black" ResizeDirection="Columns" />
+        <!-- 
+        <i86:RegisterView Grid.Row="0" Grid.Column="2"
                           HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <GridSplitter Grid.Row="0" Grid.Column="0" Width="15" 
-                      HorizontalAlignment="Right" VerticalAlignment="Stretch" />
+        -->
+        <views:UnassView Grid.Row="0" Grid.Column="2" />
     </Grid>
     
 </Window>
