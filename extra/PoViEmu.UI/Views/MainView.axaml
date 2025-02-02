@@ -16,17 +16,17 @@
 
     <Grid ColumnDefinitions="*, 4, *"
           RowDefinitions="*,*">
-        <views:RegHitView Grid.Row="0" Grid.Column="0"
-                          HorizontalAlignment="Center" 
-                          VerticalAlignment="Center" />
+        <views:RegIntView Grid.Row="0" Grid.Column="0"
+                          HorizontalAlignment="Center" VerticalAlignment="Center" 
+                          State="{Binding StateI86}"/>
         <views:RawMemView Grid.Row="1" Grid.Column="0" 
                           State="{Binding StateI86}"/>
         <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
                       Width="10" Background="Black" 
                       ResizeDirection="Columns" />
-        <views:RegIntView Grid.Row="0" Grid.Column="2"
-                          HorizontalAlignment="Center" 
-                          VerticalAlignment="Center" />
+        <views:RegHitView Grid.Row="0" Grid.Column="2"
+                          HorizontalAlignment="Center" VerticalAlignment="Center" 
+                          State="{Binding StateSh3}"/>
         <views:RawMemView Grid.Row="1" Grid.Column="2" 
                           State="{Binding StateSh3}"/>
         <!-- <views:UnassView Grid.Row="1" Grid.Column="2" /> -->
