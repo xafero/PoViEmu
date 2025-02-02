@@ -1,19 +1,6 @@
-using PoViEmu.Base;
 using PoViEmu.UI.Models;
 using System.Linq;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.ComponentModel;
-using System.IO;
-using System.Xml.Linq;
-using PoViEmu.Base;
-using PoViEmu.Base.CPU;
-using PoViEmu.Base.ISA;
-using PoViEmu.SH3.ISA.Decoding;
-using DefI = PoViEmu.I186.CPU.Impl.Defaults;
 using DefS = PoViEmu.SH3.CPU.Impl.Defaults;
-using static PoViEmu.Base.FileHelper;
 using MachineStateSH3 = PoViEmu.SH3.CPU.MachineState;
 
 namespace PoViEmu.UI.ViewModels
