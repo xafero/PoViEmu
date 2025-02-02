@@ -59,7 +59,7 @@
                             <TextBlock Grid.Row="0" Grid.Column="1" Classes="t"
                                        Text="{Binding Hex}" />
                             <TextBlock Grid.Row="0" Grid.Column="2" Classes="t" 
-                                       Text="{Binding Txt}" />
+                                       Text="{Binding Text}" />
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

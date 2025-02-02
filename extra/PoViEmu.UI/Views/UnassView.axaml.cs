@@ -18,9 +18,9 @@ namespace PoViEmu.UI.Views
             var model = this.GetContext<UnassViewModel>();
             for (var i = 0; i < 100; i++)
             {
-                model.Lines.Add(new AssemblyLine("001", "2a", "mov ax,1"));
-                model.Lines.Add(new AssemblyLine("003", "3b", "mov 4,bx"));
-                model.Lines.Add(new AssemblyLine("005", "4c", "add cx,13"));
+                model.Lines.Add(new BytesLine("001", "2a", "mov ax,1"));
+                model.Lines.Add(new BytesLine("003", "3b", "mov 4,bx"));
+                model.Lines.Add(new BytesLine("005", "4c", "add cx,13"));
             }
         }
 

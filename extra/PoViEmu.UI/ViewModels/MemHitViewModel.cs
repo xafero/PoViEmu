@@ -2,6 +2,7 @@ using System.Linq;
 using PoViEmu.Base;
 using PoViEmu.UI.Models;
 using MachineStateSH3 = PoViEmu.SH3.CPU.MachineState;
+using StateSH3 = PoViEmu.SH3.CPU.MachineState;
 
 namespace PoViEmu.UI.ViewModels
 {

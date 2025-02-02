@@ -12,7 +12,7 @@ namespace PoViEmu.UI.ViewModels
 {
     public partial class UnassViewModel : ViewModelBase
     {
-        [ObservableProperty] private ObservableCollection<AssemblyLine> _lines = new();
+        [ObservableProperty] private ObservableCollection<BytesLine> _lines = new();
 
         public void Read<T>(ICodeReader<T> reader, int maxCount = 60) where T : IInstruction
         {
@@ -25,7 +25,7 @@ namespace PoViEmu.UI.ViewModels
             var objects = lines.Select(l =>
             {
                 var parts = TextHelper.SplitOn(l, 3);
-                return new AssemblyLine(parts[0], parts[1], parts[2]);
+                return new BytesLine(parts[0], parts[1], parts[2]);
             });
             Lines.Clear();
             Array.ForEach(objects.ToArray(), o => Lines.Add(o));
