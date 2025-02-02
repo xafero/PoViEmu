@@ -1,14 +1,16 @@
+using System;
 using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using PoViEmu.Base;
+using System.IO;
+using System.Linq;
+using PoViEmu.UI.Tools;
 
 namespace PoViEmu.UI.Views
 {
     public partial class MainWindow : Window
     {
-        public Dictionary<string, byte[]> Files = new();
-
         public MainWindow()
         {
             InitializeComponent();
@@ -16,15 +18,6 @@ namespace PoViEmu.UI.Views
 
         private void Control_OnLoaded(object? sender, RoutedEventArgs e)
         {
-            var root = DirHelper.GetCurrentDirectory();
-            /* var folder = DirHelper.GetFullPath(root, "..", "..",
-                "test", "PoViEmu.Tests.CPU", "Resources", "Chimes");
-
-            var sh3Com = Path.Combine(folder, "op_sh3.com");
-            Files["sh3"] = File.ReadAllBytes(sh3Com);
-
-            var x86Com = Path.Combine(folder, "op_x86.com");
-            Files["x86"] = File.ReadAllBytes(x86Com); */
         }
     }
 }
