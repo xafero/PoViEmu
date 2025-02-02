@@ -1,9 +1,9 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using PoViEmu.Base.CPU;
 using PoViEmu.UI.Tools;
 using PoViEmu.UI.ViewModels;
+using Avalonia;
+using PoViEmu.Base.CPU;
 using StateSH3 = PoViEmu.SH3.CPU.MachineState;
 using StateI86 = PoViEmu.I186.CPU.MachineState;
 

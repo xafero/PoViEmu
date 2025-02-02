@@ -19,7 +19,10 @@
         <!-- <views:RegIntView Grid.Row="0" Grid.Column="0"
                           HorizontalAlignment="Center" VerticalAlignment="Center" 
                           State="{Binding StateI86}"/> -->
-        <views:StackView Grid.Row="0" Grid.Column="0"
+        <!-- <views:StackView Grid.Row="0" Grid.Column="0"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+                         State="{Binding StateI86}"/> -->
+        <views:UnassView Grid.Row="0" Grid.Column="0"
                          HorizontalAlignment="Stretch" VerticalAlignment="Center" 
                          State="{Binding StateI86}"/>
         <views:RawMemView Grid.Row="1" Grid.Column="0" 
@@ -30,9 +33,12 @@
         <!-- <views:RegHitView Grid.Row="0" Grid.Column="2"
                           HorizontalAlignment="Center" VerticalAlignment="Center" 
                           State="{Binding StateSh3}"/> -->
-        <views:StackView Grid.Row="0" Grid.Column="2"
+        <!-- <views:StackView Grid.Row="0" Grid.Column="2"
                          HorizontalAlignment="Stretch" VerticalAlignment="Center" 
-                          State="{Binding StateSh3}"/>
+                          State="{Binding StateSh3}"/> -->
+        <views:UnassView Grid.Row="0" Grid.Column="2"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+                         State="{Binding StateSh3}"/>
         <views:RawMemView Grid.Row="1" Grid.Column="2" 
                           State="{Binding StateSh3}"/>
         <!-- <views:UnassView Grid.Row="1" Grid.Column="2" /> -->

@@ -1,13 +1,25 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using PoViEmu.UI.Models;
 using PoViEmu.UI.Tools;
 using PoViEmu.UI.ViewModels;
+using Avalonia;
+using PoViEmu.Base.CPU;
+using StateSH3 = PoViEmu.SH3.CPU.MachineState;
+using StateI86 = PoViEmu.I186.CPU.MachineState;
 
 namespace PoViEmu.UI.Views
 {
     public partial class UnassView : UserControl
     {
+        public static readonly StyledProperty<IState?> StateProperty =
+            AvaloniaProperty.Register<UnassView, IState?>(nameof(State));
+
+        public IState? State
+        {
+            get => GetValue(StateProperty);
+            set => SetValue(StateProperty, value);
+        }
+
         public UnassView()
         {
             InitializeComponent();
@@ -15,12 +27,20 @@ namespace PoViEmu.UI.Views
 
         private void Control_OnLoaded(object? sender, RoutedEventArgs e)
         {
-            var model = this.GetContext<UnassViewModel>();
-            for (var i = 0; i < 100; i++)
+            switch (State ?? Defaults.StateI86)
             {
-                model.Lines.Add(new BytesLine("001", "2a", "mov ax,1"));
-                model.Lines.Add(new BytesLine("003", "3b", "mov 4,bx"));
-                model.Lines.Add(new BytesLine("005", "4c", "add cx,13"));
+                case StateI86 x86:
+                {
+                    var model = this.GetContext<UnassIntViewModel>();
+                    model.Read(x86);
+                    break;
+                }
+                case StateSH3 sh3:
+                {
+                    var model = this.GetContext<UnassHitViewModel>();
+                    model.Read(sh3);
+                    break;
+                }
             }
         }
 
