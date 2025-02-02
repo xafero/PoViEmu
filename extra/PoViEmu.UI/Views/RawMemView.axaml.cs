@@ -15,12 +15,12 @@ namespace PoViEmu.UI.Views
 
         private void Control_OnLoaded(object? sender, RoutedEventArgs e)
         {
-            var model = this.GetContext<RawMemViewModel>();
+            var model = this.GetContext<MemIntViewModel>();
             var state = Defaults.StateI86;
             var seg = state.DS;
             var off = state.SI;
             var bytes = state.ReadMemory(seg, off, 512);
-            model.Read(off, bytes.ToArray());
+            model.Read(seg, off, bytes.ToArray());
         }
 
         private void RefreshContainer_OnRefreshRequested(object? sender, RefreshRequestedEventArgs e)

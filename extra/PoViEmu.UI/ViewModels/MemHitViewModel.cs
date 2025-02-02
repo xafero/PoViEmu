@@ -1,22 +1,18 @@
-using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
-using PoViEmu.UI.Models;
 using PoViEmu.Base;
+using PoViEmu.UI.Models;
 
 namespace PoViEmu.UI.ViewModels
 {
-    public partial class RawMemViewModel : ViewModelBase
+    public class MemHitViewModel : MemViewModel
     {
-        [ObservableProperty] private ObservableCollection<BytesLine> _lines = new();
-
-        public void Read(ushort offset, byte[] bytes, int lineSize = 16)
+        public void Read(uint offset, byte[] bytes, int lineSize = 16)
         {
             Lines.Clear();
             foreach (var oneArray in bytes.SplitEvery(lineSize))
             {
                 var txt = oneArray.DecodeChars();
                 var hex = oneArray.ToHex(false, true);
-                var off = $"{offset:X4}";
+                var off = $"{offset:X8}";
                 Lines.Add(new BytesLine(off, hex, txt));
                 offset = (ushort)(offset + oneArray.Length);
             }
