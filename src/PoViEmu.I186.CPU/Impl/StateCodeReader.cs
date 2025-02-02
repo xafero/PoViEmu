@@ -12,15 +12,15 @@ namespace PoViEmu.I186.CPU.Impl
     internal sealed class StateCodeReader : CodeReader, ICodeReader<XInstruction>
     {
         private const int MaxLength = 15;
-        private readonly MachineState _parent;
+        private readonly ICodeState _parent;
         private readonly List<byte> _bytes = [];
 
-        public StateCodeReader(MachineState parent)
+        public StateCodeReader(ICodeState parent)
         {
             _parent = parent;
         }
 
-        private static IEnumerable<byte> ReadBlock(MachineState m, ushort? oIp)
+        private static IEnumerable<byte> ReadBlock(ICodeState m, ushort? oIp)
         {
             var cs = m.CS;
             var ip = oIp ?? m.IP;

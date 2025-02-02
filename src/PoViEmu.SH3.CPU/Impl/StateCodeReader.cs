@@ -13,22 +13,22 @@ namespace PoViEmu.SH3.CPU.Impl
     internal sealed class StateCodeReader : IByteReader, ICodeReader<XInstruction>
     {
         private const int MaxLength = 7;
-        private readonly MachineState _parent;
+        private readonly ICodeState _parent;
         private readonly List<byte> _bytes = [];
 
-        public StateCodeReader(MachineState parent)
+        public StateCodeReader(ICodeState parent)
         {
             _parent = parent;
         }
 
-        private static uint GetPC(MachineState m)
+        private static uint GetPC(ICodeState m)
         {
             if (m.dPC is { } dPc)
                 return dPc;
             return m.PC;
         }
 
-        private static IEnumerable<byte> ReadBlock(MachineState m, uint? oIp)
+        private static IEnumerable<byte> ReadBlock(ICodeState m, uint? oIp)
         {
             var ip = oIp ?? GetPC(m);
             return m.ReadMemory(ip, MaxLength);

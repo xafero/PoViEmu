@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using PoViEmu.Base;
 using PoViEmu.Base.CPU;
 using PoViEmu.Base.ISA;
+using PoViEmu.SH3.CPU.Impl;
 using PoViEmu.SH3.ISA;
 using PoViEmu.SH3.ISA.Ops.Regs;
 using static PoViEmu.SH3.CPU.SegTool;
@@ -17,7 +18,7 @@ using Fl = PoViEmu.SH3.ISA.Flagged;
 namespace PoViEmu.SH3.CPU
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public sealed class MachineState : IMachineState, IState,
+    public sealed class MachineState : IMachineState, IState, ICodeState,
         IFlatMemAccess<byte>, IFlatMemAccess<ushort>, IFlatMemAccess<uint>,
         IFlatMemAccess<byte[]>, IFlatMemAccess<ushort[]>, IFlatMemAccess<uint[]>
     {

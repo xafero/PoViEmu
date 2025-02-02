@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using PoViEmu.Base.CPU;
 using PoViEmu.Base.ISA;
+using PoViEmu.I186.CPU.Impl;
 using PoViEmu.I186.ISA;
 using PoViEmu.I186.ISA.Ops.Regs;
 using static PoViEmu.I186.CPU.SegTool;
@@ -17,7 +18,7 @@ using Fl = PoViEmu.I186.ISA.Flagged;
 namespace PoViEmu.I186.CPU
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public sealed class MachineState : IMachineState, IState,
+    public sealed class MachineState : IMachineState, IState, ICodeState,
         IMemAccess<byte>, IMemAccess<ushort>, IMemAccess<byte[]>, IMemAccess<ushort[]>
     {
         #region Data group
