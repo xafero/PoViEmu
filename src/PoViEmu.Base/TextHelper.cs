@@ -41,7 +41,13 @@ namespace PoViEmu.Base
                 yield return bld.ToString();
             }
         }
-        
+
+        public static string[] SplitOn(string l, int count)
+        {
+            var opt = StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries;
+            return l.Split(' ', count, opt);
+        }
+
         public static string ToText(string file)
         {
             var txt = File.ReadAllText(file, Encoding.UTF8);
