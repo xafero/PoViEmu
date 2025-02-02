@@ -12,7 +12,7 @@ namespace PoViEmu.UI.ViewModels
             Lines.Clear();
             foreach (var oneArray in bytes.SplitEvery(lineSize))
             {
-                var hex = oneArray.ToHex(false, true);
+                var hex = oneArray.ToHex(false).ToLower();
                 var off = $"{offset:X8}";
                 Lines.Add(new BytesLine(off, hex));
                 offset = (ushort)(offset + oneArray.Length);
