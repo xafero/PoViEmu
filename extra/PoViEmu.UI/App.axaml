@@ -1,11 +1,12 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:PoViEmu.UI"
+             xmlns:tools="clr-namespace:PoViEmu.UI.Tools"
              x:Class="PoViEmu.UI.App"
              RequestedThemeVariant="Default">
 
     <Application.DataTemplates>
-        <local:ViewLocator />
+        <tools:ViewLocator />
     </Application.DataTemplates>
 
     <Application.Styles>

@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using PoViEmu.UI.ViewModels;
 
-namespace PoViEmu.UI
+namespace PoViEmu.UI.Tools
 {
     public class ViewLocator : IDataTemplate
     {
