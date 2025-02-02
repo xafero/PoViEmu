@@ -27,16 +27,16 @@ namespace PoViEmu.UI
             }
             else if (ApplicationLifetime is ISingleViewApplicationLifetime mobile)
             {
-                /*mobile.MainView = new MainView
+                mobile.MainView = new MainView
                 {
                     DataContext = new MainViewModel()
-                };*/ // TODO
+                };
             }
 
             base.OnFrameworkInitializationCompleted();
         }
 
-        private void DisableAvaloniaDataAnnotationValidation()
+        private static void DisableAvaloniaDataAnnotationValidation()
         {
             var dataValidationPluginsToRemove =
                 BindingPlugins.DataValidators.OfType<DataAnnotationsValidationPlugin>().ToArray();
