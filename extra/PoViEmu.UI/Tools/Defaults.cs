@@ -21,8 +21,7 @@ namespace PoViEmu.UI.Tools
                 IF = true, IP = 0x43, SS = 0x44, TF = true,
                 PF = true, ZF = true
             };
-            var bI = GetBytes();
-            stateI86.WriteMemory(stateI86.DS, bI.offset, bI.bytes);
+            stateI86.WriteMemory(stateI86.DS, stateI86.SI, GetDataBytes());
             stateI86.WriteMemory(stateI86.CS, stateI86.IP, GetX86Com());
             StateI86 = stateI86;
 
@@ -38,8 +37,7 @@ namespace PoViEmu.UI.Tools
                 BL = true, SSR = 0x40, dPC = 0x41, GBR = 0x42, RB = true,
                 SPC = 0x43, VBR = 0x44, MACH = 0x45, MACL = 0x46
             };
-            var bS = GetBytes();
-            stateSh3.WriteMemory(bS.offset, bS.bytes);
+            stateSh3.WriteMemory(stateSh3.R15, GetDataBytes());
             stateSh3.WriteMemory(stateSh3.PC, GetSh3Com());
             StateSh3 = stateSh3;
         }
@@ -48,9 +46,8 @@ namespace PoViEmu.UI.Tools
 
         public static MachineStateI86 StateI86 { get; }
 
-        private static (ushort offset, byte[] bytes) GetBytes()
+        private static byte[] GetDataBytes()
         {
-            ushort offset = 0xD000;
             byte[] allBytes =
             [
                 0x00, 0xFF, 0x43, 0x41, 0x53, 0x49, 0x4F, 0x03, 0x5A, 0x34, 0x38, 0x36, 0x30, 0x31, 0x30, 0x30, 0x01,
@@ -96,7 +93,7 @@ namespace PoViEmu.UI.Tools
                 0xEB, 0x02, 0x33, 0xC0, 0x89, 0x46, 0xF6, 0x8B, 0x46, 0xFE, 0x3B, 0x46, 0xF8, 0x7D, 0x05, 0xB8, 0x01,
                 0x00, 0xEB, 0x02, 0x33, 0xC0, 0x89, 0x46, 0xF6, 0x8B, 0x46, 0xFE, 0x3B, 0x46, 0xF8
             ];
-            return (offset, allBytes);
+            return allBytes;
         }
 
         private static byte[] GetSh3Com() =>

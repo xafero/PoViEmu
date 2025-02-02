@@ -1,6 +1,6 @@
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using PoViEmu.UI.Models;
 using PoViEmu.UI.Tools;
 using PoViEmu.UI.ViewModels;
 
@@ -16,12 +16,11 @@ namespace PoViEmu.UI.Views
         private void Control_OnLoaded(object? sender, RoutedEventArgs e)
         {
             var model = this.GetContext<RawMemViewModel>();
-            for (var i = 0; i < 100; i++)
-            {
-                model.Lines.Add(new BytesLine("001", "2a", "....rr..df."));
-                model.Lines.Add(new BytesLine("003", "3b", ".s..twqx.z."));
-                model.Lines.Add(new BytesLine("005", "4c", "...123..xx."));
-            }
+            var state = Defaults.StateI86;
+            var seg = state.DS;
+            var off = state.SI;
+            var bytes = state.ReadMemory(seg, off, 512);
+            model.Read(off, bytes.ToArray());
         }
 
         private void RefreshContainer_OnRefreshRequested(object? sender, RefreshRequestedEventArgs e)
