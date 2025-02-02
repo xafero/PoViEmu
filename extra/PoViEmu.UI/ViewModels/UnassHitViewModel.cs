@@ -1,24 +1,35 @@
 using PoViEmu.UI.Models;
 using System.Linq;
+using System.Reflection;
+using PoViEmu.Base.CPU;
+using InstrS = PoViEmu.SH3.ISA.Decoding.XInstruction;
 using DefS = PoViEmu.SH3.CPU.Impl.Defaults;
-using MachineStateSH3 = PoViEmu.SH3.CPU.MachineState;
+using StateS = PoViEmu.SH3.CPU.MachineState;
 
 namespace PoViEmu.UI.ViewModels
 {
     public class UnassHitViewModel : UnassViewModel
     {
+        private readonly ConstructorInfo _constr;
+
+        public UnassHitViewModel()
+        {
+            var cpuFi = DefS.CpuFactory;
+            var cpuRi = cpuFi.CreateReader(new StateS());
+            _constr = cpuRi.GetType().GetConstructors().Single();
+        }
+
         public void Read(uint offset, byte[] bytes, int count = 25)
         {
             Lines.Clear();
 
-            var cpuFs = DefS.CpuFactory;
-            var m = new MachineStateSH3();
-            var cpuRs = cpuFs.CreateReader(m);
+            var m = new FakeState { PC = offset, dPC = null };
+            var reader = (ICodeReader<InstrS>)_constr.Invoke([m]);
 
             var i = 0;
             while (i <= count)
             {
-                var item = cpuRs.NextInstruction();
+                var item = reader.NextInstruction();
                 var txt = item.ToString().Split("    ", 2).Last().Trim();
                 var hex = item.Bytes;
                 var off = $"{offset:X8}";
@@ -28,7 +39,7 @@ namespace PoViEmu.UI.ViewModels
             }
         }
 
-        public void Read(MachineStateSH3 state)
+        public void Read(StateS state)
         {
             var off = state.PC;
             var bytes = state.ReadMemory(off, 128);
