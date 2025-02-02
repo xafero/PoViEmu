@@ -41,7 +41,6 @@
                          State="{Binding StateSh3}"/>
         <views:RawMemView Grid.Row="1" Grid.Column="2" 
                           State="{Binding StateSh3}"/>
-        <!-- <views:UnassView Grid.Row="1" Grid.Column="2" /> -->
     </Grid>
     
 </UserControl>
