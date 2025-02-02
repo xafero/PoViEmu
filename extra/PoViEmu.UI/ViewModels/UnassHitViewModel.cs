@@ -1,6 +1,7 @@
 using PoViEmu.UI.Models;
-using System.Linq;
 using System.Reflection;
+using System.Linq;
+using PoViEmu.Base;
 using PoViEmu.Base.CPU;
 using InstrS = PoViEmu.SH3.ISA.Decoding.XInstruction;
 using DefS = PoViEmu.SH3.CPU.Impl.Defaults;
@@ -19,22 +20,20 @@ namespace PoViEmu.UI.ViewModels
             _constr = cpuRi.GetType().GetConstructors().Single();
         }
 
-        public void Read(uint offset, byte[] bytes, int count = 25)
+        public void Read(ICodeReader<InstrS> reader, FakeState m, int count = 25)
         {
             Lines.Clear();
-
-            var m = new FakeState { PC = offset, dPC = null };
-            var reader = (ICodeReader<InstrS>)_constr.Invoke([m]);
 
             var i = 0;
             while (i <= count)
             {
                 var item = reader.NextInstruction();
-                var txt = item.ToString().Split("    ", 2).Last().Trim();
-                var hex = item.Bytes;
-                var off = $"{offset:X8}";
-                Lines.Add(new BytesLine(off, hex, txt));
-                offset = (ushort)(offset + (hex.Length / 2));
+                m.PC = (ushort)(m.PC + item.Bytes.Length / 2);
+                var parts = TextHelper.SplitOn(item.ToString(), 3);
+                var addr = $"{parts[0]}";
+                var hex = parts[1];
+                var txt = parts[2].RemoveSpaces();
+                Lines.Add(new BytesLine(addr, hex, txt));
                 i++;
             }
         }
@@ -42,8 +41,10 @@ namespace PoViEmu.UI.ViewModels
         public void Read(StateS state)
         {
             var off = state.PC;
-            var bytes = state.ReadMemory(off, 128);
-            Read(off, bytes.ToArray());
+
+            var m = new FakeState { PC = off, dPC = null, Wrapped = state };
+            var reader = (ICodeReader<InstrS>)_constr.Invoke([m]);
+            Read(reader, m);
         }
     }
 }
