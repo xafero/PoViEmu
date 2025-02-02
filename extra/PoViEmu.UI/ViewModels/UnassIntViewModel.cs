@@ -19,7 +19,7 @@ namespace PoViEmu.UI.ViewModels
             while (i <= count)
             {
                 var item = cpuRi.NextInstruction();
-                var txt = item.ToString();
+                var txt = item.ToString().Split("    ", 2).Last().Trim();
                 var hex = item.Bytes;
                 var off = $"{seg:X4}:{offset:X4}";
                 Lines.Add(new BytesLine(off, hex, txt));

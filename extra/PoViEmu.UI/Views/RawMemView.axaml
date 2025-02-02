@@ -5,7 +5,7 @@
              xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
              mc:Ignorable="d" d:DesignWidth="660" d:DesignHeight="850"
              x:Class="PoViEmu.UI.Views.RawMemView"
-             x:DataType="vm:MemHitViewModel"
+             x:DataType="vm:MemViewModel"
              Loaded="Control_OnLoaded">
 
     <Design.DataContext>
