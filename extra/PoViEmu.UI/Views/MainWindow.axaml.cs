@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using PoViEmu.Base;
-using System.IO;
-using System.Linq;
 using PoViEmu.UI.Tools;
+using PoViEmu.UI.ViewModels;
 
 namespace PoViEmu.UI.Views
 {
@@ -18,6 +14,7 @@ namespace PoViEmu.UI.Views
 
         private void Control_OnLoaded(object? sender, RoutedEventArgs e)
         {
+            _ = this.GetContext<MainViewModel>();
         }
     }
 }

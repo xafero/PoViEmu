@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using PoViEmu.UI.Models;
+using PoViEmu.UI.Tools;
 using PoViEmu.UI.ViewModels;
 
 namespace PoViEmu.UI.Views
@@ -14,16 +15,12 @@ namespace PoViEmu.UI.Views
 
         private void Control_OnLoaded(object? sender, RoutedEventArgs e)
         {
-            DataContext = new RawMemViewModel();
-
-            if (DataContext is RawMemViewModel uvm)
+            var model = this.GetContext<RawMemViewModel>();
+            for (var i = 0; i < 100; i++)
             {
-                for (var i = 0; i < 100; i++)
-                {
-                    uvm.Lines.Add(new BytesLine("001", "2a", "....rr..df."));
-                    uvm.Lines.Add(new BytesLine("003", "3b", ".s..twqx.z."));
-                    uvm.Lines.Add(new BytesLine("005", "4c", "...123..xx."));
-                }
+                model.Lines.Add(new BytesLine("001", "2a", "....rr..df."));
+                model.Lines.Add(new BytesLine("003", "3b", ".s..twqx.z."));
+                model.Lines.Add(new BytesLine("005", "4c", "...123..xx."));
             }
         }
 

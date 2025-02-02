@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using PoViEmu.UI.Tools;
 using PoViEmu.UI.ViewModels;
 
 namespace PoViEmu.UI.Views
@@ -13,7 +14,7 @@ namespace PoViEmu.UI.Views
 
         private void Control_OnLoaded(object? sender, RoutedEventArgs e)
         {
-            DataContext = new RegIntViewModel();
+            _ = this.GetContext<RegIntViewModel>();
         }
     }
 }
