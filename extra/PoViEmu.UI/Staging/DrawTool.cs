@@ -1,5 +1,6 @@
 using System;
 using Avalonia;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 
@@ -43,6 +44,13 @@ namespace PoViEmu.UI.Staging
                         pixelData.Length);
                 }
             }
+        }
+
+        public static void RenderInto(this DrawingContext context, byte[] pixelData, int width, int height)
+        {
+            using var bitmap = CreateBitmap(width, height);
+            bitmap.CopyFrom(pixelData);
+            context.DrawImage(bitmap, new Rect(0, 0, width, height));
         }
     }
 }
