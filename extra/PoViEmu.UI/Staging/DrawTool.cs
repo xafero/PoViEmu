@@ -52,5 +52,11 @@ namespace PoViEmu.UI.Staging
             bitmap.CopyFrom(pixelData);
             context.DrawImage(bitmap, new Rect(0, 0, width, height));
         }
+
+        public static byte[] CreatePixels(int width = 160, int height = 160)
+        {
+            var pixelData = new byte[width * height * 4];
+            return pixelData;
+        }
     }
 }
