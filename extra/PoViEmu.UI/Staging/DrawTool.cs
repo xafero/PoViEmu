@@ -29,5 +29,20 @@ namespace PoViEmu.UI.Staging
             var res = new Vector(dpi, dpi);
             return new WriteableBitmap(size, res, PixelFormat.Bgra8888, AlphaFormat.Premul);
         }
+
+        public static void CopyFrom(this WriteableBitmap bitmap, byte[] pixelData)
+        {
+            using var framebuffer = bitmap.Lock();
+            unsafe
+            {
+                fixed (byte* srcPtr = pixelData)
+                {
+                    Buffer.MemoryCopy(srcPtr,
+                        framebuffer.Address.ToPointer(),
+                        pixelData.Length,
+                        pixelData.Length);
+                }
+            }
+        }
     }
 }
