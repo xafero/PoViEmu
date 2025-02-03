@@ -9,13 +9,14 @@ namespace PoViEmu.UI.Staging
             var rand = new Random();
             for (var i = 0; i < pixelData.Length; i += 4)
             {
-                var color1 = (byte)rand.Next(256);
-                var color2 = (byte)rand.Next(256);
-                var color3 = (byte)rand.Next(256);
-                pixelData[i] = color1;
-                pixelData[i + 1] = color2;
-                pixelData[i + 2] = color3;
-                pixelData[i + 3] = 255;
+                var blue = (byte)rand.Next(256);
+                var green = (byte)rand.Next(256);
+                var red = (byte)rand.Next(256);
+                const int alpha = 255;
+                pixelData[i] = blue;
+                pixelData[i + 1] = green;
+                pixelData[i + 2] = red;
+                pixelData[i + 3] = alpha;
             }
         }
     }
