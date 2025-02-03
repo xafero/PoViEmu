@@ -46,7 +46,7 @@ namespace PoViEmu.UI.Staging
             }
         }
 
-        public static void RenderInto(this DrawingContext context, byte[] pixelData, int width, int height)
+        public static void RenderIn(this DrawingContext context, byte[] pixelData, int width, int height)
         {
             using var bitmap = CreateBitmap(width, height);
             bitmap.CopyFrom(pixelData);
