@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
-	<RootNamespace>PoViEmu.UI</RootNamespace>
+        <RootNamespace>PoViEmu.UI</RootNamespace>
         <NoWarn>CS8618</NoWarn>
     </PropertyGroup>
 
@@ -12,6 +12,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
