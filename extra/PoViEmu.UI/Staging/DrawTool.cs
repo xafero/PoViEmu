@@ -1,4 +1,7 @@
 using System;
+using Avalonia;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 
 namespace PoViEmu.UI.Staging
 {
@@ -18,6 +21,12 @@ namespace PoViEmu.UI.Staging
                 pixelData[i + 2] = red;
                 pixelData[i + 3] = alpha;
             }
+        }
+
+        public static WriteableBitmap CreateBitmap(int width = 160, int height = 160)
+        {
+            return new WriteableBitmap(new PixelSize(width, height),
+                new Vector(96, 96), PixelFormat.Bgra8888, AlphaFormat.Premul);
         }
     }
 }
