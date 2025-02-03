@@ -23,10 +23,11 @@ namespace PoViEmu.UI.Staging
             }
         }
 
-        public static WriteableBitmap CreateBitmap(int width = 160, int height = 160)
+        public static WriteableBitmap CreateBitmap(int width = 160, int height = 160, int dpi = 96)
         {
-            return new WriteableBitmap(new PixelSize(width, height),
-                new Vector(96, 96), PixelFormat.Bgra8888, AlphaFormat.Premul);
+            var size = new PixelSize(width, height);
+            var res = new Vector(dpi, dpi);
+            return new WriteableBitmap(size, res, PixelFormat.Bgra8888, AlphaFormat.Premul);
         }
     }
 }
