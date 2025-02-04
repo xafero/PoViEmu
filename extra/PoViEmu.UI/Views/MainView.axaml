@@ -22,9 +22,14 @@
         <!-- <views:StackView Grid.Row="0" Grid.Column="0"
                          HorizontalAlignment="Stretch" VerticalAlignment="Center" 
                          State="{Binding StateI86}"/> -->
+        <!-- 
         <views:UnassView Grid.Row="0" Grid.Column="0"
                          HorizontalAlignment="Stretch" VerticalAlignment="Center" 
                          State="{Binding StateI86}"/>
+        -->
+        <views:DisplayView Grid.Row="0" Grid.Column="0" 
+                           Width="160" Height="160" Frames="30"
+                           State="{Binding StateI86}"/>
         <views:RawMemView Grid.Row="1" Grid.Column="0" 
                           State="{Binding StateI86}"/>
         <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
