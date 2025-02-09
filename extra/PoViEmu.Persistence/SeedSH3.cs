@@ -1,7 +1,7 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable ClassNeverInstantiated.Global
 
-namespace PoViEmu.Workbook
+namespace PoViEmu.Persistence
 {
     public class SeedSH3
     {

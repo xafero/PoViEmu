@@ -1,11 +1,11 @@
-using static PoViEmu.Workbook.ValueTool;
+using static PoViEmu.Persistence.ValueTool;
 using StateSH3 = PoViEmu.SH3.CPU.MachineState;
 using FlagSH3 = PoViEmu.SH3.ISA.Flagged;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ClassNeverInstantiated.Global
 
-namespace PoViEmu.Workbook
+namespace PoViEmu.Persistence
 {
     public static class SeedSH3Tool
     {

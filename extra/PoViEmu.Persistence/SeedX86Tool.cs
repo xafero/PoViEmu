@@ -1,11 +1,11 @@
-using static PoViEmu.Workbook.ValueTool;
+using static PoViEmu.Persistence.ValueTool;
 using StateX86 = PoViEmu.I186.CPU.MachineState;
 using FlagX86 = PoViEmu.I186.ISA.Flagged;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ClassNeverInstantiated.Global
 
-namespace PoViEmu.Workbook
+namespace PoViEmu.Persistence
 {
     public static class SeedX86Tool
     {
