@@ -9,5 +9,11 @@ namespace PoViEmu.Persistence
             var type = typeof(T);
             throw new InvalidOperationException($"{type} : {text}");
         }
+
+        public static string ToStr<T>(T value)
+        {
+            var type = typeof(T);
+            throw new InvalidOperationException($"{type} : {value}");
+        }
     }
 }

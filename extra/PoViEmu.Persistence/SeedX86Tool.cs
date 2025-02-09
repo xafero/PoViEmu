@@ -52,5 +52,49 @@ namespace PoViEmu.Persistence
             i.Fr10 = FromStr<ushort>(e.Fr10);
             i.Fr11 = FromStr<ushort>(e.Fr11);
         }
+
+        public static SeedX86 Convert(this StateX86 e)
+        {
+            var item = new SeedX86();
+            Convert(e, item);
+            return item;
+        }
+
+        public static void Convert(this StateX86 e, SeedX86 i)
+        {
+            i.AX = ToStr<ushort>(e.AX);
+            i.BX = ToStr<ushort>(e.BX);
+            i.CX = ToStr<ushort>(e.CX);
+            i.DX = ToStr<ushort>(e.DX);
+            i.BP = ToStr<ushort>(e.BP);
+            i.SP = ToStr<ushort>(e.SP);
+            i.IP = ToStr<ushort>(e.IP);
+            i.SI = ToStr<ushort>(e.SI);
+            i.DI = ToStr<ushort>(e.DI);
+            i.F = ToStr<FlagX86>(e.F);
+            i.CS = ToStr<ushort>(e.CS);
+            i.DS = ToStr<ushort>(e.DS);
+            i.ES = ToStr<ushort>(e.ES);
+            i.SS = ToStr<ushort>(e.SS);
+            i.Bk0 = ToStr<ushort>(e.Bk0);
+            i.Bk1 = ToStr<ushort>(e.Bk1);
+            i.Bk2 = ToStr<ushort>(e.Bk2);
+            i.Bk3 = ToStr<ushort>(e.Bk3);
+            i.Bk4 = ToStr<ushort>(e.Bk4);
+            i.Bk5 = ToStr<ushort>(e.Bk5);
+            i.Bk6 = ToStr<ushort>(e.Bk6);
+            i.Fr0 = ToStr<ushort>(e.Fr0);
+            i.Fr1 = ToStr<ushort>(e.Fr1);
+            i.Fr2 = ToStr<ushort>(e.Fr2);
+            i.Fr3 = ToStr<ushort>(e.Fr3);
+            i.Fr4 = ToStr<ushort>(e.Fr4);
+            i.Fr5 = ToStr<ushort>(e.Fr5);
+            i.Fr6 = ToStr<ushort>(e.Fr6);
+            i.Fr7 = ToStr<ushort>(e.Fr7);
+            i.Fr8 = ToStr<ushort>(e.Fr8);
+            i.Fr9 = ToStr<ushort>(e.Fr9);
+            i.Fr10 = ToStr<ushort>(e.Fr10);
+            i.Fr11 = ToStr<ushort>(e.Fr11);
+        }
     }
 }
