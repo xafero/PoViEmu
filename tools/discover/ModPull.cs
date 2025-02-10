@@ -134,7 +134,10 @@ namespace Discover
                             default;
                     if (cDict.TryGetValue("FILE", out var xFile))
                     {
-                        var xFileReal = PathHelper.TryGetDep(file, xFile)!;
+                        var root = currentDir!;
+                        var xFileReal = PathHelper.Combine(root, xFile)!;
+                        if (xFileReal.Contains("Sim"))
+                            xFileReal = xFileReal.Replace("Sim", "SIM");
                         var xBytes = File.ReadAllBytes(xFileReal);
                         var xHash = HashHelper.GetSha(xBytes);
                         var xFName = Path.GetFileName(xFileReal);
