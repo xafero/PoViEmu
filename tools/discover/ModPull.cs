@@ -45,11 +45,11 @@ namespace Discover
                 var info = new FileInfo(file);
                 var changed = info.LastWriteTime;
                 var suffix = changed.ToString("u").Split(' ').First().Replace("-", "");
-                var oFile = Path.Combine(outDir, $"{name}_{suffix}.json");
+                var oFile = Path.Combine(outDir, $"{suffix}_{name}.json");
                 Console.WriteLine($"    - {oFile}");
 
                 var ini = IniTool.LoadIni(file);
-                var dict = new ModelTree { Name = name };
+                var dict = new ModelTree { Changed = changed, Name = name };
 
                 var general = ini["GENERAL"];
                 var currentDir = general["CurrentDir"].ToString();
