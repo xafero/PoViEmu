@@ -2,16 +2,12 @@
 
 namespace PoViEmu.Inventory.Infos
 {
-    public enum ChipKind
+    public enum ModelKind
     {
         Unknown = 0,
 
-        RAM,
+        X86,
 
-        MemoryIO,
-
-        ROM,
-
-        NorFlash
+        SH3
     }
 }

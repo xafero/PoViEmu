@@ -24,12 +24,12 @@ namespace PoViEmu.Base
         {
             return url.Split('/').Last();
         }
-        
+
         public static string GetDirFor(this string root, string file, params string[] dirs)
         {
             return Path.Combine(Path.Combine(root, Path.Combine(dirs)), file);
         }
-        
+
         public static string MakeDirFor(this string root, string file, params string[] dirs)
         {
             var target = Path.Combine(root, Path.Combine(dirs));
@@ -37,12 +37,12 @@ namespace PoViEmu.Base
                 Directory.CreateDirectory(target);
             return Path.Combine(target, file);
         }
-        
-        public static string? Normalize(string path)
+
+        public static string? Normalize(string? path)
         {
-            return path.Replace('\\', Path.DirectorySeparatorChar).TrimNull();
+            return path?.Replace('\\', Path.DirectorySeparatorChar).TrimNull();
         }
-        
+
         public static string? TryGetDep(string first, string secondRaw)
         {
             var second = Normalize(secondRaw);
@@ -67,6 +67,33 @@ namespace PoViEmu.Base
                     current = foundFile;
             }
             return current;
+        }
+
+        public static string? Combine(params string[] paths)
+        {
+            var parts = paths.Select(Normalize).ToArray();
+            if (parts.Any(string.IsNullOrWhiteSpace))
+                return null;
+            var path = Path.Combine(parts!);
+            return Path.GetFullPath(path);
+        }
+
+        public static string? Merge(string first, string second)
+        {
+            var firstPath = Normalize(first)!;
+            var secondPath = Normalize(second)!;
+            var sep = Path.DirectorySeparatorChar;
+            var partsF = firstPath.Split(sep);
+            var partsS = secondPath.Split(sep);
+            var union = partsF.Intersect(partsS)
+                .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
+            if (union == null)
+                return null;
+            var tmp = sep + union + sep;
+            var firstSt = firstPath.Split(tmp, 2);
+            var secondSt = secondPath.Split(tmp, 2);
+            var res = Path.Combine(firstSt[0], union, secondSt[1]);
+            return res;
         }
     }
 }
