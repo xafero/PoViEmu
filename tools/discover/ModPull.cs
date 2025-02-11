@@ -178,7 +178,6 @@ namespace Discover
             var prog1 = ini["Program1"];
             var prog1F = PathHelper.Combine(dir, prog1["Program"]);
             var prog1A = prog1["LoadAddress"].ToString();
-            Console.WriteLine("   ??? " + prog1F + " " + prog1A);
 
             var modelFile = PathHelper.Combine(dir, general["Model"])!;
             var modelIni = IniTool.LoadDoubled(modelFile);
@@ -238,6 +237,15 @@ namespace Discover
                     sub['2'] = mc;
                 }
                 dict.Groups[groupKey] = new ChipGroup { Chips = sub };
+            }
+
+            if (prog1F != null)
+            {
+                var p1N = Path.GetFileNameWithoutExtension(prog1F).Title();
+                var md = new Chip { ChipKind = ChipKind.ROM, LoadOffset = prog1A, Caption = p1N };
+                LoadFileIn(prog1F, md);
+                var sub = new Dictionary<char, Chip> { ['0'] = md };
+                dict.Groups['5'] = new ChipGroup { Chips = sub };
             }
         }
     }
