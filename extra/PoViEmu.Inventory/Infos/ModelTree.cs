@@ -1,11 +1,10 @@
-using System;
 using System.Collections.Generic;
 
 namespace PoViEmu.Inventory.Infos
 {
     public class ModelTree
     {
-        public DateTime Changed { get; set; }
+        public string? Changed { get; set; }
         public ModelKind Kind { get; set; } 
         public string? Name { get; set; }
         public Clock? Clock { get; set; }

@@ -50,12 +50,14 @@ namespace Discover
                 Console.WriteLine($" * {kind} => {name}");
 
                 var info = new FileInfo(file);
-                var changed = info.LastWriteTime;
-                var suffix = changed.ToString("u").Split(' ').First().Replace("-", "");
+                var changed = info.LastWriteTime.ToString("u");
+                var suffix = changed.Split(' ').First().Replace("-", "");
                 var oFile = Path.Combine(outDir, $"{suffix}_{name}.json");
                 Console.WriteLine($"    - {oFile}");
 
-                var dict = new ModelTree { Changed = changed, Name = name, Kind = kind };
+                var changedT = changed.Split(' ', 2).First();
+                var desc = name.Replace("PV", "PV-").Replace("Plus", " Plus");
+                var dict = new ModelTree { Changed = changedT, Name = desc, Kind = kind };
                 switch (kind)
                 {
                     case ModelKind.X86: RunX86(file, dict); break;
@@ -136,17 +138,7 @@ namespace Discover
                     {
                         var root = currentDir!;
                         var xFileReal = PathHelper.Combine(root, xFile)!;
-                        if (xFileReal.Contains("Sim"))
-                            xFileReal = xFileReal.Replace("Sim", "SIM");
-                        var xBytes = File.ReadAllBytes(xFileReal);
-                        var xHash = HashHelper.GetSha(xBytes);
-                        var xFName = Path.GetFileName(xFileReal);
-                        var xZip = CompressAlgo.Brotli.Compress(xBytes);
-                        cItm.File = new FileRef
-                        {
-                            Name = xFName, Size = xBytes.Length, Hash = xHash, Brotli = xZip.B
-                        };
-                        cItm.ChipSize = $"{xBytes.Length:X8}";
+                        LoadFileIn(xFileReal, cItm);
                     }
                     cGroup.Chips[gPos.Key] = cItm;
                 }
@@ -154,10 +146,28 @@ namespace Discover
             }
         }
 
+        private static void LoadFileIn(string xFileReal, Chip cItm)
+        {
+            if (xFileReal.Contains("Sim"))
+                xFileReal = xFileReal.Replace("Sim", "SIM");
+            var xBytes = File.ReadAllBytes(xFileReal);
+            var xHash = HashHelper.GetSha(xBytes);
+            var xFName = Path.GetFileName(xFileReal);
+            var xZip = CompressAlgo.Brotli.Compress(xBytes);
+            cItm.File = new FileRef
+            {
+                Name = xFName, Size = xBytes.Length, Hash = xHash, Brotli = xZip.B
+            };
+            cItm.ChipSize = $"{xBytes.Length:X8}";
+        }
+
         private static void RunSH3(string file, ModelTree dict)
         {
             var ini = IniTool.LoadIni(file);
             var dir = Path.GetDirectoryName(file)!;
+
+            dict.Display = new Display(160, 160);
+            dict.Clock = new Clock(25, 70);
 
             var general = ini["DLSimProject"];
             var sourcePath = PathHelper.Combine(dir, general["SourcePath"]);
@@ -170,9 +180,65 @@ namespace Discover
             var prog1A = prog1["LoadAddress"].ToString();
             Console.WriteLine("   ??? " + prog1F + " " + prog1A);
 
-            var modelRef = PathHelper.Combine(dir, general["Model"]);
+            var modelFile = PathHelper.Combine(dir, general["Model"])!;
+            var modelIni = IniTool.LoadDoubled(modelFile);
+            var modelDir = Path.GetDirectoryName(modelFile)!;
 
-            // TODO
+            var i = 0;
+            foreach (var (prefix, kind) in new[]
+                     {
+                         ("_memoryrom", ChipKind.ROM),
+                         ("_memoryram", ChipKind.RAM),
+                         ("_memorynand", ChipKind.NorFlash),
+                         ("_fileaccess", ChipKind.MemoryIO)
+                     })
+            {
+                var mem = modelIni[$"{prefix}.mem"];
+                var memAddr = mem["BaseAddress"].ToString();
+                var memSave = mem["SaveFile"].ToString();
+                var memInit = mem["DefaultFile"].ToString();
+                string memSize = null;
+                var memSubA = modelIni[$"{prefix}.mem.addr"];
+                var memSubM = modelIni[$"{prefix}.mem.main"];
+                if (memSubA != null) memSize = memSubA["Size"].ToString();
+                if (memSubM != null) memSize = memSubM["Size"].ToString();
+
+                var groupKey = $"{i++}"[0];
+                var sub = new Dictionary<char, Chip>();
+                if (memSave != null)
+                {
+                    var memSaveN = Path.GetFileNameWithoutExtension(memSave);
+                    var maf = PathHelper.Combine(modelDir, memSave);
+                    var ma = new Chip
+                    {
+                        ChipKind = kind, LoadOffset = memAddr, Caption = memSaveN, ChipSize = memSize
+                    };
+                    LoadFileIn(maf, ma);
+                    sub['0'] = ma;
+                }
+                if (memInit != null)
+                {
+                    var memInitN = Path.GetFileNameWithoutExtension(memInit.Split('\\')[1]);
+                    var mbf = PathHelper.Combine(modelDir, memInit);
+                    var mb = new Chip
+                    {
+                        ChipKind = kind, LoadOffset = memAddr, Caption = memInitN, ChipSize = memSize
+                    };
+                    LoadFileIn(mbf, mb);
+                    if (sub['0'].File?.Hash != mb.File?.Hash)
+                        sub['1'] = mb;
+                }
+                if (kind == ChipKind.MemoryIO)
+                {
+                    var mc = new Chip
+                    {
+                        ChipKind = kind, LoadOffset = memAddr, ChipSize = memSize, Caption =
+                            prefix.TrimStart('_').Replace('f', 'F').Replace('a', 'A')
+                    };
+                    sub['2'] = mc;
+                }
+                dict.Groups[groupKey] = new ChipGroup { Chips = sub };
+            }
         }
     }
 }
