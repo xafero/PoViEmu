@@ -10,6 +10,6 @@ namespace PoViEmu.UI.Models
     public record AddInPlusItem(AddInItem Item)
     {
         [JsonIgnore] public Bitmap MenuIcon => Item.Entry.MenuIcon.Png.LoadImage();
-        [JsonIgnore] public bool Exists => File.Exists(AppRepo.Instance.GetFilePath(Item).file);
+        [JsonIgnore] public bool Exists => File.Exists(FileRepo.GetFilePath(Item).file);
     }
 }

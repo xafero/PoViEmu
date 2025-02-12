@@ -6,6 +6,6 @@ namespace PoViEmu.UI.Models
 {
     public record BiosPlusItem(BiosItem Item)
     {
-        [JsonIgnore] public bool Exists => File.Exists(AppRepo.Instance.GetFilePath(Item).file);
+        [JsonIgnore] public bool Exists => File.Exists(FileRepo.GetFilePath(Item).file);
     }
 }
