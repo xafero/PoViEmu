@@ -34,6 +34,9 @@ namespace PoViEmu.Inventory.Upper
                 case BiosItem bi:
                     dirs = ["cache", "bios", bi.Model];
                     break;
+                case TemplEntry te:
+                    dirs = ["cache", "templ", $"{te.Internal}"];
+                    break;
                 default:
                     throw new InvalidOperationException(typeof(T).FullName);
             }

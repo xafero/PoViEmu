@@ -18,5 +18,8 @@ namespace PoViEmu.Inventory.Upper
         string[] Ports,
         string CPU,
         string Market
-    );
+    ) : IRelUrl
+    {
+        public string BuildUrl(string @base) => $"{@base}/{P}";
+    }
 }
