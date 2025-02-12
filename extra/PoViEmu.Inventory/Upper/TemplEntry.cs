@@ -1,6 +1,7 @@
 using System;
 using PoViEmu.Inventory.Infos;
 
+// ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable InconsistentNaming
 
 namespace PoViEmu.Inventory.Upper
