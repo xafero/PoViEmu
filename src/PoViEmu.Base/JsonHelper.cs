@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -37,6 +38,13 @@ namespace PoViEmu.Base
         public static T ReadFromFile<T>(string file)
         {
             var json = File.ReadAllText(file, TextHelper.Utf8);
+            return FromJson<T>(json);
+        }
+
+        public static T ReadFromArray<T>(byte[] bytes)
+        {
+            var json = TextHelper.Utf8.GetString(bytes);
+            json = json.Trim((char)65279);
             return FromJson<T>(json);
         }
 
