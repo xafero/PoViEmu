@@ -10,6 +10,7 @@
         <ProjectReference Include="..\..\src\PoViEmu.Base\PoViEmu.Base.csproj"/>
         <ProjectReference Include="..\..\src\PoViEmu.I186.ABI\PoViEmu.I186.ABI.csproj"/>
         <ProjectReference Include="..\..\src\PoViEmu.SH3.ABI\PoViEmu.SH3.ABI.csproj"/>
+        <ProjectReference Include="..\PoViEmu.Compression\PoViEmu.Compression.csproj" />
     </ItemGroup>
 
     <ItemGroup>
