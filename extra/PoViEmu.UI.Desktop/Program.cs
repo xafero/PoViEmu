@@ -1,6 +1,9 @@
 ﻿using System;
 using Avalonia;
 
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable ClassNeverInstantiated.Global
+
 namespace PoViEmu.UI.Desktop
 {
     internal sealed class Program
