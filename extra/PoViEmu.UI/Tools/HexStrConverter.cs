@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Avalonia;
+using Avalonia.Data;
 using Avalonia.Data.Converters;
 using Conv = System.Convert;
 
@@ -12,9 +13,9 @@ namespace PoViEmu.UI.Tools
     {
         public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (values.Any(x => x is UnsetValueType)) 
+            if (values.Any(x => x is UnsetValueType))
                 return false;
-            
+
             if (targetType == typeof(string))
             {
                 if (values is [bool a, bool b, bool c, bool d])
@@ -23,9 +24,9 @@ namespace PoViEmu.UI.Tools
                            $"{Convert(c, targetType, null, culture)}" +
                            $"{Convert(d, targetType, null, culture)}";
             }
-            throw new NotImplementedException($"{values} {targetType} {parameter}");
+            return AvaloniaProperty.UnsetValue;
         }
-        
+
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (targetType == typeof(string))
@@ -46,7 +47,8 @@ namespace PoViEmu.UI.Tools
             {
                 return value;
             }
-            throw new NotImplementedException($"{value} {targetType} {parameter}");
+            var err = new InvalidOperationException($"{value} {targetType} {parameter}");
+            return new BindingNotification(err, BindingErrorType.Error);
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -57,17 +59,28 @@ namespace PoViEmu.UI.Tools
                 object? target = null;
                 switch (str.Length)
                 {
-                    case 1: target = Conv.ToByte(str) == 1; parsed = true; break;
-                    case 4: target = Conv.ToUInt16(str, 16); parsed = true; break;
-                    case 8: target = Conv.ToUInt32(str, 16); parsed = true; break;
+                    case 1:
+                        target = Conv.ToByte(str) == 1;
+                        parsed = true;
+                        break;
+                    case 4:
+                        target = Conv.ToUInt16(str, 16);
+                        parsed = true;
+                        break;
+                    case 8:
+                        target = Conv.ToUInt32(str, 16);
+                        parsed = true;
+                        break;
                 }
                 if (targetType.IsEnum)
                 {
-                    target = Enum.Parse(targetType, $"{target}"); parsed = true;
+                    target = Enum.Parse(targetType, $"{target}");
+                    parsed = true;
                 }
                 if (parsed) return target;
             }
-            throw new NotImplementedException($"{value} {targetType} {parameter}");
+            var err = new InvalidOperationException($"{value} {targetType} {parameter}");
+            return new BindingNotification(err, BindingErrorType.Error);
         }
     }
 }
