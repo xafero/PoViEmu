@@ -18,7 +18,7 @@ namespace PoViEmu.UI.Views
         {
             if (this.FindData<MainViewModel>() is { } mv)
             {
-                mv.CurrentView = null;
+                mv.CurrentView = new TemplViewModel();
             }
         }
     }

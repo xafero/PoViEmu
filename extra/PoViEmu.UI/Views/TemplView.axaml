@@ -7,15 +7,16 @@
              d:DesignWidth="450" d:DesignHeight="800"
              x:Class="PoViEmu.UI.Views.TemplView"
              x:DataType="vm:TemplViewModel"
-             Loaded="Control_OnLoaded">
+             Loaded="OnLoaded">
     
-    <Grid RowDefinitions="Auto,*,Auto" Margin="20">
+    <Grid RowDefinitions="Auto,*,Auto,Auto" Margin="20">
         <TextBlock Grid.Row="0" Margin="0 5" 
                    FontFamily="{StaticResource MonoF}">
             Choose a template:
         </TextBlock>
         <ListBox Grid.Row="1" ItemsSource="{Binding Templates}" 
-                 FontFamily="{StaticResource MonoR}">
+                 FontFamily="{StaticResource MonoR}" 
+                 SelectionChanged="OnSelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid RowDefinitions="*,*,*,*" ColumnDefinitions="*">
@@ -59,6 +60,10 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <TextBlock Grid.Row="2" Text="{Binding Debug}" />
+        <Button Grid.Row="3" Content="Next..." 
+                FontFamily="{StaticResource MonoF}"
+                Margin="2" Padding="10" IsVisible="{Binding ShowNextBtn}"
+                HorizontalAlignment="Right" Click="NextBtn_OnClick" />
     </Grid>
     
 </UserControl>

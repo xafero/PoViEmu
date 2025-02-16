@@ -20,7 +20,7 @@ namespace PoViEmu.UI.Views
             InitializeComponent();
         }
 
-        private void Control_OnLoaded(object? sender, RoutedEventArgs e)
+        private void OnLoaded(object? sender, RoutedEventArgs e)
         {
             var ctx = this.GetOrCreateData<TemplViewModel>();
             CtxUtil.Invoke(async () =>
@@ -37,6 +37,28 @@ namespace PoViEmu.UI.Views
                 {
                     ctx.Debug = "Could not contact the server!";
                 });
+        }
+
+        private void OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+        {
+            var selected = e.AddedItems.Cast<TemplEntry>().FirstOrDefault();
+            if (selected == null)
+                return;
+            var ctx = this.GetOrCreateData<TemplViewModel>();
+            ctx.Selected = selected;
+            ctx.ShowNextBtn = true;
+        }
+
+        private void NextBtn_OnClick(object? sender, RoutedEventArgs e)
+        {
+            var ctx = this.GetOrCreateData<TemplViewModel>();
+            ctx.Debug = $" ! {ctx.Selected.Name}";
+            
+            return;
+            if (this.FindData<MainViewModel>() is { } mv)
+            {
+                mv.CurrentView = null;
+            }
         }
     }
 }

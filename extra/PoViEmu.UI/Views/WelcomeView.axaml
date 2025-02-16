@@ -30,7 +30,7 @@
                 to create your very first device.
             </TextBlock>
             <Button Content="Next..."
-                    Foreground="Navy"
+                    Foreground="Black"
                     FontSize="20" FontWeight="Heavy"
                     FontFamily="{StaticResource MonoF}"
                     HorizontalAlignment="Center"
