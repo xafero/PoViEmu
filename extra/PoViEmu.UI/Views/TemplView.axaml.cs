@@ -31,7 +31,7 @@ namespace PoViEmu.UI.Views
                 },
                 entries =>
                 {
-                    ctx.Debug = string.Join(", ", entries.Select(y => y.Name));
+                    ctx.Templates = entries;
                 },
                 _ =>
                 {

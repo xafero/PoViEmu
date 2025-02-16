@@ -9,7 +9,56 @@
              x:DataType="vm:TemplViewModel"
              Loaded="Control_OnLoaded">
     
-    <TextBlock Text="{Binding Debug}">
-    </TextBlock>
+    <Grid RowDefinitions="Auto,*,Auto" Margin="20">
+        <TextBlock Grid.Row="0" Margin="0 5" 
+                   FontFamily="{StaticResource MonoF}">
+            Choose a template:
+        </TextBlock>
+        <ListBox Grid.Row="1" ItemsSource="{Binding Templates}" 
+                 FontFamily="{StaticResource MonoR}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid RowDefinitions="*,*,*,*" ColumnDefinitions="*">
+                        <TextBlock  Grid.Row="0" Grid.Column="0"
+                                    FontSize="19" FontWeight="Bold">
+                            <Run Text="{Binding Name}" />
+                            <Run Text="{Binding Path=Changed, StringFormat=(yyyy-MM-dd)}" />
+                        </TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="0">
+                            <Run Text="Model:" FontWeight="Bold" />
+                            <Run Text="{Binding Internal}" />
+                            <Run Text=" " />
+                            <Run Text="Display:" FontWeight="Bold" />
+                            <Run Text="{Binding Display.Width}" />
+                            <Run Text="x" />
+                            <Run Text="{Binding Display.Height}" />
+                        </TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="0">
+                            <Run Text="Storage:" FontWeight="Bold" />
+                            <Run Text="{Binding Storage.Data}" />
+                            <Run Text=" " />
+                            <Run Text="CPU:" FontWeight="Bold" />
+                            <Run Text="{Binding CPU}" />
+                        </TextBlock>
+                        <TextBlock Grid.Row="3" Grid.Column="0">
+                            <Run Text="Market:" FontWeight="Bold" />
+                            <Run Text="{Binding Market}" />
+                            <Run Text=" " />
+                            <Run Text="Ports:" FontWeight="Bold" />
+                            <Run>
+                                <Run.Text>
+                                    <MultiBinding StringFormat="{}{0} {1}">
+                                        <Binding Path="Ports[0]" FallbackValue=""/>
+                                        <Binding Path="Ports[1]" FallbackValue=""/>
+                                    </MultiBinding>
+                                </Run.Text>
+                            </Run>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBlock Grid.Row="2" Text="{Binding Debug}" />
+    </Grid>
     
 </UserControl>
