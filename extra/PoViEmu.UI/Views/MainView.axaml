@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:views="clr-namespace:PoViEmu.UI.Views"
              mc:Ignorable="d"
-             d:DesignWidth="1200" d:DesignHeight="850"
+             d:DesignWidth="600" d:DesignHeight="850"
              x:Class="PoViEmu.UI.Views.MainView"
              x:DataType="vm:MainViewModel"
              Loaded="Control_OnLoaded">
