@@ -1,0 +1,59 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="650"
+             x:Class="PoViEmu.UI.Views.WelcomeView"
+             x:DataType="vm:WelcomeViewModel">
+
+    <DockPanel Background="GhostWhite">
+        <Border DockPanel.Dock="Top"
+                CornerRadius="25" BorderThickness="2"
+                BorderBrush="Black" Padding="25"
+                Margin="20">
+            <TextBlock Text="Welcome to PoViEmu!"
+                       Foreground="Navy"
+                       FontSize="20" FontStyle="Oblique"
+                       FontFamily="{StaticResource MonoF}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" 
+                       TextAlignment="Center" />
+        </Border>
+        
+        <StackPanel DockPanel.Dock="Bottom">
+            <TextBlock TextWrapping="Wrap" Margin="25"
+                       FontFamily="{StaticResource MonoF}"
+                       TextAlignment="Center"
+                       FontSize="15" FontWeight="Black">
+                Press the button below to begin and 
+                to create your very first device.
+            </TextBlock>
+            <Button Content="Next..."
+                    Foreground="Navy"
+                    FontSize="20" FontWeight="Heavy"
+                    FontFamily="{StaticResource MonoF}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Margin="0,0,0,30"
+                    Padding="20,10,20,10" 
+                    CornerRadius="15"
+                    Click="OnNextClick" />
+        </StackPanel>
+
+        <Grid RowDefinitions="*,3*">
+            <TextBlock Grid.Row="0" 
+                       TextWrapping="Wrap" Margin="25,0,25,0"
+                       FontFamily="{StaticResource MonoF}"
+                       TextAlignment="Center" 
+                       FontSize="15" FontWeight="Black">
+                This app brings back the experience of classic PDA devices,
+                letting you explore features like note-taking, scheduling,
+                and more.
+            </TextBlock>
+            <Image Grid.Row="1" 
+                Source="../Assets/app-logo.ico" />
+        </Grid>
+    </DockPanel>
+
+</UserControl>

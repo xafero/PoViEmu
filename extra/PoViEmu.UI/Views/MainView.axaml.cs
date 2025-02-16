@@ -14,9 +14,6 @@ namespace PoViEmu.UI.Views
 
         private void Control_OnLoaded(object? sender, RoutedEventArgs e)
         {
-            var model = this.GetContext<MainViewModel>();
-            model.StateSh3 = Defaults.StateSh3;
-            model.StateI86 = Defaults.StateI86;
         }
     }
 }
