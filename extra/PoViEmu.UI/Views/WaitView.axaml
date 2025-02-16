@@ -1,0 +1,38 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="550"
+             x:Class="PoViEmu.UI.Views.WaitView"
+             x:DataType="vm:WaitViewModel"
+             Loaded="OnLoaded">
+    
+    <Grid RowDefinitions="Auto,*,Auto,Auto" ColumnDefinitions="*">
+        <TextBlock Grid.Row="0" Grid.Column="0" 
+                   HorizontalAlignment="Center" Padding="0,15,0,15"
+                   FontFamily="{StaticResource MonoR}"
+                   FontSize="25" FontWeight="Bold"
+                   Text="{Binding Message}" />
+        
+        <Image Grid.Row="1" Grid.Column="0"
+               Source="{Binding Image}" 
+               Margin="15,0,15,0"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" 
+                   HorizontalAlignment="Center" Padding="0,15,0,5"
+                   FontFamily="{StaticResource MonoR}"
+                   FontSize="20" FontWeight="Normal"
+                   Text="{Binding SubText}" />
+
+        <StackPanel Grid.Row="3" Grid.Column="0" Margin="20">
+            <ProgressBar  Margin="0 0 0 10" Height="20" 
+                          Minimum="0" Maximum="100" ShowProgressText="True" 
+                          Value="{Binding PerOne}" />
+            <ProgressBar  Margin="0 10" Height="20" 
+                          Minimum="0" Maximum="100" ShowProgressText="True"
+                          Value="{Binding PerAll}" />
+        </StackPanel>
+    </Grid>
+    
+</UserControl>
