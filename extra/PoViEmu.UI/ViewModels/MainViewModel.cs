@@ -11,7 +11,7 @@ namespace PoViEmu.UI.ViewModels
 
         public MainViewModel()
         {
-            CurrentView = new WelcomeViewModel();
+            CurrentView = new InstanceViewModel();
         }
     }
 }
