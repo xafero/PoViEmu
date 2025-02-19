@@ -1,6 +1,4 @@
-using System.IO;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PoViEmu.Inventory.Utils
@@ -9,36 +7,27 @@ namespace PoViEmu.Inventory.Utils
     {
         private static readonly HttpClient Client = new();
 
+        public static async Task<T> GetCachedJson<T>(string url, string file, bool reload = false)
+            => await CacheHelper.GetCachedJson<T>(() => LoadString(url), file, reload);
+
         public static async Task<string> GetCachedText(string url, string file, bool reload = false)
-        {
-            string text;
-            if (!reload && File.Exists(file))
-            {
-                text = await File.ReadAllTextAsync(file, Encoding.UTF8);
-                if (!string.IsNullOrWhiteSpace(text))
-                    return text;
-            }
-            using var response = await Client.GetAsync(url);
-            response.EnsureSuccessStatusCode();
-            text = await response.Content.ReadAsStringAsync();
-            await File.WriteAllTextAsync(file, text, Encoding.UTF8);
-            return text;
-        }
+            => await CacheHelper.GetCachedText(() => LoadString(url), file, reload);
 
         public static async Task<byte[]> GetCachedBytes(string url, string file, bool reload = false)
+            => await CacheHelper.GetCachedBytes(() => LoadBytes(url), file, reload);
+
+        private static async Task<string> LoadString(string url)
         {
-            byte[] bytes;
-            if (!reload && File.Exists(file))
-            {
-                bytes = await File.ReadAllBytesAsync(file);
-                if (bytes.Length >= 1)
-                    return bytes;
-            }
             using var response = await Client.GetAsync(url);
             response.EnsureSuccessStatusCode();
-            bytes = await response.Content.ReadAsByteArrayAsync();
-            await File.WriteAllBytesAsync(file, bytes);
-            return bytes;
+            return await response.Content.ReadAsStringAsync();
+        }
+
+        private static async Task<byte[]> LoadBytes(string url)
+        {
+            using var response = await Client.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsByteArrayAsync();
         }
     }
 }
