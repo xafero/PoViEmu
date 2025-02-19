@@ -20,8 +20,7 @@ namespace PoViEmu.Inventory.Upper
 
             var repoUrl = $"{baseUrl}/repo.json";
             var repoFile = root.MakeDirFor("index.json", "cache", "repo");
-            var text = await WebHelper.GetCachedText(repoUrl, repoFile);
-            _repo = JsonHelper.FromJson<RepoEntry>(text);
+            _repo = await WebHelper.GetCachedJson<RepoEntry>(repoUrl, repoFile);
         }
 
         public IEnumerable<AddInItem> AllAddInEntries()

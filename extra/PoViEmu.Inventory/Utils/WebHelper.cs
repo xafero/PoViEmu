@@ -10,7 +10,7 @@ namespace PoViEmu.Inventory.Utils
         public static async Task<T> GetCachedJson<T>(string url, string file, bool reload = false)
             => await CacheHelper.GetCachedJson<T>(() => LoadString(url), file, reload);
 
-        public static async Task<string> GetCachedText(string url, string file, bool reload = false)
+        private static async Task<string> GetCachedText(string url, string file, bool reload = false)
             => await CacheHelper.GetCachedText(() => LoadString(url), file, reload);
 
         public static async Task<byte[]> GetCachedBytes(string url, string file, bool reload = false)
