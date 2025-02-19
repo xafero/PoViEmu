@@ -9,8 +9,6 @@ namespace PoViEmu.Inventory.Upper
     {
         public static TemplRepo Instance { get; } = new();
 
-        private TemplEntry[] _repo;
-
         public async Task Load()
         {
             var inst = AppConst.Instance;
@@ -19,10 +17,9 @@ namespace PoViEmu.Inventory.Upper
 
             var repoUrl = $"{baseUrl}/repoM.json";
             var repoFile = root.MakeDirFor("indexM.json", "cache", "repo");
-            var text = await WebHelper.GetCachedText(repoUrl, repoFile);
-            _repo = JsonHelper.FromJson<TemplEntry[]>(text);
+            AllTemplates = await WebHelper.GetCached<TemplEntry[]>(repoUrl, repoFile);
         }
 
-        public IList<TemplEntry> AllTemplates => _repo;
+        public IList<TemplEntry>? AllTemplates { get; private set; }
     }
 }
