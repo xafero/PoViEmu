@@ -17,7 +17,7 @@ namespace PoViEmu.Inventory.Upper
 
             var repoUrl = $"{baseUrl}/repoM.json";
             var repoFile = root.MakeDirFor("indexM.json", "cache", "repo");
-            AllTemplates = await WebHelper.GetCached<TemplEntry[]>(repoUrl, repoFile);
+            AllTemplates = await WebHelper.GetCachedJson<TemplEntry[]>(repoUrl, repoFile);
         }
 
         public IList<TemplEntry>? AllTemplates { get; private set; }
