@@ -19,12 +19,24 @@ namespace PoViEmu.Inventory.Config
             Global = await CacheHelper.GetCachedJson(Init, cfgFile);
         }
 
+        public GlobalConfig? Global { get; private set; }
+
         private static GlobalConfig Init()
         {
-            var config = new GlobalConfig { Created = DateTime.Now };
+            var inst = AppConst.Instance;
+            var root = inst.DataRoot;
+
+            var config = new GlobalConfig
+            {
+                Created = DateTime.Now,
+                InstanceDir = root.MakeDirFor("", "data", "instances")
+            };
             return config;
         }
 
-        public GlobalConfig? Global { get; private set; }
+        public DirDict<OneEntity>? Entities
+            => Global?.InstanceDir is { } root
+                ? new DirDict<OneEntity>(root, "entity.json")
+                : null;
     }
 }

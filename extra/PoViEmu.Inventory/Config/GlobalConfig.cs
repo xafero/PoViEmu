@@ -4,6 +4,8 @@ namespace PoViEmu.Inventory.Config
 {
     public class GlobalConfig
     {
-        public DateTime Created { get; set; }
+        public required DateTime Created { get; set; }
+
+        public required string InstanceDir { get; set; }
     }
 }
