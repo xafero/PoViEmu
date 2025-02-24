@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
 using PoViEmu.Inventory.Upper;
+using PoViEmu.UI.Tools;
 
 namespace PoViEmu.UI.ViewModels
 {
-    public partial class TemplViewModel : ViewModelBase
+    public partial class TemplViewModel : ViewModelBase, IRoutable
     {
         [ObservableProperty] private string _debug;
 

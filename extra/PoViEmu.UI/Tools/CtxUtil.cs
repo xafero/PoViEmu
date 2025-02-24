@@ -1,9 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Threading;
-using PoViEmu.UI.Views;
 
 namespace PoViEmu.UI.Tools
 {

@@ -1,17 +1,27 @@
-using Avalonia.Markup.Xaml.Templates;
+using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
-using StateSH3 = PoViEmu.SH3.CPU.MachineState;
-using StateI86 = PoViEmu.I186.CPU.MachineState;
+using PoViEmu.UI.Tools;
 
 namespace PoViEmu.UI.ViewModels
 {
-    public partial class MainViewModel : ViewModelBase
+    public partial class MainViewModel : ViewModelBase, IRouter
     {
+        private static readonly Stack<IRoutable> _routed = new(10);
+
         [ObservableProperty] private ViewModelBase _currentView;
 
         public MainViewModel()
         {
-            CurrentView = new InstanceViewModel();
+            this.Push<WelcomeViewModel>();
         }
+
+        public void Push<T>(T model) where T : IRoutable
+        {
+            _routed.Push(model);
+            var vmb = (model as ViewModelBase)!;
+            CurrentView = vmb;
+        }
+
+        public static IRoutable Last => _routed.Pop();
     }
 }

@@ -1,8 +1,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using PoViEmu.UI.Tools;
 
 namespace PoViEmu.UI.ViewModels
 {
-    public partial class InstanceViewModel : ViewModelBase
+    public partial class InstanceViewModel : ViewModelBase, IRoutable
     {
         [ObservableProperty] private string _templateName;
 
