@@ -1,7 +1,5 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using PoViEmu.UI.Tools;
 using PoViEmu.UI.ViewModels;
 
@@ -16,10 +14,7 @@ namespace PoViEmu.UI.Views
 
         private void OnNextClick(object? sender, RoutedEventArgs e)
         {
-            if (this.FindData<MainViewModel>() is { } mv)
-            {
-                mv.CurrentView = new TemplViewModel();
-            }
+            this.GetRouter().Push<TemplViewModel>();
         }
     }
 }
