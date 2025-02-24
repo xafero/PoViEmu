@@ -414,3 +414,5 @@ cache/
 *.d.txt
 extra/PoViEmu.Workbook/output/
 /tools/discover/out/
+/tools/discover/data/
+

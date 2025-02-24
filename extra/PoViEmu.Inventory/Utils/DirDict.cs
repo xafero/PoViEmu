@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -40,6 +41,12 @@ namespace PoViEmu.Inventory.Utils
 
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
+
+        public void Add(KeyValuePair<Guid, T> item)
+            => Add(item.Key, item.Value);
+
+        public void Add(Guid key, T value)
+            => Add(ToKey(key), value);
 
         public void Add(KeyValuePair<string, T> item)
             => Add(item.Key, item.Value);
@@ -81,10 +88,29 @@ namespace PoViEmu.Inventory.Utils
             set
             {
                 var dir = GetDirByKey(key).FullName;
+                if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
                 var file = Path.Combine(dir, _fileName);
                 var text = value == null ? string.Empty : JsonHelper.ToJson(value);
                 File.WriteAllText(file, text, Encoding.UTF8);
             }
+        }
+
+        private static string ToKey(Guid id)
+            => id.ToString("N")[..16];
+
+        public bool ContainsKey(Guid key)
+            => ContainsKey(ToKey(key));
+
+        public bool Remove(Guid key)
+            => Remove(ToKey(key));
+
+        public bool TryGetValue(Guid key, out T? value)
+            => TryGetValue(ToKey(key), out value);
+
+        public T this[Guid id]
+        {
+            get => this[ToKey(id)];
+            set => this[ToKey(id)] = value;
         }
     }
 }

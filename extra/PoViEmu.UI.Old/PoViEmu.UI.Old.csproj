@@ -4,6 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
 	<RootNamespace>PoViEmu.UI</RootNamespace>
         <NoWarn>CS8618</NoWarn>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -40,6 +41,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\PoViEmu.I186.CPU\PoViEmu.I186.CPU.csproj" />
     <ProjectReference Include="..\..\src\PoViEmu.I186.ISA\PoViEmu.I186.ISA.csproj" />
+    <ProjectReference Include="..\..\src\PoViEmu.SH3.CPU\PoViEmu.SH3.CPU.csproj" />
+    <ProjectReference Include="..\..\src\PoViEmu.SH3.ISA\PoViEmu.SH3.ISA.csproj" />
     <ProjectReference Include="..\PoViEmu.Inventory\PoViEmu.Inventory.csproj" />
   </ItemGroup>
 
