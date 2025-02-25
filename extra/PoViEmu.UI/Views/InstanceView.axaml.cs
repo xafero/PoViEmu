@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using PoViEmu.Inventory.Config;
 using PoViEmu.UI.Tools;
+using PoViEmu.UI.ViewModels;
 
 namespace PoViEmu.UI.Views
 {
@@ -19,10 +20,14 @@ namespace PoViEmu.UI.Views
 
         private void OnNextClick(object? sender, RoutedEventArgs e)
         {
-            if (CfgRepo.Instance.Entities is { } ent)
+            if (CfgRepo.Instance.Entities is { } ent &&
+                this.FindData<InstanceViewModel>() is { } model)
             {
                 var id = Guid.NewGuid();
-                ent[id] = new OneEntity { Id = id };
+                ent[id] = new OneEntity
+                {
+                    Id = id, Name = model.InstanceName, Notes = model.InstanceNotes
+                };
             }
             this.GetRouter().Push<IRoutable>(default);
         }
