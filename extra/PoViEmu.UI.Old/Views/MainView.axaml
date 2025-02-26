@@ -1,42 +1,51 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
-             xmlns:vw="clr-namespace:PoViEmu.UI.Views"
-             mc:Ignorable="d" 
-             d:DesignWidth="660" d:DesignHeight="730"
-             x:Class="PoViEmu.UI.Views.MainView"
-             x:DataType="vm:MainViewModel"
-             Loaded="Control_OnLoaded">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:vm="using:PoViEmu.UI.ViewModels"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:PoViEmu.UI.Views"
+        mc:Ignorable="d" 
+        d:DesignWidth="1200" d:DesignHeight="850"
+        x:Class="PoViEmu.UI.Views.MainView"
+        x:DataType="vm:MainViewModel"
+        Loaded="Control_OnLoaded">
 
     <Design.DataContext>
-        <vm:MainViewModel />
+        <vm:MainViewModel/>
     </Design.DataContext>
 
-    <DockPanel LastChildFill="True">
-        <Panel DockPanel.Dock="Left">
-            <!-- <vw:RegisterView /> -->
-            <!-- <vw:RawMemView /> -->
-        </Panel>
-        <Panel DockPanel.Dock="Right">
-            <StackPanel Orientation="Vertical">
-                <!-- <vw:StackView /> -->
-                <!-- <vw:SimCtrlView /> -->
-            </StackPanel>
-        </Panel>
-        <Panel DockPanel.Dock="Bottom">
-            <!-- <vw:EmsView /> -->
-        </Panel>
-        <Panel DockPanel.Dock="Right">
-            <!-- <vw:AddInListView /> -->
-        </Panel>
-        <Panel>
-            <!-- <vw:HandheldView /> -->
-            <!-- <vw:MinimalView /> -->
-            <!-- <vw:AddInView /> -->
-            <vw:RepoView />
-        </Panel>
-    </DockPanel>
-
+    <Grid ColumnDefinitions="*, 4, *"
+          RowDefinitions="*,*">
+        <!-- <views:RegIntView Grid.Row="0" Grid.Column="0"
+                          HorizontalAlignment="Center" VerticalAlignment="Center" 
+                          State="{Binding StateI86}"/> -->
+        <!-- <views:StackView Grid.Row="0" Grid.Column="0"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+                         State="{Binding StateI86}"/> -->
+        <!-- 
+        <views:UnassView Grid.Row="0" Grid.Column="0"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+                         State="{Binding StateI86}"/>
+        -->
+        <views:DisplayView Grid.Row="0" Grid.Column="0" 
+                           Width="160" Height="160" Frames="30"
+                           State="{Binding StateI86}"/>
+        <views:RawMemView Grid.Row="1" Grid.Column="0" 
+                          State="{Binding StateI86}"/>
+        <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
+                      Width="10" Background="Black" 
+                      ResizeDirection="Columns" />
+        <!-- <views:RegHitView Grid.Row="0" Grid.Column="2"
+                          HorizontalAlignment="Center" VerticalAlignment="Center" 
+                          State="{Binding StateSh3}"/> -->
+        <!-- <views:StackView Grid.Row="0" Grid.Column="2"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+                          State="{Binding StateSh3}"/> -->
+        <views:UnassView Grid.Row="0" Grid.Column="2"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+                         State="{Binding StateSh3}"/>
+        <views:RawMemView Grid.Row="1" Grid.Column="2" 
+                          State="{Binding StateSh3}"/>
+    </Grid>
+    
 </UserControl>
