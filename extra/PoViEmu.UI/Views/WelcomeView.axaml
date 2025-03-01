@@ -29,8 +29,7 @@
                 Press the button below to begin and 
                 to create your very first device.
             </TextBlock>
-            <Button Content="Next..."
-                    Foreground="Black"
+            <Button Foreground="Black"
                     FontSize="20" FontWeight="Heavy"
                     FontFamily="{StaticResource MonoF}"
                     HorizontalAlignment="Center"
@@ -38,7 +37,12 @@
                     Margin="0,0,0,30"
                     Padding="20,10,20,10" 
                     CornerRadius="15"
-                    Click="OnNextClick" />
+                    Click="OnNextClick">
+                <TextBlock>
+                    <Run>Next</Run>
+                    <Run FontFamily="{StaticResource FontA}">&#xF0A9;</Run>
+                </TextBlock>
+            </Button>
         </StackPanel>
 
         <Grid RowDefinitions="*,3*">

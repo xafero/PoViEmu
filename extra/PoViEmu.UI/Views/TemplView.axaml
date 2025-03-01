@@ -60,10 +60,17 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <TextBlock Grid.Row="2" Text="{Binding Debug}" />
-        <Button Grid.Row="3" Content="Next..." 
+        <Button Grid.Row="3"  
                 FontFamily="{StaticResource MonoF}"
-                Margin="2" Padding="10" IsVisible="{Binding ShowNextBtn}"
-                HorizontalAlignment="Right" Click="NextBtn_OnClick" />
+                Margin="2" Padding="10" 
+                IsVisible="{Binding ShowNextBtn}"
+                HorizontalAlignment="Right" Click="NextBtn_OnClick"
+                FontSize="17" FontWeight="Heavy">
+            <TextBlock>
+                <Run>Next</Run>
+                <Run FontFamily="{StaticResource FontA}">&#xF0A9;</Run>
+            </TextBlock>
+        </Button>
     </Grid>
     
 </UserControl>
