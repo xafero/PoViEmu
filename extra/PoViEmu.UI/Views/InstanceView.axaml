@@ -13,9 +13,8 @@
         <TextBlock Margin="0 5" FontWeight="Bold" FontSize="20"
                    HorizontalAlignment="Center" Text="New Instance" />
         <TextBlock Margin="0 5" Text="Template:" />
-        <TextBox   Text="{Binding TemplateName}"
-                   IsReadOnly="True" 
-                   Watermark="Enter the instance's template"/>
+        <TextBlock Text="{Binding TemplateName, FallbackValue='???'}"
+                   Padding="10,10" FontWeight="Heavy" />
         <TextBlock Margin="0 5" >Name:</TextBlock>
         <TextBox    Text="{Binding InstanceName}"    
                     Watermark="Enter the instance's name" />
@@ -23,9 +22,16 @@
         <TextBox Height="100" AcceptsReturn="True" TextWrapping="Wrap"
                  Watermark="Enter the instance's notes" 
                  Text="{Binding InstanceNotes}"/>
-        <Button Content="Create ..." Click="OnNextClick"
+        <Button Click="OnNextClick" 
+                FontFamily="{StaticResource MonoF}"
                 HorizontalAlignment="Center"
-                Margin="25" Padding="15"/>
+                Margin="25" Padding="15"
+                FontSize="15" FontWeight="Heavy">
+            <TextBlock>
+                <Run>Create</Run>
+                <Run FontFamily="{StaticResource FontA}">&#xF46C;</Run>
+            </TextBlock>
+        </Button>
     </StackPanel>
     
 </UserControl>
