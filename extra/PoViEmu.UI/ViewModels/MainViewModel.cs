@@ -33,8 +33,7 @@ namespace PoViEmu.UI.ViewModels
                 return;
             }
 
-            this.Push<WelcomeViewModel>();
-            // throw new NotImplementedException("What to do here?!"); // TODO
+            this.Push<InstanceViewModel>();
         }
 
         public void Push<T>(T model) where T : IRoutable
