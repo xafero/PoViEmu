@@ -7,8 +7,12 @@
              x:Class="PoViEmu.UI.Views.WaitView"
              x:DataType="vm:WaitViewModel"
              Loaded="OnLoaded">
-    
-    <Grid RowDefinitions="Auto,*,Auto,Auto" ColumnDefinitions="*">
+
+	<Design.DataContext>
+        <vm:WaitViewModel />
+    </Design.DataContext>
+
+	<Grid RowDefinitions="Auto,*,Auto,Auto" ColumnDefinitions="*">
         <TextBlock Grid.Row="0" Grid.Column="0" 
                    HorizontalAlignment="Center" Padding="0,15,0,15"
                    FontFamily="{StaticResource MonoR}"

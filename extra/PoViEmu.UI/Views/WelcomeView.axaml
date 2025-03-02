@@ -7,7 +7,11 @@
              x:Class="PoViEmu.UI.Views.WelcomeView"
              x:DataType="vm:WelcomeViewModel">
 
-    <DockPanel Background="GhostWhite">
+    <Design.DataContext>
+        <vm:WelcomeViewModel />
+    </Design.DataContext>
+
+	<DockPanel Background="GhostWhite">
         <Border DockPanel.Dock="Top"
                 CornerRadius="25" BorderThickness="2"
                 BorderBrush="Black" Padding="25"

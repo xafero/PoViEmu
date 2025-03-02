@@ -7,6 +7,6 @@ namespace PoViEmu.UI.ViewModels
 {
     public partial class InstanceViewModel : ViewModelBase, IRoutable
     {
-        [ObservableProperty] private IList<OneEntity> _instances;
+        [ObservableProperty] private IList<OneEntity>? _instances;
     }
 }

@@ -8,8 +8,12 @@
              x:Class="PoViEmu.UI.Views.TemplView"
              x:DataType="vm:TemplViewModel"
              Loaded="OnLoaded">
-    
-    <Grid RowDefinitions="Auto,*,Auto,Auto" Margin="20">
+
+	<Design.DataContext>
+        <vm:TemplViewModel />
+    </Design.DataContext>
+
+	<Grid RowDefinitions="Auto,*,Auto,Auto" Margin="20">
         <TextBlock Grid.Row="0" Margin="0 5" 
                    FontFamily="{StaticResource MonoF}">
             Choose a template:
