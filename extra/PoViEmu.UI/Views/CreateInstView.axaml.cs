@@ -26,10 +26,12 @@ namespace PoViEmu.UI.Views
                 var id = Guid.NewGuid();
                 ent[id] = new OneEntity
                 {
-                    Id = id, Name = model.InstanceName, Notes = model.InstanceNotes
+                    Id = id, Name = model.InstanceName,
+                    Notes = model.InstanceNotes,
+                    Template = model.TemplateName
                 };
             }
-            this.GetRouter().Push(new InstanceViewModel());
+            this.GetRouter().Push<InstanceViewModel>();
         }
     }
 }

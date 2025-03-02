@@ -9,5 +9,7 @@ namespace PoViEmu.Inventory.Config
         public required string Name { get; set; }
 
         public required string Notes { get; set; }
+
+        public required string Template { get; set; }
     }
 }
