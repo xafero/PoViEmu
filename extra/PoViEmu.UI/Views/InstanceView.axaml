@@ -30,12 +30,12 @@
 					        <Run Text="{Binding Name}" />
 						</TextBlock>
 				        <TextBlock Grid.Row="1" Grid.Column="0">
-					        <Run Text="Template:" FontWeight="Bold" />
+					        <Run Text="Base:" FontWeight="Bold" />
 					        <Run Text="{Binding Template}" />
 				        </TextBlock>
 				        <TextBlock Grid.Row="2" Grid.Column="0">
                             <Run Text="Id:" FontWeight="Bold" />
-                            <Run Text="{Binding Id, StringFormat=N}" />
+                            <Run Text="{Binding Id, Converter={StaticResource Sp}, ConverterParameter='ID'}" />
 						</TextBlock>
 						<TextBlock Grid.Row="3" Grid.Column="0">
 							<Run Text="Notes:" FontWeight="Bold" />

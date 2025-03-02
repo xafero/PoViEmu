@@ -14,6 +14,7 @@ using System.Linq;
 using Avalonia;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
+using PoViEmu.Base;
 using Conv = System.Convert;
 
 namespace PoViEmu.UI.Tools
@@ -25,6 +26,8 @@ namespace PoViEmu.UI.Tools
             if (values.Any(x => x is UnsetValueType))
                 return false;
 
+            var kind = EnumHelper.Parse<FmtStrKind>(parameter);
+
             // TODO
 
             return AvaloniaProperty.UnsetValue;
@@ -32,16 +35,29 @@ namespace PoViEmu.UI.Tools
 
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            return AvaloniaProperty.UnsetValue;
-
-            // TODO
-
+            var kind = EnumHelper.Parse<FmtStrKind>(parameter);
+            if (targetType == typeof(string))
+            {
+                if (value is Guid id && kind == FmtStrKind.ID)
+                {
+                    var idT = id.ToShortId();
+                    return idT;
+                }
+                if (value is string txt && kind == FmtStrKind.FL)
+                {
+                    var lines = txt.ToLines(noEmpty: true, noSpaces: true);
+                    var lineT = lines.FirstOrDefault()?.Trim() ?? "...";
+                    return $"{lineT}";
+                }
+            }
             var err = new InvalidOperationException($"{value} {targetType} {parameter}");
             return new BindingNotification(err, BindingErrorType.Error);
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
+            var kind = EnumHelper.Parse<FmtStrKind>(parameter);
+
             return AvaloniaProperty.UnsetValue;
 
             // TODO

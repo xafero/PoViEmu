@@ -67,324 +67,324 @@ namespace PoViEmu.SH3.CPU
             switch (parsed.Mnemonic)
             {
                 case Mnemonic.Add when ops is [R m, R n]:
-                    Compute.Add(s, m, n);
+                    s.Add(m, n);
                     return;
                 case Mnemonic.Add when ops is [I8 i, R r]:
-                    Compute.Add(s, i.Val, r);
+                    s.Add(i.Val, r);
                     return;
                 case Mnemonic.Addc when ops is [R m, R n]:
-                    Compute.Addc(s, m, n);
+                    s.Addc(m, n);
                     return;
                 case Mnemonic.Addv when ops is [R m, R n]:
-                    Compute.Addv(s, m, n);
+                    s.Addv(m, n);
                     return;
                 case Mnemonic.And when ops is [R m, R n]:
-                    Compute.And(s, m, n);
+                    s.And(m, n);
                     return;
                 case Mnemonic.And when ops is [U8 i, R n]:
-                    Compute.And(s, i.Val, n);
+                    s.And(i.Val, n);
                     return;
                 case Mnemonic.AndB when ops is [U8 i, MU8 mem]:
-                    Compute.Andb(s, i.Val, mem);
+                    s.Andb(i.Val, mem);
                     return;
                 case Mnemonic.Bf when ops is [AO d]:
-                    Jumping.BranchIfFalse(s, d, ref nextIP);
+                    s.BranchIfFalse(d, ref nextIP);
                     return;
                 case Mnemonic.BfS when ops is [AO d]:
-                    Jumping.BranchIfFalseDelay(s, d, ref nextIP, ref delayIP);
+                    s.BranchIfFalseDelay(d, ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Bra when ops is [AO d]:
-                    Jumping.Branch(s, d, ref nextIP, ref delayIP);
+                    s.Branch(d, ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Braf when ops is [R m]:
-                    Jumping.BranchFar(s, m, ref nextIP, ref delayIP);
+                    s.BranchFar(m, ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Bsr when ops is [AO d]:
-                    Jumping.BranchSubroutine(s, d, ref nextIP, ref delayIP);
+                    s.BranchSubroutine(d, ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Bsrf when ops is [R m]:
-                    Jumping.BranchSubroutineFar(s, m, ref nextIP, ref delayIP);
+                    s.BranchSubroutineFar(m, ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Bt when ops is [AO d]:
-                    Jumping.BranchIfTrue(s, d, ref nextIP);
+                    s.BranchIfTrue(d, ref nextIP);
                     return;
                 case Mnemonic.BtS when ops is [AO d]:
-                    Jumping.BranchIfTrueDelay(s, d, ref nextIP, ref delayIP);
+                    s.BranchIfTrueDelay(d, ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Clrmac:
-                    Compute.Clrmac(s);
+                    s.Clrmac();
                     return;
                 case Mnemonic.Clrs:
-                    Compute.Clrs(s);
+                    s.Clrs();
                     return;
                 case Mnemonic.Clrt:
-                    Compute.Clrt(s);
+                    s.Clrt();
                     return;
                 case Mnemonic.CmpEq when ops is [R m, R n]:
-                    Compute.CmpEq(s, m, n);
+                    s.CmpEq(m, n);
                     return;
                 case Mnemonic.CmpGe when ops is [R m, R n]:
-                    Compute.CmpGe(s, m, n);
+                    s.CmpGe(m, n);
                     return;
                 case Mnemonic.CmpGt when ops is [R m, R n]:
-                    Compute.CmpGt(s, m, n);
+                    s.CmpGt(m, n);
                     return;
                 case Mnemonic.CmpHi when ops is [R m, R n]:
-                    Compute.CmpHi(s, m, n);
+                    s.CmpHi(m, n);
                     return;
                 case Mnemonic.CmpHs when ops is [R m, R n]:
-                    Compute.CmpHs(s, m, n);
+                    s.CmpHs(m, n);
                     return;
                 case Mnemonic.CmpPl when ops is [R n]:
-                    Compute.CmpPl(s, n);
+                    s.CmpPl(n);
                     return;
                 case Mnemonic.CmpPz when ops is [R n]:
-                    Compute.CmpPz(s, n);
+                    s.CmpPz(n);
                     return;
                 case Mnemonic.CmpStr when ops is [R m, R n]:
-                    Compute.CmpStr(s, m, n);
+                    s.CmpStr(m, n);
                     return;
                 case Mnemonic.CmpEq when ops is [I8 i, R n]:
-                    Compute.CmpEq(s, i.Val, n);
+                    s.CmpEq(i.Val, n);
                     return;
                 case Mnemonic.Div0s when ops is [R m, R n]:
-                    Compute.Div0s(s, m, n);
+                    s.Div0s(m, n);
                     return;
                 case Mnemonic.Div0u:
-                    Compute.Div0u(s);
+                    s.Div0u();
                     return;
                 case Mnemonic.Div1 when ops is [R m, R n]:
-                    Compute.Div1(s, m, n);
+                    s.Div1(m, n);
                     return;
                 case Mnemonic.DmulsL when ops is [R m, R n]:
-                    Compute.DmulsL(s, m, n);
+                    s.DmulsL(m, n);
                     return;
                 case Mnemonic.DmuluL when ops is [R m, R n]:
-                    Compute.DmuluL(s, m, n);
+                    s.DmuluL(m, n);
                     return;
                 case Mnemonic.Dt when ops is [R n]:
-                    Compute.Dt(s, n);
+                    s.Dt(n);
                     return;
                 case Mnemonic.ExtsB when ops is [R m, R n]:
-                    Compute.Extsb(s, m, n);
+                    s.Extsb(m, n);
                     return;
                 case Mnemonic.ExtsW when ops is [R m, R n]:
-                    Compute.Extsw(s, m, n);
+                    s.Extsw(m, n);
                     return;
                 case Mnemonic.ExtuB when ops is [R m, R n]:
-                    Compute.Extub(s, m, n);
+                    s.Extub(m, n);
                     return;
                 case Mnemonic.ExtuW when ops is [R m, R n]:
-                    Compute.Extuw(s, m, n);
+                    s.Extuw(m, n);
                     return;
                 case Mnemonic.Jmp when ops is [AO m]:
-                    Jumping.Jump(s, m, ref nextIP, ref delayIP);
+                    s.Jump(m, ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Jsr when ops is [MU32 mem]:
-                    Jumping.JumpSubroutine(s, mem, ref nextIP, ref delayIP);
+                    s.JumpSubroutine(mem, ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Ldc when ops is [R m, R n]:
-                    Compute.Ldc(s, m, n);
+                    s.Ldc(m, n);
                     return;
                 case Mnemonic.LdcL when ops is [MU32 mem, R n]:
-                    Compute.LdcL(s, mem, n);
+                    s.LdcL(mem, n);
                     return;
                 case Mnemonic.Lds when ops is [R m, R n]:
-                    Compute.Lds(s, m, n);
+                    s.Lds(m, n);
                     return;
                 case Mnemonic.LdsL when ops is [MU32 mem, R n]:
-                    Compute.LdsL(s, mem, n);
+                    s.LdsL(mem, n);
                     return;
                 case Mnemonic.Ldtlb:
-                    Compute.Ldtlb(s);
+                    s.Ldtlb();
                     return;
                 case Mnemonic.MacL when ops is [MU32 m, MU32 n]:
-                    Compute.Macl(s, m, n);
+                    s.Macl(m, n);
                     return;
                 case Mnemonic.MacW when ops is [MU16 m, MU16 n]:
-                    Compute.Macw(s, m, n);
+                    s.Macw(m, n);
                     return;
                 case Mnemonic.Mov when ops is [R m, R n]:
-                    Compute.Mov(s, m, n);
+                    s.Mov(m, n);
                     return;
                 case Mnemonic.Mov when ops is [I8 i, R n]:
-                    Compute.Mov(s, i.Val, n);
+                    s.Mov(i.Val, n);
                     return;
                 case Mnemonic.MovB when ops is [R r, MU8 mem]:
-                    Compute.Mov(s, r, mem);
+                    s.Mov(r, mem);
                     return;
                 case Mnemonic.MovW when ops is [MU16 mem, R r]:
-                    Compute.Mov(s, mem, r);
+                    s.Mov(mem, r);
                     return;
                 case Mnemonic.MovW when ops is [R r, MU16 mem]:
-                    Compute.MovW(s, r, mem);
+                    s.MovW(r, mem);
                     return;
                 case Mnemonic.MovL when ops is [R r, MU32 mem]:
-                    Compute.Mov(s, r, mem);
+                    s.Mov(r, mem);
                     return;
                 case Mnemonic.MovB when ops is [MU8 mem, R r]:
-                    Compute.Mov(s, mem, r);
+                    s.Mov(mem, r);
                     return;
                 case Mnemonic.MovW when ops is [MU16 mem, R n]:
-                    Compute.Mov(s, mem, n);
+                    s.Mov(mem, n);
                     return;
                 case Mnemonic.MovL when ops is [MU32 mem, R n]:
-                    Compute.Mov(s, mem, n);
+                    s.Mov(mem, n);
                     return;
                 case Mnemonic.Mova when ops is [AO d, R n]:
-                    Compute.Mova(s, d, n);
+                    s.Mova(d, n);
                     return;
                 case Mnemonic.Movt when ops is [R n]:
-                    Compute.Movt(s, n);
+                    s.Movt(n);
                     return;
                 case Mnemonic.MulL when ops is [R m, R n]:
-                    Compute.MulL(s, m, n);
+                    s.MulL(m, n);
                     return;
                 case Mnemonic.MulsW when ops is [R m, R n]:
-                    Compute.MulsW(s, m, n);
+                    s.MulsW(m, n);
                     return;
                 case Mnemonic.MuluW when ops is [R m, R n]:
-                    Compute.MuluW(s, m, n);
+                    s.MuluW(m, n);
                     return;
                 case Mnemonic.Neg when ops is [R m, R n]:
-                    Compute.Neg(s, m, n);
+                    s.Neg(m, n);
                     return;
                 case Mnemonic.Negc when ops is [R m, R n]:
-                    Compute.Negc(s, m, n);
+                    s.Negc(m, n);
                     return;
                 case Mnemonic.Nop:
                     return;
                 case Mnemonic.Not when ops is [R m, R n]:
-                    Compute.Not(s, m, n);
+                    s.Not(m, n);
                     return;
                 case Mnemonic.Or when ops is [R m, R n]:
-                    Compute.Or(s, m, n);
+                    s.Or(m, n);
                     return;
                 case Mnemonic.Or when ops is [U8 i, R n]:
-                    Compute.Or(s, i.Val, n);
+                    s.Or(i.Val, n);
                     return;
                 case Mnemonic.OrB when ops is [U8 i, MU8 mem]:
-                    Compute.Or(s, i.Val, mem);
+                    s.Or(i.Val, mem);
                     return;
                 case Mnemonic.Pref when ops is [MU32 mem]:
                     // TODO Load cache?!
                     return;
                 case Mnemonic.Rotcl when ops is [R n]:
-                    Compute.Rotcl(s, n);
+                    s.Rotcl(n);
                     return;
                 case Mnemonic.Rotcr when ops is [R n]:
-                    Compute.Rotcr(s, n);
+                    s.Rotcr(n);
                     return;
                 case Mnemonic.Rotl when ops is [R n]:
-                    Compute.Rotl(s, n);
+                    s.Rotl(n);
                     return;
                 case Mnemonic.Rotr when ops is [R n]:
-                    Compute.Rotr(s, n);
+                    s.Rotr(n);
                     return;
                 case Mnemonic.Rte:
-                    Jumping.ReturnFromEx(s, ref nextIP, ref delayIP);
+                    s.ReturnFromEx(ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Rts:
-                    Jumping.ReturnSubroutine(s, ref nextIP, ref delayIP);
+                    s.ReturnSubroutine(ref nextIP, ref delayIP);
                     return;
                 case Mnemonic.Sets:
-                    Compute.Sets(s);
+                    s.Sets();
                     return;
                 case Mnemonic.Sett:
-                    Compute.Sett(s);
+                    s.Sett();
                     return;
                 case Mnemonic.Shad when ops is [R m, R n]:
-                    Compute.Shad(s, m, n);
+                    s.Shad(m, n);
                     return;
                 case Mnemonic.Shal when ops is [R n]:
-                    Compute.Shal(s, n);
+                    s.Shal(n);
                     return;
                 case Mnemonic.Shar when ops is [R n]:
-                    Compute.Shar(s, n);
+                    s.Shar(n);
                     return;
                 case Mnemonic.Shld when ops is [R m, R n]:
-                    Compute.Shld(s, m, n);
+                    s.Shld(m, n);
                     return;
                 case Mnemonic.Shll when ops is [R n]:
-                    Compute.Shll(s, n);
+                    s.Shll(n);
                     return;
                 case Mnemonic.Shll2 when ops is [R n]:
-                    Compute.Shlln(s, 2, n);
+                    s.Shlln(2, n);
                     return;
                 case Mnemonic.Shll8 when ops is [R n]:
-                    Compute.Shlln(s, 8, n);
+                    s.Shlln(8, n);
                     return;
                 case Mnemonic.Shll16 when ops is [R n]:
-                    Compute.Shlln(s, 16, n);
+                    s.Shlln(16, n);
                     return;
                 case Mnemonic.Shlr when ops is [R n]:
-                    Compute.Shlr(s, n);
+                    s.Shlr(n);
                     return;
                 case Mnemonic.Shlr2 when ops is [R n]:
-                    Compute.Shlrn(s, 2, n);
+                    s.Shlrn(2, n);
                     return;
                 case Mnemonic.Shlr8 when ops is [R n]:
-                    Compute.Shlrn(s, 8, n);
+                    s.Shlrn(8, n);
                     return;
                 case Mnemonic.Shlr16 when ops is [R n]:
-                    Compute.Shlrn(s, 16, n);
+                    s.Shlrn(16, n);
                     return;
                 case Mnemonic.Sleep:
-                    Special.Sleep(s, this, ref nextIP);
+                    s.Sleep(this, ref nextIP);
                     return;
                 case Mnemonic.Stc when ops is [R m, R n]:
-                    Compute.Stc(s, m, n);
+                    s.Stc(m, n);
                     return;
                 case Mnemonic.StcL when ops is [R m, MU32 mem]:
-                    Compute.StcL(s, m, mem);
+                    s.StcL(m, mem);
                     return;
                 case Mnemonic.Sts when ops is [R m, R n]:
-                    Compute.Sts(s, m, n);
+                    s.Sts(m, n);
                     return;
                 case Mnemonic.StsL when ops is [R m, MU32 mem]:
-                    Compute.StsL(s, m, mem);
+                    s.StsL(m, mem);
                     return;
                 case Mnemonic.Sub when ops is [R m, R n]:
-                    Compute.Sub(s, m, n);
+                    s.Sub(m, n);
                     return;
                 case Mnemonic.Subc when ops is [R m, R n]:
-                    Compute.Subc(s, m, n);
+                    s.Subc(m, n);
                     return;
                 case Mnemonic.Subv when ops is [R m, R n]:
-                    Compute.Subv(s, m, n);
+                    s.Subv(m, n);
                     return;
                 case Mnemonic.SwapB when ops is [R m, R n]:
-                    Compute.Swapb(s, m, n);
+                    s.Swapb(m, n);
                     return;
                 case Mnemonic.SwapW when ops is [R m, R n]:
-                    Compute.Swapw(s, m, n);
+                    s.Swapw(m, n);
                     return;
                 case Mnemonic.TasB when ops is [MU8 mem]:
-                    Compute.Tasb(s, mem);
+                    s.Tasb(mem);
                     return;
                 case Mnemonic.Trapa when ops is [U8 i]:
-                    Special.Trapa(s, this, i.Val);
+                    s.Trapa(this, i.Val);
                     return;
                 case Mnemonic.Tst when ops is [R m, R n]:
-                    Compute.Tst(s, m, n);
+                    s.Tst(m, n);
                     return;
                 case Mnemonic.Tst when ops is [U8 i, R n]:
-                    Compute.Tst(s, i.Val, n);
+                    s.Tst(i.Val, n);
                     return;
                 case Mnemonic.TstB when ops is [U8 i, MU8 mem]:
-                    Compute.Tstb(s, i.Val, mem);
+                    s.Tstb(i.Val, mem);
                     return;
                 case Mnemonic.Xor when ops is [R m, R n]:
-                    Compute.Xor(s, m, n);
+                    s.Xor(m, n);
                     return;
                 case Mnemonic.Xor when ops is [U8 i, R n]:
-                    Compute.Xor(s, i.Val, n);
+                    s.Xor(i.Val, n);
                     return;
                 case Mnemonic.XorB when ops is [U8 i, MU8 mem]:
-                    Compute.Xorb(s, i.Val, mem);
+                    s.Xorb(i.Val, mem);
                     return;
                 case Mnemonic.Xtrct when ops is [R m, R n]:
-                    Compute.Xtrct(s, m, n);
+                    s.Xtrct(m, n);
                     return;
             }
 

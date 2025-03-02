@@ -91,7 +91,7 @@ namespace PoViEmu.Inventory.Utils
         }
 
         private static string ToKey(Guid id)
-            => id.ToString("N")[..16];
+            => id.ToShortId();
 
         public bool ContainsKey(Guid key)
             => ContainsKey(ToKey(key));

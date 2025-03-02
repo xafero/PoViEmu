@@ -126,5 +126,10 @@ namespace PoViEmu.Base
             var lines = text.Split('\n');
             return FilterLines(lines, noEmpty, noSpaces).ToArray();
         }
+
+        public static string ToShortId(this Guid id, int len = 16)
+        {
+            return id.ToString("N")[..len];
+        }
     }
 }
