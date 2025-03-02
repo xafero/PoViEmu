@@ -41,7 +41,7 @@ namespace PoViEmu.UI.Views
         {
             var ctx = this.GetOrCreateData<TemplViewModel>();
             var tmplName = ctx.Selected.Name;
-            this.GetRouter().Push(new InstanceViewModel { TemplateName = tmplName });
+            this.GetRouter().Push(new CreateInstViewModel { TemplateName = tmplName });
         }
     }
 }

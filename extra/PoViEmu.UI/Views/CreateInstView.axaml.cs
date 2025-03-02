@@ -7,9 +7,9 @@ using PoViEmu.UI.ViewModels;
 
 namespace PoViEmu.UI.Views
 {
-    public partial class InstanceView : UserControl
+    public partial class CreateInstView : UserControl
     {
-        public InstanceView()
+        public CreateInstView()
         {
             InitializeComponent();
         }
@@ -21,7 +21,7 @@ namespace PoViEmu.UI.Views
         private void OnNextClick(object? sender, RoutedEventArgs e)
         {
             if (CfgRepo.Instance.Entities is { } ent &&
-                this.FindData<InstanceViewModel>() is { } model)
+                this.FindData<CreateInstViewModel>() is { } model)
             {
                 var id = Guid.NewGuid();
                 ent[id] = new OneEntity

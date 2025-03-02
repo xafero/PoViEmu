@@ -5,8 +5,8 @@
              xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
              mc:Ignorable="d" 
              d:DesignWidth="450" d:DesignHeight="800"
-             x:Class="PoViEmu.UI.Views.InstanceView"
-             x:DataType="vm:InstanceViewModel"
+             x:Class="PoViEmu.UI.Views.CreateInstView"
+             x:DataType="vm:CreateInstViewModel"
              Loaded="OnLoaded">
     
     <StackPanel Margin="20">

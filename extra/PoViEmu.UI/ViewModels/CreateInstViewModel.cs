@@ -3,7 +3,7 @@ using PoViEmu.UI.Tools;
 
 namespace PoViEmu.UI.ViewModels
 {
-    public partial class InstanceViewModel : ViewModelBase, IRoutable
+    public partial class CreateInstViewModel : ViewModelBase, IRoutable
     {
         [ObservableProperty] private string _templateName;
 
