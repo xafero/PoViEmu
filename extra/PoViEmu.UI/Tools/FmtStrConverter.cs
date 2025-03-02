@@ -2,20 +2,10 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Avalonia;
-using Avalonia.Data;
-using Avalonia.Data.Converters;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using Avalonia;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
 using PoViEmu.Base;
-using Conv = System.Convert;
 
 namespace PoViEmu.UI.Tools
 {
