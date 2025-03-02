@@ -16,11 +16,18 @@ namespace PoViEmu.UI.Views
 
         private void OnLoaded(object? sender, RoutedEventArgs e)
         {
-            if (CfgRepo.Instance.Entities is { } ent &&
-                this.FindData<InstanceViewModel>() is { } model)
-            {
-                model.Instances = ent.Values.ToList();
-            }
+            var ctx = this.GetOrCreateData<InstanceViewModel>();
+            CtxUtil.Invoke(async () =>
+                {
+                    var repo = CfgRepo.Instance;
+                    await repo.Load();
+                    return repo.Entities.Values.ToArray();
+                },
+                entries => { ctx.Instances = entries; },
+                _ =>
+                {
+                    /* "Could not load instances!" */
+                });
         }
 
         private void OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
