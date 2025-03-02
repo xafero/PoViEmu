@@ -29,7 +29,7 @@ namespace PoViEmu.UI.Views
                     Id = id, Name = model.InstanceName, Notes = model.InstanceNotes
                 };
             }
-            this.GetRouter().Push<IRoutable>(default);
+            this.GetRouter().Push(new InstanceViewModel());
         }
     }
 }
