@@ -2,9 +2,49 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="PoViEmu.UI.Views.InstanceView">
-  
-    Welcome to Avalonia!
+			 xmlns:tools="clr-namespace:PoViEmu.UI.Tools"
+             xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignWidth="450" d:DesignHeight="800"
+             x:Class="PoViEmu.UI.Views.InstanceView"
+             x:DataType="vm:InstanceViewModel"
+             Loaded="OnLoaded">
+
+    <Design.DataContext>
+        <vm:InstanceViewModel />
+    </Design.DataContext>
+
+	<UserControl.Resources>
+		<tools:FmtStrConverter x:Key="Sp" />
+    </UserControl.Resources>
+
+	<Grid RowDefinitions="Auto,*,Auto,Auto" Margin="20">
+        <ListBox Grid.Row="1" ItemsSource="{Binding Instances}"
+			        FontFamily="{StaticResource MonoF}"
+			        SelectionChanged="OnSelectionChanged">
+	        <ListBox.ItemTemplate>
+		        <DataTemplate>
+			        <Grid RowDefinitions="*,*,*,*" ColumnDefinitions="*">
+				        <TextBlock  Grid.Row="0" Grid.Column="0"
+							        FontSize="19" FontWeight="Heavy">
+					        <Run Text="{Binding Name}" />
+						</TextBlock>
+				        <TextBlock Grid.Row="1" Grid.Column="0">
+					        <Run Text="Template:" FontWeight="Bold" />
+					        <Run Text="{Binding Template}" />
+				        </TextBlock>
+				        <TextBlock Grid.Row="2" Grid.Column="0">
+                            <Run Text="Id:" FontWeight="Bold" />
+                            <Run Text="{Binding Id, StringFormat=N}" />
+						</TextBlock>
+						<TextBlock Grid.Row="3" Grid.Column="0">
+							<Run Text="Notes:" FontWeight="Bold" />
+                            <Run Text="{Binding Notes, Converter={StaticResource Sp}, ConverterParameter='FL'}" />
+				        </TextBlock>
+			        </Grid>
+		        </DataTemplate>
+	        </ListBox.ItemTemplate>
+        </ListBox>
+	</Grid>
 
 </UserControl>
