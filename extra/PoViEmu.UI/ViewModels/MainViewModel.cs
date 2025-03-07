@@ -1,7 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using PoViEmu.Base;
 using PoViEmu.Inventory.Config;
 using PoViEmu.UI.Core;
 using PoViEmu.UI.Routes;
@@ -10,9 +10,10 @@ namespace PoViEmu.UI.ViewModels
 {
     public partial class MainViewModel : ViewModelBase, IRouter
     {
-        private static readonly Stack<IRoutable> _routed = new(10);
+        private static readonly RingStack<IRoutable> Routed = new(10);
 
         [ObservableProperty] private ViewModelBase _currentView;
+        [ObservableProperty] private bool _canGoBack;
 
         public MainViewModel()
         {
@@ -37,13 +38,25 @@ namespace PoViEmu.UI.ViewModels
             this.Push<InstanceViewModel>();
         }
 
-        public void Push<T>(T model) where T : IRoutable
+        private void GoTo(IRoutable? model)
         {
-            _routed.Push(model);
-            var vmb = (model as ViewModelBase)!;
-            CurrentView = vmb;
+            if (model is ViewModelBase vmb)
+                CurrentView = vmb;
+            CanGoBack = IsGoBack();
         }
 
-        public static IRoutable Last => _routed.Pop();
+        public void Push<T>(T model) where T : IRoutable
+        {
+            Routed.Push(model);
+            GoTo(model);
+        }
+
+        public void GoBack()
+        {
+            _ = Routed.Pop();
+            GoTo(Routed.Pop());
+        }
+
+        private bool IsGoBack() => Routed.Count >= 2;
     }
 }
