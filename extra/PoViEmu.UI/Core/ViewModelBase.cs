@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace PoViEmu.UI.ViewModels
+namespace PoViEmu.UI.Core
 {
     public abstract class ViewModelBase : ObservableObject
     {

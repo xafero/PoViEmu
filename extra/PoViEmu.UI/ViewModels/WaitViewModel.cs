@@ -1,5 +1,6 @@
 using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
+using PoViEmu.UI.Core;
 
 namespace PoViEmu.UI.ViewModels
 {

@@ -4,7 +4,7 @@ using Avalonia;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable ClassNeverInstantiated.Global
 
-namespace PoViEmu.UI.Desktop
+namespace PoViEmu.UI.Debugger
 {
     internal sealed class Program
     {

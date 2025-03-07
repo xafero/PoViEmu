@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 
-namespace PoViEmu.UI.Views
+namespace PoViEmu.UI.Core
 {
     public partial class MainWindow : Window
     {

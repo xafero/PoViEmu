@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         d:DesignWidth="400" d:DesignHeight="650"
         Width="400" Height="650"
-        x:Class="PoViEmu.UI.Views.MainWindow"
+        x:Class="PoViEmu.UI.Core.MainWindow"
         x:DataType="vm:MainViewModel"
         Icon="/Assets/app-logo.ico"
         Title="PoViEmu"

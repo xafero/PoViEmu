@@ -1,6 +1,6 @@
 ﻿// ReSharper disable InconsistentNaming
 
-namespace PoViEmu.UI.Tools
+namespace PoViEmu.UI.Conv
 {
     public enum FmtStrKind
     {

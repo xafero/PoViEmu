@@ -1,4 +1,4 @@
-namespace PoViEmu.UI.Tools
+namespace PoViEmu.UI.Routes
 {
     public interface IRoutable
     {

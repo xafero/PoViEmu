@@ -5,6 +5,7 @@ using System.Linq;
 using Avalonia.Markup.Xaml;
 using PoViEmu.UI.ViewModels;
 using PoViEmu.UI.Views;
+using MainWindow = PoViEmu.UI.Core.MainWindow;
 
 namespace PoViEmu.UI
 {

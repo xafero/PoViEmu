@@ -1,7 +1,7 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using PoViEmu.UI.ViewModels;
+using PoViEmu.UI.Core;
 
 namespace PoViEmu.UI.Tools
 {

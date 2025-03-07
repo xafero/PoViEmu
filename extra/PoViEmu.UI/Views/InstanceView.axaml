@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:tools="clr-namespace:PoViEmu.UI.Tools"
              xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
+             xmlns:conv="clr-namespace:PoViEmu.UI.Conv"
              mc:Ignorable="d" 
              d:DesignWidth="450" d:DesignHeight="800"
              x:Class="PoViEmu.UI.Views.InstanceView"
@@ -15,7 +16,7 @@
     </Design.DataContext>
 
 	<UserControl.Resources>
-		<tools:FmtStrConverter x:Key="Sp" />
+		<conv:FmtStrConverter x:Key="Sp" />
     </UserControl.Resources>
 
 	<Grid RowDefinitions="Auto,*,Auto,Auto" Margin="20">

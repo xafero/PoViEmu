@@ -7,7 +7,7 @@ using Avalonia.Data;
 using Avalonia.Data.Converters;
 using PoViEmu.Base;
 
-namespace PoViEmu.UI.Tools
+namespace PoViEmu.UI.Conv
 {
     public sealed class FmtStrConverter : IValueConverter, IMultiValueConverter
     {

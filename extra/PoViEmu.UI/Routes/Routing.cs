@@ -1,7 +1,8 @@
 using System;
 using Avalonia;
+using PoViEmu.UI.Tools;
 
-namespace PoViEmu.UI.Tools
+namespace PoViEmu.UI.Routes
 {
     public static class Routing
     {
