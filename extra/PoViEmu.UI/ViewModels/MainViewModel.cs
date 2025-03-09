@@ -57,6 +57,6 @@ namespace PoViEmu.UI.ViewModels
             GoTo(Routed.Pop());
         }
 
-        private bool IsGoBack() => Routed.Count >= 2;
+        private static bool IsGoBack() => Routed.Count >= 2;
     }
 }
