@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Avalonia.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using PoViEmu.Base;
 using PoViEmu.Inventory.Config;

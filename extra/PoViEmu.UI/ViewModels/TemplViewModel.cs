@@ -6,7 +6,7 @@ using PoViEmu.UI.Routes;
 
 namespace PoViEmu.UI.ViewModels
 {
-    public partial class TemplViewModel : ViewModelBase, IRoutable, INavigable
+    public partial class TemplViewModel : ViewModelBase, INavigable
     {
         [ObservableProperty] private string? _debug;
 
