@@ -18,9 +18,10 @@ namespace PoViEmu.UI
 
         public override void OnFrameworkInitializationCompleted()
         {
+            // TODO DisableAvaloniaDataAnnotationValidation();
+
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                DisableAvaloniaDataAnnotationValidation();
                 desktop.MainWindow = new MainWindow
                 {
                     DataContext = new MainViewModel()

@@ -17,12 +17,16 @@ namespace PoViEmu.UI.Views
 
         private void OnLoaded(object? sender, RoutedEventArgs e)
         {
+            if (this.FindData<CreateInstViewModel>() is { } model)
+                model.ForceCheck();
         }
 
         private void OnNextClick(object? sender, RoutedEventArgs e)
         {
-            if (CfgRepo.Instance.Entities is { } ent &&
-                this.FindData<CreateInstViewModel>() is { } model)
+            if (this.FindData<CreateInstViewModel>() is not { } model)
+                return;
+
+            if (CfgRepo.Instance.Entities is { } ent)
             {
                 var id = Guid.NewGuid();
                 ent[id] = new OneEntity

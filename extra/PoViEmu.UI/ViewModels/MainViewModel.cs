@@ -12,7 +12,7 @@ namespace PoViEmu.UI.ViewModels
     {
         private static readonly RingStack<IRoutable> Routed = new(10);
 
-        [ObservableProperty] private ViewModelBase _currentView;
+        [ObservableProperty] private IViewModelBase _currentView;
         [ObservableProperty] private bool _canGoBack;
 
         public MainViewModel()
@@ -40,7 +40,7 @@ namespace PoViEmu.UI.ViewModels
 
         private void GoTo(IRoutable? model)
         {
-            if (model is ViewModelBase vmb)
+            if (model is IViewModelBase vmb)
                 CurrentView = vmb;
             CanGoBack = IsGoBack();
         }

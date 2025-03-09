@@ -28,6 +28,10 @@ namespace PoViEmu.UI.Conv
             var kind = EnumHelper.Parse<FmtStrKind>(parameter);
             if (targetType == typeof(string))
             {
+                if (value is null)
+                {
+                    return null;
+                }
                 if (value is Guid id && kind == FmtStrKind.ID)
                 {
                     var idT = id.ToShortId();

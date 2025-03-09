@@ -25,7 +25,7 @@ namespace PoViEmu.UI.Tools
 
         public bool Match(object? data)
         {
-            return data is ViewModelBase;
+            return data is IViewModelBase;
         }
     }
 }

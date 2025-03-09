@@ -40,6 +40,7 @@
             <Button Click="OnNextClick" 
                     FontFamily="{StaticResource MonoF}"
                     HorizontalAlignment="Center"
+                    IsEnabled="{Binding !HasErrors}"
                     Padding="15" FontSize="15" FontWeight="Heavy">
                 <TextBlock>
                     <Run>Create</Run>
