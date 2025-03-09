@@ -10,7 +10,7 @@ namespace PoViEmu.UI.ViewModels
     {
         [ObservableProperty] private string _debug;
 
-        [ObservableProperty] private IList<TemplEntry> _templates;
+        [ObservableProperty] private IList<TemplEntry>? _templates;
 
         [ObservableProperty] private bool _showNextBtn;
 

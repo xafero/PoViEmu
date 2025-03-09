@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:tools="clr-namespace:PoViEmu.UI.Tools"
              xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
              xmlns:conv="clr-namespace:PoViEmu.UI.Conv"
              mc:Ignorable="d" 
@@ -20,10 +19,14 @@
     </UserControl.Resources>
 
 	<Grid RowDefinitions="Auto,*,Auto,Auto" Margin="20">
-        <ListBox Grid.Row="1" ItemsSource="{Binding Instances}"
-			        FontFamily="{StaticResource MonoF}"
-			        SelectionChanged="OnSelectionChanged">
-	        <ListBox.ItemTemplate>
+		<TextBlock Grid.Row="0" Margin="0 5" 
+                   FontFamily="{StaticResource MonoF}">
+            Choose an instance:
+        </TextBlock>
+        <ListBox Grid.Row="1" ItemsSource="{Binding Instances}" 
+                 FontFamily="{StaticResource MonoF}" 
+                 SelectionChanged="OnSelectionChanged">
+            <ListBox.ItemTemplate>
 		        <DataTemplate>
 			        <Grid RowDefinitions="*,*,*,*" ColumnDefinitions="*">
 				        <TextBlock  Grid.Row="0" Grid.Column="0"
@@ -46,6 +49,18 @@
 		        </DataTemplate>
 	        </ListBox.ItemTemplate>
         </ListBox>
+		<TextBlock Grid.Row="2" Text="{Binding Debug}" />
+        <Button Grid.Row="3"  
+                FontFamily="{StaticResource MonoF}"
+                Margin="2" Padding="10" 
+                IsVisible="{Binding ShowNextBtn}"
+                HorizontalAlignment="Right" Click="NextBtn_OnClick"
+                FontSize="17" FontWeight="Heavy">
+            <TextBlock>
+                <Run>Start</Run>
+                <Run FontFamily="{StaticResource FontA}">&#xF0A9;</Run>
+            </TextBlock>
+        </Button>
 	</Grid>
 
 </UserControl>
