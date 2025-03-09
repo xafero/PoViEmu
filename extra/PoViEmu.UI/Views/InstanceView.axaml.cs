@@ -4,13 +4,7 @@ using Avalonia.Interactivity;
 using PoViEmu.Inventory.Config;
 using PoViEmu.UI.Tools;
 using PoViEmu.UI.ViewModels;
-using System.Linq;
-using Avalonia.Controls;
-using Avalonia.Interactivity;
-using PoViEmu.Inventory.Upper;
 using PoViEmu.UI.Routes;
-using PoViEmu.UI.Tools;
-using PoViEmu.UI.ViewModels;
 
 namespace PoViEmu.UI.Views
 {
