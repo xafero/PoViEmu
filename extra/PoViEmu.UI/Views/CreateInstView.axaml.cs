@@ -34,5 +34,10 @@ namespace PoViEmu.UI.Views
             }
             this.GetRouter().Push<InstanceViewModel>();
         }
+
+        private void OnBackClick(object? sender, RoutedEventArgs e)
+        {
+            this.GetRouter().GoBack();
+        }
     }
 }

@@ -26,16 +26,27 @@
         <TextBox Height="100" AcceptsReturn="True" TextWrapping="Wrap"
                  Watermark="Enter the instance's notes" 
                  Text="{Binding InstanceNotes}"/>
-        <Button Click="OnNextClick" 
-                FontFamily="{StaticResource MonoF}"
-                HorizontalAlignment="Center"
-                Margin="25" Padding="15"
-                FontSize="15" FontWeight="Heavy">
-            <TextBlock>
-                <Run>Create</Run>
-                <Run FontFamily="{StaticResource FontA}">&#xF46C;</Run>
-            </TextBlock>
-        </Button>
+        <StackPanel Orientation="Horizontal" Margin="25"
+                    HorizontalAlignment="Center" Spacing="10">
+            <Button Click="OnBackClick" 
+                    FontFamily="{StaticResource MonoF}"
+                    HorizontalAlignment="Center"
+                    Padding="15" FontSize="15" FontWeight="Heavy">
+                <TextBlock>
+					<Run FontFamily="{StaticResource FontA}">&#x00D7;</Run>
+					<Run>Cancel</Run>
+                </TextBlock>
+            </Button>
+            <Button Click="OnNextClick" 
+                    FontFamily="{StaticResource MonoF}"
+                    HorizontalAlignment="Center"
+                    Padding="15" FontSize="15" FontWeight="Heavy">
+                <TextBlock>
+                    <Run>Create</Run>
+                    <Run FontFamily="{StaticResource FontA}">&#x2713;</Run>
+                </TextBlock>
+            </Button>
+        </StackPanel>
     </StackPanel>
     
 </UserControl>

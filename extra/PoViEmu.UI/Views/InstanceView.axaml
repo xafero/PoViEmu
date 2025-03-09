@@ -58,7 +58,7 @@
                 FontSize="17" FontWeight="Heavy">
             <TextBlock>
                 <Run>Start</Run>
-                <Run FontFamily="{StaticResource FontA}">&#xF0A9;</Run>
+                <Run FontFamily="{StaticResource FontA}">&#x25B6;</Run>
             </TextBlock>
         </Button>
 	</Grid>
