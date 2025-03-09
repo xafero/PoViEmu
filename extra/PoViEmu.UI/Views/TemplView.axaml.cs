@@ -44,5 +44,10 @@ namespace PoViEmu.UI.Views
             var tmplName = ctx.Selected.Name;
             this.GetRouter().Push(new CreateInstViewModel { TemplateName = tmplName });
         }
+
+        private void BackBtn_OnClick(object? sender, RoutedEventArgs e)
+        {
+            this.GetRouter().GoBack();
+        }
     }
 }

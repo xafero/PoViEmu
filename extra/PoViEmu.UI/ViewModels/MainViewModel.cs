@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Avalonia.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using PoViEmu.Base;
 using PoViEmu.Inventory.Config;
@@ -41,20 +42,25 @@ namespace PoViEmu.UI.ViewModels
         private void GoTo(IRoutable? model)
         {
             if (model is IViewModelBase vmb)
+            {
+                Routed.Push(model);
                 CurrentView = vmb;
+            }
             CanGoBack = IsGoBack();
         }
 
         public void Push<T>(T model) where T : IRoutable
         {
-            Routed.Push(model);
             GoTo(model);
         }
 
         public void GoBack()
         {
             _ = Routed.Pop();
-            GoTo(Routed.Pop());
+            var now = Routed.Pop();
+            if (now is INavigable nav)
+                nav.OnBack();
+            GoTo(now);
         }
 
         private static bool IsGoBack() => Routed.Count >= 2;
