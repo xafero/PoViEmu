@@ -417,3 +417,5 @@ extra/PoViEmu.Workbook/output/
 /tools/discover/data/
 
 extra/data/
+extra/PoViEmu.UI.Debugger/data
+extra/PoViEmu.UI.Desktop/data
