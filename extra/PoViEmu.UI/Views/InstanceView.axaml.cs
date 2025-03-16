@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -38,26 +39,34 @@ namespace PoViEmu.UI.Views
             ctx.ShowNextBtn = true;
         }
 
+        private Guid SelectedId
+        {
+            get
+            {
+                var ctx = this.GetOrCreateData<InstanceViewModel>();
+                var instId = ctx.Selected.Id;
+                return instId;
+            }
+        }
+
         private void RunBtn_OnClick(object? sender, RoutedEventArgs e)
         {
-            var ctx = this.GetOrCreateData<InstanceViewModel>();
-            var instId = ctx.Selected.Id;
-            this.GetRouter().Push(new RunInstViewModel { InstanceId = instId });
+            this.GetRouter().Push(new RunInstViewModel { InstanceId = SelectedId });
+        }
+
+        private void EditBtn_OnClick(object? sender, RoutedEventArgs e)
+        {
+            this.GetRouter().Push(new EditInstViewModel { InstanceId = SelectedId });
+        }
+
+        private void DelBtn_OnClick(object? sender, RoutedEventArgs e)
+        {
+            this.GetRouter().Push(new DelInstViewModel { InstanceId = SelectedId });
         }
 
         private void NewBtn_OnClick(object? sender, RoutedEventArgs e)
         {
             this.GetRouter().Push<CreateInstViewModel>();
-        }
-
-        private void EditBtn_OnClick(object? sender, RoutedEventArgs e)
-        {
-            ;
-        }
-
-        private void DelBtn_OnClick(object? sender, RoutedEventArgs e)
-        {
-            ;
         }
     }
 }
