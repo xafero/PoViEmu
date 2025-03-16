@@ -38,7 +38,7 @@ namespace PoViEmu.UI.Views
             ctx.ShowNextBtn = true;
         }
 
-        private void NextBtn_OnClick(object? sender, RoutedEventArgs e)
+        private void RunBtn_OnClick(object? sender, RoutedEventArgs e)
         {
             var ctx = this.GetOrCreateData<InstanceViewModel>();
             var instId = ctx.Selected.Id;
@@ -48,6 +48,16 @@ namespace PoViEmu.UI.Views
         private void NewBtn_OnClick(object? sender, RoutedEventArgs e)
         {
             this.GetRouter().Push<CreateInstViewModel>();
+        }
+
+        private void EditBtn_OnClick(object? sender, RoutedEventArgs e)
+        {
+            ;
+        }
+
+        private void DelBtn_OnClick(object? sender, RoutedEventArgs e)
+        {
+            ;
         }
     }
 }

@@ -50,17 +50,52 @@
 	        </ListBox.ItemTemplate>
         </ListBox>
 		<TextBlock Grid.Row="2" Text="{Binding Debug}" />
-        <Button Grid.Row="3"  
+        <StackPanel Grid.Row="3" Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <Button 
+                    FontFamily="{StaticResource MonoF}"
+                    Margin="2" Padding="10" 
+                    HorizontalAlignment="Right" Click="NewBtn_OnClick"
+                    FontSize="16" FontWeight="Heavy">
+                <TextBlock>
+                    <Run FontFamily="{StaticResource FontA}">&#xE571;</Run>
+                    <Run>New</Run>
+				</TextBlock>
+            </Button>
+            <Button
                 FontFamily="{StaticResource MonoF}"
-                Margin="2" Padding="10" 
-                IsVisible="{Binding ShowNextBtn}"
-                HorizontalAlignment="Right" Click="NextBtn_OnClick"
-                FontSize="17" FontWeight="Heavy">
-            <TextBlock>
-                <Run>Start</Run>
-                <Run FontFamily="{StaticResource FontA}">&#x25B6;</Run>
-            </TextBlock>
-        </Button>
+                Margin="2" Padding="10"
+                IsEnabled="{Binding ShowNextBtn}"
+                HorizontalAlignment="Right" Click="RunBtn_OnClick"
+                FontSize="16" FontWeight="Heavy">
+                <TextBlock>
+                    <Run FontFamily="{StaticResource FontA}">&#x25B6;</Run>
+                    <Run>Run</Run>
+				</TextBlock>
+            </Button>
+            <Button
+                FontFamily="{StaticResource MonoF}"
+                Margin="2" Padding="10"
+                IsEnabled="{Binding ShowNextBtn}"
+                HorizontalAlignment="Right" Click="EditBtn_OnClick"
+                FontSize="16" FontWeight="Heavy">
+                <TextBlock>
+                    <Run FontFamily="{StaticResource FontA}">&#xF044;</Run>
+                    <Run>Edit</Run>
+                </TextBlock>
+            </Button>
+			<Button
+                FontFamily="{StaticResource MonoF}"
+                Margin="2" Padding="10"
+                IsEnabled="{Binding ShowNextBtn}"
+                HorizontalAlignment="Right" Click="DelBtn_OnClick"
+                FontSize="16" FontWeight="Heavy">
+                <TextBlock>
+                    <Run FontFamily="{StaticResource FontA}">&#xF1F8;</Run>
+                    <Run>Del</Run>
+				</TextBlock>
+            </Button>
+		</StackPanel>
 	</Grid>
 
 </UserControl>
