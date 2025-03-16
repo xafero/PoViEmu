@@ -16,5 +16,10 @@ namespace PoViEmu.UI.Views
         {
             this.GetRouter().Push<TemplViewModel>();
         }
+
+        private void OnSkipClick(object? sender, RoutedEventArgs e)
+        {
+            this.GetRouter().Push<InstanceViewModel>();
+        }
     }
 }

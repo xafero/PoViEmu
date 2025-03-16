@@ -44,5 +44,10 @@ namespace PoViEmu.UI.Views
             var instId = ctx.Selected.Id;
             this.GetRouter().Push(new RunInstViewModel { InstanceId = instId });
         }
+
+        private void NewBtn_OnClick(object? sender, RoutedEventArgs e)
+        {
+            this.GetRouter().Push<CreateInstViewModel>();
+        }
     }
 }
