@@ -66,7 +66,7 @@ namespace PoViEmu.UI.Views
 
         private void NewBtn_OnClick(object? sender, RoutedEventArgs e)
         {
-            this.GetRouter().Push<CreateInstViewModel>();
+            this.GetRouter().Push<TemplViewModel>();
         }
     }
 }

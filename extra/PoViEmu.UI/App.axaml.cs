@@ -4,6 +4,7 @@ using Avalonia.Data.Core.Plugins;
 using System.Linq;
 using Avalonia.Markup.Xaml;
 using PoViEmu.UI.Core;
+using PoViEmu.UI.Extensions;
 using PoViEmu.UI.ViewModels;
 using PoViEmu.UI.Views;
 
@@ -26,6 +27,7 @@ namespace PoViEmu.UI
                 {
                     DataContext = new MainViewModel()
                 };
+                ExtPoints.Instance.OnDesktopInit(this, desktop.MainWindow);
             }
             else if (ApplicationLifetime is ISingleViewApplicationLifetime mobile)
             {
@@ -33,6 +35,7 @@ namespace PoViEmu.UI
                 {
                     DataContext = new MainViewModel()
                 };
+                ExtPoints.Instance.OnMobileInit(this, mobile.MainView);
             }
 
             base.OnFrameworkInitializationCompleted();

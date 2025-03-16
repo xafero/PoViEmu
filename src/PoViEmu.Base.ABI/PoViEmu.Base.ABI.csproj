@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="HexIO" Version="3.0.5" />
+    <PackageReference Include="HexIO" Version="5.0.1" />
   </ItemGroup>
 
 </Project>

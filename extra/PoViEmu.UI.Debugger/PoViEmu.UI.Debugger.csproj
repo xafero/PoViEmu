@@ -19,6 +19,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AvaloniaResource Include="Assets\**"/>
+  </ItemGroup>
+  
+  <ItemGroup>
     <PackageReference Include="Avalonia.Desktop" />
     <PackageReference Include="Avalonia.Diagnostics" >
       <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
