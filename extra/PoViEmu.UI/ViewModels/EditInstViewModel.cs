@@ -1,10 +1,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
-using PoViEmu.UI.Routes;
 
 namespace PoViEmu.UI.ViewModels
 {
-    public partial class EditInstViewModel : CreateInstViewModel, IRoutable
+    public partial class EditInstViewModel : CreateInstViewModel
     {
         [ObservableProperty] 
         private Guid _instanceId;

@@ -3,12 +3,51 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="650"
+             mc:Ignorable="d" 
+             d:DesignWidth="450" d:DesignHeight="800"
              x:Class="PoViEmu.UI.Views.EditInstView"
-             x:DataType="vm:EditInstViewModel">
+             x:DataType="vm:EditInstViewModel"
+             Loaded="OnLoaded">
 
     <Design.DataContext>
         <vm:EditInstViewModel />
     </Design.DataContext>
+
+	<StackPanel Margin="20">
+        <TextBlock Margin="0 5" FontWeight="Bold" FontSize="20"
+                   HorizontalAlignment="Center" Text="Change Instance" />
+        <TextBlock Margin="0 5" Text="Template:" />
+        <TextBlock Text="{Binding TemplateName, FallbackValue='???'}"
+                   Padding="10,10" FontWeight="Heavy" />
+        <TextBlock Margin="0 5" >Name:</TextBlock>
+        <TextBox    Text="{Binding InstanceName}"    
+                    Watermark="Enter the instance's name" />
+        <TextBlock Margin="0 15 0 5" Text="Notes:" />
+        <TextBox Height="100" AcceptsReturn="True" TextWrapping="Wrap"
+                 Watermark="Enter the instance's notes" 
+                 Text="{Binding InstanceNotes}"/>
+        <StackPanel Orientation="Horizontal" Margin="25"
+                    HorizontalAlignment="Center" Spacing="10">
+            <Button Click="OnBackClick" 
+                    FontFamily="{StaticResource MonoF}"
+                    HorizontalAlignment="Center"
+                    Padding="15" FontSize="15" FontWeight="Heavy">
+                <TextBlock>
+					<Run FontFamily="{StaticResource FontA}">&#x00D7;</Run>
+					<Run>Cancel</Run>
+                </TextBlock>
+            </Button>
+            <Button Click="OnNextClick" 
+                    FontFamily="{StaticResource MonoF}"
+                    HorizontalAlignment="Center"
+                    IsEnabled="{Binding !HasErrors}"
+                    Padding="15" FontSize="15" FontWeight="Heavy">
+                <TextBlock>
+                    <Run>Save</Run>
+                    <Run FontFamily="{StaticResource FontA}">&#x2713;</Run>
+                </TextBlock>
+            </Button>
+        </StackPanel>
+    </StackPanel>
     
 </UserControl>

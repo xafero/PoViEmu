@@ -6,14 +6,21 @@ using PoViEmu.UI.Routes;
 
 namespace PoViEmu.UI.ViewModels
 {
-    public partial class InstanceViewModel : ViewModelBase, IRoutable
+    public partial class InstanceViewModel : ViewModelBase, INavigable
     {
-        [ObservableProperty] private string _debug;
+        [ObservableProperty] private string? _debug;
 
         [ObservableProperty] private IList<OneEntity>? _instances;
 
         [ObservableProperty] private bool _showNextBtn;
 
-        [ObservableProperty] private OneEntity _selected;
+        [ObservableProperty] private OneEntity? _selected;
+
+        public void OnBack()
+        {
+            Debug = null;
+            ShowNextBtn = false;
+            Selected = null;
+        }
     }
 }
