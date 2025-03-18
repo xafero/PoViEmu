@@ -12,8 +12,5 @@ namespace PoViEmu.UI.ViewModels
 
         [ObservableProperty]
         private string _instanceName;
-
-        [ObservableProperty]
-        private string _instanceNotes;
     }
 }

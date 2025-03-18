@@ -3,12 +3,62 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="650"
+             mc:Ignorable="d" 
+             d:DesignWidth="400" d:DesignHeight="650"
              x:Class="PoViEmu.UI.Views.DelInstView"
-             x:DataType="vm:DelInstViewModel">
+             x:DataType="vm:DelInstViewModel"
+             Loaded="OnLoaded">
 
     <Design.DataContext>
         <vm:DelInstViewModel />
     </Design.DataContext>
     
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Margin="20"
+          HorizontalAlignment="Center" VerticalAlignment="Top">
+        <TextBlock Grid.Row="0" Margin="0 5" FontWeight="Bold" FontSize="20"
+                   HorizontalAlignment="Center" Text="Delete Instance" />
+        <TextBlock Grid.Row="1" 
+                   Text="{Binding InstanceName, FallbackValue='???'}" 
+                   Padding="10,10" FontWeight="Heavy" 
+                   HorizontalAlignment="Center" FontSize="17" />
+        <TextBlock Grid.Row="2" 
+                   FontSize="80" Foreground="Red" 
+                   HorizontalAlignment="Center">
+            <Run FontFamily="{StaticResource FontA}">&#xF059;</Run>
+        </TextBlock>
+        <TextBlock Grid.Row="3" 
+                   Text="Are you sure you want to delete this item?"
+                   Foreground="Red"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   Margin="0,10" 
+                   FontSize="16"/>
+        <TextBlock Grid.Row="4" 
+                   Text="This action is NOT reversible!"
+                   Foreground="Red"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   Margin="0,5" 
+                   FontSize="16"/>
+        <StackPanel Grid.Row="5" 
+                    Orientation="Horizontal" HorizontalAlignment="Center" 
+                    Margin="0,20">
+            <Button Name="NoButton" Background="Gray" 
+                    Foreground="White" Margin="10" 
+                    Padding="10" FontSize="18" Click="OnNo">
+                <TextBlock>
+                    <Run FontFamily="{StaticResource FontA}">&#x00D7;</Run>
+                    <Run>No</Run>
+                </TextBlock>
+            </Button>
+            <Button Name="YesButton" Background="Red" 
+                    Foreground="White" Margin="10" 
+                    Padding="10" FontSize="18" Click="OnYes">
+                <TextBlock>
+                    <Run>Yes</Run>
+                    <Run FontFamily="{StaticResource FontA}">&#x2713;</Run>
+                </TextBlock>
+            </Button>
+        </StackPanel>
+    </Grid>
 </UserControl>
