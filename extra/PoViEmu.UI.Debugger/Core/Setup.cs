@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using PoViEmu.UI.Extensions;
 using System;
 using Avalonia;
+using DebugModel = PoViEmu.UI.Dbg.ViewModels.MainViewModel;
 using DebugWindow = PoViEmu.UI.Dbg.Core.MainWindow;
 
 namespace PoViEmu.UI.Dbg.Core
@@ -22,7 +23,11 @@ namespace PoViEmu.UI.Dbg.Core
                 var y = owner.Position.Y;
                 var pos = new PixelPoint((int)x, y);
 
-                var debug = new DebugWindow { WindowStartupLocation = WindowStartupLocation.Manual, Position = pos };
+                var debug = new DebugWindow
+                {
+                    WindowStartupLocation = WindowStartupLocation.Manual, Position = pos,
+                    DataContext = new DebugModel()
+                };
                 debug.Show(owner);
             }
         }

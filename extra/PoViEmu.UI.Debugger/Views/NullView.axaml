@@ -6,12 +6,15 @@
              mc:Ignorable="d" 
              d:DesignWidth="700" d:DesignHeight="600"
              x:Class="PoViEmu.UI.Dbg.Views.NullView"
-             x:DataType="vm:NullViewModel">
+             x:DataType="vm:NullViewModel"
+             Loaded="OnLoaded">
 
     <Design.DataContext>
         <vm:NullViewModel />
     </Design.DataContext>
 
-	Welcome to Avalonia!
+    <TextBlock>
+        <Run Text="{Binding ModelName}" />
+    </TextBlock>
 
 </UserControl>
