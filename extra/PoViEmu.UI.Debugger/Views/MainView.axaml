@@ -6,7 +6,7 @@
              xmlns:views="clr-namespace:PoViEmu.UI.Views"
              mc:Ignorable="d"
              d:DesignWidth="800" d:DesignHeight="650"
-             x:Class="PoViEmu.UI.Debugger.Views.MainView"
+             x:Class="PoViEmu.UI.Dbg.Views.MainView"
              x:DataType="vm:MainViewModel"
              Loaded="Control_OnLoaded">
 

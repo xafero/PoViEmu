@@ -2,7 +2,7 @@ using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 
-namespace PoViEmu.UI.Debugger.Core
+namespace PoViEmu.UI.Dbg.Core
 {
     public partial class MainWindow : Window
     {

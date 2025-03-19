@@ -2,12 +2,12 @@
 using Avalonia;
 using Avalonia.Controls;
 using PoViEmu.UI.Extensions;
-using DebugWindow = PoViEmu.UI.Debugger.Core.MainWindow;
+using DebugWindow = PoViEmu.UI.Dbg.Core.MainWindow;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable ClassNeverInstantiated.Global
 
-namespace PoViEmu.UI.Debugger
+namespace PoViEmu.UI.Dbg
 {
     internal sealed class Program
     {

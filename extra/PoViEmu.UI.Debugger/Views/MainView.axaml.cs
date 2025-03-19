@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 
-namespace PoViEmu.UI.Debugger.Views
+namespace PoViEmu.UI.Dbg.Views
 {
     public partial class MainView : UserControl
     {
