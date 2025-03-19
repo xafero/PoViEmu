@@ -13,8 +13,16 @@
         <vm:NullViewModel />
     </Design.DataContext>
 
-    <TextBlock>
-        <Run Text="{Binding ModelName}" />
-    </TextBlock>
+    <StackPanel Orientation="Vertical"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+		<TextBlock
+            FontSize="18" FontStyle="Italic"
+            FontFamily="{StaticResource MonoF}">
+			<Run>[</Run>
+            <Run Text="{Binding ModelName}" />
+            <Run>]</Run>
+        </TextBlock>
+    </StackPanel>
 
 </UserControl>

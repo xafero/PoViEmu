@@ -41,7 +41,7 @@ namespace PoViEmu.UI.Dbg.Core
             var vm = Null;
             var val = e.Value;
             var type = val.GetType();
-            var name = type.FullName;
+            var name = type.Name.Replace("ViewModel", "View");
             vm.ModelName = name;
         }
     }
