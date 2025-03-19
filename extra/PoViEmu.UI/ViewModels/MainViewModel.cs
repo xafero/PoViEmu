@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using PoViEmu.Base;
 using PoViEmu.Inventory.Config;
 using PoViEmu.UI.Core;
+using PoViEmu.UI.Extensions;
 using PoViEmu.UI.Routes;
 
 namespace PoViEmu.UI.ViewModels
@@ -63,5 +64,10 @@ namespace PoViEmu.UI.ViewModels
         }
 
         private static bool IsGoBack() => Routed.Count >= 2;
+
+        partial void OnCurrentViewChanged(IViewModelBase model)
+        {
+            ExtPoints.Instance.OnViewChanged(this, model);
+        }
     }
 }

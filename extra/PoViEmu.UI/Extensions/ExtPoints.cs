@@ -1,5 +1,6 @@
 using System;
 using Avalonia.Controls;
+using PoViEmu.UI.Core;
 
 namespace PoViEmu.UI.Extensions
 {
@@ -16,5 +17,8 @@ namespace PoViEmu.UI.Extensions
 
         public event EventHandler<GenArgs<Control>>? MobileInit;
         internal void OnMobileInit(object s, Control a) => MobileInit?.Invoke(s, new GenArgs<Control>(a));
+
+        public event EventHandler<GenArgs<IViewModelBase>>? ViewChanged;
+        internal void OnViewChanged(object s, IViewModelBase a) => ViewChanged?.Invoke(s, new GenArgs<IViewModelBase>(a));
     }
 }
