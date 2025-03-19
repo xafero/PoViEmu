@@ -1,8 +1,7 @@
 ﻿using System;
 using Avalonia;
-using Avalonia.Controls;
+using PoViEmu.UI.Dbg.Core;
 using PoViEmu.UI.Extensions;
-using DebugWindow = PoViEmu.UI.Dbg.Core.MainWindow;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable ClassNeverInstantiated.Global
@@ -11,29 +10,10 @@ namespace PoViEmu.UI.Dbg
 {
     internal sealed class Program
     {
-        private static void OnInit(object? sender, GenArgs<Window> e)
-        {
-            var owner = e.Value;
-            owner.PositionChanged += OnOpen;
-            return;
-
-            void OnOpen(object? o, EventArgs a)
-            {
-                owner.PositionChanged -= OnOpen;
-
-                var x = owner.Position.X + 5 + owner.Width;
-                var y = owner.Position.Y;
-                var pos = new PixelPoint((int)x, y);
-
-                var debug = new DebugWindow { WindowStartupLocation = WindowStartupLocation.Manual, Position = pos };
-                debug.Show(owner);
-            }
-        }
-
         [STAThread]
         public static void Main(string[] args)
         {
-            ExtPoints.Instance.DesktopInit += OnInit;
+            ExtPoints.Instance.DesktopInit += Setup.OnInit;
             BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
         }
 
