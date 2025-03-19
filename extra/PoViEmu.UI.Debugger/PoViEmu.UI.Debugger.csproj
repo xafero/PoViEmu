@@ -7,6 +7,7 @@
   <PropertyGroup>
     <AssemblyTitle>PoViEmu Debugger</AssemblyTitle>
     <AssemblyName>PoViEmuDev</AssemblyName>
+    <RootNamespace>PoViEmu.UI.Dbg</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>
