@@ -14,6 +14,7 @@ namespace PoViEmu.UI.Dbg
         public static void Main(string[] args)
         {
             ExtPoints.Instance.DesktopInit += Setup.OnInit;
+            ExtPoints.Instance.ViewChanged += Setup.OnView;
             BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
         }
 

@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using PoViEmu.UI.Dbg.Core;
 using PoViEmu.UI.Dbg.ViewModels;
 using PoViEmu.UI.Tools;
 
@@ -16,7 +17,7 @@ namespace PoViEmu.UI.Dbg.Views
         {
             if (this.FindData<MainViewModel>() is { } vm)
             {
-                var model = new NullViewModel();
+                var model = Setup.Null;
                 vm.CurrentView = model;
             }
         }

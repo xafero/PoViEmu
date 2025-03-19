@@ -2,8 +2,10 @@ using Avalonia.Controls;
 using PoViEmu.UI.Extensions;
 using System;
 using Avalonia;
+using PoViEmu.UI.Core;
 using DebugModel = PoViEmu.UI.Dbg.ViewModels.MainViewModel;
 using DebugWindow = PoViEmu.UI.Dbg.Core.MainWindow;
+using PoViEmu.UI.Dbg.ViewModels;
 
 namespace PoViEmu.UI.Dbg.Core
 {
@@ -30,6 +32,17 @@ namespace PoViEmu.UI.Dbg.Core
                 };
                 debug.Show(owner);
             }
+        }
+
+        internal static readonly NullViewModel Null = new();
+
+        public static void OnView(object? sender, GenArgs<IViewModelBase> e)
+        {
+            var vm = Null;
+            var val = e.Value;
+            var type = val.GetType();
+            var name = type.FullName;
+            vm.ModelName = name;
         }
     }
 }
