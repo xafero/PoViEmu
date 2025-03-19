@@ -65,9 +65,9 @@ namespace PoViEmu.UI.ViewModels
 
         private static bool IsGoBack() => Routed.Count >= 2;
 
-        partial void OnCurrentViewChanged(IViewModelBase model)
+        partial void OnCurrentViewChanged(IViewModelBase value)
         {
-            ExtPoints.Instance.OnViewChanged(this, model);
+            ExtPoints.Instance.OnViewChanged(this, value);
         }
     }
 }
