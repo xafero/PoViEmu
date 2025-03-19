@@ -6,6 +6,6 @@ namespace PoViEmu.UI.Dbg.ViewModels
 {
     public partial class MainViewModel : ViewModelBase, IRoutable
     {
-        [ObservableProperty] private IViewModelBase _currentView;
+        [ObservableProperty] private IViewModelBase? _currentView;
     }
 }
