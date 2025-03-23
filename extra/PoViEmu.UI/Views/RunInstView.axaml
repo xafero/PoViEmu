@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
+             xmlns:ui="clr-namespace:PoViEmu.UI.Views"
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="650"
              x:Class="PoViEmu.UI.Views.RunInstView"
              x:DataType="vm:RunInstViewModel">
@@ -20,6 +21,7 @@
 				<Run FontFamily="{StaticResource FontA}">&#x00D7;</Run>
 			</TextBlock>
 		</Button>
+		<ui:DisplayView />
 	</StackPanel>
 
 </UserControl>
