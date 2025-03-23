@@ -10,7 +10,9 @@
              x:Class="PoViEmu.UI.Views.MinimalView"
              Loaded="OnLoaded">
 
-    <Border BorderBrush="Black" BorderThickness="5" CornerRadius="25">
+	<!-- 
+	<Border BorderBrush="Black" BorderThickness="5" CornerRadius="25">
+	-->
         <Viewbox>
             <Canvas Width="340" Height="407">
 				<ui:DisplayView Canvas.Bottom="60" Canvas.Left="0"
@@ -54,6 +56,8 @@
                 </Button>
             </Canvas>
         </Viewbox>
+	<!--
     </Border>
+	-->
 
 </UserControl>
