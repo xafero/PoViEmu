@@ -4,6 +4,7 @@ using PoViEmu.UI.Core;
 using PoViEmu.UI.Extensions;
 using PoViEmu.UI.ViewModels;
 using PoViEmu.UI.Dbg.Core;
+using PoViEmu.UI.Dbg.ViewModels;
 using DebugModel = PoViEmu.UI.Dbg.ViewModels.MainViewModel;
 using DebugView = PoViEmu.UI.Dbg.Views.MainView;
 
@@ -28,9 +29,9 @@ namespace PoViEmu.UI.Dbg.Views
         private void OnViewChanged(object? sender, GenArgs<IViewModelBase> e)
         {
             var model = e.Value;
-            if (model is RunInstViewModel)
+            if (model is RunInstViewModel rim)
             {
-                _modelRef.CurrentView = null;
+                _modelRef.CurrentView = new RunDbgViewModel { Base = rim };
                 return;
             }
             _modelRef.CurrentView = Setup.Null;

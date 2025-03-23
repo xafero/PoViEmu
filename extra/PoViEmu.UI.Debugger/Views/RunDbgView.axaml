@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="using:PoViEmu.UI.Dbg.ViewModels"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" 
+             d:DesignWidth="700" d:DesignHeight="600"
+             x:Class="PoViEmu.UI.Dbg.Views.RunDbgView"
+             x:DataType="vm:RunDbgViewModel"
+             Loaded="OnLoaded">
+
+    <Design.DataContext>
+        <vm:RunDbgViewModel />
+    </Design.DataContext>
+
+    <StackPanel Orientation="Vertical"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+		<TextBlock
+            FontSize="18" FontStyle="Italic"
+            FontFamily="{StaticResource MonoF}">
+			<Run>[</Run>
+            <Run>]</Run>
+        </TextBlock>
+    </StackPanel>
+
+</UserControl>
