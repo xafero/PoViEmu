@@ -3,16 +3,9 @@ using Avalonia.Interactivity;
 using PoViEmu.UI.Core;
 using PoViEmu.UI.Extensions;
 using PoViEmu.UI.ViewModels;
-using Avalonia.Controls;
-using PoViEmu.UI.Extensions;
-using System;
-using Avalonia;
-using PoViEmu.UI.Core;
 using PoViEmu.UI.Dbg.Core;
 using DebugModel = PoViEmu.UI.Dbg.ViewModels.MainViewModel;
 using DebugView = PoViEmu.UI.Dbg.Views.MainView;
-using DebugWindow = PoViEmu.UI.Dbg.Core.MainWindow;
-using PoViEmu.UI.Dbg.ViewModels;
 
 namespace PoViEmu.UI.Dbg.Views
 {
