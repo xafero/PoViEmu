@@ -3,25 +3,52 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="using:PoViEmu.UI.Dbg.ViewModels"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignWidth="700" d:DesignHeight="600"
              x:Class="PoViEmu.UI.Dbg.Views.RunDbgView"
              x:DataType="vm:RunDbgViewModel"
              Loaded="OnLoaded">
 
-    <Design.DataContext>
-        <vm:RunDbgViewModel />
-    </Design.DataContext>
+	<Design.DataContext>
+		<vm:RunDbgViewModel />
+	</Design.DataContext>
 
-    <StackPanel Orientation="Vertical"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">
-		<TextBlock
-            FontSize="18" FontStyle="Italic"
-            FontFamily="{StaticResource MonoF}">
-			<Run>[</Run>
-            <Run>]</Run>
-        </TextBlock>
-    </StackPanel>
+	<DockPanel>
+		<StackPanel DockPanel.Dock="Top"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+			<Button
+				FontFamily="{StaticResource MonoF}"
+				Padding="15" FontSize="15" FontWeight="Heavy">
+				<TextBlock>
+					<Run FontFamily="{StaticResource FontA}">&#xF051;</Run>
+				</TextBlock>
+			</Button>
+			<Button
+				FontFamily="{StaticResource MonoF}"
+				Padding="15" FontSize="15" FontWeight="Heavy">
+				<TextBlock>
+					<Run FontFamily="{StaticResource FontA}">&#x25B6;</Run>
+				</TextBlock>
+			</Button>
+			<Button
+				FontFamily="{StaticResource MonoF}"
+				Padding="15" FontSize="15" FontWeight="Heavy">
+				<TextBlock>
+					<Run FontFamily="{StaticResource FontA}">&#x23F8;</Run>
+				</TextBlock>
+			</Button>
+			<Button
+				FontFamily="{StaticResource MonoF}"
+				Padding="15" FontSize="15" FontWeight="Heavy">
+				<TextBlock>
+					<Run FontFamily="{StaticResource FontA}">&#x23F9;</Run>
+				</TextBlock>
+			</Button>
+		</StackPanel>
+		<StackPanel Background="LightYellow">
+		</StackPanel>
+	</DockPanel>
 
 </UserControl>
