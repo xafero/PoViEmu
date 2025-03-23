@@ -21,7 +21,7 @@
 				<Run FontFamily="{StaticResource FontA}">&#x00D7;</Run>
 			</TextBlock>
 		</Button>
-		<ui:DisplayView />
+		<ui:MinimalView />
 	</StackPanel>
 
 </UserControl>

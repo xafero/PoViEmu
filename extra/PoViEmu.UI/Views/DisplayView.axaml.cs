@@ -12,36 +12,36 @@ namespace PoViEmu.UI.Views
     public partial class DisplayView : UserControl
     {
         public new static readonly StyledProperty<int?> WidthProperty =
-            AvaloniaProperty.Register<DisplayView, int?>(nameof(Width));
+            AvaloniaProperty.Register<DisplayView, int?>(nameof(DWidth));
 
-        public new int? Width
+        public int? DWidth
         {
             get => GetValue(WidthProperty);
             set => SetValue(WidthProperty, value);
         }
 
         public new static readonly StyledProperty<int?> HeightProperty =
-            AvaloniaProperty.Register<DisplayView, int?>(nameof(Height));
+            AvaloniaProperty.Register<DisplayView, int?>(nameof(DHeight));
 
-        public new int? Height
+        public int? DHeight
         {
             get => GetValue(HeightProperty);
             set => SetValue(HeightProperty, value);
         }
 
         public static readonly StyledProperty<int?> FramesProperty =
-            AvaloniaProperty.Register<DisplayView, int?>(nameof(Frames));
+            AvaloniaProperty.Register<DisplayView, int?>(nameof(DFrames));
 
-        public int? Frames
+        public int? DFrames
         {
             get => GetValue(FramesProperty);
             set => SetValue(FramesProperty, value);
         }
 
         public static readonly StyledProperty<IState?> StateProperty =
-            AvaloniaProperty.Register<DisplayView, IState?>(nameof(State));
+            AvaloniaProperty.Register<DisplayView, IState?>(nameof(DState));
 
-        public IState? State
+        public IState? DState
         {
             get => GetValue(StateProperty);
             set => SetValue(StateProperty, value);
@@ -58,9 +58,9 @@ namespace PoViEmu.UI.Views
 
         private void Control_OnLoaded(object? sender, RoutedEventArgs e)
         {
-            var width = Width ?? 160;
-            var height = Height ?? 160;
-            var frames = Frames ?? 60;
+            var width = DWidth ?? 160;
+            var height = DHeight ?? 160;
+            var frames = DFrames ?? 60;
             _bitmap = DrawTool.CreateBitmap(width, height);
             _pixelData = DrawTool.CreatePixels(width, height);
             ImgCanvas.Source = _bitmap;
