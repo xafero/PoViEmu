@@ -7,8 +7,19 @@
              x:Class="PoViEmu.UI.Views.RunInstView"
              x:DataType="vm:RunInstViewModel">
 
-    <Design.DataContext>
-        <vm:RunInstViewModel />
-    </Design.DataContext>
-    
+	<Design.DataContext>
+		<vm:RunInstViewModel />
+	</Design.DataContext>
+
+	<StackPanel>
+		<Button
+			FontFamily="{StaticResource MonoF}"
+			Padding="15" FontSize="15" FontWeight="Heavy"
+            Click="OnExit">
+			<TextBlock>
+				<Run FontFamily="{StaticResource FontA}">&#x00D7;</Run>
+			</TextBlock>
+		</Button>
+	</StackPanel>
+
 </UserControl>
