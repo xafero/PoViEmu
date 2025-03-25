@@ -44,12 +44,37 @@
 			<Button Canvas.Bottom="244" Canvas.Left="365">
 				<Image Source="../Assets/Buttons/symbol-bar.png" Width="30" Height="17" />
 			</Button>
-			<TextBlock Canvas.Bottom="194" Canvas.Left="170"
+			<TextBlock Canvas.Bottom="194" Canvas.Left="172"
                        FontFamily="{StaticResource FontS}"
                        FontWeight="Black">
 				<Run FontSize="21">Pocket</Run>
                 <Run FontSize="21">Viewer</Run>
             </TextBlock>
+			<Button Canvas.Bottom="132" Canvas.Left="214" 
+                    Background="Transparent">
+				<Image Source="../Assets/Keys/center.png" 
+                       Width="30" Height="28" Stretch="Fill"/>
+			</Button>
+            <Button Canvas.Bottom="138" Canvas.Left="147"
+                    Background="Transparent">
+                <Image Source="../Assets/Keys/down.png" 
+                       Width="30" Height="18" />
+            </Button>
+			<Button Canvas.Bottom="139" Canvas.Left="80"
+                    Background="Transparent">
+				<Image Source="../Assets/Keys/left.png" 
+                       Width="30" Height="18" />
+			</Button>
+			<Button Canvas.Bottom="137" Canvas.Left="344"
+                    Background="Transparent">
+				<Image Source="../Assets/Keys/right.png" 
+                       Width="30" Height="18" />
+			</Button>
+            <Button Canvas.Bottom="138" Canvas.Left="280"
+                    Background="Transparent">
+                <Image Source="../Assets/Keys/up.png" 
+                       Width="30" Height="18" />
+            </Button>
 		</Canvas>
 	</Viewbox>
 
