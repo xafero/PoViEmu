@@ -23,7 +23,10 @@
                 </TextBlock>
             </Button>
 		</StackPanel>
+        <!-- 
 		<ui:MinimalView Margin="10"/>
+        -->
+        <ui:HandheldView Margin="10"/>
 	</DockPanel>
 
 </UserControl>
