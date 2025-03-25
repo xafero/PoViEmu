@@ -44,11 +44,11 @@
 			<Button Canvas.Bottom="244" Canvas.Left="365">
 				<Image Source="../Assets/Buttons/symbol-bar.png" Width="30" Height="17" />
 			</Button>
-			<TextBlock Canvas.Bottom="194" Canvas.Left="163"
-                       FontFamily="{StaticResource MonoF}"
-                       FontStyle="Normal" FontWeight="ExtraBlack">
-				<Run FontSize="19">Pocket</Run>
-                <Run FontSize="19">Viewer</Run>
+			<TextBlock Canvas.Bottom="194" Canvas.Left="170"
+                       FontFamily="{StaticResource FontS}"
+                       FontWeight="Black">
+				<Run FontSize="21">Pocket</Run>
+                <Run FontSize="21">Viewer</Run>
             </TextBlock>
 		</Canvas>
 	</Viewbox>
