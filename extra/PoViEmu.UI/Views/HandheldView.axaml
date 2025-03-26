@@ -6,71 +6,71 @@
 	xmlns:vw="clr-namespace:PoViEmu.UI.Views"
 	xmlns:ui="clr-namespace:PoViEmu.UI.Views" 
 	mc:Ignorable="d" 
-	d:DesignWidth="560" d:DesignHeight="730" 
+	d:DesignWidth="460" d:DesignHeight="730" 
 	x:Class="PoViEmu.UI.Views.HandheldView" 
 	Loaded="OnLoaded">
 
 	<Viewbox>
-		<Canvas Width="516" Height="730">
+		<Canvas Width="416" Height="700">
 			<Canvas.Background>
 				<ImageBrush Source="../Assets/Skins/pv-generic.png" Stretch="Fill" />
 			</Canvas.Background>
-			<ui:DisplayView Canvas.Bottom="300" Canvas.Left="70" Width="342" Height="342">
+			<ui:DisplayView Canvas.Top="90" Canvas.Left="37" Width="320" Height="320">
 			</ui:DisplayView>
-			<Button Canvas.Bottom="274" Canvas.Left="69">
-				<Image Source="../Assets/Buttons/symbol-off.png" Width="30" Height="10" />
+			<Button Canvas.Bottom="263" Canvas.Left="30">
+				<Image Source="../Assets/Buttons/symbol-off.png" Width="30" Height="8" />
 			</Button>
-			<Button Canvas.Bottom="244" Canvas.Left="69">
-				<Image Source="../Assets/Buttons/symbol-light.png" Width="30" Height="17" />
+			<Button Canvas.Bottom="237" Canvas.Left="30">
+				<Image Source="../Assets/Buttons/symbol-light.png" Width="30" Height="13" />
 			</Button>
-			<Button Canvas.Bottom="244" Canvas.Left="118">
-				<Image Source="../Assets/Buttons/symbol-menu.png" Width="30" Height="40" />
+			<Button Canvas.Bottom="238" Canvas.Left="78">
+				<Image Source="../Assets/Buttons/symbol-menu.png" Width="30" Height="33" />
 			</Button>
-			<Button Canvas.Bottom="244" Canvas.Left="167">
-				<Image Source="../Assets/Buttons/symbol-sched.png" Width="30" Height="40" />
+			<Button Canvas.Bottom="238" Canvas.Left="126">
+				<Image Source="../Assets/Buttons/symbol-sched.png" Width="30" Height="33" />
 			</Button>
-			<Button Canvas.Bottom="244" Canvas.Left="217">
-				<Image Source="../Assets/Buttons/symbol-cont.png" Width="30" Height="40" />
+			<Button Canvas.Bottom="238" Canvas.Left="174">
+				<Image Source="../Assets/Buttons/symbol-cont.png" Width="30" Height="33" />
 			</Button>
-			<Button Canvas.Bottom="244" Canvas.Left="266">
-				<Image Source="../Assets/Buttons/symbol-memo.png" Width="30" Height="40" />
+			<Button Canvas.Bottom="238" Canvas.Left="222">
+				<Image Source="../Assets/Buttons/symbol-memo.png" Width="30" Height="33" />
 			</Button>
-			<Button Canvas.Bottom="244" Canvas.Left="316">
-				<Image Source="../Assets/Buttons/symbol-quick.png" Width="30" Height="40" />
+			<Button Canvas.Bottom="238" Canvas.Left="270">
+				<Image Source="../Assets/Buttons/symbol-quick.png" Width="30" Height="33" />
 			</Button>
-			<Button Canvas.Bottom="274" Canvas.Left="365">
-				<Image Source="../Assets/Buttons/symbol-esc.png" Width="30" Height="10" />
+			<Button Canvas.Bottom="263" Canvas.Left="318">
+				<Image Source="../Assets/Buttons/symbol-esc.png" Width="26" Height="8" />
 			</Button>
-			<Button Canvas.Bottom="244" Canvas.Left="365">
-				<Image Source="../Assets/Buttons/symbol-bar.png" Width="30" Height="17" />
+			<Button Canvas.Bottom="237" Canvas.Left="318">
+				<Image Source="../Assets/Buttons/symbol-bar.png" Width="26" Height="13" />
 			</Button>
-			<TextBlock Canvas.Bottom="194" Canvas.Left="172"
+			<TextBlock Canvas.Bottom="178" Canvas.Left="126"
                        FontFamily="{StaticResource FontS}"
                        FontWeight="Black">
 				<Run FontSize="21">Pocket</Run>
                 <Run FontSize="21">Viewer</Run>
             </TextBlock>
-			<Button Canvas.Bottom="132" Canvas.Left="214" 
+			<Button Canvas.Bottom="126" Canvas.Left="170" 
                     Background="Transparent">
 				<Image Source="../Assets/Keys/center.png" 
                        Width="30" Height="28" Stretch="Fill"/>
 			</Button>
-            <Button Canvas.Bottom="138" Canvas.Left="147"
+            <Button Canvas.Bottom="130" Canvas.Left="106"
                     Background="Transparent">
                 <Image Source="../Assets/Keys/down.png" 
                        Width="30" Height="18" />
             </Button>
-			<Button Canvas.Bottom="139" Canvas.Left="80"
+			<Button Canvas.Bottom="132" Canvas.Left="45"
                     Background="Transparent">
 				<Image Source="../Assets/Keys/left.png" 
                        Width="30" Height="18" />
 			</Button>
-			<Button Canvas.Bottom="137" Canvas.Left="344"
+			<Button Canvas.Bottom="130" Canvas.Left="293"
                     Background="Transparent">
 				<Image Source="../Assets/Keys/right.png" 
                        Width="30" Height="18" />
 			</Button>
-            <Button Canvas.Bottom="138" Canvas.Left="280"
+            <Button Canvas.Bottom="130" Canvas.Left="232"
                     Background="Transparent">
                 <Image Source="../Assets/Keys/up.png" 
                        Width="30" Height="18" />
