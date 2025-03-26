@@ -13,7 +13,7 @@
 	</Design.DataContext>
 
 	<DockPanel>
-		<StackPanel DockPanel.Dock="Left">
+		<StackPanel DockPanel.Dock="Top">
             <Button
                 FontFamily="{StaticResource MonoF}"
                 Padding="15" FontSize="15" FontWeight="Heavy"
