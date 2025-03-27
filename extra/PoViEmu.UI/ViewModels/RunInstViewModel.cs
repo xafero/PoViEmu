@@ -8,5 +8,7 @@ namespace PoViEmu.UI.ViewModels
     public partial class RunInstViewModel : ViewModelBase, IRoutable
     {
         [ObservableProperty] private Guid _instanceId;
+
+        [ObservableProperty] private bool _viewIsMinimal;
     }
 }

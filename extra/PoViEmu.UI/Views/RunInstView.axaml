@@ -13,20 +13,37 @@
 	</Design.DataContext>
 
 	<DockPanel>
-		<StackPanel DockPanel.Dock="Top">
+		<StackPanel DockPanel.Dock="Top" Orientation="Horizontal" 
+		            HorizontalAlignment="Center">
             <Button
                 FontFamily="{StaticResource MonoF}"
                 Padding="15" FontSize="15" FontWeight="Heavy"
-                Click="OnExit">
+                Click="DoExit">
                 <TextBlock>
                     <Run FontFamily="{StaticResource FontA}">&#x00D7;</Run>
                 </TextBlock>
             </Button>
+			<Button IsVisible="{Binding ViewIsMinimal}"
+				FontFamily="{StaticResource MonoF}"
+				Padding="15" FontSize="15" FontWeight="Heavy"
+				Click="DoChangeView">
+				<TextBlock>
+					<Run FontFamily="{StaticResource FontA}">&#xF3FA;</Run>
+				</TextBlock>
+			</Button>
+			<Button IsVisible="{Binding !ViewIsMinimal}"
+			        FontFamily="{StaticResource MonoF}"
+			        Padding="15" FontSize="15" FontWeight="Heavy"
+			        Click="DoChangeView">
+				<TextBlock>
+					<Run FontFamily="{StaticResource FontA}">&#xF065;</Run>
+				</TextBlock>
+			</Button>
 		</StackPanel>
-        <!-- 
-		<ui:MinimalView Margin="10"/>
-        -->
-        <ui:HandheldView Margin="10"/>
+		<ui:MinimalView Margin="10" 
+		                IsVisible="{Binding ViewIsMinimal}"/>
+        <ui:HandheldView Margin="10"
+                         IsVisible="{Binding !ViewIsMinimal}"/>
 	</DockPanel>
 
 </UserControl>
