@@ -6,6 +6,7 @@ using PoViEmu.Inventory.Config;
 using PoViEmu.UI.Core;
 using PoViEmu.UI.Extensions;
 using PoViEmu.UI.Routes;
+using Orientation = PoViEmu.UI.Tools.Orientation;
 
 namespace PoViEmu.UI.ViewModels
 {
@@ -14,6 +15,7 @@ namespace PoViEmu.UI.ViewModels
         private static readonly RingStack<IRoutable> Routed = new(10);
 
         [ObservableProperty] private IViewModelBase _currentView;
+        [ObservableProperty] private Orientation _orientation;
         [ObservableProperty] private bool _canGoBack;
 
         public MainViewModel()

@@ -8,6 +8,7 @@
              d:DesignWidth="400" d:DesignHeight="650"
              x:Class="PoViEmu.UI.Views.MainView"
              x:DataType="vm:MainViewModel"
+             SizeChanged="Control_OnSizeChanged"
              Loaded="Control_OnLoaded">
 
     <Design.DataContext>
