@@ -7,8 +7,13 @@
 	xmlns:ui="clr-namespace:PoViEmu.UI.Views" 
 	mc:Ignorable="d" 
 	d:DesignWidth="460" d:DesignHeight="730" 
-	x:Class="PoViEmu.UI.Views.HandheldView" 
+	x:Class="PoViEmu.UI.Views.HandheldView"
+	x:DataType="vm:RunInstViewModel"
 	Loaded="OnLoaded">
+
+	<Design.DataContext>
+		<vm:RunInstViewModel />
+	</Design.DataContext>
 
 	<Viewbox>
 		<Canvas Width="416" Height="700">

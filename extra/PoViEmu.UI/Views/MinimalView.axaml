@@ -7,9 +7,14 @@
 	xmlns:ui="clr-namespace:PoViEmu.UI.Views" 
 	mc:Ignorable="d" 
 	d:DesignWidth="560" d:DesignHeight="730" 
-	x:Class="PoViEmu.UI.Views.MinimalView" 
+	x:Class="PoViEmu.UI.Views.MinimalView"
+	x:DataType="vm:RunInstViewModel"
 	Loaded="OnLoaded">
 	
+	<Design.DataContext>
+		<vm:RunInstViewModel />
+	</Design.DataContext>
+
 	<DockPanel>
 		<StackPanel DockPanel.Dock="Bottom">
 			<Canvas Width="340" Height="61">
