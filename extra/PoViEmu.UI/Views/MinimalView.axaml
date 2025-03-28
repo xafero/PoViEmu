@@ -47,31 +47,21 @@
 				</Button>
 			</Canvas>
 			<Canvas Width="306" Height="41">
-				<Button Canvas.Bottom="1" Canvas.Left="130" 
-				        Background="Transparent">
-					<Image Source="../Assets/Keys/center.png" 
-					       Width="30" Height="28" Stretch="Fill"/>
-				</Button>
+				<Button Canvas.Bottom="5" Canvas.Left="130"
+				        FontFamily="{StaticResource FontA}"
+				        Content="&#x2013;" FontSize="18" />
 				<Button Canvas.Bottom="5" Canvas.Left="66"
-				        Background="Transparent">
-					<Image Source="../Assets/Keys/down.png" 
-					       Width="30" Height="18" />
-				</Button>
-				<Button Canvas.Bottom="7" Canvas.Left="5"
-				        Background="Transparent">
-					<Image Source="../Assets/Keys/left.png" 
-					       Width="30" Height="18" />
-				</Button>
+				        FontFamily="{StaticResource FontA}"
+				        Content="&#xF0D7;" FontSize="18" />
+				<Button Canvas.Bottom="5" Canvas.Left="5"
+				        FontFamily="{StaticResource FontA}"
+				        Content="&#xF0D9;" FontSize="18" />
 				<Button Canvas.Bottom="5" Canvas.Left="253"
-				        Background="Transparent">
-					<Image Source="../Assets/Keys/right.png" 
-					       Width="30" Height="18" />
-				</Button>
-				<Button Canvas.Bottom="5" Canvas.Left="192"
-				        Background="Transparent">
-					<Image Source="../Assets/Keys/up.png" 
-					       Width="30" Height="18" />
-				</Button>
+				        FontFamily="{StaticResource FontA}"
+				        Content="&#xF0DA;" FontSize="18" />
+				<Button Canvas.Bottom="5" Canvas.Left="192" 
+				        FontFamily="{StaticResource FontA}"
+				        Content="&#xF0D8;" FontSize="18" />
 			</Canvas>	
 		</StackPanel>
 			<Viewbox Margin="10">
