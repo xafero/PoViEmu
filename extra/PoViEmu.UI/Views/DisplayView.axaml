@@ -7,6 +7,9 @@
              x:Class="PoViEmu.UI.Views.DisplayView"
              Loaded="Control_OnLoaded">
     
-    <Image x:Name="ImgCanvas" />
+    <DockPanel>
+        <Image x:Name="ImgCanvas" IsVisible="False" />
+        <Image Source="../Assets/Demo/comm.png" />
+    </DockPanel>
     
 </UserControl>
