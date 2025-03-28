@@ -5,10 +5,12 @@ using PoViEmu.UI.Routes;
 
 namespace PoViEmu.UI.ViewModels
 {
-    public partial class RunInstViewModel : ViewModelBase, IRoutable
+    public partial class RunInstViewModel : ViewModelBase, IRoutable, IHasMain
     {
         [ObservableProperty] private Guid _instanceId;
 
         [ObservableProperty] private bool _viewIsMinimal;
+
+        [ObservableProperty] private MainViewModel _main;
     }
 }

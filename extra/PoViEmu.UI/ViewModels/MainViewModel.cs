@@ -45,6 +45,7 @@ namespace PoViEmu.UI.ViewModels
         {
             if (model is IViewModelBase vmb)
             {
+                if (model is IHasMain hm) hm.Main = this;
                 Routed.Push(model);
                 CurrentView = vmb;
             }
