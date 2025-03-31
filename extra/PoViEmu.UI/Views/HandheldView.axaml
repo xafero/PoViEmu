@@ -3,94 +3,95 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
-	xmlns:vw="clr-namespace:PoViEmu.UI.Views"
     xmlns:cnv="clr-namespace:PoViEmu.UI.Conv"
-	xmlns:ui="clr-namespace:PoViEmu.UI.Views" 
-	mc:Ignorable="d" 
-	d:DesignWidth="460" d:DesignHeight="730" 
+	xmlns:ui="clr-namespace:PoViEmu.UI.Views"
+	mc:Ignorable="d"
+	d:DesignWidth="460" d:DesignHeight="730"
 	x:Class="PoViEmu.UI.Views.HandheldView"
 	x:DataType="vm:RunInstViewModel"
 	Loaded="OnLoaded">
 
-    <UserControl.Resources>
-        <cnv:TernaryConverter x:Key="Tc" />
-    </UserControl.Resources>
+	<UserControl.Resources>
+		<cnv:TernaryConverter x:Key="Tc" />
+	</UserControl.Resources>
 
 	<Design.DataContext>
 		<vm:RunInstViewModel />
 	</Design.DataContext>
 
 	<Viewbox>
-		<Viewbox.RenderTransform>
-			<RotateTransform Angle="{Binding Path=Main.IsPortrait,
+		<LayoutTransformControl>
+			<LayoutTransformControl.LayoutTransform>
+				<RotateTransform Angle="{Binding Path=Main.IsPortrait,
 							 ConverterParameter='0;90',
 							 Converter={StaticResource Tc}}" />
-        </Viewbox.RenderTransform>
-        <Canvas Width="416" Height="700">
-			<Canvas.Background>
-				<ImageBrush Source="../Assets/Skins/pv-generic.png" Stretch="Fill" />
-			</Canvas.Background>
-			<ui:DisplayView Canvas.Top="90" Canvas.Left="37" Width="320" Height="320">
-			</ui:DisplayView>
-			<Button Canvas.Bottom="263" Canvas.Left="30">
-				<Image Source="../Assets/Buttons/symbol-off.png" Width="30" Height="8" />
-			</Button>
-			<Button Canvas.Bottom="237" Canvas.Left="30">
-				<Image Source="../Assets/Buttons/symbol-light.png" Width="30" Height="13" />
-			</Button>
-			<Button Canvas.Bottom="238" Canvas.Left="78">
-				<Image Source="../Assets/Buttons/symbol-menu.png" Width="30" Height="33" />
-			</Button>
-			<Button Canvas.Bottom="238" Canvas.Left="126">
-				<Image Source="../Assets/Buttons/symbol-sched.png" Width="30" Height="33" />
-			</Button>
-			<Button Canvas.Bottom="238" Canvas.Left="174">
-				<Image Source="../Assets/Buttons/symbol-cont.png" Width="30" Height="33" />
-			</Button>
-			<Button Canvas.Bottom="238" Canvas.Left="222">
-				<Image Source="../Assets/Buttons/symbol-memo.png" Width="30" Height="33" />
-			</Button>
-			<Button Canvas.Bottom="238" Canvas.Left="270">
-				<Image Source="../Assets/Buttons/symbol-quick.png" Width="30" Height="33" />
-			</Button>
-			<Button Canvas.Bottom="263" Canvas.Left="318">
-				<Image Source="../Assets/Buttons/symbol-esc.png" Width="26" Height="8" />
-			</Button>
-			<Button Canvas.Bottom="237" Canvas.Left="318">
-				<Image Source="../Assets/Buttons/symbol-bar.png" Width="26" Height="13" />
-			</Button>
-			<TextBlock Canvas.Bottom="178" Canvas.Left="126"
-                       FontFamily="{StaticResource FontS}"
-                       FontWeight="Black">
-				<Run FontSize="21">Pocket</Run>
-                <Run FontSize="21">Viewer</Run>
-            </TextBlock>
-			<Button Canvas.Bottom="126" Canvas.Left="170" 
-                    Background="Transparent">
-				<Image Source="../Assets/Keys/center.png" 
-                       Width="30" Height="28" Stretch="Fill"/>
-			</Button>
-            <Button Canvas.Bottom="130" Canvas.Left="106"
-                    Background="Transparent">
-                <Image Source="../Assets/Keys/down.png" 
-                       Width="30" Height="18" />
-            </Button>
-			<Button Canvas.Bottom="132" Canvas.Left="45"
-                    Background="Transparent">
-				<Image Source="../Assets/Keys/left.png" 
-                       Width="30" Height="18" />
-			</Button>
-			<Button Canvas.Bottom="130" Canvas.Left="293"
-                    Background="Transparent">
-				<Image Source="../Assets/Keys/right.png" 
-                       Width="30" Height="18" />
-			</Button>
-            <Button Canvas.Bottom="130" Canvas.Left="232"
-                    Background="Transparent">
-                <Image Source="../Assets/Keys/up.png" 
-                       Width="30" Height="18" />
-            </Button>
-		</Canvas>
+			</LayoutTransformControl.LayoutTransform>
+			<Canvas Width="416" Height="700">
+				<Canvas.Background>
+					<ImageBrush Source="../Assets/Skins/pv-generic.png" Stretch="Fill" />
+				</Canvas.Background>
+				<ui:DisplayView Canvas.Top="90" Canvas.Left="37" Width="320" Height="320">
+				</ui:DisplayView>
+				<Button Canvas.Bottom="263" Canvas.Left="30">
+					<Image Source="../Assets/Buttons/symbol-off.png" Width="30" Height="8" />
+				</Button>
+				<Button Canvas.Bottom="237" Canvas.Left="30">
+					<Image Source="../Assets/Buttons/symbol-light.png" Width="30" Height="13" />
+				</Button>
+				<Button Canvas.Bottom="238" Canvas.Left="78">
+					<Image Source="../Assets/Buttons/symbol-menu.png" Width="30" Height="33" />
+				</Button>
+				<Button Canvas.Bottom="238" Canvas.Left="126">
+					<Image Source="../Assets/Buttons/symbol-sched.png" Width="30" Height="33" />
+				</Button>
+				<Button Canvas.Bottom="238" Canvas.Left="174">
+					<Image Source="../Assets/Buttons/symbol-cont.png" Width="30" Height="33" />
+				</Button>
+				<Button Canvas.Bottom="238" Canvas.Left="222">
+					<Image Source="../Assets/Buttons/symbol-memo.png" Width="30" Height="33" />
+				</Button>
+				<Button Canvas.Bottom="238" Canvas.Left="270">
+					<Image Source="../Assets/Buttons/symbol-quick.png" Width="30" Height="33" />
+				</Button>
+				<Button Canvas.Bottom="263" Canvas.Left="318">
+					<Image Source="../Assets/Buttons/symbol-esc.png" Width="26" Height="8" />
+				</Button>
+				<Button Canvas.Bottom="237" Canvas.Left="318">
+					<Image Source="../Assets/Buttons/symbol-bar.png" Width="26" Height="13" />
+				</Button>
+				<TextBlock Canvas.Bottom="178" Canvas.Left="126"
+						   FontFamily="{StaticResource FontS}"
+						   FontWeight="Black">
+					<Run FontSize="21">Pocket</Run>
+					<Run FontSize="21">Viewer</Run>
+				</TextBlock>
+				<Button Canvas.Bottom="126" Canvas.Left="170"
+						Background="Transparent">
+					<Image Source="../Assets/Keys/center.png"
+						   Width="30" Height="28" Stretch="Fill"/>
+				</Button>
+				<Button Canvas.Bottom="130" Canvas.Left="106"
+						Background="Transparent">
+					<Image Source="../Assets/Keys/down.png"
+						   Width="30" Height="18" />
+				</Button>
+				<Button Canvas.Bottom="132" Canvas.Left="45"
+						Background="Transparent">
+					<Image Source="../Assets/Keys/left.png"
+						   Width="30" Height="18" />
+				</Button>
+				<Button Canvas.Bottom="130" Canvas.Left="293"
+						Background="Transparent">
+					<Image Source="../Assets/Keys/right.png"
+						   Width="30" Height="18" />
+				</Button>
+				<Button Canvas.Bottom="130" Canvas.Left="232"
+						Background="Transparent">
+					<Image Source="../Assets/Keys/up.png"
+						   Width="30" Height="18" />
+				</Button>
+			</Canvas>
+		</LayoutTransformControl>
 	</Viewbox>
 
 </UserControl>
