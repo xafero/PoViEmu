@@ -12,7 +12,7 @@
 		<vm:RunInstViewModel />
 	</Design.DataContext>
 
-	<DockPanel>
+	<DockPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
 		<StackPanel DockPanel.Dock="Top" Orientation="Horizontal" 
 		            HorizontalAlignment="Center">
             <Button
@@ -41,9 +41,11 @@
 			</Button>
 		</StackPanel>
 		<ui:MinimalView Margin="10" 
-		                IsVisible="{Binding ViewIsMinimal}"/>
+		                IsVisible="{Binding ViewIsMinimal}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center" />
         <ui:HandheldView Margin="10"
-                         IsVisible="{Binding !ViewIsMinimal}"/>
+                         IsVisible="{Binding !ViewIsMinimal}"
+                         HorizontalAlignment="Center" VerticalAlignment="Center" />
 	</DockPanel>
 
 </UserControl>

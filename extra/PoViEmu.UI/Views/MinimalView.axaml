@@ -5,7 +5,7 @@
 	xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
     xmlns:ui="clr-namespace:PoViEmu.UI.Views"
 	mc:Ignorable="d"
-	d:DesignWidth="660" d:DesignHeight="530"
+	d:DesignWidth="625" d:DesignHeight="500"
 	x:Class="PoViEmu.UI.Views.MinimalView"
 	x:DataType="vm:RunInstViewModel"
 	Loaded="OnLoaded">
@@ -37,7 +37,9 @@
 		<vm:RunInstViewModel />
 	</Design.DataContext>
 
-	<Grid RowDefinitions="*" ColumnDefinitions="Auto,*,Auto">
+	<Viewbox>
+	<Grid RowDefinitions="*" ColumnDefinitions="Auto,*,Auto"
+          Width="625" Height="500">
 		<StackPanel Grid.Row="0" Grid.Column="0"
                     Orientation="Vertical"
                     VerticalAlignment="Center"
@@ -82,14 +84,13 @@
 			<Button Classes="rb" Content="&#xF0D7;" />
 			<Button Classes="rb" Content="&#xF0DA;" />
 		</StackPanel>
-		<Viewbox Grid.Row="0" Grid.Column="1" Margin="10">
-			<Border BorderThickness="3" CornerRadius="12"
-                    BorderBrush="Black" Padding="5"
-                    Background="Black">
-				<ui:DisplayView Width="342" Height="342">
-				</ui:DisplayView>
-			</Border>
-		</Viewbox>
+		<Border Grid.Row="0" Grid.Column="1" Margin="10"
+                BorderThickness="3" CornerRadius="12"
+                BorderBrush="Black" Padding="5"
+                Background="Black">
+			<ui:DisplayView />
+		</Border>
 	</Grid>
+    </Viewbox>
 
 </UserControl>
