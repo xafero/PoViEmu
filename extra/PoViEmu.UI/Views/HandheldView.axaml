@@ -21,7 +21,12 @@
 	</Design.DataContext>
 
 	<Viewbox>
-		<Canvas Width="416" Height="700">
+		<Viewbox.RenderTransform>
+			<RotateTransform Angle="{Binding Path=Main.IsPortrait,
+							 ConverterParameter='0;90',
+							 Converter={StaticResource Tc}}" />
+        </Viewbox.RenderTransform>
+        <Canvas Width="416" Height="700">
 			<Canvas.Background>
 				<ImageBrush Source="../Assets/Skins/pv-generic.png" Stretch="Fill" />
 			</Canvas.Background>
