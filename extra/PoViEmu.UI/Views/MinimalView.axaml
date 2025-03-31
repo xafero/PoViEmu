@@ -3,75 +3,93 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
-	xmlns:vw="clr-namespace:PoViEmu.UI.Views"
-	xmlns:ui="clr-namespace:PoViEmu.UI.Views" 
-	mc:Ignorable="d" 
-	d:DesignWidth="560" d:DesignHeight="730" 
+    xmlns:ui="clr-namespace:PoViEmu.UI.Views"
+	mc:Ignorable="d"
+	d:DesignWidth="660" d:DesignHeight="530"
 	x:Class="PoViEmu.UI.Views.MinimalView"
 	x:DataType="vm:RunInstViewModel"
 	Loaded="OnLoaded">
-	
+
+	<UserControl.Styles>
+		<Style Selector="Image.ib">
+			<Setter Property="Width" Value="40" />
+			<Setter Property="Height" Value="40" />
+		</Style>
+		<Style Selector="Image.ibs">
+			<Setter Property="Width" Value="40" />
+			<Setter Property="Height" Value="10" />
+		</Style>
+		<Style Selector="Image.ibb">
+			<Setter Property="Width" Value="40" />
+			<Setter Property="Height" Value="17" />
+		</Style>
+		<Style Selector="Button.rb">
+			<Setter Property="HorizontalContentAlignment" Value="Center" />
+			<Setter Property="VerticalContentAlignment" Value="Center" />
+			<Setter Property="Width" Value="48" />
+			<Setter Property="Height" Value="40" />
+			<Setter Property="FontSize" Value="28" />
+			<Setter Property="FontFamily" Value="{StaticResource FontA}" />
+		</Style>
+	</UserControl.Styles>
+
 	<Design.DataContext>
 		<vm:RunInstViewModel />
 	</Design.DataContext>
 
-	<DockPanel>
-		<StackPanel DockPanel.Dock="Bottom">
-			<Canvas Width="340" Height="61">
-				<Button Canvas.Bottom="34" Canvas.Left="2">
-					<Image Source="../Assets/Buttons/symbol-off.png" Width="30" Height="10" />
-				</Button>
-				<Button Canvas.Bottom="4" Canvas.Left="2">
-					<Image Source="../Assets/Buttons/symbol-light.png" Width="30" Height="17" />
-				</Button>
-				<Button Canvas.Bottom="4" Canvas.Left="50">
-					<Image Source="../Assets/Buttons/symbol-menu.png" Width="30" Height="40" />
-				</Button>
-				<Button Canvas.Bottom="4" Canvas.Left="98">
-					<Image Source="../Assets/Buttons/symbol-sched.png" Width="30" Height="40" />
-				</Button>
-				<Button Canvas.Bottom="4" Canvas.Left="146">
-					<Image Source="../Assets/Buttons/symbol-cont.png" Width="30" Height="40" />
-				</Button>
-				<Button Canvas.Bottom="4" Canvas.Left="194">
-					<Image Source="../Assets/Buttons/symbol-memo.png" Width="30" Height="40" />
-				</Button>
-				<Button Canvas.Bottom="4" Canvas.Left="242">
-					<Image Source="../Assets/Buttons/symbol-quick.png" Width="30" Height="40" />
-				</Button>
-				<Button Canvas.Bottom="34" Canvas.Left="290">
-					<Image Source="../Assets/Buttons/symbol-esc.png" Width="30" Height="10" />
-				</Button>
-				<Button Canvas.Bottom="4" Canvas.Left="290">
-					<Image Source="../Assets/Buttons/symbol-bar.png" Width="30" Height="17" />
-				</Button>
-			</Canvas>
-			<Canvas Width="306" Height="41">
-				<Button Canvas.Bottom="5" Canvas.Left="130"
-				        FontFamily="{StaticResource FontA}"
-				        Content="&#x2013;" FontSize="18" />
-				<Button Canvas.Bottom="5" Canvas.Left="66"
-				        FontFamily="{StaticResource FontA}"
-				        Content="&#xF0D7;" FontSize="18" />
-				<Button Canvas.Bottom="5" Canvas.Left="5"
-				        FontFamily="{StaticResource FontA}"
-				        Content="&#xF0D9;" FontSize="18" />
-				<Button Canvas.Bottom="5" Canvas.Left="253"
-				        FontFamily="{StaticResource FontA}"
-				        Content="&#xF0DA;" FontSize="18" />
-				<Button Canvas.Bottom="5" Canvas.Left="192" 
-				        FontFamily="{StaticResource FontA}"
-				        Content="&#xF0D8;" FontSize="18" />
-			</Canvas>	
+	<Grid RowDefinitions="*" ColumnDefinitions="Auto,*,Auto">
+		<StackPanel Grid.Row="0" Grid.Column="0"
+                    Orientation="Vertical"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Margin="10,0,0,0">
+			<Button>
+				<Image Classes="ibs" Source="../Assets/Buttons/symbol-off.png" />
+			</Button>
+			<Button>
+				<Image Classes="ibb" Source="../Assets/Buttons/symbol-light.png" />
+			</Button>
+			<Button>
+				<Image Classes="ib" Source="../Assets/Buttons/symbol-menu.png" />
+			</Button>
+			<Button>
+				<Image Classes="ib" Source="../Assets/Buttons/symbol-sched.png" />
+			</Button>
+			<Button>
+				<Image Classes="ib" Source="../Assets/Buttons/symbol-cont.png" />
+			</Button>
+			<Button>
+				<Image Classes="ib" Source="../Assets/Buttons/symbol-memo.png" />
+			</Button>
+			<Button>
+				<Image Classes="ib" Source="../Assets/Buttons/symbol-quick.png" />
+			</Button>
+			<Button>
+				<Image Classes="ibs" Source="../Assets/Buttons/symbol-esc.png" />
+			</Button>
+			<Button>
+				<Image Classes="ibb" Source="../Assets/Buttons/symbol-bar.png" />
+			</Button>
 		</StackPanel>
-			<Viewbox Margin="10">
-				<Border BorderThickness="3" CornerRadius="12" 
-				        BorderBrush="Black" Padding="5" 
-				        Background="Black">
+		<StackPanel Grid.Row="0" Grid.Column="2"
+                    Orientation="Vertical"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Margin="0,0,10,0">
+			<Button Classes="rb" Content="&#xF0D9;" />
+			<Button Classes="rb" Content="&#xF0D8;" />
+			<Button Classes="rb" Content="&#x2013;" />
+			<Button Classes="rb" Content="&#xF0D7;" />
+			<Button Classes="rb" Content="&#xF0DA;" />
+		</StackPanel>
+		<Viewbox Grid.Row="0" Grid.Column="1" Margin="10">
+			<Border BorderThickness="3" CornerRadius="12"
+                    BorderBrush="Black" Padding="5"
+                    Background="Black">
 				<ui:DisplayView Width="342" Height="342">
 				</ui:DisplayView>
-				</Border>
-			</Viewbox>
-	</DockPanel>
-	
+			</Border>
+		</Viewbox>
+	</Grid>
+
 </UserControl>
