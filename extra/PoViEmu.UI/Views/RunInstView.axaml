@@ -3,18 +3,29 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
+             xmlns:cnv="clr-namespace:PoViEmu.UI.Conv"
              xmlns:ui="clr-namespace:PoViEmu.UI.Views"
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="650"
              x:Class="PoViEmu.UI.Views.RunInstView"
              x:DataType="vm:RunInstViewModel">
+
+    <UserControl.Resources>
+        <cnv:TernaryConverter x:Key="Tc" />
+    </UserControl.Resources>
 
 	<Design.DataContext>
 		<vm:RunInstViewModel />
 	</Design.DataContext>
 
 	<DockPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
-		<StackPanel DockPanel.Dock="Top" Orientation="Horizontal" 
-		            HorizontalAlignment="Center">
+		<StackPanel DockPanel.Dock="{Binding Path=Main.IsPortrait,
+					ConverterParameter='Top;Left',
+					Converter={StaticResource Tc}}" 
+                    Orientation="{Binding Path=Main.IsPortrait,
+					ConverterParameter='Horizontal;Vertical',
+					Converter={StaticResource Tc}}" 
+		            HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
             <Button
                 FontFamily="{StaticResource MonoF}"
                 Padding="15" FontSize="15" FontWeight="Heavy"

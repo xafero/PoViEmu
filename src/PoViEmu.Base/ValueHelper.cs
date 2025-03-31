@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
@@ -8,9 +9,16 @@ namespace PoViEmu.Base
     {
         public static readonly CultureInfo Ignore = CultureInfo.InvariantCulture;
 
+        public static T?[]? AsEnumArray<T>(string[]? args) where T : struct, Enum
+        {
+            return args?.Select(txt => Enum.TryParse<T>(txt, ignoreCase: true, out var value)
+                ? value
+                : default(T?)).ToArray();
+        }
+
         public static double?[]? AsDoubleArray(IEnumerable<string>? args)
         {
-            return args?.Select(txt => double.TryParse((string?)txt, Ignore, out var value)
+            return args?.Select(txt => double.TryParse(txt, Ignore, out var value)
                 ? value
                 : default(double?)).ToArray();
         }

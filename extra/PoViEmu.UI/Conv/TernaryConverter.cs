@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Globalization;
+using System.Xml.Linq;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Data.Converters;
+using Avalonia.Layout;
 using PoViEmu.Base;
 
 namespace PoViEmu.UI.Conv
@@ -14,6 +17,22 @@ namespace PoViEmu.UI.Conv
             var dest = targetType.FullName;
             if (value is bool bv)
             {
+                if (dest == "Avalonia.Controls.Dock")
+                {
+                    var enums = ValueHelper.AsEnumArray<Dock>(args);
+                    if (enums is [{ } trueV, { } falseV])
+                    {
+                        return bv ? trueV : falseV;
+                    }
+                }
+                if (dest == "Avalonia.Layout.Orientation")
+                {
+                    var enums = ValueHelper.AsEnumArray<Orientation>(args);
+                    if (enums is [{ } trueV, { } falseV])
+                    {
+                        return bv ? trueV : falseV;
+                    }
+                }
                 if (dest == "System.Double")
                 {
                     var doubles = ValueHelper.AsDoubleArray(args);
