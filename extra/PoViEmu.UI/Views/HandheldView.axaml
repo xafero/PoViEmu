@@ -4,12 +4,17 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
 	xmlns:vw="clr-namespace:PoViEmu.UI.Views"
+    xmlns:cnv="clr-namespace:PoViEmu.UI.Conv"
 	xmlns:ui="clr-namespace:PoViEmu.UI.Views" 
 	mc:Ignorable="d" 
 	d:DesignWidth="460" d:DesignHeight="730" 
 	x:Class="PoViEmu.UI.Views.HandheldView"
 	x:DataType="vm:RunInstViewModel"
 	Loaded="OnLoaded">
+
+    <UserControl.Resources>
+        <cnv:TernaryConverter x:Key="Tc" />
+    </UserControl.Resources>
 
 	<Design.DataContext>
 		<vm:RunInstViewModel />
