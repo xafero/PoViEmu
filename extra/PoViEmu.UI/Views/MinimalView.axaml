@@ -5,7 +5,7 @@
 	xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
     xmlns:ui="clr-namespace:PoViEmu.UI.Views"
 	mc:Ignorable="d"
-	d:DesignWidth="625" d:DesignHeight="500"
+	d:DesignWidth="540" d:DesignHeight="1050"
 	x:Class="PoViEmu.UI.Views.MinimalView"
 	x:DataType="vm:RunInstViewModel"
 	Loaded="OnLoaded">
