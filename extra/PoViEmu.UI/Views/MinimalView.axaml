@@ -43,19 +43,36 @@
     </Design.DataContext>
 
     <Viewbox>
-        <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,*,*"
-              Width="540" Height="792" ShowGridLines="True">
-            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+        <Grid  Width="{Binding Path=Main.IsLandscape, ConverterParameter='792;540', Converter={StaticResource Tc}}" 
+              Height="{Binding Path=Main.IsLandscape, ConverterParameter='540;792', Converter={StaticResource Tc}}" 
+              ShowGridLines="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="{Binding Path=Main.IsLandscape, ConverterParameter='*;Auto', Converter={StaticResource Tc}}" />
+                <RowDefinition Height="{Binding Path=Main.IsLandscape, ConverterParameter='*;Auto', Converter={StaticResource Tc}}" />
+                <RowDefinition Height="{Binding Path=Main.IsLandscape, ConverterParameter='*;Auto', Converter={StaticResource Tc}}" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{Binding Path=Main.IsLandscape, ConverterParameter='Auto;*', Converter={StaticResource Tc}}" />
+                <ColumnDefinition Width="{Binding Path=Main.IsLandscape,    ConverterParameter='*;*', Converter={StaticResource Tc}}" />
+                <ColumnDefinition Width="{Binding Path=Main.IsLandscape, ConverterParameter='Auto;*', Converter={StaticResource Tc}}" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Row="0" 
+                    Grid.Column="{Binding Path=Main.IsLandscape, ConverterParameter='1;0', Converter={StaticResource Tc}}"
+                    Grid.RowSpan="{Binding Path=Main.IsLandscape, ConverterParameter='3;1', Converter={StaticResource Tc}}" 
+                    Grid.ColumnSpan="{Binding Path=Main.IsLandscape, ConverterParameter='1;3', Converter={StaticResource Tc}}"
                     HorizontalAlignment="Center" VerticalAlignment="Center"
                     Padding="4"
                     BorderThickness="5" CornerRadius="12"
                     BorderBrush="Black" Background="Black">
                 <ui:DisplayView />
             </Border>
-            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+            <StackPanel Grid.Column="0" 
+                        Grid.Row="{Binding Path=Main.IsLandscape, ConverterParameter='0;1', Converter={StaticResource Tc}}" 
+                        Grid.RowSpan="{Binding Path=Main.IsLandscape, ConverterParameter='3;1', Converter={StaticResource Tc}}" 
+                        Grid.ColumnSpan="{Binding Path=Main.IsLandscape, ConverterParameter='1;3', Converter={StaticResource Tc}}"
+                        Orientation="{Binding Path=Main.IsLandscape, ConverterParameter='Vertical;Horizontal', Converter={StaticResource Tc}}"
                         HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Margin="0,10,0,0"
-                        Orientation="Horizontal">
+                        Margin="10,10,0,0">
                 <StackPanel>
                     <Button>
                         <Image Classes="ibs" Source="../Assets/Buttons/symbol-off.png" />
@@ -88,7 +105,10 @@
                     </Button>
                 </StackPanel>
             </StackPanel>
-            <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+            <Grid Grid.Row="{Binding Path=Main.IsLandscape, ConverterParameter='0;2', Converter={StaticResource Tc}}" 
+                  Grid.Column="{Binding Path=Main.IsLandscape, ConverterParameter='2;0', Converter={StaticResource Tc}}" 
+                  Grid.RowSpan="{Binding Path=Main.IsLandscape, ConverterParameter='3;1', Converter={StaticResource Tc}}" 
+                  Grid.ColumnSpan="{Binding Path=Main.IsLandscape, ConverterParameter='1;3', Converter={StaticResource Tc}}"
                   RowDefinitions="*,*,*" ColumnDefinitions="Auto,Auto,Auto"
                   HorizontalAlignment="Center" VerticalAlignment="Center"
                   Margin="0,10,0,0">
