@@ -5,30 +5,30 @@
 	xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
     xmlns:ui="clr-namespace:PoViEmu.UI.Views"
 	mc:Ignorable="d"
-	d:DesignWidth="540" d:DesignHeight="1050"
+	d:DesignWidth="540" d:DesignHeight="650"
 	x:Class="PoViEmu.UI.Views.MinimalView"
 	x:DataType="vm:RunInstViewModel"
 	Loaded="OnLoaded">
 
 	<UserControl.Styles>
 		<Style Selector="Image.ib">
-			<Setter Property="Width" Value="40" />
-			<Setter Property="Height" Value="40" />
+			<Setter Property="Width" Value="50" />
+			<Setter Property="Height" Value="50" />
 		</Style>
 		<Style Selector="Image.ibs">
-			<Setter Property="Width" Value="40" />
-			<Setter Property="Height" Value="10" />
+			<Setter Property="Width" Value="50" />
+			<Setter Property="Height" Value="15" />
 		</Style>
 		<Style Selector="Image.ibb">
-			<Setter Property="Width" Value="40" />
-			<Setter Property="Height" Value="17" />
+			<Setter Property="Width" Value="50" />
+			<Setter Property="Height" Value="21" />
 		</Style>
 		<Style Selector="Button.rb">
 			<Setter Property="HorizontalContentAlignment" Value="Center" />
 			<Setter Property="VerticalContentAlignment" Value="Center" />
 			<Setter Property="Width" Value="48" />
-			<Setter Property="Height" Value="40" />
-			<Setter Property="FontSize" Value="28" />
+			<Setter Property="Height" Value="54" />
+			<Setter Property="FontSize" Value="45" />
 			<Setter Property="FontFamily" Value="{StaticResource FontA}" />
 		</Style>
 	</UserControl.Styles>
@@ -38,59 +38,61 @@
 	</Design.DataContext>
 
 	<Viewbox>
-	<Grid RowDefinitions="*" ColumnDefinitions="Auto,*,Auto"
-          Width="625" Height="500">
-		<StackPanel Grid.Row="0" Grid.Column="0"
-                    Orientation="Vertical"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Margin="10,0,0,0">
-			<Button>
-				<Image Classes="ibs" Source="../Assets/Buttons/symbol-off.png" />
-			</Button>
-			<Button>
-				<Image Classes="ibb" Source="../Assets/Buttons/symbol-light.png" />
-			</Button>
-			<Button>
-				<Image Classes="ib" Source="../Assets/Buttons/symbol-menu.png" />
-			</Button>
-			<Button>
-				<Image Classes="ib" Source="../Assets/Buttons/symbol-sched.png" />
-			</Button>
-			<Button>
-				<Image Classes="ib" Source="../Assets/Buttons/symbol-cont.png" />
-			</Button>
-			<Button>
-				<Image Classes="ib" Source="../Assets/Buttons/symbol-memo.png" />
-			</Button>
-			<Button>
-				<Image Classes="ib" Source="../Assets/Buttons/symbol-quick.png" />
-			</Button>
-			<Button>
-				<Image Classes="ibs" Source="../Assets/Buttons/symbol-esc.png" />
-			</Button>
-			<Button>
-				<Image Classes="ibb" Source="../Assets/Buttons/symbol-bar.png" />
-			</Button>
-		</StackPanel>
-		<StackPanel Grid.Row="0" Grid.Column="2"
-                    Orientation="Vertical"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Margin="0,0,10,0">
-			<Button Classes="rb" Content="&#xF0D9;" />
-			<Button Classes="rb" Content="&#xF0D8;" />
-			<Button Classes="rb" Content="&#x2013;" />
-			<Button Classes="rb" Content="&#xF0D7;" />
-			<Button Classes="rb" Content="&#xF0DA;" />
-		</StackPanel>
-		<Border Grid.Row="0" Grid.Column="1" Margin="10"
-                BorderThickness="3" CornerRadius="12"
-                BorderBrush="Black" Padding="5"
-                Background="Black">
+	<Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*"
+	      Width="540" Height="792" ShowGridLines="True">
+		<Border Grid.Row="0" Grid.Column="0"
+		        HorizontalAlignment="Center" VerticalAlignment="Center" 
+		        Padding="4"
+		        BorderThickness="5" CornerRadius="12"
+		        BorderBrush="Black" Background="Black">
 			<ui:DisplayView />
 		</Border>
+		<StackPanel Grid.Row="1" Grid.Column="0" 
+		      HorizontalAlignment="Center" VerticalAlignment="Center">
+			<StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+				<StackPanel>
+					<Button>
+						<Image Classes="ibs" Source="../Assets/Buttons/symbol-off.png" />
+					</Button>
+					<Button>
+						<Image Classes="ibb" Source="../Assets/Buttons/symbol-light.png" />
+					</Button>
+				</StackPanel>
+				<Button>
+					<Image Classes="ib" Source="../Assets/Buttons/symbol-menu.png" />
+				</Button>
+				<Button>
+					<Image Classes="ib" Source="../Assets/Buttons/symbol-sched.png" />
+				</Button>
+				<Button>
+					<Image Classes="ib" Source="../Assets/Buttons/symbol-cont.png" />
+				</Button>
+				<Button>
+					<Image Classes="ib" Source="../Assets/Buttons/symbol-memo.png" />
+				</Button>
+				<Button>
+					<Image Classes="ib" Source="../Assets/Buttons/symbol-quick.png" />
+				</Button>
+				<StackPanel>
+					<Button>
+						<Image Classes="ibs" Source="../Assets/Buttons/symbol-esc.png" />
+					</Button>
+					<Button>
+						<Image Classes="ibb" Source="../Assets/Buttons/symbol-bar.png" />
+					</Button>
+				</StackPanel>
+			</StackPanel>
+			<Grid RowDefinitions="*,*,*" ColumnDefinitions="Auto,Auto,Auto"
+			      HorizontalAlignment="Center" VerticalAlignment="Center"
+			      Margin="0,10,0,0">
+			<Button Grid.Row="1" Grid.Column="0" Classes="rb" Content="&#xF0D9;" />
+			<Button Grid.Row="0" Grid.Column="1" Classes="rb" Content="&#xF0D8;" />
+			<Button Grid.Row="1" Grid.Column="1" Classes="rb" Content="&#x2013;" />
+			<Button Grid.Row="2" Grid.Column="1" Classes="rb" Content="&#xF0D7;" />
+			<Button Grid.Row="1" Grid.Column="2" Classes="rb" Content="&#xF0DA;" />
+			</Grid>
+		</StackPanel>
 	</Grid>
-    </Viewbox>
-
+	</Viewbox>
+	
 </UserControl>
