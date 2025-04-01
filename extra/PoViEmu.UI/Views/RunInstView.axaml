@@ -5,7 +5,8 @@
              xmlns:vm="clr-namespace:PoViEmu.UI.ViewModels"
              xmlns:cnv="clr-namespace:PoViEmu.UI.Conv"
              xmlns:ui="clr-namespace:PoViEmu.UI.Views"
-             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="650"
+             mc:Ignorable="d" 
+             d:DesignWidth="540" d:DesignHeight="1050"
              x:Class="PoViEmu.UI.Views.RunInstView"
              x:DataType="vm:RunInstViewModel">
 
@@ -18,11 +19,11 @@
 	</Design.DataContext>
 
 	<DockPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
-		<StackPanel DockPanel.Dock="{Binding Path=Main.IsPortrait,
-					ConverterParameter='Top;Left',
+		<StackPanel DockPanel.Dock="{Binding Path=Main.IsLandscape,
+					ConverterParameter='Left;Top',
 					Converter={StaticResource Tc}}" 
-                    Orientation="{Binding Path=Main.IsPortrait,
-					ConverterParameter='Horizontal;Vertical',
+                    Orientation="{Binding Path=Main.IsLandscape,
+					ConverterParameter='Vertical;Horizontal',
 					Converter={StaticResource Tc}}" 
 		            HorizontalAlignment="Center"
                     VerticalAlignment="Center">
