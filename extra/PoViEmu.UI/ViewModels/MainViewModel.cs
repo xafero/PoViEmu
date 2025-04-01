@@ -16,7 +16,7 @@ namespace PoViEmu.UI.ViewModels
 
         [ObservableProperty] private IViewModelBase _currentView;
         [ObservableProperty] private Orientation _orientation;
-        [ObservableProperty] private bool _isPortrait;
+        [ObservableProperty] private bool _isLandscape;
         [ObservableProperty] private bool _canGoBack;
 
         public MainViewModel()
@@ -76,7 +76,7 @@ namespace PoViEmu.UI.ViewModels
 
         partial void OnOrientationChanged(Orientation value)
         {
-            IsPortrait = value == Orientation.Portrait;
+            IsLandscape = value == Orientation.Landscape;
         }
     }
 }

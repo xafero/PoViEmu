@@ -6,7 +6,7 @@
     xmlns:cnv="clr-namespace:PoViEmu.UI.Conv"
 	xmlns:ui="clr-namespace:PoViEmu.UI.Views"
 	mc:Ignorable="d"
-	d:DesignWidth="460" d:DesignHeight="730"
+	d:DesignWidth="540" d:DesignHeight="1050"
 	x:Class="PoViEmu.UI.Views.HandheldView"
 	x:DataType="vm:RunInstViewModel"
 	Loaded="OnLoaded">
@@ -22,8 +22,8 @@
 	<Viewbox>
 		<LayoutTransformControl>
 			<LayoutTransformControl.LayoutTransform>
-				<RotateTransform Angle="{Binding Path=Main.IsPortrait,
-							 ConverterParameter='0;90',
+				<RotateTransform Angle="{Binding Path=Main.IsLandscape,
+							 ConverterParameter='-90;0',
 							 Converter={StaticResource Tc}}" />
 			</LayoutTransformControl.LayoutTransform>
 			<Canvas Width="416" Height="700">
