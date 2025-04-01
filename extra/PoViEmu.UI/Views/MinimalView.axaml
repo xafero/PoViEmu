@@ -44,8 +44,7 @@
 
     <Viewbox>
         <Grid  Width="{Binding Path=Main.IsLandscape, ConverterParameter='792;540', Converter={StaticResource Tc}}" 
-              Height="{Binding Path=Main.IsLandscape, ConverterParameter='540;792', Converter={StaticResource Tc}}" 
-              ShowGridLines="True">
+              Height="{Binding Path=Main.IsLandscape, ConverterParameter='540;792', Converter={StaticResource Tc}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="{Binding Path=Main.IsLandscape, ConverterParameter='*;Auto', Converter={StaticResource Tc}}" />
                 <RowDefinition Height="{Binding Path=Main.IsLandscape, ConverterParameter='*;Auto', Converter={StaticResource Tc}}" />
