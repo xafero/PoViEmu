@@ -10,8 +10,9 @@ namespace PoViEmu.Hyper
         {
         }
 
-        public IVMachine Create(CpuKind kind)
+        public IVMachine Create(VMConfig config)
         {
+            var kind = config.Kind;
             switch (kind)
             {
                 case CpuKind.SH3: return new ShMachine();

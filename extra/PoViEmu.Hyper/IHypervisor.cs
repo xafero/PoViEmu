@@ -2,6 +2,6 @@
 {
     public interface IHypervisor
     {
-        IVMachine Create(CpuKind kind);
+        IVMachine Create(VMConfig config);
     }
 }
