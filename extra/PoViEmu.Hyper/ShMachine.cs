@@ -12,5 +12,11 @@ namespace PoViEmu.Hyper
             _cpu = new SH7291();
             _state = new MachineState();
         }
+
+        public void Execute()
+        {
+            object ni = null;
+            _cpu.Execute((SH3.ISA.Decoding.XInstruction)ni, _state);
+        }
     }
 }
