@@ -14,8 +14,8 @@ namespace PoViEmu.Hyper
         {
             switch (kind)
             {
-                case CpuKind.SH3: return new NcMachine();
-                case CpuKind.X86: return new ShMachine();
+                case CpuKind.SH3: return new ShMachine();
+                case CpuKind.X86: return new NcMachine();
                 default: throw new ArgumentOutOfRangeException(nameof(kind), kind, null);
             }
         }
