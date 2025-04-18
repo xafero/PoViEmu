@@ -4,6 +4,8 @@
 namespace PoViEmu.Hyper
 {
     public record VMConfig(
-        CpuKind Kind
+        CpuKind Kind,
+        int Cycles,
+        double Hertz
     );
 }

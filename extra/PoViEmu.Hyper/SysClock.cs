@@ -45,6 +45,12 @@ namespace PoViEmu.Hyper
             _timer.Change(ms, ms);
         }
 
+        public void Stop()
+        {
+            const int no = Timeout.Infinite;
+            _timer.Change(no, no);
+        }
+
         private void DoTick(object? state)
         {
             OnTick?.Invoke(this, new TickEventArgs(CyclesPerTick));
