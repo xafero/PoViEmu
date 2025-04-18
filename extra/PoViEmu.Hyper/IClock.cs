@@ -8,8 +8,6 @@ namespace PoViEmu.Hyper
 
         void Stop();
 
-        event EventHandler<TickEventArgs> OnTick;
-
         int Cycles { set; }
 
         double TickHz { set; }
