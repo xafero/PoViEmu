@@ -32,10 +32,21 @@ namespace PoViEmu.Hyper
             var src = (SysClock)sender!;
             Console.WriteLine($" {Cpu} {DateTime.Now:u} => {src.TickHz} f, {src.TickMs} ms, {e.Cycles} c");
 
-            if (Cpu is { } cpu && State is { } state)
+            if (Cpu is not { } cpu || State is not { } state || cpu.Halted)
+                return;
+            var cycles = (int)e.Cycles;
+            for (var i = 0; !cpu.Halted && i < cycles; i++)
             {
-                var ni = _reader.NextInstruction();
-                cpu.Execute(ni, state);
+                try
+                {
+                    var current = _reader.NextInstruction();
+                    cpu.Execute(current, state);
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine($" {ex.GetType().Name}: {ex.Message}");
+                    cpu.Halted = true;
+                }
             }
         }
     }
