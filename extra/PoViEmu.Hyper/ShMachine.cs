@@ -1,3 +1,4 @@
+using System;
 using PoViEmu.SH3.CPU;
 
 namespace PoViEmu.Hyper
@@ -10,8 +11,11 @@ namespace PoViEmu.Hyper
             _clock.TickHz = 1;
         }
 
-        public void Execute()
+        protected override void ClockOnTick(object? sender, TickEventArgs e)
         {
+            var src = (SysClock)sender!;
+            Console.WriteLine($" {_cpu} {DateTime.Now:u} => {src.TickHz} f, {src.TickMs} ms, {e.Cycles} c");
+
             object ni = null;
             _cpu.Execute((SH3.ISA.Decoding.XInstruction)ni, _state);
         }

@@ -31,19 +31,7 @@ namespace PoViEmu.Hyper
             _clock.Stop();
         }
 
-        private static void ClockOnTick(object? sender, TickEventArgs e)
-        {
-
-
-
-
-
-
-
-
-
-            throw new System.NotImplementedException();
-        }
+        protected abstract void ClockOnTick(object? sender, TickEventArgs e);
 
         public void Dispose()
         {
