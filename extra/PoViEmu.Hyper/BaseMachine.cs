@@ -5,42 +5,41 @@ using PoViEmu.Base.CPU;
 
 namespace PoViEmu.Hyper
 {
-    public abstract class BaseMachine<TC, TM> : IVMachine where TC : ICpu where TM : IState
+    public abstract class BaseMachine<TC, TM> : IVMachine
+        where TC : ICpu
+        where TM : IState
     {
-        protected readonly TC _cpu;
-        protected readonly TM _state;
-        protected readonly IClock _clock;
+        protected TC? Cpu { get; set; }
+        protected TM? State { get; set; }
+        protected IClock Clock { get; }
 
-        protected BaseMachine(TC cpu, TM state)
+        protected BaseMachine()
         {
-            _cpu = cpu;
-            _state = state;
-
             var clock = new SysClock();
             clock.OnTick += ClockOnTick;
-            _clock = clock;
+            Clock = clock;
         }
 
         public void Start()
         {
-            _clock.Start();
+            Clock.Start();
         }
 
         public void Stop()
         {
-            _clock.Stop();
+            Clock.Stop();
         }
 
         protected abstract void ClockOnTick(object? sender, TickEventArgs e);
 
         public void Dispose()
         {
-            _clock.Dispose();
+            Clock.Dispose();
         }
 
         public async ValueTask DisposeAsync()
         {
-            await _clock.DisposeAsync();
+            await Clock.DisposeAsync();
         }
     }
 }

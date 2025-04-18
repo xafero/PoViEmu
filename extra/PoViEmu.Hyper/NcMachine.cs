@@ -1,39 +1,42 @@
 ﻿using System;
+using PoViEmu.Base.CPU;
 using PoViEmu.I186.CPU;
+using PoViEmu.I186.ISA.Decoding;
 using DefI = PoViEmu.I186.CPU.Impl.Defaults;
 
 namespace PoViEmu.Hyper
 {
     public sealed class NcMachine : BaseMachine<NC3022, MachineState>
     {
-        public NcMachine() : base(new NC3022(), new MachineState())
+        private ICodeReader<XInstruction> _reader;
+
+        public NcMachine()
         {
-            _clock.Cycles = 2;
-            _clock.TickHz = 1;
             Init();
         }
 
         private void Init()
         {
-            throw new NotImplementedException();
+            Clock.Cycles = 2;
+            Clock.TickHz = 1;
+
+            var factory = DefI.CpuFactory;
+            byte[] bytes = [];
+            Cpu = (NC3022)factory.CreateCpu(bytes, out var state);
+            State = state;
+            _reader = factory.CreateReader(State);
         }
 
         protected override void ClockOnTick(object? sender, TickEventArgs e)
         {
             var src = (SysClock)sender!;
-            Console.WriteLine($" {_cpu} {DateTime.Now:u} => {src.TickHz} f, {src.TickMs} ms, {e.Cycles} c");
+            Console.WriteLine($" {Cpu} {DateTime.Now:u} => {src.TickHz} f, {src.TickMs} ms, {e.Cycles} c");
 
-            object ni = null;
-            _cpu.Execute((I186.ISA.Decoding.XInstruction)ni, _state);
-        }
-
-        public void DoIt(byte[] bytes)
-        {
-            var cpuFi = DefI.CpuFactory;
-            var cpuI = cpuFi.CreateCpu(bytes, out var m1);
-            var cpuRi = cpuFi.CreateReader(m1);
-            var i1 = cpuRi.NextInstruction();
-            cpuI.Execute(i1, m1);
+            if (Cpu is { } cpu && State is { } state)
+            {
+                var ni = _reader.NextInstruction();
+                cpu.Execute(ni, state);
+            }
         }
     }
 }

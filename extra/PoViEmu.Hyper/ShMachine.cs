@@ -1,39 +1,42 @@
 using System;
+using PoViEmu.Base.CPU;
 using PoViEmu.SH3.CPU;
+using PoViEmu.SH3.ISA.Decoding;
 using DefS = PoViEmu.SH3.CPU.Impl.Defaults;
 
 namespace PoViEmu.Hyper
 {
     public sealed class ShMachine : BaseMachine<SH7291, MachineState>
     {
-        public ShMachine() : base(new SH7291(), new MachineState())
+        private ICodeReader<XInstruction> _reader;
+
+        public ShMachine()
         {
-            _clock.Cycles = 2;
-            _clock.TickHz = 1;
             Init();
         }
 
         private void Init()
         {
-            throw new NotImplementedException();
+            Clock.Cycles = 2;
+            Clock.TickHz = 1;
+
+            var factory = DefS.CpuFactory;
+            byte[] bytes = [];
+            Cpu = (SH7291)factory.CreateCpu(bytes, out var state);
+            State = state;
+            _reader = factory.CreateReader(State);
         }
 
         protected override void ClockOnTick(object? sender, TickEventArgs e)
         {
             var src = (SysClock)sender!;
-            Console.WriteLine($" {_cpu} {DateTime.Now:u} => {src.TickHz} f, {src.TickMs} ms, {e.Cycles} c");
+            Console.WriteLine($" {Cpu} {DateTime.Now:u} => {src.TickHz} f, {src.TickMs} ms, {e.Cycles} c");
 
-            object ni = null;
-            _cpu.Execute((SH3.ISA.Decoding.XInstruction)ni, _state);
-        }
-
-        public void DoIt(byte[] bytes)
-        {
-            var cpuFs = DefS.CpuFactory;
-            var cpuS = cpuFs.CreateCpu(bytes, out var m2);
-            var cpuRs = cpuFs.CreateReader(m2);
-            var i1 = cpuRs.NextInstruction();
-            cpuS.Execute(i1, m2);
+            if (Cpu is { } cpu && State is { } state)
+            {
+                var ni = _reader.NextInstruction();
+                cpu.Execute(ni, state);
+            }
         }
     }
 }
