@@ -23,6 +23,11 @@ namespace PoViEmu.Hyper
             _clock.TickHz = 1;
         }
 
+        private void Init()
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void ClockOnTick(object? sender, TickEventArgs e)
         {
             var src = (SysClock)sender!;
@@ -34,20 +39,12 @@ namespace PoViEmu.Hyper
 
         public void DoIt(byte[] bytes)
         {
-            ICpu cpu;
-            INotifyPropertyChanged m;
-            Func<string, object> fetchProp;
-            Action<IInstruction> execThis;
-            Func<IInstruction> readNext;
-
             var cpuFi = DefI.CpuFactory;
             var cpuI = cpuFi.CreateCpu(bytes, out var m1);
             var cpuRi = cpuFi.CreateReader(m1);
-            fetchProp = nn => m1[nn];
-            execThis = ni => cpuI.Execute((I186.ISA.Decoding.XInstruction)ni, m1);
-            readNext = () => cpuRi.NextInstruction();
-            cpu = cpuI;
-            m = m1;
+            Func<string, object> fetchProp = nn => m1[nn];
+            Action<IInstruction> execThis = ni => cpuI.Execute((I186.ISA.Decoding.XInstruction)ni, m1);
+            Func<IInstruction> readNext = () => cpuRi.NextInstruction();
         }
     }
 }
