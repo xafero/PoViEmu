@@ -21,6 +21,7 @@ namespace PoViEmu.Hyper
         {
             _clock.Cycles = 2;
             _clock.TickHz = 1;
+            Init();
         }
 
         private void Init()
