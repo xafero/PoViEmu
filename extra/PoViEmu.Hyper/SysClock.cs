@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace PoViEmu.Hyper
 {
-    public sealed class SysClock : IDisposable, IAsyncDisposable
+    public sealed class SysClock : IClock
     {
         private readonly Timer _timer;
 
@@ -36,12 +36,13 @@ namespace PoViEmu.Hyper
 
         public double RealHz => 1_000.0 / RealMs;
 
-        public long Cycles { get; set; }
+        public int Cycles { get; set; }
         public double CyclesPerTick => Cycles / RealHz;
 
         public void Start()
         {
             var ms = RealMs = (long)Math.Round(TickMs);
+            if (ms == 0) return;
             _timer.Change(ms, ms);
         }
 

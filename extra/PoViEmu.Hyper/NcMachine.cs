@@ -2,15 +2,10 @@
 
 namespace PoViEmu.Hyper
 {
-    public sealed class NcMachine : IVMachine
+    public sealed class NcMachine : BaseMachine<NC3022, MachineState>
     {
-        private readonly NC3022 _cpu;
-        private readonly MachineState _state;
-
-        public NcMachine()
+        public NcMachine() : base(new NC3022(), new MachineState())
         {
-            _cpu = new NC3022();
-            _state = new MachineState();
         }
 
         public void Execute()

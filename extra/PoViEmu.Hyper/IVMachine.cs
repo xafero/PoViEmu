@@ -1,6 +1,8 @@
-﻿namespace PoViEmu.Hyper
+﻿using System;
+
+namespace PoViEmu.Hyper
 {
-    public interface IVMachine
+    public interface IVMachine : IDisposable, IAsyncDisposable
     {
     }
 }

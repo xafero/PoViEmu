@@ -1,16 +1,11 @@
-﻿using PoViEmu.SH3.CPU;
+using PoViEmu.SH3.CPU;
 
 namespace PoViEmu.Hyper
 {
-    public sealed class ShMachine : IVMachine
+    public sealed class ShMachine : BaseMachine<SH7291, MachineState>
     {
-        private readonly SH7291 _cpu;
-        private readonly MachineState _state;
-
-        public ShMachine()
+        public ShMachine() : base(new SH7291(), new MachineState())
         {
-            _cpu = new SH7291();
-            _state = new MachineState();
         }
 
         public void Execute()
