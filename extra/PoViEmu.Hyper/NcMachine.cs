@@ -6,6 +6,8 @@ namespace PoViEmu.Hyper
     {
         public NcMachine() : base(new NC3022(), new MachineState())
         {
+            _clock.Cycles = 2;
+            _clock.TickHz = 1;
         }
 
         public void Execute()
