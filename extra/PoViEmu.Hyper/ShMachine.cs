@@ -1,17 +1,6 @@
 using System;
 using PoViEmu.SH3.CPU;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.ComponentModel;
-using System.IO;
-using System.Xml.Linq;
-using PoViEmu.Base;
-using PoViEmu.Base.CPU;
-using PoViEmu.Base.ISA;
-using DefI = PoViEmu.I186.CPU.Impl.Defaults;
 using DefS = PoViEmu.SH3.CPU.Impl.Defaults;
-using static PoViEmu.Base.FileHelper;
 
 namespace PoViEmu.Hyper
 {
@@ -43,9 +32,8 @@ namespace PoViEmu.Hyper
             var cpuFs = DefS.CpuFactory;
             var cpuS = cpuFs.CreateCpu(bytes, out var m2);
             var cpuRs = cpuFs.CreateReader(m2);
-            Func<string, object> fetchProp = nn => m2[nn];
-            Action<IInstruction> execThis = ni => cpuS.Execute((SH3.ISA.Decoding.XInstruction)ni, m2);
-            Func<IInstruction> readNext = () => cpuRs.NextInstruction();
+            var i1 = cpuRs.NextInstruction();
+            cpuS.Execute(i1, m2);
         }
     }
 }
