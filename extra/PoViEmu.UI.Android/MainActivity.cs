@@ -1,4 +1,9 @@
-﻿namespace PoViEmu.UI.Android
+﻿using Android.App;
+using Android.Content.PM;
+using Avalonia;
+using Avalonia.Android;
+
+namespace PoViEmu.UI.Android
 {
     [Activity(
         Label = "PoViEmu",
