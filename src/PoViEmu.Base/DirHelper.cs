@@ -21,20 +21,28 @@ namespace PoViEmu.Base
             root = root.Replace(Path.Combine("bin", "Debug", "net8.0"), "");
             return root;
         }
-        
+
         public static string GetFullPath(string root, params string[] subs)
         {
             var args = new[] { root }.Concat(subs).ToArray();
             var dir = Path.Combine(args);
             return Path.GetFullPath(dir);
         }
-        
+
         public static string GetOrCreateDir(this string root, params string[] dirs)
         {
             var target = Path.GetFullPath(Path.Combine(root, Path.Combine(dirs)));
             if (!Directory.Exists(target))
                 Directory.CreateDirectory(target);
             return target;
+        }
+
+        public static string GetDirectory(Type type)
+        {
+            var ass = type.Assembly;
+            var dll = Path.GetFullPath(ass.Location);
+            var dir = Path.GetDirectoryName(dll);
+            return dir!;
         }
     }
 }
