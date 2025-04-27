@@ -419,3 +419,4 @@ extra/PoViEmu.Workbook/output/
 extra/data/
 extra/PoViEmu.UI.Debugger/data
 extra/PoViEmu.UI.Desktop/data
+/extra/Samples/*/*.html
