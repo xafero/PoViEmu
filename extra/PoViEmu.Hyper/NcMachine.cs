@@ -9,9 +9,11 @@ namespace PoViEmu.Hyper
     public sealed class NcMachine : BaseMachine<NC3022, MachineState>
     {
         private ICodeReader<XInstruction> _reader;
+        private byte[] _boot;
 
-        public NcMachine()
+        public NcMachine(byte[] boot)
         {
+            _boot = boot;
             Init();
         }
 
@@ -21,7 +23,7 @@ namespace PoViEmu.Hyper
             Clock.TickHz = 1;
 
             var factory = DefI.CpuFactory;
-            byte[] bytes = [];
+            var bytes = _boot;
             Cpu = (NC3022)factory.CreateCpu(bytes, out var state);
             State = state;
             _reader = factory.CreateReader(State);

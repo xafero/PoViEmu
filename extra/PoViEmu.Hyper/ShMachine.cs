@@ -9,9 +9,11 @@ namespace PoViEmu.Hyper
     public sealed class ShMachine : BaseMachine<SH7291, MachineState>
     {
         private ICodeReader<XInstruction> _reader;
+        private byte[] _boot;
 
-        public ShMachine()
+        public ShMachine(byte[] boot)
         {
+            _boot = boot;
             Init();
         }
 
@@ -21,7 +23,7 @@ namespace PoViEmu.Hyper
             Clock.TickHz = 1;
 
             var factory = DefS.CpuFactory;
-            byte[] bytes = [];
+            var bytes = _boot;
             Cpu = (SH7291)factory.CreateCpu(bytes, out var state);
             State = state;
             _reader = factory.CreateReader(State);
