@@ -9,4 +9,13 @@
     <ProjectReference Include="..\..\src\PoViEmu.SH3.CPU\PoViEmu.SH3.CPU.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\extra\Samples\Counter\op_sh3.com">
+      <Link>Counter\op_sh3.com</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\extra\Samples\Counter\op_x86.com">
+      <Link>Counter\op_x86.com</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  
 </Project>
