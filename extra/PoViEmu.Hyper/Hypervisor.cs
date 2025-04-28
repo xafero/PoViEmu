@@ -17,12 +17,12 @@ namespace PoViEmu.Hyper
             var kind = config.Kind;
             switch (kind)
             {
-                case CpuKind.SH3: return new ShMachine(_s["op_sh3.com"]);
-                case CpuKind.X86: return new NcMachine(_s["op_x86.com"]);
+                case CpuKind.SH3: return new ShMachine(S["op_sh3.com"]);
+                case CpuKind.X86: return new NcMachine(S["op_x86.com"]);
                 default: throw new ArgumentOutOfRangeException(nameof(kind), kind, null);
             }
         }
 
-        private static IDictionary<string, byte[]> _s = GetManifestResources<Hypervisor>("Counter");
+        private static readonly IDictionary<string, byte[]> S = GetManifestResources<Hypervisor>("Counter");
     }
 }
