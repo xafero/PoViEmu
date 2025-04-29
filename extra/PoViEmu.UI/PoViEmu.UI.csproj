@@ -49,6 +49,7 @@
         <ProjectReference Include="..\..\src\PoViEmu.I186.ISA\PoViEmu.I186.ISA.csproj" />
         <ProjectReference Include="..\..\src\PoViEmu.SH3.CPU\PoViEmu.SH3.CPU.csproj" />
         <ProjectReference Include="..\..\src\PoViEmu.SH3.ISA\PoViEmu.SH3.ISA.csproj" />
+        <ProjectReference Include="..\PoViEmu.Hyper\PoViEmu.Hyper.csproj" />
         <ProjectReference Include="..\PoViEmu.Inventory\PoViEmu.Inventory.csproj" />
     </ItemGroup>
 

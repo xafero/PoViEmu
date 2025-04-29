@@ -8,7 +8,8 @@
              mc:Ignorable="d" 
              d:DesignWidth="540" d:DesignHeight="1050"
              x:Class="PoViEmu.UI.Views.RunInstView"
-             x:DataType="vm:RunInstViewModel">
+             x:DataType="vm:RunInstViewModel"
+             Loaded="HasLoaded" Unloaded="HasUnloaded">
 
     <UserControl.Resources>
         <cnv:TernaryConverter x:Key="Tc" />
