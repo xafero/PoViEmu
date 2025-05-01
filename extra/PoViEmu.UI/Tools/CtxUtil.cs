@@ -28,17 +28,17 @@ namespace PoViEmu.UI.Tools
             return data;
         }
 
-        public static async void Invoke<T>(Func<Task<T>> action, Action<T> onDone, Action<Exception> onError)
+        public static async void Invoke<T>(Func<Task<T>> action, Action<T>? onDone, Action<Exception>? onError)
         {
             try
             {
                 var thread = Dispatcher.UIThread;
                 var result = await thread.InvokeAsync(action);
-                onDone(result);
+                onDone?.Invoke(result);
             }
             catch (Exception e)
             {
-                onError(e);
+                onError?.Invoke(e);
             }
         }
     }

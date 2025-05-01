@@ -39,7 +39,8 @@ namespace PoViEmu.UI.Views
                     if ((await RunUtil.FindEntity(m.InstanceId)) is not { } runObj)
                         return;
                     var cpuKind = runObj.ProcessorKind;
-                    var cfg = new VMConfig(cpuKind, 10, 1);
+                    var id = runObj.Entity.Id;
+                    var cfg = new VMConfig(id, cpuKind, 10, 1);
                     var hypervisor = Hypervisor.Default;
                     var vm = _vm = hypervisor.Create(cfg);
                     vm.Start();

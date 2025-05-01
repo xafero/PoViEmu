@@ -18,6 +18,7 @@
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
+			<!--
 			<Button
 				FontFamily="{StaticResource MonoF}"
 				Padding="15" FontSize="15" FontWeight="Heavy">
@@ -25,13 +26,16 @@
 					<Run FontFamily="{StaticResource FontA}">&#xF051;</Run>
 				</TextBlock>
 			</Button>
-			<Button
+			-->
+			<Button x:Name="StartBtn"
 				FontFamily="{StaticResource MonoF}"
-				Padding="15" FontSize="15" FontWeight="Heavy">
+				Padding="15" FontSize="15" FontWeight="Heavy"
+				Click="StartBtn_OnClick">
 				<TextBlock>
 					<Run FontFamily="{StaticResource FontA}">&#x25B6;</Run>
 				</TextBlock>
 			</Button>
+			<!--
 			<Button
 				FontFamily="{StaticResource MonoF}"
 				Padding="15" FontSize="15" FontWeight="Heavy">
@@ -39,9 +43,11 @@
 					<Run FontFamily="{StaticResource FontA}">&#x23F8;</Run>
 				</TextBlock>
 			</Button>
-			<Button
+			-->
+			<Button x:Name="StopBtn"
 				FontFamily="{StaticResource MonoF}"
-				Padding="15" FontSize="15" FontWeight="Heavy">
+				Padding="15" FontSize="15" FontWeight="Heavy"
+				Click="StopBtn_OnClick">
 				<TextBlock>
 					<Run FontFamily="{StaticResource FontA}">&#x23F9;</Run>
 				</TextBlock>
