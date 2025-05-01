@@ -72,7 +72,8 @@
 			</TextBlock>
 		</StackPanel>
 		<StackPanel Background="LightYellow">
-			<TextBlock Text="{Binding CurrentMach.State, FallbackValue='[s]'}" />
+			<TextBlock Text="{Binding StateN.AF, FallbackValue='[n]'}" />
+			<TextBlock Text="{Binding StateH.I1, FallbackValue='[h]'}" />
 		</StackPanel>
 	</DockPanel>
 
