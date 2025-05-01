@@ -3,8 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:PoViEmu.UI.Dbg.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="660" d:DesignHeight="850"
-             x:Class="PoViEmu.UI.Dbg.Views.RawMemView"
+             mc:Ignorable="d" d:DesignWidth="460" d:DesignHeight="850"
+             x:Class="PoViEmu.UI.Dbg.Views.UnassView"
              x:DataType="vm:RunDbgViewModel"
              Loaded="OnLoaded">
 
@@ -32,9 +32,9 @@
         </Style>
     </UserControl.Styles>
     
-    <!-- Raw memory -->
+    <!-- Disassembly -->
     
-    <Grid RowDefinitions="Auto,*" ColumnDefinitions="1*,4*,2*">
+    <Grid RowDefinitions="Auto,*" ColumnDefinitions="2*,2*,3*">
         
         <Border Grid.Row="0" Grid.Column="0" Classes="b">
             <Label Classes="l">Offset</Label>
@@ -43,23 +43,23 @@
             <Label Classes="l">Bytes</Label>
         </Border>
         <Border Grid.Row="0" Grid.Column="2" Classes="b">
-            <Label Classes="l">Text</Label>
+            <Label Classes="l">Operation</Label>
         </Border>
 
         <RefreshContainer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" 
                           PullDirection="TopToBottom" 
                           FontFamily="{StaticResource MonoR}"
                           RefreshRequested="RefreshContainer_OnRefreshRequested">
-            <ListBox Classes="w" ItemsSource="{Binding MemLines}">
+            <ListBox Classes="w" ItemsSource="{Binding DisLines}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid ColumnDefinitions="1*,4*,2*">
+                        <Grid ColumnDefinitions="2*,2*,3*">
                             <TextBlock Grid.Row="0" Grid.Column="0" Classes="t" 
-                                       Text="{Binding Offset}" />
+                                       Text="{Binding Offset}"/>
                             <TextBlock Grid.Row="0" Grid.Column="1" Classes="t"
-                                       Text="{Binding Hex}" />
+                                       Text="{Binding Hex}"/>
                             <TextBlock Grid.Row="0" Grid.Column="2" Classes="t" 
-                                       Text="{Binding Text}" />
+                                       Text="{Binding Text}"/>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

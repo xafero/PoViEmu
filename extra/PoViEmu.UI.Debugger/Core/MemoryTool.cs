@@ -11,12 +11,12 @@ namespace PoViEmu.UI.Dbg.Core
     {
         private static void Read(RunDbgViewModel rvm, ushort segment, ushort offset, byte[] bytes, int lineSize = 16)
         {
-            rvm.Lines.Clear();
+            rvm.MemLines.Clear();
             foreach (var oneArray in bytes.SplitEvery(lineSize))
             {
                 var txt = oneArray.DecodeChars();
                 var off = $"{segment:X4}:{offset:X4}";
-                rvm.Lines.Add(new BytesLine(off, oneArray, txt));
+                rvm.MemLines.Add(new BytesLine(off, oneArray, txt));
                 offset = (ushort)(offset + oneArray.Length);
             }
         }
@@ -31,12 +31,12 @@ namespace PoViEmu.UI.Dbg.Core
 
         private static void Read(RunDbgViewModel rvm, uint offset, byte[] bytes, int lineSize = 16)
         {
-            rvm.Lines.Clear();
+            rvm.MemLines.Clear();
             foreach (var oneArray in bytes.SplitEvery(lineSize))
             {
                 var txt = oneArray.DecodeChars();
                 var off = $"{offset:X8}";
-                rvm.Lines.Add(new BytesLine(off, oneArray, txt));
+                rvm.MemLines.Add(new BytesLine(off, oneArray, txt));
                 offset = (ushort)(offset + oneArray.Length);
             }
         }

@@ -36,6 +36,7 @@ namespace PoViEmu.UI.Dbg.ViewModels
 
         [ObservableProperty] private M186? _stateN;
         [ObservableProperty] private MSh3? _stateH;
-        [ObservableProperty] private ObservableCollection<BytesLine> _lines = new();
+        [ObservableProperty] private ObservableCollection<BytesLine> _memLines = new();
+        [ObservableProperty] private ObservableCollection<BytesLine> _disLines = new();
     }
 }
