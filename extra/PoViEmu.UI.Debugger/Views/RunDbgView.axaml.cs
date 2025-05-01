@@ -17,57 +17,52 @@ namespace PoViEmu.UI.Dbg.Views
             InitializeComponent();
         }
 
-        private void OnLoaded(object? sender, RoutedEventArgs e)
+        private async void OnLoaded(object? sender, RoutedEventArgs e)
         {
+            if (this.GetCurrentRun() is not { } rvm)
+                return;
+            var dbg = rvm.Dbg;
+            await Task.Run(async () =>
+            {
+                dbg.CurrentInfo = await GetCurrentRunObj(rvm);
+                dbg.CurrentMach = await GetCurrentMachine(rvm);
+            });
             StartBtn.IsEnabled = false;
             StopBtn.IsEnabled = true;
         }
 
-        private RunUtil.RunObj? _currentInfo;
-        private IVMachine? _currentMach;
-
-        private async Task<RunUtil.RunObj?> GetCurrentRunObj(DbgUiTool.DbgRun rm)
+        private static async Task<RunUtil.RunObj?> GetCurrentRunObj(DbgUiTool.DbgRun rm)
         {
-            if (_currentInfo != null)
-                return _currentInfo;
             var run = rm.Run;
             var entity = await RunUtil.FindEntity(run.InstanceId);
-            _currentInfo = entity;
             return entity;
         }
 
-        private async Task<IVMachine?> GetCurrentMachine(DbgUiTool.DbgRun rm)
+        private static async Task<IVMachine?> GetCurrentMachine(DbgUiTool.DbgRun rm)
         {
-            if (_currentMach != null)
-                return _currentMach;
             if (await GetCurrentRunObj(rm) is not { } runObj)
                 return null;
             var hyper = Hypervisor.Default;
-            var machine = hyper.GetRunning(runObj.Entity.Id);
-            _currentMach = machine;
+            IVMachine? machine;
+            while ((machine = hyper.GetRunning(runObj.Entity.Id)) == null)
+                await Task.Delay(50);
             return machine;
         }
 
-        private async void StopBtn_OnClick(object? sender, RoutedEventArgs e)
+        private void StopBtn_OnClick(object? sender, RoutedEventArgs e)
         {
             if (this.GetCurrentRun() is not { } ro) return;
-            await Task.Run(async () =>
-            {
-                if (await GetCurrentMachine(ro) is not { } machine) return;
-                machine.Stop();
-            });
+            if (ro.Dbg.CurrentMach is not { } machine) return;
+            machine.Stop();
             StopBtn.IsEnabled = false;
             StartBtn.IsEnabled = true;
         }
 
-        private async void StartBtn_OnClick(object? sender, RoutedEventArgs e)
+        private void StartBtn_OnClick(object? sender, RoutedEventArgs e)
         {
             if (this.GetCurrentRun() is not { } ro) return;
-            await Task.Run(async () =>
-            {
-                if (await GetCurrentMachine(ro) is not { } machine) return;
-                machine.Start();
-            });
+            if (ro.Dbg.CurrentMach is not { } machine) return;
+            machine.Start();
             StartBtn.IsEnabled = false;
             StopBtn.IsEnabled = true;
         }

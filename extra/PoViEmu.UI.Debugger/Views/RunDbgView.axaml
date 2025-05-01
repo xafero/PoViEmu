@@ -54,6 +54,8 @@
 			</Button>
 		</StackPanel>
 		<StackPanel Background="LightYellow">
+			<TextBlock>Hello</TextBlock>
+			<TextBlock Text="{Binding Base.InstanceId}" />
 		</StackPanel>
 	</DockPanel>
 
