@@ -271,8 +271,8 @@
                  Converter={StaticResource Hex}}" />
         </Border>
         
-        <Label Classes="l" Grid.Row="8" Grid.Column="4" Content="VBR" />
-        <Border Classes="b" Grid.Row="8" Grid.Column="5">
+        <Label Classes="l" Grid.Row="0" Grid.Column="6" Content="VBR" />
+        <Border Classes="b" Grid.Row="0" Grid.Column="7">
             <SelectableTextBlock Classes="f"
                                  Text="{Binding Path=StateH.VBR,
                  Converter={StaticResource Hex}}" />
@@ -292,8 +292,8 @@
                  Converter={StaticResource Hex}}" />
         </Border>
         
-        <Label Classes="l" Grid.Row="0" Grid.Column="6" Content="dPC" />
-        <Border Classes="b" Grid.Row="0" Grid.Column="7">
+        <Label Classes="l" Grid.Row="8" Grid.Column="4" Content="dPC" />
+        <Border Classes="b" Grid.Row="8" Grid.Column="5">
             <SelectableTextBlock Classes="f"
                                  Text="{Binding Path=StateH.dPC,
                  Converter={StaticResource Hex}}" />
