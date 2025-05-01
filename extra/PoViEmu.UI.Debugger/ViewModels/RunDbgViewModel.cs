@@ -3,6 +3,8 @@ using PoViEmu.UI.Core;
 using PoViEmu.UI.Routes;
 using PoViEmu.UI.Tools;
 using PoViEmu.UI.ViewModels;
+using PoViEmu.UI.Dbg.Models;
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using M186 = PoViEmu.I186.CPU.MachineState;
 using MSh3 = PoViEmu.SH3.CPU.MachineState;
@@ -34,5 +36,6 @@ namespace PoViEmu.UI.Dbg.ViewModels
 
         [ObservableProperty] private M186? _stateN;
         [ObservableProperty] private MSh3? _stateH;
+        [ObservableProperty] private ObservableCollection<BytesLine> _lines = new();
     }
 }

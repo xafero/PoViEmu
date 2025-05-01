@@ -41,5 +41,14 @@ namespace PoViEmu.UI.Tools
                 onError?.Invoke(e);
             }
         }
+
+        public static Task Await<T>(this T obj, Func<T, bool> func, int delayMs)
+        {
+            return Task.Run(async () =>
+            {
+                while (!func(obj))
+                    await Task.Delay(delayMs);
+            });
+        }
     }
 }

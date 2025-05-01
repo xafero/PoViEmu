@@ -10,14 +10,14 @@ namespace PoViEmu.Base
     public static class TextHelper
     {
         public const StringComparison Ignore = StringComparison.InvariantCultureIgnoreCase;
-        
+
         public static readonly Encoding Utf8 = Encoding.UTF8;
-        
+
         public static string Title(this string text)
         {
             return text[..1].ToUpperInvariant() + text[1..];
         }
-        
+
         public static string FixSpaces(this string text)
         {
             return text.Replace((char)0, ' ')
@@ -29,7 +29,7 @@ namespace PoViEmu.Base
                 .Replace((char)64, ' ')
                 .Trim();
         }
-        
+
         public static IEnumerable<string> SplitEvery(this string text, int count)
         {
             var bld = new StringBuilder();
@@ -53,12 +53,12 @@ namespace PoViEmu.Base
             var txt = File.ReadAllText(file, Encoding.UTF8);
             return txt.Trim();
         }
-        
+
         public static string? TrimNull(this string? text)
         {
             return string.IsNullOrWhiteSpace(text) ? null : text.Trim();
         }
-        
+
         public static string RemoveSpaces(this string rawText)
         {
             var text = rawText
@@ -66,7 +66,7 @@ namespace PoViEmu.Base
                 .Replace('\n', ' ');
             return Regex.Replace(text, @"\s+", " ").Trim();
         }
-        
+
         private static IEnumerable<string> FilterLines(this IEnumerable<string> lines,
             bool noEmpty, bool noSpaces)
         {
@@ -80,14 +80,14 @@ namespace PoViEmu.Base
             }
             return lines;
         }
-        
+
         public static string[] ReadUtf8Lines(string file,
             bool noEmpty = true, bool noSpaces = true)
         {
             var lines = File.ReadLines(file, Utf8);
             return FilterLines(lines, noEmpty, noSpaces).ToArray();
         }
-        
+
         public static string Space(int count, char c = ' ')
         {
             return new string(Enumerable.Repeat(c, count).ToArray());
@@ -119,7 +119,7 @@ namespace PoViEmu.Base
                 return res;
             })).Trim();
         }
-        
+
         public static string[] ToLines(this string text,
             bool noEmpty = true, bool noSpaces = true)
         {
@@ -130,6 +130,17 @@ namespace PoViEmu.Base
         public static string ToShortId(this Guid id, int len = 16)
         {
             return id.ToString("N")[..len];
+        }
+
+        public static string TryAsText(this byte[] bytes)
+        {
+            var chars = bytes.Select(b =>
+            {
+                var letter = (char)b;
+                return char.IsLetterOrDigit(letter) && letter <= 175 ? letter : '.';
+            });
+            var txt = new string(chars.ToArray());
+            return txt;
         }
     }
 }
