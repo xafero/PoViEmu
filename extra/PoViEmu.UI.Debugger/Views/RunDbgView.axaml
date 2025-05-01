@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="using:PoViEmu.UI.Dbg.ViewModels"
+             xmlns:vw="using:PoViEmu.UI.Dbg.Views"
              xmlns:conv="using:PoViEmu.UI.Conv"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
@@ -72,13 +73,13 @@
 							      Converter={StaticResource Sp}, ConverterParameter='BV'}" />
 			</TextBlock>
 		</StackPanel>
-		<StackPanel Background="LightYellow">
-			<Button IsVisible="{Binding StateH, ConverterParameter='true;false', Converter={StaticResource Tc}}">
-				<TextBlock Text="{Binding StateH, FallbackValue='[h]'}" />
-			</Button>
-			<Button IsVisible="{Binding StateN, ConverterParameter='true;false', Converter={StaticResource Tc}}">
-				<TextBlock Text="{Binding StateN, FallbackValue='[n]'}" />
-			</Button>
+		<StackPanel>
+			<StackPanel IsVisible="{Binding StateH, ConverterParameter='true;false', Converter={StaticResource Tc}}">
+				<vw:RegHitView />
+			</StackPanel>
+			<StackPanel IsVisible="{Binding StateN, ConverterParameter='true;false', Converter={StaticResource Tc}}">
+				<vw:RegIntView />
+			</StackPanel>
 		</StackPanel>
 	</DockPanel>
 
