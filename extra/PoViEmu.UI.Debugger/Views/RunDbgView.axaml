@@ -73,14 +73,14 @@
 							      Converter={StaticResource Sp}, ConverterParameter='BV'}" />
 			</TextBlock>
 		</StackPanel>
-		<Grid RowDefinitions="*,*" ColumnDefinitions="*,*" 
-			ShowGridLines="True">
+		<Grid RowDefinitions="*,*" ColumnDefinitions="*,*" ShowGridLines="True">
 			<vw:RegHitView Grid.Row="0" Grid.Column="0" 
 				IsVisible="{Binding StateH, ConverterParameter='true;false', Converter={StaticResource Tc}}" />
 			<vw:RegIntView Grid.Row="0" Grid.Column="0"
 			    IsVisible="{Binding StateN, ConverterParameter='true;false', Converter={StaticResource Tc}}" />
 			<vw:RawMemView Grid.Row="0" Grid.Column="1" />
 			<vw:UnassView Grid.Row="1" Grid.Column="1" />
+			<vw:StackView Grid.Row="1" Grid.Column="0" />
 		</Grid>
 	</DockPanel>
 
