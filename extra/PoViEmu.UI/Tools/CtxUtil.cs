@@ -42,7 +42,7 @@ namespace PoViEmu.UI.Tools
             }
         }
 
-        public static Task Await<T>(this T obj, Func<T, bool> func, int delayMs)
+        public static Task Await<T>(this T obj, Func<T, bool> func, int delayMs = 50)
         {
             return Task.Run(async () =>
             {

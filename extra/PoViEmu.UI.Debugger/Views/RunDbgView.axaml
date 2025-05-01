@@ -80,6 +80,7 @@
 			<vw:RegIntView Grid.Row="0" Grid.Column="0"
 			    IsVisible="{Binding StateN, ConverterParameter='true;false', Converter={StaticResource Tc}}" />
 			<vw:RawMemView Grid.Row="0" Grid.Column="1" />
+			<vw:UnassView Grid.Row="1" Grid.Column="1" />
 		</Grid>
 	</DockPanel>
 
