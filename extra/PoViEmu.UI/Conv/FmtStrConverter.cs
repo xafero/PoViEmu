@@ -37,6 +37,11 @@ namespace PoViEmu.UI.Conv
                     var idT = id.ToShortId();
                     return idT;
                 }
+                if (value is bool boo && kind == FmtStrKind.BV)
+                {
+                    var booT = boo ? "✔" : "✘";
+                    return booT;
+                }
                 if (value is string txt && kind == FmtStrKind.FL)
                 {
                     var lines = txt.ToLines(noEmpty: true, noSpaces: true);

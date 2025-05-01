@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="using:PoViEmu.UI.Dbg.ViewModels"
+             xmlns:conv="using:PoViEmu.UI.Conv"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              d:DesignWidth="700" d:DesignHeight="600"
@@ -12,12 +13,21 @@
 	<Design.DataContext>
 		<vm:RunDbgViewModel />
 	</Design.DataContext>
+	
+	<UserControl.Resources>
+		<conv:FmtStrConverter x:Key="Sp" />
+	</UserControl.Resources>
 
 	<DockPanel>
 		<StackPanel DockPanel.Dock="Top"
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
+			<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Padding="14">
+				<Run Text="{Binding CurrentInfo.Template.Name, FallbackValue='[t]'}" />
+				<Run Text="/" />
+				<Run Text="{Binding CurrentInfo.ProcessorKind, FallbackValue='[p]'}" />
+			</TextBlock>
 			<!--
 			<Button
 				FontFamily="{StaticResource MonoF}"
@@ -52,10 +62,17 @@
 					<Run FontFamily="{StaticResource FontA}">&#x23F9;</Run>
 				</TextBlock>
 			</Button>
+			<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Padding="14">
+				<TextBlock Text="{Binding CurrentMach.Clock.Cycles, FallbackValue='[c]'}" />
+				<Run Text="/" />
+				<TextBlock Text="{Binding CurrentMach.Clock.TickHz, FallbackValue='[t]'}" />
+				<Run Text="/" />
+				<TextBlock Text="{Binding CurrentMach.Cpu.Halted, FallbackValue='[h]', 
+							      Converter={StaticResource Sp}, ConverterParameter='BV'}" />
+			</TextBlock>
 		</StackPanel>
 		<StackPanel Background="LightYellow">
-			<TextBlock>Hello</TextBlock>
-			<TextBlock Text="{Binding Base.InstanceId}" />
+			<TextBlock Text="{Binding CurrentMach.State, FallbackValue='[s]'}" />
 		</StackPanel>
 	</DockPanel>
 

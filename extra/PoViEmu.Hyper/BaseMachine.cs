@@ -41,5 +41,9 @@ namespace PoViEmu.Hyper
         {
             await Clock.DisposeAsync();
         }
+
+        ICpu? IVMachine.Cpu => Cpu;
+        IState? IVMachine.State => State;
+        IClock IVMachine.Clock => Clock;
     }
 }
