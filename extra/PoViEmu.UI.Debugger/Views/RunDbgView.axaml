@@ -16,6 +16,7 @@
 	
 	<UserControl.Resources>
 		<conv:FmtStrConverter x:Key="Sp" />
+		<conv:TernaryConverter x:Key="Tc" />
 	</UserControl.Resources>
 
 	<DockPanel>
@@ -72,8 +73,12 @@
 			</TextBlock>
 		</StackPanel>
 		<StackPanel Background="LightYellow">
-			<TextBlock Text="{Binding StateN.AF, FallbackValue='[n]'}" />
-			<TextBlock Text="{Binding StateH.I1, FallbackValue='[h]'}" />
+			<Button IsVisible="{Binding StateH, ConverterParameter='true;false', Converter={StaticResource Tc}}">
+				<TextBlock Text="{Binding StateH, FallbackValue='[h]'}" />
+			</Button>
+			<Button IsVisible="{Binding StateN, ConverterParameter='true;false', Converter={StaticResource Tc}}">
+				<TextBlock Text="{Binding StateN, FallbackValue='[n]'}" />
+			</Button>
 		</StackPanel>
 	</DockPanel>
 

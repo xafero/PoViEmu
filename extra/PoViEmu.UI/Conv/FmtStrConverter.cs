@@ -30,7 +30,7 @@ namespace PoViEmu.UI.Conv
             {
                 if (value is null)
                 {
-                    return null;
+                    return AvaloniaProperty.UnsetValue;
                 }
                 if (value is Guid id && kind == FmtStrKind.ID)
                 {

@@ -38,6 +38,13 @@ namespace PoViEmu.Base
                 : default(int?)).ToArray();
         }
         
+        public static bool?[]? AsBoolArray(IEnumerable<string>? args)
+        {
+            return args?.Select(txt => bool.TryParse(txt, out var value)
+                ? value
+                : default(bool?)).ToArray();
+        }
+        
         public static string[]? AsStringArray(object? raw, string sep = ";")
         {
             return raw switch

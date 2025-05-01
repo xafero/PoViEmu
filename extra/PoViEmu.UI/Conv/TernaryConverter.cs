@@ -57,6 +57,15 @@ namespace PoViEmu.UI.Conv
                     }
                 }
             }
+            var isNotNull = value != null;
+            if (dest == "System.Boolean")
+            {
+                var bools = ValueHelper.AsBoolArray(args);
+                if (bools is [{ } trueV, { } falseV])
+                {
+                    return isNotNull ? trueV : falseV;
+                }
+            }
             return AvaloniaProperty.UnsetValue;
         }
 
