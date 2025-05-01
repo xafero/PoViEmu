@@ -47,7 +47,7 @@
                           PullDirection="TopToBottom" 
                           FontFamily="{StaticResource MonoR}"
                           RefreshRequested="RefreshContainer_OnRefreshRequested">
-            <ListBox Classes="w" ItemsSource="{Binding Lines}">
+            <ListBox Classes="w" ItemsSource="{Binding StaLines}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid ColumnDefinitions="1*,3*">
