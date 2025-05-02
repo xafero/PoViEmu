@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using PoViEmu.Hyper;
 using PoViEmu.UI.Dbg.Core;
+using PoViEmu.UI.Dbg.Models;
 using PoViEmu.UI.Tools;
 
 // ReSharper disable AsyncVoidMethod
@@ -29,6 +30,7 @@ namespace PoViEmu.UI.Dbg.Views
             });
             StartBtn.IsEnabled = false;
             StopBtn.IsEnabled = true;
+            dbg.SendInitialized(new InitEventArgs());
         }
 
         private static async Task<RunUtil.RunObj?> GetCurrentRunObj(DbgUiTool.DbgRun rm)

@@ -1,3 +1,4 @@
+using System;
 using PoViEmu.Hyper;
 using PoViEmu.UI.Core;
 using PoViEmu.UI.Routes;
@@ -39,5 +40,12 @@ namespace PoViEmu.UI.Dbg.ViewModels
         [ObservableProperty] private ObservableCollection<BytesLine> _memLines = new();
         [ObservableProperty] private ObservableCollection<BytesLine> _disLines = new();
         [ObservableProperty] private ObservableCollection<BytesLine> _staLines = new();
+
+        public event EventHandler<InitEventArgs>? OnInitialized;
+
+        public void SendInitialized(InitEventArgs e)
+        {
+            OnInitialized?.Invoke(this, e);
+        }
     }
 }

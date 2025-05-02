@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using PoViEmu.UI.Tools;
 using PoViEmu.UI.Dbg.Core;
+using PoViEmu.UI.Dbg.Models;
 using PoViEmu.UI.Dbg.ViewModels;
 using StateSH3 = PoViEmu.SH3.CPU.MachineState;
 using StateI86 = PoViEmu.I186.CPU.MachineState;
@@ -18,12 +19,16 @@ namespace PoViEmu.UI.Dbg.Views
             InitializeComponent();
         }
 
-        private async void OnLoaded(object? sender, RoutedEventArgs e)
+        private void OnLoaded(object? sender, RoutedEventArgs e)
         {
             if (this.FindData<RunDbgViewModel>() is not { } rvm) return;
-            await rvm.Await(x => x.CurrentMach != null);
-            var state = rvm.GetState();
-            switch (state)
+            rvm.OnInitialized += OnInitialized;
+        }
+
+        private static void OnInitialized(object? sender, InitEventArgs e)
+        {
+            var rvm = (RunDbgViewModel)sender!;
+            switch (rvm.GetState())
             {
                 case StateI86 x86:
                 {
