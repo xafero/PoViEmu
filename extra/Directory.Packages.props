@@ -20,7 +20,6 @@
         <!-- Do not update -->
         <PackageVersion Include="GitInfo" Version="3.3.5" />
         <PackageVersion Include="ThisAssembly.AssemblyInfo" Version="1.4.3" />
-        <PackageVersion Include="SixLabors.ImageSharp" Version="2.1.10" />
         <!-- Extra packages -->
 		<PackageVersion Include="ByteSize" Version="2.1.2" />
 		<PackageVersion Include="IniFile.NET" Version="1.6.0" />
