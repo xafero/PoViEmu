@@ -1,5 +1,4 @@
 using System;
-using PoViEmu.Base;
 using Xunit;
 using static PoViEmu.Tests.CPU.SnippetsCheck;
 
