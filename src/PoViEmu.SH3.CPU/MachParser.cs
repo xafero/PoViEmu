@@ -48,6 +48,10 @@ namespace PoViEmu.SH3.CPU
                 nameof(MachineState.S) => m.S,
                 nameof(MachineState.Q) => m.Q,
                 nameof(MachineState.M) => m.M,
+                nameof(MachineState.I0) => m.I0,
+                nameof(MachineState.I1) => m.I1,
+                nameof(MachineState.I2) => m.I2,
+                nameof(MachineState.I3) => m.I3,
                 nameof(MachineState.U8) => m.GetU8(arg),
                 nameof(MachineState.U8A) => m.GetU8A(arg),
                 nameof(MachineState.U16) => m.GetU16(arg),
@@ -100,6 +104,10 @@ namespace PoViEmu.SH3.CPU
                 case nameof(MachineState.S): m.S = ToVal<bool>(value); break;
                 case nameof(MachineState.Q): m.Q = ToVal<bool>(value); break;
                 case nameof(MachineState.M): m.M = ToVal<bool>(value); break;
+                case nameof(MachineState.I0): m.I0 = ToVal<bool>(value); break;
+                case nameof(MachineState.I1): m.I1 = ToVal<bool>(value); break;
+                case nameof(MachineState.I2): m.I2 = ToVal<bool>(value); break;
+                case nameof(MachineState.I3): m.I3 = ToVal<bool>(value); break;
                 case nameof(MachineState.U8): m.U8[ToVal<uint>(arg!)] = ToVal<byte>(value); break;
                 case nameof(MachineState.U16): m.U16[ToVal<uint>(arg!)] = ToVal<ushort>(value); break;
                 case nameof(MachineState.U32): m.U32[ToVal<uint>(arg!)] = ToVal<uint>(value); break;

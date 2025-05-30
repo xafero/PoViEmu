@@ -1,4 +1,5 @@
 using System;
+using PoViEmu.Base;
 using Xunit;
 using static PoViEmu.Tests.CPU.SnippetsCheck;
 
@@ -99,7 +100,7 @@ namespace PoViEmu.Tests.CPU
         // LDC
         [InlineData(0b0100000000001110,"ldc r0,sr",
             new[] {"R0","0xFFFFFFFF", "SR","0"},
-            new[] {"M = 0 --> 1", "Q = 0 --> 1", "S = 0 --> 1", "T = 0 --> 1"})]
+            new[] { "M = 0 --> 1", "Q = 0 --> 1", "S = 0 --> 1", "T = 0 --> 1", "I0 = 0 --> 1","I1 = 0 --> 1","I2 = 0 --> 1","I3 = 0 --> 1" })]
         [InlineData(0b0100000000011110,"ldc r0,gbr",
             new[] {"R0","0xFFFFFFFF", "GBR","0"},
             new[] {"GBR = 0x00000000 --> 0xFFFFFFFF"})]
@@ -274,7 +275,7 @@ namespace PoViEmu.Tests.CPU
         // STC
         [InlineData(0b0000000000000010,"stc sr,r0",
             new[] {"R0","0x11", "SR","0xCDCE"},
-            new[] {"R0 = 0x00000011 --> 0x000001F2"})]
+            new[] {"R0 = 0x00000011 --> 0x000001C2"})]
         // STCL
         [InlineData(0b0100111100010011,"stc.l gbr,@-r15",
             new[] {"GBR","0xAEAD", "R15","0x204", "U32|200","0x1111" },
@@ -347,7 +348,7 @@ namespace PoViEmu.Tests.CPU
             (bytes[0], bytes[1]) = (bytes[1], bytes[0]);
 
             var (changes, ret, actual) = DoShouldExec(bytes, code, input);
-
+            
             Assert.Equal(checks, changes);
             Assert.Null(ret);
             Assert.Empty(actual);
