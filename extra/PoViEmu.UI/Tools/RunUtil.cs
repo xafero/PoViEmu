@@ -22,9 +22,10 @@ namespace PoViEmu.UI.Tools
             var entity = repo.Entities?[instanceId];
             if (entity == null)
                 return null;
-            var tmpl = TemplRepo.Instance;
+            var tmpl = DeviceRepo.Instance;
             await tmpl.Load();
-            var allTemplates = tmpl.AllTemplates;
+            var catalog = tmpl.DeviceCatalog;
+            var allTemplates = catalog?.Devices;
             var entry = allTemplates?.FirstOrDefault(t => t.Name == entity.Template);
             if (entry == null)
                 return null;

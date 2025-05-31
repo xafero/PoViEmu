@@ -20,9 +20,10 @@ namespace PoViEmu.UI.Views
             var ctx = this.GetOrCreateData<TemplViewModel>();
             CtxUtil.Invoke(async () =>
                 {
-                    var repo = TemplRepo.Instance;
+                    var repo = DeviceRepo.Instance;
                     await repo.Load();
-                    return repo.AllTemplates.ToArray();
+                    var array = repo.DeviceCatalog?.Devices?.ToArray();
+                    return array ?? [];
                 },
                 entries => { ctx.Templates = entries; },
                 _ => { ctx.Debug = "Could not contact the server!"; });
