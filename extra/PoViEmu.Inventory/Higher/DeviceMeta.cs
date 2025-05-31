@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 
+// ReSharper disable ClassNeverInstantiated.Global
+
 namespace PoViEmu.Inventory.Upper
 {
     public class DeviceMeta
