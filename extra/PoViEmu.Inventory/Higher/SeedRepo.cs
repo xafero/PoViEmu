@@ -10,12 +10,10 @@ namespace PoViEmu.Inventory.Upper
         {
         }
 
-        public static string[] BuildUrl(DeviceMeta dm, TemplEntry entry)
+        public SeedItem Wrap(DeviceMeta dm, TemplEntry entry)
         {
-            var inst = AppConst.Instance;
-            var baseUrl = inst.BaseUrl;
-            var urls = dm.Seeds?.Select(s => $"{baseUrl}/{s}/{entry.Label}.json").ToArray();
-            return urls ?? [];
+            var urls = dm.Seeds?.Select(s => $"{s}/{entry.Label}.json").ToArray();
+            return new SeedItem(urls, entry.Label);
         }
     }
 }

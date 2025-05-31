@@ -15,7 +15,8 @@ namespace PoViEmu.Inventory.Upper
             return new CachedItem<T>(item, bytes);
         }
 
-        public static (string url, string file) GetFilePath<T>(T item, bool createDir = false)
+        public static (string url, string file) GetFilePath<T>(T item, bool createDir = false,
+            string level0 = "cache")
             where T : IRelUrl
         {
             var inst = AppConst.Instance;
@@ -26,16 +27,19 @@ namespace PoViEmu.Inventory.Upper
             switch (item)
             {
                 case AddInItem ai:
-                    dirs = ["cache", "addins", ai.Model];
+                    dirs = [level0, ai.UName, ai.Model];
                     break;
                 case SystemItem si:
-                    dirs = ["cache", "system", si.Model];
+                    dirs = [level0, si.UName, si.Model];
                     break;
                 case BiosItem bi:
-                    dirs = ["cache", "bios", bi.Model];
+                    dirs = [level0, bi.UName, bi.Model];
                     break;
                 case TemplEntry te:
-                    dirs = ["cache", "templ", $"{te.Internal}"];
+                    dirs = [level0, te.UName, $"{te.Internal}"];
+                    break;
+                case SeedItem se:
+                    dirs = [level0, se.UName, se.Label];
                     break;
                 default:
                     throw new InvalidOperationException(typeof(T).FullName);

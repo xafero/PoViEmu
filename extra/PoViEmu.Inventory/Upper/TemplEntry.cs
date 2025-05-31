@@ -21,5 +21,7 @@ namespace PoViEmu.Inventory.Upper
     ) : IRelUrl
     {
         public string BuildUrl(string @base) => $"{@base}/{P}";
+
+        public string UName => "templ";
     }
 }
