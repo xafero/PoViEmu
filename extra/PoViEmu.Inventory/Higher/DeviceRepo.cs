@@ -8,6 +8,10 @@ namespace PoViEmu.Inventory.Upper
     {
         public static DeviceRepo Instance { get; } = new();
 
+        private DeviceRepo()
+        {
+        }
+
         public async Task Load()
         {
             var inst = AppConst.Instance;
