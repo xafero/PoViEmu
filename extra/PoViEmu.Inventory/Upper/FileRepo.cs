@@ -15,6 +15,14 @@ namespace PoViEmu.Inventory.Upper
             return new CachedItem<T>(item, bytes);
         }
 
+        public static async Task<CachedItem<TI, TR>> GetCached<TI, TR>(TI item)
+            where TI : IRelUrl
+        {
+            var (itemUrl, itemFile) = GetFilePath(item, createDir: true);
+            var payload = await WebHelper.GetCachedJson<TR>(itemUrl, itemFile);
+            return new CachedItem<TI, TR>(item, [], payload);
+        }
+
         public static (string url, string file) GetFilePath<T>(T item, bool createDir = false,
             string level0 = "cache")
             where T : IRelUrl
