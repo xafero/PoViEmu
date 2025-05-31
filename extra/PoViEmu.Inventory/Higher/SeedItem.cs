@@ -15,7 +15,8 @@ namespace PoViEmu.Inventory.Upper
 
         public string BuildUrl(string @base)
         {
-            var firstUrl = Urls?.FirstOrDefault();
+            var firstUrl = Urls?.FirstOrDefault() ?? "";
+            firstUrl = firstUrl.Replace(@base, string.Empty).TrimStart('/');
             var seedUrl = $"{@base}/{firstUrl}";
             return seedUrl;
         }

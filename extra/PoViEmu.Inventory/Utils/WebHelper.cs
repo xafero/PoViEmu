@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -19,15 +20,29 @@ namespace PoViEmu.Inventory.Utils
         private static async Task<string> LoadString(string url)
         {
             using var response = await Client.GetAsync(url);
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadAsStringAsync();
+            try
+            {
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (HttpRequestException e)
+            {
+                throw new InvalidOperationException(url, e);
+            }
         }
 
         private static async Task<byte[]> LoadBytes(string url)
         {
             using var response = await Client.GetAsync(url);
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadAsByteArrayAsync();
+            try
+            {
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsByteArrayAsync();
+            }
+            catch (HttpRequestException e)
+            {
+                throw new InvalidOperationException(url, e);
+            }
         }
     }
 }

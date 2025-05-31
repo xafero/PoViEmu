@@ -20,7 +20,7 @@ namespace PoViEmu.Inventory.Upper
         {
             var (itemUrl, itemFile) = GetFilePath(item, createDir: true);
             var payload = await WebHelper.GetCachedJson<TR>(itemUrl, itemFile);
-            return new CachedItem<TI, TR>(item, [], payload);
+            return new CachedItem<TI, TR>(item, [], payload, itemUrl);
         }
 
         public static (string url, string file) GetFilePath<T>(T item, bool createDir = false,
