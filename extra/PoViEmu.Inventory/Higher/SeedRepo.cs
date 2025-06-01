@@ -62,5 +62,24 @@ namespace PoViEmu.Inventory.Upper
             var baseUri = $"{uri}.json";
             return baseUri;
         }
+
+        public SeedEntry Merge(IEnumerable<SeedEntry> multiple)
+        {
+            var entry = new SeedEntry();
+            foreach (var one in multiple)
+            {
+                entry.Comments = one.Comments;
+                if (one.Files is { } oneFiles)
+                    entry.Files = (entry.Files ?? []).Concat(oneFiles).ToArray();
+                if (one.Bunks is { } oneBunks)
+                    entry.Bunks = (entry.Bunks ?? []).Concat(oneBunks).ToArray();
+                if (one.Settings is { } oneSettings)
+                {
+                    if (oneSettings.Erased is { } oneErased)
+                        (entry.Settings ??= new()).Erased = oneErased;
+                }
+            }
+            return entry;
+        }
     }
 }
